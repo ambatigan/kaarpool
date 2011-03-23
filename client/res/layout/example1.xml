@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:id="@+id/widget70"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<ImageView android:id="@+id/heading" 
+android:layout_height="wrap_content" 
+android:layout_width="fill_parent" 
+android:src="@drawable/karpool" 
+android:gravity="center" 
+android:layout_x="0dip" android:layout_y="6dip"
+android:layout_marginTop="10px"
+android:layout_marginBottom="10px"
+android:layout_marginLeft="20px"
+android:layout_marginRight="10px"
+android:layout_weight="10" />
+
+<LinearLayout
+android:id="@+id/widget72"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:layout_marginTop="10px"
+android:layout_marginBottom="10px"
+android:layout_marginLeft="20px"
+android:layout_marginRight="10px"
+android:layout_weight="10">
+<ImageView android:src="@drawable/car" android:id="@+id/image" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageView>
+
+</LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:id="@+id/widget70"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<TextView
+android:id="@+id/widget185"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="10px"
+android:text="Registration"
+android:textSize="18sp"
+android:textStyle="bold"
+android:textColor="#ffccccff"
+android:layout_gravity="center_horizontal"
+>
+</TextView>
+
+<TableLayout
+android:id="@+id/widget186"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="20px"
+android:orientation="vertical"
+android:stretchColumns="2"
+android:layout_gravity="center_horizontal"
+>
+<TableRow
+android:id="@+id/widget187"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget188"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="User Id:"
+android:textStyle="bold"
+
+>
+</TextView>
+<EditText
+android:id="@+id/useridtxt"
+android:layout_width="100px"
+android:layout_height="40px"
+android:textSize="16sp"
+>
+</EditText>
+</TableRow>
+<TableRow
+android:id="@+id/widget295"
+android:layout_width="148px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget306"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="              "
+>
+</TextView>
+<TextView
+android:id="@+id/avsiltxt"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text=" "
+>
+</TextView>
+</TableRow>
+<TableRow
+android:id="@+id/widget190"
+android:layout_width="148px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget199"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Password:"
+android:textStyle="bold"
+>
+</TextView>
+<EditText
+android:id="@+id/pwd"
+android:layout_width="100px"
+android:layout_height="40px"
+android:textSize="16sp"
+android:password="true"
+>
+</EditText>
+</TableRow>
+<TableRow
+android:id="@+id/widget192"
+android:layout_width="148px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/conpwd"
+android:layout_width="100px"
+android:layout_height="40px"
+android:text="Confirm Password:"
+android:textStyle="bold"
+>
+</TextView>
+<EditText
+android:id="@+id/conpwd"
+android:layout_width="100px"
+android:layout_height="40px"
+android:textSize="16sp"
+android:password="true"
+>
+</EditText>
+</TableRow>
+<TableRow
+android:id="@+id/widget194"
+android:layout_width="147px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget204"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Date of Birth:"
+android:textStyle="bold"
+>
+</TextView>
+<EditText
+android:id="@+id/dob"
+android:layout_width="100px"
+android:layout_height="40px"
+android:textSize="16sp"
+>
+</EditText>
+</TableRow>
+<TableRow
+android:id="@+id/widget195"
+android:layout_width="148px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget206"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="              "
+>
+</TextView>
+<TextView
+android:id="@+id/widget207"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="ex:dd/mm/yyyy"
+>
+</TextView>
+</TableRow>
+<TableRow
+android:id="@+id/widget196"
+android:layout_width="148px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget208"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Address:"
+android:textStyle="bold"
+>
+</TextView>
+<EditText
+android:id="@+id/widget209"
+android:layout_width="100px"
+android:layout_height="40px"
+android:textSize="16sp"
+>
+</EditText>
+</TableRow>
+<TableRow
+android:id="@+id/widget197"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget210"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Gender:"
+android:textStyle="bold"
+>
+</TextView>
+ <LinearLayout
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">   
+    	
+    	 
+	    <RadioButton  android:id="@+id/male" 
+	    android:text="Male" 
+	    android:layout_height="wrap_content" 
+	    android:layout_width="80px"></RadioButton>
+	   <RadioButton android:id="@+id/female" android:text="Female" android:layout_height="wrap_content" android:layout_width="90px"></RadioButton>
+    
+
+</LinearLayout> 
+
+
+</TableRow>
+<TableRow
+android:id="@+id/widget197"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget210"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Upload Image:"
+android:textStyle="bold"
+>
+</TextView>
+ <LinearLayout
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">   
+    	
+    	 
+	    <ImageView android:src="@drawable/car" 
+	    android:id="@+id/image" 
+	    android:layout_height="50px" 
+	    android:layout_width="70px" 
+	    >
+	    </ImageView>
+	   <Button
+		android:id="@+id/regsubmit"
+		android:layout_width="80px"
+		android:layout_height="50px"
+		android:text="Upload"
+		android:textStyle="bold"
+		>
+</Button>
+    
+
+</LinearLayout> 
+
+
+</TableRow>
+<TableRow
+android:id="@+id/widget198"
+android:layout_width="147px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget214"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="              "
+>
+</TextView>
+<Button
+android:id="@+id/sysregsubmit"
+android:layout_width="50px"
+android:layout_height="50px"
+android:text="Submit"
+android:textStyle="bold"
+>
+</Button>
+</TableRow>
+</TableLayout>
+</LinearLayout>

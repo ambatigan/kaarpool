@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Karpool!</string>
+    
     <string name="app_name">Karpool</string>
+    <string name="OpenId_Click">OpenId_Click</string>
+	<string name="SysId_Click">SysId_Click</string>
+	
+	
+    <string-array name="pref_array">
+        <item>Profile Preferences</item>
+        <item>Travel Preferences</item>
+        <item>Time Based Default Preferences</item>
+        <item>Sign out</item>
+        <item>Exit</item>
+    </string-array>
+    
+     <string-array name="travelpref_array">
+        <item>Only Ladies</item>
+        <item>Only Gens</item>
+        <item>Smoke</item>
+        <item>Music</item>
+        <item>Children</item>
+    </string-array>
+    <string-array name="more_array">
+        <item>Ride History</item>
+        <item>Track route</item>
+        <item>Force Acknowledge</item>
+    </string-array>
+    
+    <string-array name="data_array">
+        <item>Route\tDate</item>
+        <item>IIIT-Secretariate     12/03/11</item>
+        <item>IIIT-Secretariate     13/03/11</item>
+        <item>IIIT-Secretariate     14/03/11</item>
+        <item>IIIT-Secretariate     15/03/11</item>
+    </string-array>
 </resources>

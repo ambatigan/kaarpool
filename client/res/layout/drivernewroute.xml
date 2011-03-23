@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout
+android:id="@+id/widget70"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<TableLayout
+android:id="@+id/widget186"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="20px"
+android:orientation="vertical"
+android:stretchColumns="2"
+android:layout_gravity="center_horizontal"
+>
+<TableRow
+android:id="@+id/widget187"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget188"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Source:"
+android:textStyle="bold"
+>
+</TextView>
+ <LinearLayout
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">   
+    	
+	    <EditText
+	    android:id="@+id/sourceid"
+		android:layout_width="100px"
+		android:layout_height="40px"
+		android:layout_marginLeft="10px"
+		android:textSize="16sp">
+		</EditText>
+	   <Button
+		android:id="@+id/change1"
+		android:layout_width="80px"
+		android:layout_height="40px"
+		android:text="change"
+		android:textStyle="bold"
+		>
+</Button>
+</LinearLayout> 
+</TableRow>
+<TableRow
+android:id="@+id/widget187"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget188"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Destination:"
+android:textStyle="bold"
+>
+</TextView>
+ <LinearLayout
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">   
+    	
+	    <EditText
+	    android:id="@+id/destinationid"
+		android:layout_width="100px"
+		android:layout_height="40px"
+		android:layout_marginLeft="10px"
+		android:textSize="16sp">
+		</EditText>
+	   <Button
+		android:id="@+id/change2"
+		android:layout_width="80px"
+		android:layout_height="40px"
+		android:text="change"
+		android:textStyle="bold">
+		</Button>
+</LinearLayout> 
+</TableRow>
+<TableRow
+android:id="@+id/widget187"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget188"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Seats: "
+android:textStyle="bold"
+>
+</TextView>
+ <LinearLayout
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">   
+    	
+	    <EditText
+	    android:id="@+id/useridtxt"
+		android:layout_width="100px"
+		android:layout_height="40px"
+		android:layout_marginLeft="10px"
+		android:textSize="16sp">
+		</EditText>
+</LinearLayout> 
+</TableRow>
+<TableRow
+android:id="@+id/widget187"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget188"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Start time:"
+android:textStyle="bold"
+>
+</TextView>
+ <LinearLayout
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">   
+    	
+	    <EditText
+	    android:id="@+id/useridtxt"
+		android:layout_width="100px"
+		android:layout_height="40px"
+		android:layout_marginLeft="10px"
+		android:textSize="16sp">
+		</EditText>
+</LinearLayout> 
+</TableRow>
+<TableRow
+android:id="@+id/widget195"
+android:layout_width="148px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget206"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="              "
+>
+</TextView>
+<TextView
+android:id="@+id/widget207"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginLeft="10px"
+android:text="ex : 9:30AM"
+>
+</TextView>
+</TableRow>
+<TableRow
+android:id="@+id/widget197"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget210"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Car image:"
+android:textStyle="bold"
+>
+</TextView>
+ <LinearLayout
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">   
+    	
+    	 
+	    <ImageView android:src="@drawable/car" 
+	    android:id="@+id/image" 
+	    android:layout_height="50px" 
+	    android:layout_width="100px"
+	    android:layout_marginLeft="10px" 
+	    >
+	    </ImageView>
+	   <Button
+		android:id="@+id/regsubmit"
+		android:layout_width="80px"
+		android:layout_height="40px"
+		android:text="Upload"
+		android:textStyle="bold"
+		>
+</Button>
+    
+
+</LinearLayout> 
+
+
+</TableRow>
+<TableRow
+android:id="@+id/widget198"
+android:layout_width="147px"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget214"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="              "
+>
+</TextView>
+<Button
+android:id="@+id/drivernewrouteregsubmit"
+android:layout_width="50px"
+android:layout_height="50px"
+android:layout_marginLeft="10px"
+android:text="Create Route"
+android:textStyle="bold"
+>
+</Button>
+</TableRow>
+</TableLayout>
+</LinearLayout>
+</ScrollView>
