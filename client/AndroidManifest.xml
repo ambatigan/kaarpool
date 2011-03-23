@@ -11,7 +11,88 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".Register"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".Registerwithopenid"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".Registerwithsysid"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".MainActivity"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".Login"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".Preferences"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".ProfilePref"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".TravelPref"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".RiderJourneyDetails"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".Ridergetridelist"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".DriverJourneyDetails"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".Newroute"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".Cancelroute"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".Acknowledgement"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".JourneyDetails"
+        		  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".Riderroute"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".Rideracknowledgements"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".More"
+                  android:label="@string/app_name">
+            
+        </activity>
+         <activity android:name=".RideHistory"
+                  android:label="@string/app_name">
+            
+        </activity>
+         <activity android:name=".ForceAcknowledge"
+                  android:label="@string/app_name">
+            
+        </activity>
+         <activity android:name=".TrackRoute"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".Timebasedefault"
+                  android:label="@string/app_name">
+            
+        </activity>
+        
     </application>
     <uses-sdk android:minSdkVersion="8" />
 
