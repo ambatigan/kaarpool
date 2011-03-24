@@ -5,7 +5,7 @@ android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:orientation="vertical"
 xmlns:android="http://schemas.android.com/apk/res/android"
->
+android:background="@drawable/radialback">
 <TextView
 android:id="@+id/widget185"
 android:layout_width="wrap_content"
@@ -277,8 +277,8 @@ android:text="              "
 </TextView>
 <Button
 android:id="@+id/sysregsubmit"
-android:layout_width="50px"
-android:layout_height="50px"
+android:layout_width="40px"
+android:layout_height="40px"
 android:text="Submit"
 android:textStyle="bold"
 >
