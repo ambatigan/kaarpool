@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class Riderroute extends Activity implements OnClickListener{
 
@@ -30,8 +29,6 @@ public class Riderroute extends Activity implements OnClickListener{
     }
     public void changeSource(View view)
     {
-    	//CustomizeDialog myDialog = new CustomizeDialog(this.getParent(), "", new OnReadyListener());
-	    //myDialog.show();
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
 		final EditText input = new EditText(this);
 		alert.setView(input);
@@ -80,9 +77,9 @@ public class Riderroute extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
-		Toast.makeText(this, "Ride request accepted", Toast.LENGTH_LONG).show();
-//			Intent intent=new Intent(Riderroute.this,Ridergetridelist.class);
-//			startActivity(intent);
+			//Toast.makeText(this, "Ride request accepted", Toast.LENGTH_LONG).show();
+			RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+            ParentActivity.switchTab(1);
 		}
 		
 		if (view == findViewById(R.id.change1)) 

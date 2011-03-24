@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.content.DialogInterface;
 
 public class Newroute extends Activity implements OnClickListener{
@@ -81,7 +80,10 @@ public class Newroute extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
-			Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+			//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+			DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
+            ParentActivity.switchTab(2);
+			
 		}
 		
 		if (view == findViewById(R.id.change1)) 

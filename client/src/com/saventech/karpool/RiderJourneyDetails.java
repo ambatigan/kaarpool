@@ -8,11 +8,12 @@ import android.view.View;
 import android.widget.TabHost;
 
 public class RiderJourneyDetails extends TabActivity implements android.view.View.OnClickListener {
+	TabHost tabHost;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journeydetails);
         Resources res = getResources(); // Resource object to get Drawables
-	    TabHost tabHost = getTabHost();  // The activity TabHost
+	    tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Resusable TabSpec for each tab
 	    Intent intent;  // Reusable Intent for each tab
 
@@ -36,24 +37,15 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	    tabHost.addTab(spec);
 	    
 	    tabHost.setCurrentTab(0);
-//        Button bt=(Button)findViewById(R.id.regsubmitend);
-//        //System.out.println("dddddddddddddddddddddddddddddddddd");
-//        bt.setOnClickListener(this);
+	    tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(false);
     }
 
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		//System.out.println("commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-//		switch(v.getId())
-//		{
-//		case R.id.regsubmitend:
-//			Intent intent;  // Reusable Intent for each tab
-//
-//		    // Create an Intent to launch an Activity for the tab (to be reused)
-//		    intent = new Intent().setClass(this, Ridergetridelist.class);
-//		    startActivity(intent);
-//		}
 		
-		
+	}
+	public void switchTab(int tab)
+	{
+		tabHost.setCurrentTab(tab);
+		tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(true);
 	}
 }
