@@ -25,7 +25,7 @@ public class JourneyDetails extends TabActivity {
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("Driver").setIndicator("DRIVER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
 	    tabHost.addTab(spec);
-
+tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.drawable.radialback);
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, RiderJourneyDetails.class);
 	    spec = tabHost.newTabSpec("rider").setIndicator("RIDER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);

@@ -53,7 +53,7 @@ public class Newroute extends Activity implements OnClickListener{
     }
     
     public void changeDestination(View view)
-    {
+    {//RideHistory.this.finish();
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
 		final EditText input = new EditText(this);
 		alert.setView(input);

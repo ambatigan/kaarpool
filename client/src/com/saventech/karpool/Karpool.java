@@ -17,7 +17,7 @@ public class Karpool extends  Activity {
                try {
                   int waited = 0;
                   while (waited < 3000) {
-                     sleep(5);
+                     sleep(50);
                      waited += 100;
                   }
                } catch (InterruptedException e) {
