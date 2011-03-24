@@ -13,11 +13,13 @@ public class Newroute extends Activity implements OnClickListener{
 	
 	private String value="";
 	private Button newroute;
+	Controller controller;
+	private boolean checknewrouteflag;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.drivernewroute);
-        
+        controller=new Controller();
         Button change1 = (Button) findViewById(R.id.change1);
         change1.setOnClickListener(this);
         /** We need to set up a click listener on the change2 button */
@@ -73,9 +75,14 @@ public class Newroute extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
-			//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
-			DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
-            ParentActivity.switchTab(2);
+			
+			checknewrouteflag=controller.Getridelist();
+			if(checknewrouteflag)
+			{
+				//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+				DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
+	            ParentActivity.switchTab(2);
+			}
 			
 		}
 		

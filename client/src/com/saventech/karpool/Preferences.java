@@ -39,7 +39,9 @@ public class Preferences extends ListActivity {
 			startActivity(register1);
 			break;
 		case 3:
-           finish();
+           int pid=android.os.Process.myPid();
+           android.os.Process.killProcess(pid);
+			//System.out.println("checkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 			break;
 		case 4:
 			finish();

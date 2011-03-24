@@ -21,11 +21,11 @@ public class Timebasedefault extends Activity implements OnClickListener{
 		switch(V.getId())
 		{
 		case R.id.timepref:
-			Intent twitter = new Intent(Timebasedefault.this, Registerwithopenid.class);
+			Intent twitter = new Intent(Timebasedefault.this, Preferences.class);
 			startActivity(twitter);
 			break;
 		case R.id.timesave:
-			Intent sysgen = new Intent(Timebasedefault.this, Registerwithsysid.class);
+			Intent sysgen = new Intent(Timebasedefault.this, Preferences.class);
 			startActivity(sysgen);
 			break;
 		}

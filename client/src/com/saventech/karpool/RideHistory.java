@@ -66,7 +66,20 @@ public class RideHistory extends ListActivity {
 			AlertDialog alert2 = builder2.create();
 			alert2.show();
 			break;
+		case 4:
 			
+			AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
+			builder3.setMessage("Source: IIIT\nDestination: Secretariate\nDriver:Nagesh\nRider:Rajesh\nAmount:5 points")
+		       .setCancelable(false)
+		       .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	  // RideHistory.this.finish();
+		           }
+		       });
+		       
+			AlertDialog alert3 = builder3.create();
+			alert3.show();
+			break;
 		}
     		
     }

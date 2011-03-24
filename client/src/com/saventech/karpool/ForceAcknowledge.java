@@ -11,6 +11,7 @@ public class ForceAcknowledge extends Activity {
         TextView textview = new TextView(this);
         textview.setText("This is force aknowledgement screen");
         setContentView(textview);
+        
     }
 
 }

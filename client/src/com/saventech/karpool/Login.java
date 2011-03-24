@@ -13,10 +13,12 @@ public class Login extends  MenuOptions implements OnClickListener{
 	private EditText pwd;
 	String username = null;
 	String pword = null;
+	Controller controller=null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        controller=new Controller();
         userid = (EditText)findViewById(R.id.useridlogintxt);
         pwd = (EditText)findViewById(R.id.pwdlogintxt);
         findViewById(R.id.loginbutton).setOnClickListener(this);
@@ -29,7 +31,8 @@ public class Login extends  MenuOptions implements OnClickListener{
 		switch(v.getId())
 		{
 		case R.id.loginbutton:
-			if(username.equals("user@gmail.com")&& pword.equals("user"))
+			boolean flag=controller.Authenticate_login(username, pword);
+			if(flag)
 		     {
 				 Intent intent=new Intent(Login.this,JourneyDetails.class);
 				 startActivity(intent);

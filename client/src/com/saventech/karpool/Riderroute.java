@@ -13,16 +13,19 @@ public class Riderroute extends Activity implements OnClickListener{
 
 	private String value="";
 	private Button newroute;
+	Controller controller;
+	private boolean checkridelistflag;
+	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        controller=new Controller();
         setContentView(R.layout.riderjourney);
         Button change1 = (Button) findViewById(R.id.change1);
         change1.setOnClickListener(this);
         /** We need to set up a click listener on the change2 button */
         Button change2 = (Button) findViewById(R.id.change2);
         change2.setOnClickListener(this);
-        newroute=(Button)findViewById(R.id.drivernewrouteregsubmit);
+        newroute=(Button)findViewById(R.id.ridergetridelist);
         newroute.setOnClickListener(this);
         
         
@@ -75,11 +78,16 @@ public class Riderroute extends Activity implements OnClickListener{
 	public void onClick(final View view)
 	{
 		// TODO Auto-generated method stub
-		if(view==findViewById(R.id.drivernewrouteregsubmit))
+		if(view==findViewById(R.id.ridergetridelist))
 		{
-			//Toast.makeText(this, "Ride request accepted", Toast.LENGTH_LONG).show();
-			RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
-            ParentActivity.switchTab(1);
+			checkridelistflag=controller.Getridelist();
+			if(checkridelistflag)
+			{
+				//Toast.makeText(this, "Ride request accepted", Toast.LENGTH_LONG).show();
+				RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+	            ParentActivity.switchTab(1);
+			}
+			
 		}
 		
 		if (view == findViewById(R.id.change1)) 
