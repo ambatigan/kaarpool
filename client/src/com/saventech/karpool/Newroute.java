@@ -30,8 +30,6 @@ public class Newroute extends Activity implements OnClickListener{
     }
     public void changeSource(View view)
     {
-    	//CustomizeDialog myDialog = new CustomizeDialog(this.getParent(), "", new OnReadyListener());
-	    //myDialog.show();
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
 		final EditText input = new EditText(this);
 		alert.setView(input);
@@ -54,17 +52,12 @@ public class Newroute extends Activity implements OnClickListener{
     
     public void changeDestination(View view)
     {
-    	//CustomizeDialog myDialog = new CustomizeDialog(this.getParent(), "", new OnReadyListener());
-	    //myDialog.show();
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
 		final EditText input = new EditText(this);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				value = input.getText().toString().trim();
-				//Toast.makeText(getApplicationContext(), value,Toast.LENGTH_SHORT).show();
-				//EditText ed = (EditText)findViewById(R.id.destinationid);
-		    	//ed.setText(value);
 			}
 		});
 		alert.setNegativeButton("Cancel",

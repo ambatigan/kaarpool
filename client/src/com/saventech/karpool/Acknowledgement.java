@@ -58,7 +58,6 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
         }
         public void onClick(View V) 
     	{
-        	//System.out.println("naggessssssssssssssssssssssss");
     		switch(V.getId())
     		{
     		case 0:
@@ -71,7 +70,6 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
     					
     					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
     						public void onClick(DialogInterface dialog, int whichButton) {
-    							//String value = input.getText().toString().trim();
     							dialog.dismiss();
     							return;
     						}
