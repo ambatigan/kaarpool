@@ -1,21 +1,32 @@
+/*
+ * Project: Karpool
+ * Package: com.saventech.karpool
+ * File: DriverJourneyDetails.java
+ * Date: Mar 25, 2011
+ */
+
 package com.saventech.karpool;
 
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TabHost;
 
 public class DriverJourneyDetails extends TabActivity {
+	
 	TabHost tabHost;
+	
     public void onCreate(Bundle savedInstanceState) {
+    	
         super.onCreate(savedInstanceState);
-        
+        Log.i("DriverJourneyDetails", "DriverJourneyDetails screen");
         setContentView(R.layout.journeydetails);
         
         Resources res = getResources(); // Resource object to get Drawables
 	    tabHost = getTabHost();  // The activity TabHost
-	    TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
 	    Intent intent;  // Reusable Intent for each tab
 
 	    // Create an Intent to launch an Activity for the tab (to be reused)
@@ -38,12 +49,11 @@ public class DriverJourneyDetails extends TabActivity {
 	    tabHost.addTab(spec);
 	    
 	    tabHost.setCurrentTab(0);
-
-
     }
     
     public void switchTab(int tab)
 	{
+    	Log.i("DriverJourneyDetails", "switching tabs to Newroute to Acknowledgements");
 		tabHost.setCurrentTab(tab);
 		tabHost.getTabWidget().getChildTabViewAt(2).setEnabled(true);
 	}
