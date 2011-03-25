@@ -14,7 +14,7 @@ android:layout_marginTop="10px"
 android:text="Time based default location"
 android:textSize="18sp"
 android:textStyle="bold"
-android:textColor="#ffccccff"
+android:textColor="@color/textcolor"
 android:layout_gravity="center_horizontal"
 >
 </TextView>
@@ -40,7 +40,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Source:"
 android:textStyle="bold"
-
+android:textColor="@color/textcolor"
 >
 </TextView>
 <EditText
@@ -64,7 +64,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Destination:"
 android:textStyle="bold"
->
+android:textColor="@color/textcolor">
 </TextView>
 <EditText
 android:id="@+id/addtxt"
@@ -87,7 +87,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Timings:"
 android:textStyle="bold"
->
+android:textColor="@color/textcolor">
 </TextView>
 
 
@@ -112,7 +112,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="IST"
 android:textStyle="bold"
->
+android:textColor="@color/textcolor">
 </TextView>
     
 
@@ -130,7 +130,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Weekdays:"
 android:textStyle="bold"
->
+android:textColor="@color/textcolor">
 </TextView>
 
 
@@ -155,7 +155,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Format:MTWTHFSSU"
 android:textStyle="bold"
->
+android:textColor="@color/textcolor">
 </TextView>
     
 

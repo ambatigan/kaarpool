@@ -17,7 +17,9 @@ public class Login extends  MenuOptions implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       
         setContentView(R.layout.login);
+
         controller=new Controller();
         userid = (EditText)findViewById(R.id.useridlogintxt);
         pwd = (EditText)findViewById(R.id.pwdlogintxt);

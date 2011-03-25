@@ -41,7 +41,7 @@ android:layout_gravity="center_horizontal"
 android:id="@+id/username"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-
+android:textColor="@color/textcolor"
 android:text="User Id:"
 android:textStyle="bold"
 android:layout_gravity="center_horizontal"
@@ -75,7 +75,7 @@ android:id="@+id/widget143"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="abc@example.com"
->
+android:textColor="@color/textcolor">
 </TextView>
 </TableRow>
 <TableRow
@@ -93,7 +93,7 @@ android:layout_height="wrap_content"
 android:text="Password:"
 android:textStyle="bold"
 android:layout_gravity="center_horizontal"
->
+android:textColor="@color/textcolor">
 </TextView>
 <EditText
 android:id="@+id/pwdtxt"
@@ -146,6 +146,7 @@ android:id="@+id/widget170"
 android:layout_width="80px"
 android:layout_height="50px"
 android:text="Register"
+android:textColor="@color/textcolor"
 android:layout_gravity="center_horizontal"
 >
 </Button>

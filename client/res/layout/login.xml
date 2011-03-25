@@ -45,6 +45,7 @@ android:layout_height="wrap_content"
 android:text="User Id:"
 android:textStyle="bold"
 android:layout_gravity="center_horizontal"
+android:textColor="#ff330000"
 >
 </TextView>
 <EditText
@@ -75,6 +76,7 @@ android:id="@+id/widget143"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="abc@example.com"
+android:textColor="#ff330000"
 >
 </TextView>
 </TableRow>
@@ -91,6 +93,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 
 android:text="Password:"
+android:textColor="#ff330000"
 android:textStyle="bold"
 android:layout_gravity="center_horizontal"
 >

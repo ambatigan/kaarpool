@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+
 import android.widget.ListView;
 
 public class RideHistory extends ListActivity {
@@ -19,6 +20,8 @@ public class RideHistory extends ListActivity {
     String[] pref = getResources().getStringArray(R.array.data_array);
     setListAdapter(new ArrayAdapter<String>(this,
             android.R.layout.simple_list_item_1, pref));
+    getListView().setBackgroundResource(R.drawable.radialback);
+   
     getListView().setTextFilterEnabled(true);
    }
     
@@ -27,10 +30,11 @@ public class RideHistory extends ListActivity {
     	
     	switch(position)
 		{
-		case 1:
+		case 1: 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage("Source: IIIT\nDestination: Secretariate\nDriver:Nagesh\nRider:Rajesh\nAmount:5 points")
 			       .setCancelable(false)
+			       
 			       .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			        	   //RideHistory.this.finish();

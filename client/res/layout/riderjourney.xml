@@ -28,6 +28,7 @@ android:id="@+id/widget188"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Source:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -65,6 +66,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Destination:"
 android:textStyle="bold"
+android:textColor="@color/textcolor"
 >
 </TextView>
  <LinearLayout
@@ -101,6 +103,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Start time:"
 android:textStyle="bold"
+android:textColor="@color/textcolor"
 >
 </TextView>
  <LinearLayout
@@ -136,6 +139,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_marginLeft="10px"
 android:text="ex : 9:30AM"
+android:textColor="@color/textcolor"
 >
 </TextView>
 </TableRow>
@@ -160,6 +164,7 @@ android:layout_height="50px"
 android:layout_marginLeft="10px"
 android:text="Get Ride List"
 android:textStyle="bold"
+android:textColor="@color/textcolor"
 >
 </Button>
 </TableRow>

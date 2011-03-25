@@ -33,6 +33,7 @@ public class RatingDialog extends Dialog implements RatingBar.OnRatingBarChangeL
 	    	super.onCreate(savedInstanceState);
 	    	setContentView(R.layout.rating_dialog);
 	    	setTitle("Ride Rating");
+	    	
 	    	mRatingText = (TextView) findViewById(R.id.rating);
 
 	        // We copy the most recently changed rating on to these indicator-only

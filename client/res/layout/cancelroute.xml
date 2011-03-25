@@ -28,6 +28,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Source:"
 android:textStyle="bold"
+android:textColor="@color/textcolor"
 >
 </TextView>
  <LinearLayout
@@ -56,6 +57,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Destination:"
 android:textStyle="bold"
+android:textColor="@color/textcolor"
 >
 </TextView>
  <LinearLayout
@@ -84,6 +86,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Start time:"
 android:textStyle="bold"
+android:textColor="@color/textcolor"
 >
 </TextView>
  <LinearLayout
@@ -119,6 +122,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_marginLeft="10px"
 android:text="ex : 9:30AM"
+android:textColor="@color/textcolor"
 >
 </TextView>
 </TableRow>
@@ -142,6 +146,7 @@ android:text="Cancel Route"
 android:layout_marginTop="15px"
 android:layout_marginLeft="10px"
 android:textStyle="bold"
+android:textColor="@color/textcolor"
 >
 </Button>
 </TableRow>

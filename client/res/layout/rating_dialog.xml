@@ -19,7 +19,8 @@
         
         <TextView android:id="@+id/rating"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" 
+            android:textColor="@color/textcolor"/>
             
     </LinearLayout>
     <RatingBar android:id="@+id/indicator_ratingbar"
@@ -36,7 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:text="Comment:"/>   
+        android:text="Comment:"
+        android:textColor="@color/textcolor"/>   
     <EditText android:id="@+id/comment"
     	android:layout_marginLeft="5dip"
     	android:layout_marginBottom="8dip"

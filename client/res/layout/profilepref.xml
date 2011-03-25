@@ -40,7 +40,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="User Id:"
 android:textStyle="bold"
-
+android:textColor="@color/textcolor"
 >
 </TextView>
 <EditText
@@ -65,7 +65,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Password:"
 android:textStyle="bold"
->
+android:textColor="@color/textcolor">
 </TextView>
 
 
@@ -96,14 +96,6 @@ android:text=""
     
 
 </LinearLayout> 
-
-
-
-
-
-
-
-
 </TableRow>
 <TableRow
 android:id="@+id/widget194"
@@ -116,6 +108,7 @@ android:id="@+id/widget204"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Date of Birth:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -146,7 +139,7 @@ android:id="@+id/widget207"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="ex:dd/mm/yyyy"
->
+android:textColor="@color/textcolor">
 </TextView>
 </TableRow>
 <TableRow
@@ -160,6 +153,7 @@ android:id="@+id/widget208"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Address:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -184,6 +178,7 @@ android:id="@+id/widget210"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Upload Image:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>

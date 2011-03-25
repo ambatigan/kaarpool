@@ -40,6 +40,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="User Id:"
 android:textStyle="bold"
+android:textColor="@color/textcolor"
 
 >
 </TextView>
@@ -91,6 +92,7 @@ android:id="@+id/widget199"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Password:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -114,6 +116,7 @@ android:id="@+id/conpwd"
 android:layout_width="100px"
 android:layout_height="40px"
 android:text="Confirm Password:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -137,6 +140,7 @@ android:id="@+id/widget204"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Date of Birth:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -166,6 +170,7 @@ android:id="@+id/widget207"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="ex:dd/mm/yyyy"
+android:textColor="@color/textcolor"
 >
 </TextView>
 </TableRow>
@@ -180,6 +185,7 @@ android:id="@+id/widget208"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Address:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -202,6 +208,7 @@ android:id="@+id/widget210"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Gender:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -213,9 +220,10 @@ android:textStyle="bold"
     	 
 	    <RadioButton  android:id="@+id/sysmale" 
 	    android:text="Male" 
+	    android:textColor="@color/textcolor"
 	    android:layout_height="wrap_content" 
 	    android:layout_width="80px"></RadioButton>
-	   <RadioButton android:id="@+id/sysfemale" android:text="Female" android:layout_height="wrap_content" android:layout_width="90px"></RadioButton>
+	   <RadioButton android:id="@+id/sysfemale" android:text="Female" android:textColor="@color/textcolor" android:layout_height="wrap_content" android:layout_width="90px"></RadioButton>
     
 
 </LinearLayout> 
@@ -233,6 +241,7 @@ android:id="@+id/widget210"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Upload Image:"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
@@ -280,6 +289,7 @@ android:id="@+id/sysregsubmit"
 android:layout_width="40px"
 android:layout_height="40px"
 android:text="Submit"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </Button>
