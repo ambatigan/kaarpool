@@ -46,7 +46,7 @@
         <activity android:name=".RiderJourneyDetails"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name=".Ridergetridelist"
+        <activity android:name=".RiderGetRidelist"
                   android:label="@string/app_name">
         </activity>
         <activity android:name=".DriverJourneyDetails"
@@ -64,11 +64,11 @@
         <activity android:name=".JourneyDetails"
         		  android:label="@string/app_name">
         </activity>
-        <activity android:name=".Riderroute"
+        <activity android:name=".RiderRoute"
                   android:label="@string/app_name">
             
         </activity>
-        <activity android:name=".Rideracknowledgements"
+        <activity android:name=".RiderAcknowledgements"
                   android:label="@string/app_name">
             
         </activity>
