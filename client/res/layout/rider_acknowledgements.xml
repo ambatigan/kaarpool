@@ -10,4 +10,10 @@
         android:layout_height="50px" 
         android:text="Rating Popup">
   </Button>
+  
+  <Button android:id="@+id/notificationbutton"
+  		android:layout_width="170px"
+        android:layout_height="50px" 
+        android:text="StatusBar Notification">
+  </Button>
 </LinearLayout>
