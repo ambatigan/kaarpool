@@ -5,6 +5,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+/*
+ * Project: Karpool
+ * Package: com.saventech.karpool
+ * File: Karpool.java
+ * Date: Mar 25, 2011
+ * Description: It is the welcome page which stays for few seconds
+ */
 public class Karpool extends  Activity {
     /** Called when the activity is first created. */
     @Override
