@@ -65,8 +65,9 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 	    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
 	    	Notification notification = new Notification(icon,text,when);
 	    	
-	    	notification.defaults |= Notification.FLAG_AUTO_CANCEL;
+	    	//notification.defaults |= Notification.FLAG_AUTO_CANCEL;
 	    	//notification.defaults |= Notification.DEFAULT_SOUND;
+	    	notification.flags = Notification.DEFAULT_SOUND | Notification.FLAG_AUTO_CANCEL;
 	    	
 	    	long[] vibrate = {0,100,200,300};
 	    	notification.vibrate = vibrate;
