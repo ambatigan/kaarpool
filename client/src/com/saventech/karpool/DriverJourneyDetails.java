@@ -36,7 +36,7 @@ public class DriverJourneyDetails extends TabActivity {
 	    spec = tabHost.newTabSpec("newroute").setIndicator("New route",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
 	    tabHost.addTab(spec);
 	    
-	    intent = new Intent().setClass(this, Cancelroute.class);
+	    intent = new Intent().setClass(this, CancelRoute.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("cancelroute").setIndicator("Cancel route",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);

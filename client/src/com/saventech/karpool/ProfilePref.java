@@ -26,7 +26,8 @@ public class ProfilePref extends  CommonMenuOption implements OnClickListener {
         save.setOnClickListener(this);
     }
 
-    private class OnReadyListener implements CustomizeDialog.ReadyListener {
+    @SuppressWarnings("unused")
+	private class OnReadyListener implements CustomizeDialog.ReadyListener {
         public void ready(String name) {
         	EditText ed = (EditText)findViewById(R.id.pwd);
         	ed.setText(name);
