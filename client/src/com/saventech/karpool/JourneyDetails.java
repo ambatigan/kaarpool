@@ -1,9 +1,17 @@
+/*
+ * Project: Karpool
+ * Package: com.saventech.karpool
+ * File: JourneyDetails.java
+ * Date: Mar 25, 2011
+ */
+
 package com.saventech.karpool;
 
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
@@ -11,12 +19,13 @@ import android.widget.TabHost;
 public class JourneyDetails extends TabActivity {
 	
 	public void onCreate(Bundle savedInstanceState) {
+		
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.journeydetails);
 
 	    Resources res = getResources(); // Resource object to get Drawables
 	    TabHost tabHost = getTabHost();  // The activity TabHost
-	    TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
 	    Intent intent;  // Reusable Intent for each tab
 
 	    // Create an Intent to launch an Activity for the tab (to be reused)
@@ -25,7 +34,7 @@ public class JourneyDetails extends TabActivity {
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("Driver").setIndicator("DRIVER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
 	    tabHost.addTab(spec);
-tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.drawable.radialback);
+	    tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.drawable.radialback);
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, RiderJourneyDetails.class);
 	    spec = tabHost.newTabSpec("rider").setIndicator("RIDER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
@@ -33,6 +42,11 @@ tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.d
 
 	    tabHost.setCurrentTab(1);
 	}
+	
+	/**
+	 * Creating menu options for both rider/driver after login into application
+	 */
+	
 	private static final int ABOUT = Menu.FIRST ;
 	private static final int CONTACT_US = Menu.FIRST+1 ;
 	private static final int INSTRUCTIONS = Menu.FIRST+2 ;
@@ -51,10 +65,11 @@ tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.d
 	}
 	
 	/**
-	 *  For the selected items in the option menu of quizActivity
+	 *  For the selected items in the option menu of karpool application
 	 */
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
+		Log.i("JourneyDetails_onOptionsItemSelected","Menu button selected");
 		switch(item.getItemId())
 		{
 		case ABOUT:
@@ -75,14 +90,16 @@ tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.d
 	public void more()
 	{
 		Intent in = new Intent(this, More.class);
+		Log.i("JourneyDetails_more", "More menu option has been selected");
 		startActivity(in);
+		
 	}
 	
 	public void preferences()
 	{
+		Log.i("JourneyDetails_preferences","preferences menu option has been selected");
 		Intent in = new Intent(this, Preferences.class);
 		startActivity(in);
 	}
 	
-
 }
