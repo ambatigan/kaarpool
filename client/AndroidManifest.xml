@@ -55,7 +55,7 @@
         <activity android:name=".Newroute"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name=".Cancelroute"
+        <activity android:name=".CancelRoute"
                   android:label="@string/app_name">
         </activity>
         <activity android:name=".Acknowledgement"
