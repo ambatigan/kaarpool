@@ -1,8 +1,16 @@
+/**
+ * Project: Karpool
+ * Package: com.saventech.karpool
+ * File: Newroute.java
+ * Date: Mar 25, 2011
+ */
+
 package com.saventech.karpool;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,9 +23,11 @@ public class Newroute extends Activity implements OnClickListener{
 	private Button newroute;
 	Controller controller;
 	private boolean checknewrouteflag;
+	
     public void onCreate(Bundle savedInstanceState) {
+    	
         super.onCreate(savedInstanceState);
-
+        Log.i("DriverJourneyDetails_New route", "New route tab in DriverJourneyDetails");
         setContentView(R.layout.drivernewroute);
         controller=new Controller();
         Button change1 = (Button) findViewById(R.id.change1);
@@ -26,12 +36,16 @@ public class Newroute extends Activity implements OnClickListener{
         Button change2 = (Button) findViewById(R.id.change2);
         change2.setOnClickListener(this);
         newroute=(Button)findViewById(R.id.drivernewrouteregsubmit);
-        newroute.setOnClickListener(this);
-        
+        newroute.setOnClickListener(this);        
         
     }
+    /**
+     *  The following methods are used to change source and destination of 
+     *  particular ride
+     */
     public void changeSource(View view)
     {
+    	Log.i("Newroute_changeSource", "change button pressed to change source location");
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
 		final EditText input = new EditText(this);
 		alert.setView(input);
@@ -53,7 +67,8 @@ public class Newroute extends Activity implements OnClickListener{
     }
     
     public void changeDestination(View view)
-    {//RideHistory.this.finish();
+    {
+    	Log.i("Newroute_changeDestination", "change button pressed to change Destination location");
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
 		final EditText input = new EditText(this);
 		alert.setView(input);
@@ -75,7 +90,7 @@ public class Newroute extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
-			
+			Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
 			checknewrouteflag=controller.Getridelist();
 			if(checknewrouteflag)
 			{
