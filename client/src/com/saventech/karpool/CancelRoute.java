@@ -45,10 +45,10 @@ public class CancelRoute extends Activity implements OnClickListener
         
     }
 
-	public void onClick(View v) 
+	public void onClick(View view) 
 	{
 		Log.i("Cancelroute_onClick", "Cancelroute button pressed");
-		switch(v.getId())
+		switch(view.getId())
 		{
 			case R.id.drivercancelroute:
 				cancelrouteflag=controller.Canceldriverroute();
@@ -57,6 +57,8 @@ public class CancelRoute extends Activity implements OnClickListener
 					Toast.makeText(this, "Route has been canceled", Toast.LENGTH_LONG).show();
 					source.clearFocus();
 				}
+				break;
+			default:
 				break;
 			
 		}
