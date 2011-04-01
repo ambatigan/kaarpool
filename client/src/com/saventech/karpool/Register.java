@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
@@ -12,13 +16,13 @@ import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 
-import android.app.ProgressDialog;
+//import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+//import android.widget.TextView;
 import android.widget.Toast;
 
 public class Register extends  MenuOptions  implements android.view.View.OnClickListener {
@@ -28,9 +32,9 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
 	public static final String APP_ID = "196351390404598";
 
     private static final String[] PERMISSIONS =
-        new String[] {"publish_stream", "read_stream", "offline_access"};
+        new String[] {"publish_stream", "read_stream", "offline_access", "user_birthday","email"};
     private Handler mHandler = new Handler();
-    private ProgressDialog mSpinner;
+    //private ProgressDialog mSpinner;
    
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,11 +70,73 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
             mHandler.post(new Runnable() {
                 public void run() {
                 	//Toast.makeText(Register.this, "logindialog complete", Toast.LENGTH_LONG).show();
+                	printUserdetails();
+                	printFriendslist();
                 	Intent facebook = new Intent(Register.this, JourneyDetails.class);
         			startActivity(facebook);
                     //mText.setText("Facebook login successful. Press Menu...");
                 }
             });
+        }
+        public void printFriendslist()
+        {
+        	JSONObject json = null;
+            try {
+                json = Util.parseJson(mFacebook.request("me/friends"));
+                } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (FacebookError e) {
+                       e.printStackTrace();
+            } catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+            
+            JSONArray array = json.optJSONArray("data");            
+            
+            if (array!=null)
+           {
+               for (int i=0; i<array.length(); i++)
+               {
+                                String n = null;
+                                String id = null;
+								try {
+									n = array.getJSONObject(i).getString("name");
+									// ID of your friend
+                                    id   = array.getJSONObject(i).getString("id");
+                                    System.out.println("id: "+id+"   Friendname"+n);
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}  
+               }
+           }
+        }
+        public void printUserdetails()
+        {
+        	String details = "";
+        	try {
+        		
+				JSONObject json1 = Util.parseJson(mFacebook.request("me"));
+				final String username=json1.getString("name");
+				final String gender=json1.getString("gender");
+				final String email=json1.getString("email");
+				final String dob=json1.getString("birthday");
+				details += "username: "+username+"\ngender :"+gender+"\nDOB :"+dob+"\nEmail :"+email;
+				Toast.makeText(Register.this, details, Toast.LENGTH_LONG).show();
+			} catch (MalformedURLException e) {
+
+				e.printStackTrace();
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			} catch (JSONException e) {
+
+				e.printStackTrace();
+			} catch (FacebookError e) {
+
+				e.printStackTrace();
+			}
         }
 
         /**
@@ -104,7 +170,8 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
     private class LogoutRequestListener implements RequestListener {
 
         /** Called when the request completes w/o error */
-        public void onComplete(String response) {
+        @SuppressWarnings("unused")
+		public void onComplete(String response) {
 
             // Only the original owner thread can touch its views
            /* SampleApp.this.runOnUiThread(new Runnable() {
