@@ -15,9 +15,9 @@ public class More extends ListActivity {
     super.onCreate(savedInstanceState);
     
     
-    String[] pref = getResources().getStringArray(R.array.more_array);
+    String[] more = getResources().getStringArray(R.array.more_array);
     setListAdapter(new ArrayAdapter<String>(this,
-            android.R.layout.simple_list_item_1, pref));
+            R.layout.more,R.id.more, more));
     getListView().setBackgroundResource(R.drawable.radialback);
     getListView().setTextFilterEnabled(true);
    }

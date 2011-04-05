@@ -6,18 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class Preferences extends ListActivity {
-	
+	TextView tt ;
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
     super.onCreate(savedInstanceState);
     
-    
+    //setContentView(R.layout.preferences);
     String[] pref = getResources().getStringArray(R.array.pref_array);
     setListAdapter(new ArrayAdapter<String>(this,
-            android.R.layout.simple_list_item_1, pref));
+            R.layout.preferences, R.id.prefer, pref));
+   // tt =(TextView)findViewById(R.id.prefer);
     getListView().setBackgroundResource(R.drawable.radialback);
     getListView().setTextFilterEnabled(true);
    }
@@ -42,8 +44,7 @@ public class Preferences extends ListActivity {
 		case 3:
            int pid=android.os.Process.myPid();
            android.os.Process.killProcess(pid);
-			//System.out.println("checkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-			break;
+           break;
 		case 4:
 			finish();
 			break;

@@ -17,9 +17,9 @@ public class RideHistory extends ListActivity {
     super.onCreate(savedInstanceState);
     
     
-    String[] pref = getResources().getStringArray(R.array.data_array);
+    String[] rideHistory = getResources().getStringArray(R.array.data_array);
     setListAdapter(new ArrayAdapter<String>(this,
-            android.R.layout.simple_list_item_1, pref));
+            R.layout.ridehistory,R.id.ride, rideHistory));
     getListView().setBackgroundResource(R.drawable.radialback);
    
     getListView().setTextFilterEnabled(true);

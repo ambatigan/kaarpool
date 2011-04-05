@@ -16,8 +16,11 @@ import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 
-//import android.app.ProgressDialog;
+
+
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -30,7 +33,7 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
 	
 	private Facebook mFacebook;
 	public static final String APP_ID = "196351390404598";
-
+	private SharedPreferences prefs;
     private static final String[] PERMISSIONS =
         new String[] {"publish_stream", "read_stream", "offline_access", "user_birthday","email"};
     private Handler mHandler = new Handler();
@@ -261,8 +264,9 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
 			startActivity(gmail);
 			break;
 		case R.id.twitter:
-			Intent twitter = new Intent(Register.this, Registerwithopenid.class);
-			startActivity(twitter);
+			Intent i = new Intent(getApplicationContext(), PrepareRequestTokenActivity.class);
+			i.putExtra("tweet_msg","Tweeting");
+			startActivity(i);
 			break;
 		case R.id.sysgen:
 			Intent sysgen = new Intent(Register.this, Registerwithsysid.class);

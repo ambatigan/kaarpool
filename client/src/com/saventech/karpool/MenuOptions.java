@@ -13,6 +13,7 @@ public class MenuOptions extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
+		
 		menu.add(0, ABOUT, 0, "ABOUT");	
 		menu.add(0, CONTACT_US, 0, "CONTACT_US");	
 		menu.add(0, INSTRUCTIONS, 0, "INSTRUCTIONS");		

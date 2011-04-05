@@ -6,26 +6,16 @@ android:layout_height="fill_parent"
 android:orientation="vertical"
 xmlns:android="http://schemas.android.com/apk/res/android"
 >
-<LinearLayout
-android:id="@+id/widget31"
-android:layout_width="280px"
-android:layout_height="50px"
->
+
 <TextView
-android:id="@+id/travelpreferences"
+android:id="@+id/ride"
 android:layout_width="220px"
 android:layout_height="50px"
 android:text="TextView"
-android:textColor="#ff330000"
+android:textColor="@color/textcolor"
+android:textStyle="bold"
 
 >
 </TextView>
-<CheckBox
-android:id="@+id/travelprefcheckbox"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
+</LinearLayout>
 
->
-</CheckBox>
-</LinearLayout>
-</LinearLayout>
