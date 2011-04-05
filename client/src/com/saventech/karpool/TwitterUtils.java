@@ -2,9 +2,6 @@ package com.saventech.karpool;
 
 import oauth.signpost.OAuth;
 import twitter4j.PagableResponseList;
-import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
-import twitter4j.StatusListener;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -42,19 +39,11 @@ public class TwitterUtils {
 		Twitter twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
 		twitter.setOAuthAccessToken(a);
-        twitter.updateStatus(msg);
+        //twitter.updateStatus(msg);
         String name = twitter.getScreenName();
         System.out.println(twitter.getId()+"user name");
-        int sss = twitter.getId();
         System.out.println(name+"screen name"+a.getUserId()+"user name");
-//        User user = twitter.showUser(sss);
-//           System.out.println(user.getDescription());
-//           System.out.println(user.getLocation());
-//           System.out.println(user.getStatusText());
-//           System.out.println(user.getLang());
-        
-       
-        
+
 		PagableResponseList<User> us = twitter.getFriendsStatuses();
 		for(User u: us)
 		{

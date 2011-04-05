@@ -69,6 +69,7 @@ public class PrepareRequestTokenActivity extends Activity {
 	
 	public class RetrieveAccessTokenTask extends AsyncTask<Uri, Void, Void> {
 
+		@SuppressWarnings("unused")
 		private Context	context;
 		private OAuthProvider provider;
 		private OAuthConsumer consumer;

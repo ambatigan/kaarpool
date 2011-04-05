@@ -17,15 +17,11 @@ import com.facebook.android.Util;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 
 
-
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-//import android.widget.TextView;
 import android.widget.Toast;
 
 public class Register extends  MenuOptions  implements android.view.View.OnClickListener {
@@ -33,7 +29,6 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
 	
 	private Facebook mFacebook;
 	public static final String APP_ID = "196351390404598";
-	private SharedPreferences prefs;
     private static final String[] PERMISSIONS =
         new String[] {"publish_stream", "read_stream", "offline_access", "user_birthday","email"};
     private Handler mHandler = new Handler();
