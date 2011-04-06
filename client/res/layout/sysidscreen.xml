@@ -199,7 +199,14 @@ android:textStyle="bold"
     	android:orientation="horizontal"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content">   
-    	
+    	<RadioGroup
+android:id="@+id/QueGroup1"
+android:layout_width="268px"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:layout_x="46px"
+android:layout_y="123px"
+>
     	 
 	    <RadioButton  android:id="@+id/regsysidmale" 
 	    android:text="Male" 
@@ -207,7 +214,7 @@ android:textStyle="bold"
 	    android:layout_height="wrap_content" 
 	    android:layout_width="80px"></RadioButton>
 	   <RadioButton android:id="@+id/regsysidfemale" android:text="Female" android:textColor="@color/textcolor" android:layout_height="wrap_content" android:layout_width="90px"></RadioButton>
-    
+    </RadioGroup>
 
 </LinearLayout> 
 
