@@ -39,7 +39,8 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	boolean checksyspwdflag=false;
 	boolean checksysaddressflag=false;
 	boolean checksysdobflag=false;
-	boolean checksysgenderflag=false;
+	boolean checksysmaleflag=false;
+	boolean checksysfemaleflag=false;
 	boolean checksysmobileflag=false;
 	EditText sysuserid;
 	EditText sysuserpwd;
@@ -140,7 +141,8 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 			 checksyspwdflag=false;
 			 checksysaddressflag=false;
 			 checksysdobflag=false;
-			 checksysgenderflag=false;
+			 checksysmaleflag=false;
+			 checksysfemaleflag=false;
 			 checksysmobileflag=false;
 			   
 		     validatestring=new String();
@@ -172,19 +174,25 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     
 		     if(!checksysidflag)
 		     {
-		    	 validatestring=validatestring+"-> Pls select available users only \n";
+		    	 validatestring=validatestring+"-> Pls select available users only(length<=8) \n";
 		     }
 		     
 		     // validating gender buttons 
 		     
-		     if(sysusergendermale.isChecked()|| sysusergenderfemale.isChecked())
+		     if(sysusergenderfemale.isChecked())
 		     {
-		    	 checksysgenderflag=true; 
+		    	 checksysfemaleflag=true; 
+		    	// System.out.println(sysusergendermale.getText().toString()+"  oooooooooooooooooooooooooooooooooo");
+		     }
+		     else if(sysusergendermale.isChecked())
+		     {
+		    	 checksysmaleflag=true; 
 		     }
 		     else
 		     {
 		    	 validatestring=validatestring+"-> Pls select your gender\n";
 		     }
+		     
 		     // validating date of birth
 		     
 		     Pattern mobile = Pattern.compile("\\d{11}");
@@ -207,12 +215,21 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 				 validatestring=validatestring+"-> Pls enter correct mobile number (start with zero)\n";
 			 }
 		    
-		     if(checksysaddressflag && checksyspwdflag &&  checksysidflag && checksysgenderflag && checksysmobileflag)
+		     if(checksysaddressflag && checksyspwdflag &&  checksysidflag && (checksysmaleflag || checksysfemaleflag) && checksysmobileflag)
 			     {
+		    	       String response="";
+		    	       if(checksysmaleflag)
+		    	       {
+		    	    	   response=controller.Sysid_registration(sysuserid.getText().toString()+"@karpool.com", sysuserpwd.getText().toString(), sysuserdob.getText().toString(), sysuseraddress.getText().toString(), sysusermobile.getText().toString(), sysusergendermale.getText().toString());
+		    	       }
+		    	       else
+		    	       {
+		    	    	   response=controller.Sysid_registration(sysuserid.getText().toString()+"@karpool.com", sysuserpwd.getText().toString(), sysuserdob.getText().toString(), sysuseraddress.getText().toString(), sysusermobile.getText().toString(), sysusergenderfemale.getText().toString());
+		    	       }
 		    	 
-		    	    
+		    	      System.out.println("response from tomcat6 is: "+response);
 					 Intent intent=new Intent(Registerwithsysid.this,JourneyDetails.class);
-			        startActivity(intent);
+			         startActivity(intent);
 	             }
 		     else
 		     {
@@ -239,10 +256,19 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 					Pattern p=Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 				     Matcher m = p.matcher(sysuserid.getText().toString()+"@karpool.com");
 					 boolean matchFound = m.lookingAt();
-					 checksysidflag=matchFound;
+					 
 					 if(matchFound)
 					 {
-						 warn.setText("YES");
+						 if(sysuserid.getText().toString().length()<=8)
+						 {
+							 checksysidflag=matchFound;
+							 warn.setText("YES, "+sysuserid.getText().toString()+"@karpool.com");
+						 }
+						 else
+						 {
+							 warn.setText("NO");
+						 }
+						 
 						// Toast.makeText(Registerwithsysid.this, "Your id not following validations", Toast.LENGTH_LONG).show();
 					 }
 					 else

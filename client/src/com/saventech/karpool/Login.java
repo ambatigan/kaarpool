@@ -46,6 +46,7 @@ public class Login extends  MenuOptions implements OnClickListener{
 		{
 		case R.id.loginbutton:
 			boolean flag=controller.Authenticate_login(username, pword);     //authenticate userid and passord
+			//System.out.println(flag+" 99999999999999999999999Login flag");
 			if(flag)
 		     {
 				Log.i("Login_onClick", "It is redirecting to Journeydetails");

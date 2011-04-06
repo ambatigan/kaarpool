@@ -2,6 +2,9 @@ package com.saventech.karpool;
 
 import java.util.ArrayList;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import android.util.Log;
 
 /*
@@ -35,14 +38,34 @@ public class Controller
 		//Trim id and password
 		loginid=id.toString().trim();
 		loginpwd=pwd.toString().trim();
-	    
+		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+		postParameters.add(new BasicNameValuePair("loginuserid", id.toString().trim()));
+		postParameters.add(new BasicNameValuePair("loginuserpwd", pwd.toString().trim()));
+	    String response;
 		//checking login credentials
-		if(loginid.equals("user@gmail.com")&&loginpwd.equals("user"))
-		{
-			Log.i("Login_Controller", "Login values are authenticated");
-			return true;
-		}
-		return false;
+		try{
+	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22/Karpool/Login", postParameters);
+	    	    String res=response.toString();
+	    	   // System.out.println(res+"77777777777777777777777777777777777777");
+	    	    if(res.toString().trim().equals("YES"))
+	    	    {
+	    	    	Log.i("Login_Controller", "Login values are authenticated");
+	    	    	return true;
+	    	    }
+	    	    else
+	    	    {
+	    	    	return false;
+	    	    }
+	    	    //return res;
+    	   }
+		   catch(Exception e) 
+    	   {
+    		e.printStackTrace();
+    		return false;
+	      }
+			
+			
+		
 		
 	}
 	/*
@@ -117,6 +140,26 @@ public class Controller
 	{
 		Log.i("Canceldriver_Controller", "Current route has been canceled");
 		return true;
+	}
+	public String Sysid_registration(String sysregid, String sysregpwd, String sysregdob, String sysregaddress, String sysregmobile,String sysreggender)
+	{
+		
+		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+		postParameters.add(new BasicNameValuePair("sysregid", sysregid.toString().trim()));
+		postParameters.add(new BasicNameValuePair("sysregpwd", sysregpwd.toString().trim()));
+		postParameters.add(new BasicNameValuePair("sysregdob", sysregdob.toString().trim()));
+		postParameters.add(new BasicNameValuePair("sysregaddress", sysregaddress.toString().trim()));
+		postParameters.add(new BasicNameValuePair("sysregmobile", sysregmobile.toString().trim()));
+		postParameters.add(new BasicNameValuePair("sysreggender", sysreggender.toString().trim()));
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22/Karpool/Sysregistration", postParameters);
+    	    String res=response.toString();
+    	    return res;
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		return null;
+	}
 	}
 	
 }
