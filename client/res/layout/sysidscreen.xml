@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/ScrollView01"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="fill_parent" android:layout_width="fill_parent"
+  android:background="@drawable/radialback"      >
 <LinearLayout
 android:id="@+id/widget70"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:orientation="vertical"
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:background="@drawable/radialback">
+>
 <TextView
 android:id="@+id/widget185"
 android:layout_width="wrap_content"
@@ -201,9 +205,9 @@ android:textStyle="bold"
     	android:layout_height="wrap_content">   
     	<RadioGroup
 android:id="@+id/QueGroup1"
-android:layout_width="268px"
+android:layout_width="180px"
 android:layout_height="wrap_content"
-android:orientation="vertical"
+android:orientation="horizontal"
 android:layout_x="46px"
 android:layout_y="123px"
 >
@@ -286,3 +290,4 @@ android:textStyle="bold"
 </TableRow>
 </TableLayout>
 </LinearLayout>
+</ScrollView>
