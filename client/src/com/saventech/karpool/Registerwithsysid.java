@@ -40,7 +40,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 {
 	private static final int SELECT_PICTURE = 1;
 	private String value="";
-	private String selectedImagePath;
+	private String selectedImagePath="";
 	ImageButton checksystemavailability;
 	private ImageButton mPickDate;
 	private Button sysimageupload;
@@ -157,12 +157,21 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	    
 	    public String bitmapcode()
 	    {
-	    	Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			return ba1;
+	    	try{
+	    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
+    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+    			byte [] ba = bao.toByteArray();
+    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
+    			return ba1;
+	    		
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		e.printStackTrace();
+	    		return null;
+	    	}
+	    	
 
 	    }
 	    
