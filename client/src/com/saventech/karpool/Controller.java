@@ -32,7 +32,7 @@ public class Controller
 	}
 	/*Authenticate User id and password 
 	 * 
-	 */
+//	 */
 	public boolean Authenticate_login(String id, String pwd)
 	{
 		//Trim id and password
@@ -44,7 +44,7 @@ public class Controller
 	    String response;
 		//checking login credentials
 		try{
-	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22/Karpool/Login", postParameters);
+	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/Karpool/Login", postParameters);
 	    	    String res=response.toString();
 	    	   // System.out.println(res+"77777777777777777777777777777777777777");
 	    	    if(res.toString().trim().equals("YES"))
@@ -153,7 +153,7 @@ public class Controller
 		postParameters.add(new BasicNameValuePair("sysreggender", sysreggender.toString().trim()));
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22/Karpool/Sysregistration", postParameters);
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/Karpool/Sysregistration", postParameters);
     	    String res=response.toString();
     	    return res;
     	}catch(Exception e) {

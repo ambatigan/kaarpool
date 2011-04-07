@@ -47,7 +47,6 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
         mFacebook = new Facebook(APP_ID);
         findViewById(R.id.facebook).setOnClickListener(this);
         findViewById(R.id.gmail).setOnClickListener(this);
-        findViewById(R.id.twitter).setOnClickListener(this);
         findViewById(R.id.sysgen).setOnClickListener(this);
         Log.i("Registration", "You are now in registration page");
     }
@@ -257,11 +256,6 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
 		case R.id.gmail:
 			Intent gmail = new Intent(Register.this, Registerwithopenid.class);
 			startActivity(gmail);
-			break;
-		case R.id.twitter:
-			Intent i = new Intent(getApplicationContext(), PrepareRequestTokenActivity.class);
-			i.putExtra("tweet_msg","Tweeting");
-			startActivity(i);
 			break;
 		case R.id.sysgen:
 			Intent sysgen = new Intent(Register.this, Registerwithsysid.class);

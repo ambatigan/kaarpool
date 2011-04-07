@@ -55,7 +55,7 @@ android:clipToPadding="true"
 >
 <ImageButton android:src="@drawable/facebook" android:layout_height="50px" android:id="@+id/facebook" android:layout_width="50px" android:layout_margin="5px"></ImageButton>
 <ImageButton android:src="@drawable/gmail" android:layout_height="50px" android:id="@+id/gmail" android:layout_width="50px" android:layout_margin="5px"></ImageButton>
-<ImageButton android:src="@drawable/twitter" android:layout_height="50px" android:id="@+id/twitter" android:layout_width="50px" android:layout_margin="5px"></ImageButton>
+
 
 
 
