@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.provider.MediaStore.Images;
 import android.util.Log;
 
 /*
@@ -22,6 +23,7 @@ public class Controller
 	String regid;
 	String regpwd;
 	int checksysid=0;
+	
 	
 	/* Deafault constructor for Controller
 	 * 
@@ -141,9 +143,11 @@ public class Controller
 		Log.i("Canceldriver_Controller", "Current route has been canceled");
 		return true;
 	}
-	public String Sysid_registration(String sysregid, String sysregpwd, String sysregdob, String sysregaddress, String sysregmobile,String sysreggender)
+	public String Sysid_registration(String sysregid, String sysregpwd, String sysregdob, String sysregaddress, String sysregmobile,String sysreggender,String sysregimage)
 	{
 		
+		
+		System.out.println("IMAGE  999999999999999999:"+sysregimage.length()+"      "+sysregimage);
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair("sysregid", sysregid.toString().trim()));
 		postParameters.add(new BasicNameValuePair("sysregpwd", sysregpwd.toString().trim()));
@@ -151,6 +155,8 @@ public class Controller
 		postParameters.add(new BasicNameValuePair("sysregaddress", sysregaddress.toString().trim()));
 		postParameters.add(new BasicNameValuePair("sysregmobile", sysregmobile.toString().trim()));
 		postParameters.add(new BasicNameValuePair("sysreggender", sysreggender.toString().trim()));
+		postParameters.add(new BasicNameValuePair("sysregimage", sysregimage.toString().trim()));
+		
 		String response = null;
     	try {
     	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/Karpool/Sysregistration", postParameters);
