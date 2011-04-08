@@ -39,6 +39,9 @@ public class CancelRoute extends Activity implements OnClickListener
         source=(EditText)findViewById(R.id.drivercancelroutesource);
         destination=(EditText)findViewById(R.id.drivercancelroutedestination);
         starttime=(EditText)findViewById(R.id.drivercancelroutestarttime);
+        source.setEnabled(false);
+        destination.setEnabled(false);
+        starttime.setEnabled(false);
         
         cancelroutebutton=(Button)findViewById(R.id.drivercancelroute);
         cancelroutebutton.setOnClickListener(this);

@@ -46,7 +46,7 @@ public class Controller
 	    String response;
 		//checking login credentials
 		try{
-	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/Karpool/Login", postParameters);
+	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/LoginServlet", postParameters);
 	    	    String res=response.toString();
 	    	   // System.out.println(res+"77777777777777777777777777777777777777");
 	    	    if(res.toString().trim().equals("YES"))
@@ -159,7 +159,7 @@ public class Controller
 		
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/Karpool/Sysregistration", postParameters);
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/SysRegistration", postParameters);
     	    String res=response.toString();
     	    return res;
     	}catch(Exception e) {

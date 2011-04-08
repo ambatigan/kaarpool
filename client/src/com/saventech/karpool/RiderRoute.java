@@ -1,7 +1,11 @@
 package com.saventech.karpool;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 /*
  * Project: Karpool
@@ -23,6 +28,15 @@ public class RiderRoute extends Activity implements OnClickListener{
 	private Button newroute;
 	Controller controller;             //declaring controller object. Responsable to take data from data base and provid to this activity 
 	private boolean checkridelistflag;  
+	private Button ridersettime;
+	private int mHour;
+	private int mMinute;
+	private EditText ridereditsettime;
+
+	static final int TIME_DIALOG_ID = 0;
+	private EditText ed;
+	private EditText ed1;
+
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,16 +45,74 @@ public class RiderRoute extends Activity implements OnClickListener{
         Log.i("Riderroute_Activity", "Now you are in riderroute activity");
         
         setContentView(R.layout.riderjourney);
-        Button change1 = (Button) findViewById(R.id.change1);
+        Button change1 = (Button) findViewById(R.id.riderjourneychangesource);
         change1.setOnClickListener(this);
         /** We need to set up a click listener on the change2 button */
-        Button change2 = (Button) findViewById(R.id.change2);
+        Button change2 = (Button) findViewById(R.id.riderjourneychangedestination);
+        ridersettime=(Button)findViewById(R.id.riderjourneysettime);
+        ridereditsettime=(EditText)findViewById(R.id.riderjourneyedittime);
+        ed1 = (EditText)findViewById(R.id.riderjourneydestination);
+        ed = (EditText)findViewById(R.id.riderjourneysource);
+        ed1.setEnabled(false);
+        ed.setEnabled(false);
+        ridereditsettime.setEnabled(false);
+        ridersettime.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog(TIME_DIALOG_ID);
+            }
+        });
+
         change2.setOnClickListener(this);
         newroute=(Button)findViewById(R.id.ridergetridelist);
         newroute.setOnClickListener(this);
         
+        //----------time picker---------
+        // get the current time
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        // display the current date
+        updateDisplay();
+
+        
         
     }
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+	    switch (id) {
+	    case TIME_DIALOG_ID:
+	        return new TimePickerDialog(this.getParent(),mTimeSetListener, mHour, mMinute, false);
+	    }
+	    return null;
+	}
+	
+	// updates the time we display in the TextView
+	private void updateDisplay() {
+		ridereditsettime.setText(
+	        new StringBuilder()
+	                .append(pad(mHour)).append(":")
+	                .append(pad(mMinute)));
+	}
+	
+	// the callback received when the user "sets" the time in the dialog
+	private TimePickerDialog.OnTimeSetListener mTimeSetListener =
+	    new TimePickerDialog.OnTimeSetListener() {
+	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+	            mHour = hourOfDay;
+	            mMinute = minute;
+	            updateDisplay();
+	        }
+	    };
+	    
+	    
+	    private static String pad(int c) {
+	        if (c >= 10)
+	            return String.valueOf(c);
+	        else
+	            return "0" + String.valueOf(c);
+	    }
 	/*
 	 *  this function gives a way to change the default source
 	 */
@@ -54,7 +126,6 @@ public class RiderRoute extends Activity implements OnClickListener{
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				value = input.getText().toString().trim();
-				EditText ed = (EditText)findViewById(R.id.sourceid);
 		    	ed.setText(value);
 			}
 		});
@@ -97,6 +168,7 @@ public class RiderRoute extends Activity implements OnClickListener{
 	public void onClick(final View view)
 	{
 		// TODO Auto-generated method stub
+		
 		if(view==findViewById(R.id.ridergetridelist))
 		{
 			checkridelistflag=controller.Getridelist();
@@ -108,7 +180,7 @@ public class RiderRoute extends Activity implements OnClickListener{
 			
 		}
 		
-		if (view == findViewById(R.id.change1)) 
+		if (view == findViewById(R.id.riderjourneychangesource)) 
 		{
 			
 			Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the source");
@@ -133,7 +205,7 @@ public class RiderRoute extends Activity implements OnClickListener{
             alert.show();
         }
         /** check whether the change2 button has been clicked */
-        if (view == findViewById(R.id.change2)) {
+        if (view == findViewById(R.id.riderjourneychangedestination)) {
         	
         	Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the destinaton");
             //List items
@@ -155,8 +227,8 @@ public class RiderRoute extends Activity implements OnClickListener{
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
     			public void onClick(DialogInterface dialog, int whichButton) {
     				//Toast.makeText(getApplicationContext(), value,Toast.LENGTH_SHORT).show();
-    				EditText ed = (EditText)findViewById(R.id.destinationid);
-    		    	ed.setText(value);
+    				
+    		    	ed1.setText(value);
     			}
     		});
             AlertDialog alert = builder.create();

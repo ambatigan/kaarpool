@@ -116,15 +116,6 @@ android:layout_height="wrap_content"
 android:text="              "
 >
 </TextView>
-<TextView
-android:id="@+id/widget207"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_marginLeft="10px"
-android:text="ex : 9:30AM"
-android:textColor="@color/textcolor"
->
-</TextView>
 </TableRow>
 <TableRow
 android:id="@+id/widget198"

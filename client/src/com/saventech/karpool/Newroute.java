@@ -7,14 +7,19 @@
 
 package com.saventech.karpool;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.content.DialogInterface;
 
 public class Newroute extends Activity implements OnClickListener{
@@ -23,6 +28,14 @@ public class Newroute extends Activity implements OnClickListener{
 	private Button newroute;
 	Controller controller;
 	private boolean checknewrouteflag;
+	private int mHour;
+	private int mMinute;
+	static final int TIME_DIALOG_ID = 0;
+	private Button driverjourneysettime;
+	private EditText driverjourneyedittime;
+	private EditText ed;
+	private EditText ed1;
+
 	
     public void onCreate(Bundle savedInstanceState) {
     	
@@ -32,13 +45,74 @@ public class Newroute extends Activity implements OnClickListener{
         controller=new Controller();
         Button change1 = (Button) findViewById(R.id.change1);
         change1.setOnClickListener(this);
+        
         /** We need to set up a click listener on the change2 button */
         Button change2 = (Button) findViewById(R.id.change2);
         change2.setOnClickListener(this);
+        
         newroute=(Button)findViewById(R.id.drivernewrouteregsubmit);
-        newroute.setOnClickListener(this);        
+        driverjourneysettime=(Button)findViewById(R.id.driverjourneysettime);
+        driverjourneyedittime=(EditText)findViewById(R.id.driverjourneyedittime);
+        driverjourneyedittime.setEnabled(false);
+        ed = (EditText)findViewById(R.id.sourceid);
+        ed1 = (EditText)findViewById(R.id.destinationid);
+        ed.setEnabled(false);
+        ed1.setEnabled(false);
+        driverjourneysettime.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog(TIME_DIALOG_ID);
+            }
+        });
+        
+        newroute.setOnClickListener(this);     
+        
+      //----------time picker---------
+        // get the current time
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        // display the current date
+        updateDisplay();
         
     }
+    
+    
+    
+    @Override
+	protected Dialog onCreateDialog(int id) {
+	    switch (id) {
+	    case TIME_DIALOG_ID:
+	        return new TimePickerDialog(this.getParent(),mTimeSetListener, mHour, mMinute, false);
+	    }
+	    return null;
+	}
+	
+	// updates the time we display in the TextView
+	private void updateDisplay() {
+		driverjourneyedittime.setText(
+	        new StringBuilder()
+	                .append(pad(mHour)).append(":")
+	                .append(pad(mMinute)));
+	}
+	
+	// the callback received when the user "sets" the time in the dialog
+	private TimePickerDialog.OnTimeSetListener mTimeSetListener =
+	    new TimePickerDialog.OnTimeSetListener() {
+	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+	            mHour = hourOfDay;
+	            mMinute = minute;
+	            updateDisplay();
+	        }
+	    };
+	    
+	    
+	    private static String pad(int c) {
+	        if (c >= 10)
+	            return String.valueOf(c);
+	        else
+	            return "0" + String.valueOf(c);
+	    }
     /**
      *  The following methods are used to change source and destination of 
      *  particular ride
@@ -53,7 +127,7 @@ public class Newroute extends Activity implements OnClickListener{
 			public void onClick(DialogInterface dialog, int whichButton) {
 				value = input.getText().toString().trim();
 				//Toast.makeText(getApplicationContext(), value,Toast.LENGTH_SHORT).show();
-				EditText ed = (EditText)findViewById(R.id.sourceid);
+				
 		    	ed.setText(value);
 			}
 		});
@@ -147,8 +221,8 @@ public class Newroute extends Activity implements OnClickListener{
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
     			public void onClick(DialogInterface dialog, int whichButton) {
     				//Toast.makeText(getApplicationContext(), value,Toast.LENGTH_SHORT).show();
-    				EditText ed = (EditText)findViewById(R.id.destinationid);
-    		    	ed.setText(value);
+    				
+    		    	ed1.setText(value);
     			}
     		});
             AlertDialog alert = builder.create();
