@@ -7,6 +7,7 @@ package com.saventech.karpool;
  * Date: Apr 05, 2011
  */
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -158,18 +159,36 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	    public String bitmapcode()
 	    {
 	    	try{
-	    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
-    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-    			byte [] ba = bao.toByteArray();
-    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-    			return ba1;
+	    		if(selectedImagePath.length()==0)
+	    		{
+	    			//String imagepath=getResources().getDrawable(R.drawable.default1).toString();
+	    			//String fname=this.getFilesDir().getAbsolutePath()+"/default1.jpeg";
+	    			Log.i("Registerwithsysid", "Default image is selected as user image");
+	    			//System.out.println("select image   "+getResources().getDrawable(R.drawable.default1)+" "+fname);
+	    			Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.default1); 
+	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+	    			byte [] ba = bao.toByteArray();
+	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
+	    			return ba1;
+	    		}
+	    		else
+	    		{
+		    		//System.out.println(selectedImagePath+"88888888888888888888888888888888888888888888888");
+	    			Log.i("Registerwithsysid", "Image Selected from Gallery");
+		    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
+	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+	    			byte [] ba = bao.toByteArray();
+	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
+	    			return ba1;
+	    		}
 	    		
 	    	}
 	    	catch(Exception e)
 	    	{
 	    		e.printStackTrace();
-	    		return null;
+	    		return "";
 	    	}
 	    	
 
@@ -289,7 +308,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     validatestring=new String();
 		     
 		     
-		     // validating password 
+		     //--------------validating password starts-----------------
 		     
 		     if(sysuserpwd.getText().toString().length()>=5)
 		     {
@@ -318,7 +337,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		    	 validatestring=validatestring+"-> Pls select available users only(length<=8) \n";
 		     }
 		     
-		     // validating gender buttons 
+		     //--------validating gender buttons starts--------------
 		     
 		     if(sysusergenderfemale.isChecked())
 		     {
@@ -334,7 +353,8 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		    	 validatestring=validatestring+"-> Pls select your gender\n";
 		     }
 		     
-		     // validating date of birth
+		     //-----------validating gender buttons ends------------------
+		     //--------validating mobile number -----------------
 		     
 		     Pattern mobile = Pattern.compile("\\d{11}");
 		     Matcher match = mobile.matcher(sysusermobile.getText().toString());
@@ -355,8 +375,11 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 			 {
 				 validatestring=validatestring+"-> Pls enter correct mobile number (start with zero)\n";
 			 }
-		     
+		     //-----------validating mobile number ends---------------
+			 //------------uploading image code starts-------------------
 			 String imagedata=bitmapcode();
+			 //------------uploading image code ends-----------------
+			 
 		     if(checksysaddressflag && checksyspwdflag &&  checksysidflag && (checksysmaleflag || checksysfemaleflag) && checksysmobileflag)
 			     {
 		    	       String response="";
@@ -386,8 +409,6 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             //Set its title
             builder.setTitle("Choose List");
-            //Set the list items and assign with the click listener
-            //System.out.println("88888888888888888");
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 // Click listener
                 public void onClick(DialogInterface dialog, int item) {
