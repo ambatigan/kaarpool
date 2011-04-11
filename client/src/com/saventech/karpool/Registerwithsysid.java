@@ -49,6 +49,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
     private int mYear;
     private int mMonth;
     private int mDay;
+    private String systemid="@kaarpool.com";
 
     static final int DATE_DIALOG_ID = 0;
 	Controller controller=null;
@@ -203,7 +204,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
         	Log.i("Registerwithsysid_availableusers", "Checking for available users");
 		     if(sysuserid.getText().toString().length()!=0)
 		     {
-				 checksysidflag=controller.Availablesysids(sysuserid.getText().toString());
+				 checksysidflag=controller.Availablesysids(sysuserid.getText().toString()+systemid);
 				 if(checksysidflag)
 				 {
 					 TextView warn = (TextView)findViewById(R.id.availablesysid);
@@ -222,7 +223,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 						 if(sysuserid.getText().toString().length()<=8)
 						 {
 							 checksysidflag=matchFound;
-							 warn.setText("YES, "+sysuserid.getText().toString()+"@karpool.com");
+							 warn.setText("YES, "+sysuserid.getText().toString()+systemid);
 						 }
 						 else
 						 {
@@ -385,11 +386,11 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		    	       String response="";
 		    	       if(checksysmaleflag)
 		    	       {
-		    	    	   response=controller.Sysid_registration(sysuserid.getText().toString()+"@karpool.com", sysuserpwd.getText().toString(), sysuserdob.getText().toString(), sysuseraddress.getText().toString(), sysusermobile.getText().toString(), sysusergendermale.getText().toString(),imagedata.toString());
+		    	    	   response=controller.Sysid_registration(sysuserid.getText().toString()+systemid, sysuserpwd.getText().toString(), sysuserdob.getText().toString(), sysuseraddress.getText().toString(), sysusermobile.getText().toString(), sysusergendermale.getText().toString(),imagedata.toString());
 		    	       }
 		    	       else
 		    	       {
-		    	    	   response=controller.Sysid_registration(sysuserid.getText().toString()+"@karpool.com", sysuserpwd.getText().toString(), sysuserdob.getText().toString(), sysuseraddress.getText().toString(), sysusermobile.getText().toString(), sysusergenderfemale.getText().toString(),imagedata.toString());
+		    	    	   response=controller.Sysid_registration(sysuserid.getText().toString()+systemid, sysuserpwd.getText().toString(), sysuserdob.getText().toString(), sysuseraddress.getText().toString(), sysusermobile.getText().toString(), sysusergenderfemale.getText().toString(),imagedata.toString());
 		    	       }
 		    	 
 		    	      System.out.println("response from tomcat6 is: "+response);

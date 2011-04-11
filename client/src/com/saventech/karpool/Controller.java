@@ -95,21 +95,42 @@ public class Controller
 	{
 		
 		//List to store available id's from database
-		ArrayList<String> list=new ArrayList<String>();
-		list.add("rajesh");
-		list.add("mahesh");
-		list.add("somesh");
-		list.add("hareesh");
-		Log.i("Availableids_Controller", "Checking for available ides");
-		for(int i=0;i<list.size();i++)
-		{
-			//checking entered id with existed ids
-			if(list.get(i).toString().equals(id.toString()))
-			{
-				return true;
-			}
-		}
-		return false;
+//		ArrayList<String> list=new ArrayList<String>();
+//		list.add("rajesh");
+//		list.add("mahesh");
+//		list.add("somesh");
+//		list.add("hareesh");
+//		Log.i("Availableids_Controller", "Checking for available ides");
+//		for(int i=0;i<list.size();i++)
+//		{
+//			//checking entered id with existed ids
+//			if(list.get(i).toString().equals(id.toString()))
+//			{
+//				return true;
+//			}
+//		}
+//		return false;
+		//System.out.println("Controller 999999999999999999999");
+		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+		postParameters.add(new BasicNameValuePair("sysregid", id.toString().trim()));
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/AuthenticateIds", postParameters);
+    	    String res=response.toString();
+    	  // System.out.println(res.length()+"dddddddddddddddddddddddddddd");
+    	    if(res.toString().trim().equals("YES"))
+    	    {
+    	    	  Log.i("Controller", "Checked");
+    	    	  //System.out.println("Existedddddddddddddddddddddddddddddddd");
+    	          return false;
+    	    }
+    	    else
+    	    	return true;
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		return true;
+	}
+
 	}
 	/*
 	 * Validating user register data and storing data in database
@@ -147,7 +168,7 @@ public class Controller
 	{
 		
 		
-		System.out.println("IMAGE  999999999999999999:"+sysregimage.length()+"      "+sysregimage);
+		//System.out.println("IMAGE  999999999999999999:"+sysregimage.length()+"      "+sysregimage);
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair("sysregid", sysregid.toString().trim()));
 		postParameters.add(new BasicNameValuePair("sysregpwd", sysregpwd.toString().trim()));
