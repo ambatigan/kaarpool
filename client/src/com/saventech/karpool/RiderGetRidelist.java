@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,12 +24,23 @@ import android.widget.TextView;
  * Description: It is responsible to display the ridelist to the rider based on the specified values
  */
 public class RiderGetRidelist extends Activity implements android.view.View.OnClickListener {
+	private SharedPreferences mPreferences; 
+	Session session;
 
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.ridelist0);
 	        
 	        Log.i("Ridergetridelist_Activity","Entered in Ridergetridelist activity");
+	        session=new Session();
+		    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+			if(!session.checkinfo(mPreferences))
+			{
+				Intent intent=new Intent(RiderGetRidelist.this,Login.class);
+				startActivity(intent);
+			
+			}
+			System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
 	        LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
 	        LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	        

@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 
 public class Newroute extends Activity implements OnClickListener{
 	
@@ -36,12 +38,23 @@ public class Newroute extends Activity implements OnClickListener{
 	private EditText driverjourneyedittime;
 	private EditText ed;
 	private EditText ed1;
+	private SharedPreferences mPreferences; 
+	Session session;
 
 	
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
         Log.i("DriverJourneyDetails_New route", "New route tab in DriverJourneyDetails");
+        session=new Session();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+		if(!session.checkinfo(mPreferences))
+		{
+			Intent intent=new Intent(Newroute.this,Login.class);
+			startActivity(intent);
+		
+		}
+		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.drivernewroute);
         controller=new Controller();
         Button change1 = (Button) findViewById(R.id.change1);

@@ -9,6 +9,7 @@ package com.saventech.karpool;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,11 +19,22 @@ import android.widget.TabHost;
 public class DriverJourneyDetails extends TabActivity {
 	
 	TabHost tabHost;
+	private SharedPreferences mPreferences; 
+	Session session;
 	
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
         Log.i("DriverJourneyDetails", "DriverJourneyDetails screen");
+        session=new Session();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+		if(!session.checkinfo(mPreferences))
+		{
+			Intent intent=new Intent(DriverJourneyDetails.this,Login.class);
+			startActivity(intent);
+		
+		}
+		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.journeydetails);
         
         Resources res = getResources(); // Resource object to get Drawables

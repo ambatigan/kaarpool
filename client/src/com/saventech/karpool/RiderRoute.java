@@ -7,6 +7,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -37,6 +39,8 @@ public class RiderRoute extends Activity implements OnClickListener{
 	static final int TIME_DIALOG_ID = 0;
 	private EditText ed;
 	private EditText ed1;
+	private SharedPreferences mPreferences; 
+	Session session;
 
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,15 @@ public class RiderRoute extends Activity implements OnClickListener{
         controller=new Controller();                       //initializing controller object
         
         Log.i("Riderroute_Activity", "Now you are in riderroute activity");
-        
+        session=new Session();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+		if(!session.checkinfo(mPreferences))
+		{
+			Intent intent=new Intent(RiderRoute.this,Login.class);
+			startActivity(intent);
+		
+		}
+		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.riderjourney);
         Button change1 = (Button) findViewById(R.id.riderjourneychangesource);
         change1.setOnClickListener(this);

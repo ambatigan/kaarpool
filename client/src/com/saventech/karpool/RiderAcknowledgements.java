@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,9 +23,21 @@ import android.widget.Toast;
  * It is responsible to display all request and responses messages
  */
 public class RiderAcknowledgements extends Activity implements OnClickListener {
+	
+	private SharedPreferences mPreferences; 
+	Session session;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Rideracknowledgements_activity", "Now you are in Rideracknowledgements activity");
+        session=new Session();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+		if(!session.checkinfo(mPreferences))
+		{
+			Intent intent=new Intent(RiderAcknowledgements.this,Login.class);
+			startActivity(intent);
+		
+		}
+		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.rider_acknowledgements);
         Button bb =(Button)findViewById(R.id.OkButton);
         bb.setOnClickListener(this);

@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,6 +25,9 @@ import android.widget.TextView;
 
 public class Acknowledgement extends Activity implements android.view.View.OnClickListener 
 {
+	
+	private SharedPreferences mPreferences; 
+	Session session;
 	/**
 	 * This screen show the riders list for driver and driver can get notifications(accept/reject)
 	 * also in this screen.
@@ -30,6 +35,16 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
+        
+        session=new Session();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+		if(!session.checkinfo(mPreferences))
+		{
+			Intent intent=new Intent(Acknowledgement.this,Login.class);
+			startActivity(intent);
+		
+		}
+		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         Log.i("DriverJourneyDetails_Acknowledgement","Acknowledgement tab in DriverJourneyDetails");
         setContentView(R.layout.ridelist0);
         LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);

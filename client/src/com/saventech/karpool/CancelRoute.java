@@ -9,6 +9,8 @@
 package com.saventech.karpool;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,11 +31,22 @@ public class CancelRoute extends Activity implements OnClickListener
 	private Button cancelroutebutton;
 	private boolean cancelrouteflag;
 	Controller controller;
+	private SharedPreferences mPreferences; 
+	Session session;
 	
     public void onCreate(Bundle savedInstanceState) 
     {
     	
         super.onCreate(savedInstanceState);
+        session=new Session();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+		if(!session.checkinfo(mPreferences))
+		{
+			Intent intent=new Intent(CancelRoute.this,Login.class);
+			startActivity(intent);
+		
+		}
+		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         Log.i("DriverJourneyDetails_Cancel route", "Cancel route tab in DriverJourneyDetails");
         controller=new Controller();
         setContentView(R.layout.cancelroute);
