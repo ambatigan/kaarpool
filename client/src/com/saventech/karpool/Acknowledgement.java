@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -66,6 +67,14 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
             l.addView(customView);
         }
     }
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
     public void onClick(View V) 
 	{
     	Log.i("DriverJourneyDetails_Acknowledgement", "image button clicked to see riders details");

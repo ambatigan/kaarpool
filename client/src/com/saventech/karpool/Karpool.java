@@ -4,6 +4,7 @@ package com.saventech.karpool;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 /*
  * Project: Karpool
@@ -42,6 +43,21 @@ public class Karpool extends  Activity {
       
 
     }
-
+    
+//    public boolean onKeyDown(int keyCode, KeyEvent event) 
+//	{
+//		if(keyCode == KeyEvent.KEYCODE_BACK)
+//		{
+//			//finish();
+//			Intent setIntent = new Intent(Intent.ACTION_MAIN);
+//		    setIntent.addCategory(Intent.CATEGORY_HOME);
+//		    setIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		    startActivity(setIntent); 
+//		    //finish();
+//			//return true;
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
+    
 	
 }

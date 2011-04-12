@@ -2,9 +2,11 @@ package com.saventech.karpool;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TabHost;
 
@@ -17,10 +19,22 @@ import android.widget.TabHost;
  */
 public class RiderJourneyDetails extends TabActivity implements android.view.View.OnClickListener {
 	TabHost tabHost;
+	private SharedPreferences mPreferences; 
+	Session session;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journeydetails);
         
+       
+        session=new Session();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+		if(!session.checkinfo(mPreferences))
+		{
+			Intent intent=new Intent(RiderJourneyDetails.this,Login.class);
+			startActivity(intent);
+		
+		}
+		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         Log.i("RiderJourneyDetails_Activity", "Now you are in riderjourneydetails activity");
         
         Resources res = getResources(); // Resource object to get Drawables
@@ -50,6 +64,15 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	    tabHost.setCurrentTab(0);
 	    tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(false);
     }
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
 
 	public void onClick(View v) {
 		

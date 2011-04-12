@@ -62,7 +62,7 @@ public class Controller
     	   }
 		   catch(Exception e) 
     	   {
-    		e.printStackTrace();
+    		//e.printStackTrace();
     		return false;
 	      }
 			
@@ -110,18 +110,18 @@ public class Controller
 //			}
 //		}
 //		return false;
-		//System.out.println("Controller 999999999999999999999");
+		System.out.println("Controller 999999999999999999999");
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair("sysregid", id.toString().trim()));
 		String response = null;
     	try {
     	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/AuthenticateIds", postParameters);
     	    String res=response.toString();
-    	  // System.out.println(res.length()+"dddddddddddddddddddddddddddd");
+    	  System.out.println(res.length()+"dddddddddddddddddddddddddddd");
     	    if(res.toString().trim().equals("YES"))
     	    {
     	    	  Log.i("Controller", "Checked");
-    	    	  //System.out.println("Existedddddddddddddddddddddddddddddddd");
+    	    	  System.out.println("Existedddddddddddddddddddddddddddddddd");
     	          return false;
     	    }
     	    else

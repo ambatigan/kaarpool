@@ -205,6 +205,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     if(sysuserid.getText().toString().length()!=0)
 		     {
 				 checksysidflag=controller.Availablesysids(sysuserid.getText().toString()+systemid);
+				 System.out.println(checksysidflag+"                    0000000000000000000000000000000000000000000000");
 				 if(checksysidflag)
 				 {
 					 TextView warn = (TextView)findViewById(R.id.availablesysid);

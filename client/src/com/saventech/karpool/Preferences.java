@@ -2,6 +2,7 @@ package com.saventech.karpool;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,11 +11,13 @@ import android.widget.TextView;
 
 public class Preferences extends ListActivity {
 	TextView tt ;
+	 private SharedPreferences mPreferences; 
+	 Session session;
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
     super.onCreate(savedInstanceState);
-    
+    session=new Session();
     //setContentView(R.layout.preferences);
     String[] pref = getResources().getStringArray(R.array.pref_array);
     setListAdapter(new ArrayAdapter<String>(this,
@@ -42,8 +45,14 @@ public class Preferences extends ListActivity {
 			startActivity(register1);
 			break;
 		case 3:
-           int pid=android.os.Process.myPid();
-           android.os.Process.killProcess(pid);
+          
+			 mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+             session.removeSession(mPreferences);
+             System.out.println("DATA REMOVED");
+             finish();
+             Intent intent = new Intent(getApplicationContext(), Login.class);
+             startActivity(intent); 
+             removeDialog(0);
            break;
 		case 4:
 			finish();

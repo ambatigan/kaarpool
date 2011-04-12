@@ -9,20 +9,34 @@ package com.saventech.karpool;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
 public class JourneyDetails extends TabActivity {
 	
+	private SharedPreferences mPreferences; 
+	Session session;
 	public void onCreate(Bundle savedInstanceState) {
 		
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.journeydetails);
 
+	    session=new Session();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+	    System.out.println("66666666666666666666666666666666666666666666666666666666");
+		if(!session.checkinfo(mPreferences))
+		{
+			Intent intent=new Intent(JourneyDetails.this,Login.class);
+			startActivity(intent);
+		
+		}
+		
 	    Resources res = getResources(); // Resource object to get Drawables
 	    TabHost tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
@@ -41,6 +55,15 @@ public class JourneyDetails extends TabActivity {
 	    tabHost.addTab(spec);
 
 	    tabHost.setCurrentTab(1);
+	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 	
 	/**

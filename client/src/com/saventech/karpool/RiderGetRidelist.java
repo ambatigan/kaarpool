@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -74,6 +75,14 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	            l.addView(customView);   //adding customview to list
 	        }
 	        }
+	 public boolean onKeyDown(int keyCode, KeyEvent event) 
+		{
+			if(keyCode == KeyEvent.KEYCODE_BACK)
+			{
+				return true;
+			}
+			return super.onKeyDown(keyCode, event);
+		}
 	 
 	        public void onClick(View V)      //onClick will be performed when button is pressed
 	    	{

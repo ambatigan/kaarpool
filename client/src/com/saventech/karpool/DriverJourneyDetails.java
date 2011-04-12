@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.TabHost;
 
 public class DriverJourneyDetails extends TabActivity {
@@ -50,6 +51,15 @@ public class DriverJourneyDetails extends TabActivity {
 	    
 	    tabHost.setCurrentTab(0);
     }
+    
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
     
     public void switchTab(int tab)
 	{
