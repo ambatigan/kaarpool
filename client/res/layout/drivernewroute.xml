@@ -176,7 +176,7 @@ android:textStyle="bold"
     	android:layout_height="wrap_content">   
     	
     	 
-	    <ImageView  
+	    <ImageView android:src="@drawable/car" 
 	    android:id="@+id/drivernewrouteimage" 
 	    android:layout_height="50px" 
 	    android:layout_width="100px"

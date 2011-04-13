@@ -57,8 +57,6 @@ android:clipToPadding="true"
 <ImageButton android:src="@drawable/gmail" android:layout_height="50px" android:id="@+id/gmail" android:layout_width="50px" android:layout_margin="5px"></ImageButton>
 
 
-
-
 </TableRow>
 </TableLayout>
 <TextView

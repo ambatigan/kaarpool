@@ -396,6 +396,8 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		    	 
 		    	      System.out.println("response from tomcat6 is: "+response);
 					 Intent intent=new Intent(Registerwithsysid.this,JourneyDetails.class);
+					 intent.putExtra("RegisterUsername", sysuserid.getText().toString()+systemid);
+					 intent.putExtra("RegisterPassword", sysuserpwd.getText().toString());
 			         startActivity(intent);
 	             }
 		     else
@@ -410,7 +412,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
             //Prepare the list dialog box
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             //Set its title
-            builder.setTitle("Choose List");
+            builder.setTitle("Select");
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 // Click listener
                 public void onClick(DialogInterface dialog, int item) {

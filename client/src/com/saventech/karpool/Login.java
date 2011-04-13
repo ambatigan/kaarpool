@@ -85,6 +85,8 @@ public class Login extends  MenuOptions implements OnClickListener{
 				}
 				Log.i("Login_onClick", "It is redirecting to Journeydetails");
 				Intent intent=new Intent(Login.this,JourneyDetails.class);
+				intent.putExtra("RegisterUsername", "loginid");
+				 intent.putExtra("RegisterPassword", "loginpwd");
 				startActivity(intent);
 		     }
 			 else

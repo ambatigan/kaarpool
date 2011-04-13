@@ -61,7 +61,7 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	    spec = tabHost.newTabSpec("acknowledgement").setIndicator("Acknowledgements",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
 	    tabHost.addTab(spec);
 	    
-	    tabHost.setCurrentTab(0);
+	    //tabHost.setCurrentTab(0);
 	    tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(false);
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) 

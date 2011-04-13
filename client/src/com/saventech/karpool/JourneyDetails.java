@@ -22,21 +22,46 @@ public class JourneyDetails extends TabActivity {
 	
 	private SharedPreferences mPreferences; 
 	Session session;
+	String Regusername="";
+	String Regpwd="";
 	public void onCreate(Bundle savedInstanceState) {
 		
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.journeydetails);
-
-	    session=new Session();
+	    Intent newintent=  getIntent();
+	    
+	    Regusername=newintent.getStringExtra("RegisterUsername");
+	  
+	    Regpwd=newintent.getStringExtra("RegisterPassword");
+	 
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
-	    System.out.println("66666666666666666666666666666666666666666666666666666666");
-		if(!session.checkinfo(mPreferences))
-		{
-			Intent intent=new Intent(JourneyDetails.this,Login.class);
-			startActivity(intent);
-		
-		}
-		
+	   
+	    if(Regusername.toString().equals("loginid") && Regpwd.toString().equals("loginpwd"))
+	    {
+	    	session=new Session();
+		    Log.i("JourneyDetails", "Session checking");
+			if(!session.checkinfo(mPreferences))
+			{
+				 Log.i("JourneyDetails", "No session");
+				Intent intent=new Intent(JourneyDetails.this,Login.class);
+				startActivity(intent);
+			
+			}
+	    	
+	    }
+	    else
+	    {
+	    	SharedPreferences.Editor editor=mPreferences.edit();
+	    	
+            editor.putString("UserName", Regusername);
+            
+            editor.putString("PassWord", Regpwd);
+           
+            editor.commit();
+           
+
+		    
+	    }
 	    Resources res = getResources(); // Resource object to get Drawables
 	    TabHost tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
