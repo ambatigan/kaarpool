@@ -110,7 +110,7 @@ android:textStyle="bold"
     	android:layout_height="wrap_content">   
     	
 	    <EditText
-	    android:id="@+id/useridtxt"
+	    android:id="@+id/seatid"
 		android:layout_width="100px"
 		android:layout_height="40px"
 		android:layout_marginLeft="10px"
