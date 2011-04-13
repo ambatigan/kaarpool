@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.provider.MediaStore.Images;
 import android.util.Log;
 
 /*
@@ -46,7 +45,7 @@ public class Controller
 	    String response;
 		//checking login credentials
 		try{
-	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/LoginServlet", postParameters);
+	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.171:8080/kaarpool_server/LoginServlet", postParameters);
 	    	    String res=response.toString();
 	    	   // System.out.println(res+"77777777777777777777777777777777777777");
 	    	    if(res.toString().trim().equals("YES"))
@@ -115,7 +114,7 @@ public class Controller
 		postParameters.add(new BasicNameValuePair("sysregid", id.toString().trim()));
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/AuthenticateIds", postParameters);
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.171:8080/kaarpool_server/AuthenticateIds", postParameters);
     	    String res=response.toString();
     	  System.out.println(res.length()+"dddddddddddddddddddddddddddd");
     	    if(res.toString().trim().equals("YES"))
@@ -150,11 +149,32 @@ public class Controller
 	}
 	/*Creating new route by taking available credentials from the driver
 	 * 
+	 * Takes new route details from driver and send to server to store in database
+	 * 
 	 */
-	public boolean Createnewroute()
+	public String driverNewroute(String regid, String driversrc, String driverdest, String seats, String starttime)
 	{
-		Log.i("Createnewroute_Controller", "New route has been created");
-		return true;
+		String response1 = null;
+		ArrayList<NameValuePair> newrouteparms = new ArrayList<NameValuePair>();
+		newrouteparms.add(new BasicNameValuePair("regid", regid.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("driversrc", driversrc.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("driverdest", driverdest.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("seats", seats.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("starttime", starttime.toString().trim()));
+		
+    	try 
+    	{
+    		Log.i("Createnewroute_Controller", "New route has been created");
+    	    response1 = CustomHttpClient.executeHttpPost("http://198.162.18.171:8080/kaarpool_server/DriverNewRoute", newrouteparms);
+    	    String res=response1.toString();
+    	    Log.i("Createnewroute_Controller", "New route has been created11111");
+    	    return res;
+    	}catch(Exception e) 
+    	{
+    		e.printStackTrace();
+    		return null;
+    	}
+		
 	}
 	/*
 	 * Cancel the current route
@@ -180,7 +200,7 @@ public class Controller
 		
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/SysRegistration", postParameters);
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.171:8080/kaarpool_server/SysRegistration", postParameters);
     	    String res=response.toString();
     	    return res;
     	}catch(Exception e) {
