@@ -34,4 +34,12 @@
         <item>IIIT-Secretariate     14/03/11</item>
         <item>IIIT-Secretariate     15/03/11</item>
     </string-array>
+    <string name="travelPref_Seats">Seats</string>
+    <string-array name="seats">
+		<item>One</item>
+		<item>Two</item>
+		<item>Three</item>
+		<item>Four</item>
+		<item>Five</item>
+	</string-array>
 </resources>

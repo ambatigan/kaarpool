@@ -215,7 +215,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 				 else
 				 {
 					 TextView warn = (TextView)findViewById(R.id.availablesysid);
-					Pattern p=Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+					Pattern p=Pattern.compile("^[_A-Za-z0-9]+(\\.[_A-Za-z0-9]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 				     Matcher m = p.matcher(sysuserid.getText().toString()+"@karpool.com");
 					 boolean matchFound = m.lookingAt();
 					 
