@@ -26,42 +26,60 @@ public class JourneyDetails extends TabActivity {
 	String Regpwd="";
 	public void onCreate(Bundle savedInstanceState) {
 		
+		Log.i("JourneyDetails","You are now in Journeydetails table");
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.journeydetails);
 	    Intent newintent=  getIntent();
 	    
-	    Regusername=newintent.getStringExtra("RegisterUsername");
-	  
-	    Regpwd=newintent.getStringExtra("RegisterPassword");
-	 
-	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
-	   
-	    if(Regusername.toString().equals("loginid") && Regpwd.toString().equals("loginpwd"))
+	    
+	    try
+	    {
+	    	Regusername=newintent.getStringExtra("RegisterUsername");
+	   	  
+	 	    Regpwd=newintent.getStringExtra("RegisterPassword");
+	 	 
+	 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+	 	   
+	 	    if(Regusername.toString().equals("loginid") && Regpwd.toString().equals("loginpwd"))
+	 	    {
+	 	    	session=new Session();
+	 		    Log.i("JourneyDetails", "Session checking");
+	 			if(!session.checkinfo(mPreferences))
+	 			{
+	 				 Log.i("JourneyDetails", "No session");
+	 				Intent intent=new Intent(JourneyDetails.this,Login.class);
+	 				startActivity(intent);
+	 			
+	 			}
+	 	    	
+	 	    }
+	 	    else
+	 	    {
+	 	    	SharedPreferences.Editor editor=mPreferences.edit();
+	 	    	
+	             editor.putString("UserName", Regusername);
+	             
+	             editor.putString("PassWord", Regpwd);
+	            
+	             editor.commit();  
+
+	 		    
+	 	    }
+	    	
+	    }
+	    catch(Exception e)
 	    {
 	    	session=new Session();
-		    Log.i("JourneyDetails", "Session checking");
-			if(!session.checkinfo(mPreferences))
-			{
-				 Log.i("JourneyDetails", "No session");
-				Intent intent=new Intent(JourneyDetails.this,Login.class);
-				startActivity(intent);
-			
-			}
-	    	
+ 		    Log.i("JourneyDetails", "Session checkingNotifications");
+ 			if(!session.checkinfo(mPreferences))
+ 			{
+ 				 Log.i("JourneyDetails", "No session");
+ 				Intent intent=new Intent(JourneyDetails.this,Login.class);
+ 				startActivity(intent);
+ 			
+ 			}
 	    }
-	    else
-	    {
-	    	SharedPreferences.Editor editor=mPreferences.edit();
-	    	
-            editor.putString("UserName", Regusername);
-            
-            editor.putString("PassWord", Regpwd);
-           
-            editor.commit();
-           
-
-		    
-	    }
+	   
 	    Resources res = getResources(); // Resource object to get Drawables
 	    TabHost tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab

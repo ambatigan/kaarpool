@@ -36,8 +36,8 @@ import android.widget.TimePicker;
 public class Newroute extends Activity implements OnClickListener{
 	
 	private String value="";
-	private String selectedImagePath="";
-	private static final int SELECT_PICTURE = 1;
+	
+	
 	private Button newroute;
 	Controller controller;
 	private boolean checknewrouteflag;
@@ -47,8 +47,6 @@ public class Newroute extends Activity implements OnClickListener{
 	private Button driverjourneysettime;
 	private EditText driverjourneyedittime;
 	private EditText ed;
-	private ImageView drivernewrouteimage;
-	private Button drivernewrouteimageupload;
 	private EditText ed1;
 	private SharedPreferences mPreferences; 
 	Session session;
@@ -75,8 +73,7 @@ public class Newroute extends Activity implements OnClickListener{
         /** We need to set up a click listener on the change2 button */
         Button change2 = (Button) findViewById(R.id.change2);
         change2.setOnClickListener(this);
-        drivernewrouteimage=(ImageView)findViewById(R.id.drivernewrouteimage);
-        drivernewrouteimageupload=(Button)findViewById(R.id.drivernewrouteimagesubmit);
+        
         newroute=(Button)findViewById(R.id.drivernewrouteregsubmit);
         driverjourneysettime=(Button)findViewById(R.id.driverjourneysettime);
         driverjourneyedittime=(EditText)findViewById(R.id.driverjourneyedittime);
@@ -85,7 +82,6 @@ public class Newroute extends Activity implements OnClickListener{
         ed1 = (EditText)findViewById(R.id.destinationid);
         ed.setEnabled(false);
         ed1.setEnabled(false);
-        drivernewrouteimageupload.setOnClickListener(this);
         driverjourneysettime.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDialog(TIME_DIALOG_ID);
@@ -104,89 +100,6 @@ public class Newroute extends Activity implements OnClickListener{
         updateDisplay();
         
     }
-    public void selectimage(int requestCode,int resultCode,Intent data)
-    {
-    	if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
-                selectedImagePath = getPath(selectedImageUri);
-                System.out.println("Image Path : " + selectedImagePath);
-                drivernewrouteimage.setImageURI(selectedImageUri);
-            }
-        }
-    }
-    
-    //----Gallery functions starts--------------
-	 public void onActivityResult(int requestCode, int resultCode, Intent data) 
-	 {
-		 //super.onActivityResult(requestCode, resultCode, data); 
-		  // System.out.println("onnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
-	        if (resultCode == RESULT_OK) {
-	            if (requestCode == SELECT_PICTURE) {
-	                Uri selectedImageUri = data.getData();
-	                selectedImagePath = getPath(selectedImageUri);
-	                System.out.println("Image Path : " + selectedImagePath);
-	                drivernewrouteimage.setImageURI(selectedImageUri);
-	            }
-	        }
-	    }
-	 
-	 
-	 //Getting image path from gallery
-	 
-	    public String getPath(Uri uri) {
-	        String[] projection = { MediaStore.Images.Media.DATA };
-	        Cursor cursor = managedQuery(uri, projection, null, null, null);
-	        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-	        cursor.moveToFirst();
-	        return cursor.getString(column_index);
-	    }
-	 
-	 
-	 //-------Gallery functions ends--------
-	 
-	    // ----------bitmap code starts----------
-	    
-	    public String bitmapcode()
-	    {
-	    	try{
-	    		if(selectedImagePath.length()==0)
-	    		{
-	    			//String imagepath=getResources().getDrawable(R.drawable.default1).toString();
-	    			//String fname=this.getFilesDir().getAbsolutePath()+"/default1.jpeg";
-	    			Log.i("Registerwithsysid", "Default image is selected as user image");
-	    			//System.out.println("select image   "+getResources().getDrawable(R.drawable.default1)+" "+fname);
-	    			Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.default1); 
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			return ba1;
-	    		}
-	    		else
-	    		{
-		    		//System.out.println(selectedImagePath+"88888888888888888888888888888888888888888888888");
-	    			Log.i("Registerwithsysid", "Image Selected from Gallery");
-		    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			return ba1;
-	    		}
-	    		
-	    	}
-	    	catch(Exception e)
-	    	{
-	    		e.printStackTrace();
-	    		return "";
-	    	}
-	    	
-
-	    }
-	    
-	    
-	    //------------bitmap code ends------------
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
@@ -279,31 +192,7 @@ public class Newroute extends Activity implements OnClickListener{
 	public void onClick(final View view)
 	{
 		// TODO Auto-generated method stub
-		if(view==findViewById(R.id.drivernewrouteimagesubmit))
-		{
-			//System.out.println("88888888888888888");
-			final CharSequence[] items = {"Camera", "Gallery"};
-            //Prepare the list dialog box
-            AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
-            //Set its title
-            builder.setTitle("Select");
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                // Click listener
-                public void onClick(DialogInterface dialog, int item) {
-                    if(items[item]=="Gallery")
-                    {
-                      Intent intent = new Intent();
-                      intent.setType("image/*");
-                      intent.setAction(Intent.ACTION_GET_CONTENT);
-                      startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);                	                    	
-                    }
-                }
-            });
-            AlertDialog alert = builder.create();
-            //display dialog box
-            alert.show();
-	        
-		}
+		
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
 			Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
