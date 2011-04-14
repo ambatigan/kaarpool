@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-public class LoginServlet extends HttpServlet {
-
+public class LoginServlet extends HttpServlet 
+{
+	private static final long serialVersionUID = 1L;
 	/** The log. */
 	Logger log = Logger.getLogger(LoginServlet.class);
   //  @Override
@@ -21,45 +22,38 @@ public class LoginServlet extends HttpServlet {
         userid=request.getParameter("loginuserid");
         userpwd=request.getParameter("loginuserpwd");
      
-        //DB PART COMES HERE
         DBInterface connect = DBInterface.getInstance();
   	   if(connect.isConnectionOpen())
   	   {
   		     String pwd = connect.getPwd(userid);
   		     try
   		     {
-  		     if(!pwd.equals(null))
-  		     {
-  		        
-	  		     if(userid.equalsIgnoreCase(userid) && userpwd.equals(pwd))
-	  			 {
-	  				out.print("YES");
-	  				log.info("User is successfully logged in");
+	  		     if(!pwd.equals(null))
+	  		     {
+	  		        
+		  		     if(userid.equalsIgnoreCase(userid) && userpwd.equals(pwd))
+		  			 {
+		  				out.print("YES");
+		  				log.info("User is successfully logged in");
+		  		     }
+		  		     else
+		  		     {
+		  		        out.print("NO");
+		  		        log.info("User credentials are not correct");
+		  		     }
+	
 	  		     }
 	  		     else
 	  		     {
-	  		        out.print("NO");
-	  		        //System.out.println("Please check your password");
-	  		        log.info("User credentials are not correct");
+	  		    	 out.println("NOT Exist");
+	  		    	 log.info("User with "+userid+" doesnot exist");
 	  		     }
-
-  		       
-  		     }
-  		     else
-  		     {
-  		    	 out.println("NOT Exist");
-  		    	 log.info("User with "+userid+" doesnot exist");
-  		    	//System.out.println("User name does not exist. Please register");
-  		     }
   		     }
   		     catch(Exception e)
   		     {
   		    	log.info("User with "+userid+" doesnot exist. Please register");
-  		    	 //System.out.println("User name does not exist. Please register");
   		     }
-  	   }
+  	     }
   		     
-  	  }
-
-	
+  	  }	
 }

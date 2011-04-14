@@ -1,4 +1,8 @@
-
+/**
+ * Project: KaarpoolServer
+ * Package: com.saventech.kaarpool.dbInterface
+ * File: DBInterface.java
+ */
 
 package com.saventech.kaarpool;
 
@@ -10,7 +14,10 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
  
 import org.apache.log4j.Logger;
-
+/**
+ * The Class DBInterface.
+ */
+ 
 public class DBInterface
 {
 	/** static instance; will be the only reference to a DBInterface object. */
@@ -137,7 +144,8 @@ public class DBInterface
 		{
 			statement = connection.createStatement();
 			// result of executing SQL query
-			int insert = statement.executeUpdate("insert into personal_details (username,mobile,address,gender,dob,image) values("+"\""+uname+"\""+","+"\""+mobile+"\""+","+"\""+address+"\""+","+"\""+gender+"\""+","+"\""+dob+"\""+","+"\""+image+"\""+")");
+			System.out.println(resourceBundle.getString("regQuery")+uname+"\""+","+"\""+mobile+"\""+","+"\""+address+"\""+","+"\""+gender+"\""+","+"\""+dob+"\""+","+"\""+image+"\""+")");
+			statement.executeUpdate(resourceBundle.getString("regQuery")+uname+"\""+","+"\""+mobile+"\""+","+"\""+address+"\""+","+"\""+gender+"\""+","+"\""+dob+"\""+","+"\""+image+"\""+")");
 			log.info("Inserted personal_details successfully");
 		}
 			catch (final SQLException ex)
@@ -152,9 +160,8 @@ public class DBInterface
 		{
 			statement = connection.createStatement();
 			// result of executing SQL query
-			//System.out.println("insert into kaarpoolnetwork_details values("+"\""+uname+"\""+","+"\""+pwd+"\""+","+"\""+session+"\""+")");
-			int s = statement.executeUpdate("insert into kaarpoolnetwork_details(loginid,loginpwd,ksession)values("+"\""+uname+"\""+","+"\""+pwd+"\""+","+"\""+session+"\""+")");
-			System.out.println("Updated kaarpoolnetwork_details");
+			statement.executeUpdate(resourceBundle.getString("insert_karpoolDetails") +uname+"\""+","+"\""+pwd+"\""+","+"\""+session+"\""+")");
+			log.info("Updated kaarpoolnetwork_details");
 		}
 			catch (final SQLException ex)
 			{
@@ -175,7 +182,8 @@ public class DBInterface
 				// DB statement
 				statement = connection.createStatement();
 				// result of executing SQL query
-				resultSet = statement.executeQuery("select loginpwd from kaarpoolnetwork_details where loginid =" +"\""+ uname + "\"");
+				System.out.println(resourceBundle.getString("getPwdQuery")+uname + "\"");
+				resultSet = statement.executeQuery(resourceBundle.getString("getPwdQuery")+uname+ "\"");
 				// move to the first (and only record)
 				resultSet.next();
 				// retrieve the password
@@ -209,9 +217,8 @@ public class DBInterface
 				// DB statement
 				statement = connection.createStatement();
 				// result of executing SQL query
-				System.out.println("checkingdddddddddddddddddddddddddddddddddddddddd");
-				System.out.println("select loginpwd from kaarpoolnetwork_details where loginid =" +"\""+ registerid + "\"");
-				resultSet = statement.executeQuery("select loginpwd from kaarpoolnetwork_details where loginid =" +"\""+ registerid + "\"");
+				System.out.println(resourceBundle.getString("auth_registerIds") + registerid + "\"");
+				resultSet = statement.executeQuery( resourceBundle.getString("auth_registerIds") + registerid + "\"");
 				// move to the first (and only record)
 				if(resultSet.next())
 				{
@@ -222,9 +229,168 @@ public class DBInterface
 			}
 			catch(Exception e)
 			{
+				log.info("unable to Authenticate_registerids");
 				return false;
 			}
 		}
 		return false;
+	}
+
+	public String getUserProfilePreferences(String username)
+	{
+		
+		@SuppressWarnings("unused")
+		String uname, image, address, image1 , mobile, pwd= null;
+	    String result ="";
+		if(isConnectionOpen == true)
+		{
+			// fetch the password from the server
+			try
+			{
+				pwd = instance.getPwd(username);
+			
+				// DB statement
+				statement = connection.createStatement();
+				// result of executing SQL query
+				System.out.println(resourceBundle.getString("personal_details")+username+ "\"");
+				@SuppressWarnings("unused")
+				DBInterface instantce = DBInterface.getInstance();
+				resultSet = statement.executeQuery(resourceBundle.getString("personal_details")+username+ "\"");
+				
+				while(resultSet.next())
+				{			
+					result = resultSet.getString("username")+":"+pwd+":"+resultSet.getString("mobile")+":"+resultSet.getString("address")+":"+resultSet.getString("image");
+					return result;
+				}
+				
+			}
+			catch(Exception e)
+			{
+				log.info("unable to getUserProfilePreferences");
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	/**
+	 * Update the user's version when the user gets completes trail version
+	 * 
+	 * @param username
+	 * @return
+	 */
+	public int updateUserPwd(String uname,String pwd)
+	{
+		int updateUserPwd = 0;
+		try
+		{
+			// DB statement
+			statement = connection.createStatement();
+			// result of executing SQL query whether updated or not
+			System.out.println(resourceBundle.getString("personal_details")+pwd+"\""+" where loginid="+"\""+uname+"\"");
+			updateUserPwd = statement.executeUpdate(resourceBundle.getString("personal_details")+pwd+"\""+" where loginid="+"\""+uname+"\"");
+			
+			log.info("updated UserPwd");
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("Unable to update UserPwd . SQLException");
+		}
+
+		// retrieves result as "1" if there's an update and "0" if not
+		return updateUserPwd;
+	}
+	public int saveUserPref(String uname,String pwd, String mobile, String address, String image)
+	{
+		int updateUserPwd = 0;
+		@SuppressWarnings("unused")
+		int updateUserPwd1 = 0;
+		try
+		{
+			// DB statement
+			statement = connection.createStatement();
+			// result of executing SQL query whether updated or not
+			System.out.println(resourceBundle.getString("saveUserPref")+mobile+"\""+", address="+"\""+address+"\""+", image="+"\""+image+"\""+" where username="+"\""+uname+"\"");
+			updateUserPwd = statement.executeUpdate(resourceBundle.getString("saveUserPref")+mobile+"\""+", address="+"\""+address+"\""+", image="+"\""+image+"\""+" where username="+"\""+uname+"\"");
+			log.info("updated User preferences");
+			System.out.println(resourceBundle.getString("saveUserPwd")+pwd+"\""+" where loginid="+"\""+uname+"\"");
+			updateUserPwd1 = statement.executeUpdate(resourceBundle.getString("saveUserPwd")+pwd+"\""+" where loginid="+"\""+uname+"\"");
+			log.info("updated UserPwd");
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("Unable to update UserPwd . SQLException");
+		}
+
+		// retrieves result as "1" if there's an update and "0" if not
+		return updateUserPwd;
+	}
+	public int insert_NetworkDetails(String kid)
+	{
+		int insert_intoND = 0;
+		try
+		{
+			// DB statement
+			statement = connection.createStatement();
+			// result of executing SQL query whether updated or not
+			System.out.println(resourceBundle.getString("insert_networkdetails")+ kid+")");
+			insert_intoND = statement.executeUpdate(resourceBundle.getString("insert_networkdetails")+ kid+")");
+			log.info("inserted into networkdetails");
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("Unable to insert into NetworkDetails . SQLException");
+		}
+
+		// retrieves result as "1" if there's an update and "0" if not
+		return insert_intoND;
+	}
+	public String getKid(String username)
+	{
+		String kid = "";
+		try
+		{
+			// DB statement
+			statement = connection.createStatement();
+			// result of executing SQL query whether updated or not
+			System.out.println(resourceBundle.getString("getKid")+username+"\"");
+			resultSet = statement.executeQuery(resourceBundle.getString("getKid")+username+"\"");
+			resultSet.next();
+			kid = resultSet.getString(1);
+			System.out.println(kid+"kidvcvvvvvvvvvvvvvvvvvvvvvvvv");
+			
+			log.info("fetched kid from kaarpoolnetwork_details");
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("Unable to update UserPwd . SQLException");
+		}
+
+		// retrieves result as "1" if there's an update and "0" if not
+		return kid;
+	}
+	public int update_userdetails(String username)
+	{
+		int update_userdetails=0;
+		try
+		{
+			// DB statement
+			statement = connection.createStatement();
+			// result of executing SQL query whether updated or not
+			System.out.println(resourceBundle.getString("getids")+username+"\"");
+			resultSet = statement.executeQuery(resourceBundle.getString("getids")+username+"\"");
+			resultSet.next();
+			
+			update_userdetails = statement.executeUpdate(resourceBundle.getString("update_userdetails")+ resultSet.getBigDecimal(2)+","+resultSet.getBigDecimal(1)+")");
+			log.info("retrieved userids");
+			log.info("update_userdetails");
+		}
+		catch (final SQLException ex)
+		{
+			ex.printStackTrace();
+			log.fatal("Unable to update userdetails . SQLException");
+		}
+
+		// retrieves result as "1" if there's an update and "0" if not
+		return update_userdetails;
 	}
 }

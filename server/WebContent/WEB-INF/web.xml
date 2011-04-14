@@ -49,6 +49,31 @@
 		<servlet-name>AuthenticateIds</servlet-name>
 		<url-pattern>/AuthenticateIds</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ProfilePreferences</display-name>
+		<servlet-name>ProfilePreferences</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.ProfilePreferences</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProfilePreferences</servlet-name>
+		<url-pattern>/ProfilePreferences</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>SaveProfilePref</display-name>
+		<servlet-name>SaveProfilePref</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.SaveProfilePref</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveProfilePref</servlet-name>
+		<url-pattern>/SaveProfilePref</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

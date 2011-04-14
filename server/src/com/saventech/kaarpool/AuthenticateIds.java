@@ -11,50 +11,40 @@ import org.apache.log4j.Logger;
 
 public class AuthenticateIds extends HttpServlet {
 
+	private static final long serialVersionUID = 1L;
 	/** The log. */
-	Logger log = Logger.getLogger(LoginServlet.class);
-  //  @Override
+	Logger log = Logger.getLogger(AuthenticateIds.class);
+  
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+    throws ServletException, IOException 
+    {
         PrintWriter out=response.getWriter();
-        String userid,userpwd;
+        @SuppressWarnings("unused")
+		String userid,userpwd;
         userid=request.getParameter("sysregid");
-        //userpwd=request.getParameter("loginuserpwd");
-     
-        //DB PART COMES HERE
         DBInterface connect = DBInterface.getInstance();
-  	   if(connect.isConnectionOpen())
-  	   {
-  		   System.out.println(userid.toString()+"userid.toString()");
-  		     boolean flag= connect.Authenticate_registerids(userid.toString());
-  		     System.out.println(flag+"---------------------------------");
-  		     try
-  		     {
-	  		     if(flag)
+	  	   if(connect.isConnectionOpen())
+	  	   {
+	  		     boolean flag= connect.Authenticate_registerids(userid.toString());
+	  		     log.info(flag+"---------------------------------");
+	  		     try
 	  		     {
-	  		        
-		  		     
-		  				out.print("NO");
-		  				log.info("User already existed");
-		  		     
-	
-	  		       
+		  		     if(flag)
+		  		     {
+			  			 out.print("NO");
+			  			 log.info("User already existed");
+		  		     }
+		  		     else
+		  		     {
+		  		    	 out.println("YES");
+		  		    	 log.info("User with "+userid+" doesnot exist");
+		  		     }
 	  		     }
-	  		     else
+	  		     catch(Exception e)
 	  		     {
-	  		    	 out.println("YES");
-	  		    	 log.info("User with "+userid+" doesnot exist");
-	  		    	//System.out.println("User name does not exist. Please register");
+	  		    	log.info("User with "+userid+" doesnot exist. Please register");
 	  		     }
-  		     }
-  		     catch(Exception e)
-  		     {
-  		    	log.info("User with "+userid+" doesnot exist. Please register");
-  		    	 //System.out.println("User name does not exist. Please register");
-  		     }
-  	   }
-  		     
-  	  }
-
-	
+	  	   }
+	  		     
+	 }	
 }

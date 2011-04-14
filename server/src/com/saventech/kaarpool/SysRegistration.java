@@ -15,7 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SysRegistration extends HttpServlet {
 
-  //  @Override
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	//  @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         PrintWriter out=response.getWriter();
@@ -40,19 +45,24 @@ public class SysRegistration extends HttpServlet {
 		}
         
         
-//        String imagebyte = image[0];
-//        byte[] decodedString = Base64.decode(imagebyte, Base64.DEFAULT);
-//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        mImage.setImageBitmap(decodedByte);
 
         DBInterface connect = DBInterface.getInstance();
  	   if(connect.isConnectionOpen())
  			{
+ 		      try
+ 		      {
  		       connect.registration(username, mobile, address,gender,dateFormat.format(theDate),image);
  		       connect.karpooldetails(username, pwd," 1");
+ 		       connect.update_userdetails(username);
+ 		      }
+ 		      catch(Exception e)
+ 		      {
+ 		    	 out.print("Exception occured while storing the values in db"+e.getMessage());  
+ 		      }
+ 		       
  			}
-        
-        out.print("values stored in db");
+ 	  out.print("values stored in db");
+       
         
     }
     
