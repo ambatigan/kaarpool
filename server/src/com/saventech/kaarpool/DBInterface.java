@@ -130,7 +130,7 @@ public class DBInterface
 	   try
 		{
 			statement = connection.createStatement();
-			int noOfRows = statement.executeUpdate("insert into info values("+"\""+uname+"\""+","+"\""+pwd+"\""+")");
+			statement.executeUpdate("insert into info values("+"\""+uname+"\""+","+"\""+pwd+"\""+")");
 		
 		}
 			catch (final SQLException ex)
@@ -392,5 +392,58 @@ public class DBInterface
 
 		// retrieves result as "1" if there's an update and "0" if not
 		return update_userdetails;
+	}
+	public void journeydetails(String uname, String src, String dest, String stime, String usermode, String seats)
+	{
+	   try
+		{
+		   
+			statement = connection.createStatement();
+			//inserting values to driver journey details and getting uid from user details using username
+			resultSet = statement.executeQuery(resourceBundle.getString("getuid")+uname+"\"");
+			resultSet.next();
+			statement.executeUpdate(resourceBundle.getString("driverjourneydetails")+src+"\""+","+"\""+dest+"\""+","+resultSet.getBigDecimal(1)+","+"\""+stime+"\""+")");
+			
+			log.info("updated user details and Stored driver journeydetails");
+			
+			//Storing driver ride details by getting jid from journey details
+			resultSet = null;
+			resultSet = statement.executeQuery(resourceBundle.getString("getjid"));
+			resultSet.next();
+			statement.executeUpdate(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+"\""+seats+"\""+")");
+			log.info("stored driver ride details");
+			
+			//updating user_details by inserting user mode id 
+			
+			
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+		}
+	}
+	//updating user details after inserting journey details
+	public void updateUserdetails(String username, String usermode)
+	{
+		try 
+		{
+			statement = connection.createStatement();
+			System.out.println("test1");
+			resultSet = statement.executeQuery(resourceBundle.getString("getuid")+username+"\"");
+			System.out.println("test2");
+			resultSet.next();
+			statement.executeUpdate("update user_details set modeid="+"("+resourceBundle.getString("getusermode")+usermode+"\""+")"+" where uid="+resultSet.getBigDecimal(1));
+			System.out.println("test3");
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+		}
+		
+		
 	}
 }
