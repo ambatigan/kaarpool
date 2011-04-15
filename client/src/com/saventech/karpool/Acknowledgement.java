@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 public class Acknowledgement extends Activity implements android.view.View.OnClickListener 
 {
-	
+	//
 	private SharedPreferences mPreferences; 
 	Session session;
 	/**
@@ -49,7 +49,7 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
         setContentView(R.layout.ridelist0);
         LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
         LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        
+      
         for (int i = 0; i < 4; i++) 
         {
             View customView = linflater.inflate(R.layout.ridelist,null);

@@ -45,7 +45,7 @@ android:textColor="@color/textcolor"
 </TextView>
 <EditText
 android:id="@+id/useridtxt"
-android:layout_width="100px"
+android:layout_width="60px"
 android:layout_height="40px"
 android:textSize="16sp"
 android:text=" "
@@ -68,7 +68,7 @@ android:textColor="@color/textcolor">
 </TextView>
 <EditText
 android:id="@+id/addtxt"
-android:layout_width="100px"
+android:layout_width="60px"
 android:layout_height="40px"
 android:textSize="16sp"
 android:text=""
@@ -100,7 +100,7 @@ android:textColor="@color/textcolor">
     	 
 	    <EditText
 android:id="@+id/pwd"
-android:layout_width="100px"
+android:layout_width="60px"
 android:layout_height="40px"
 android:textSize="16sp"
 android:password="true"
@@ -143,7 +143,7 @@ android:textColor="@color/textcolor">
     	 
 	    <EditText
 android:id="@+id/pwd"
-android:layout_width="100px"
+android:layout_width="60px"
 android:layout_height="40px"
 android:textSize="16sp"
 android:password="true"

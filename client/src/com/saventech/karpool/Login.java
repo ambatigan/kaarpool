@@ -24,8 +24,11 @@ public class Login extends  MenuOptions implements OnClickListener{
 	String username = null;
 	Session session;
 	String pword = null;
+
+	Controller controller=null;     
+
 	private SharedPreferences mPreferences; 
-	Controller controller=null;                     //declaring controller object. Responsable to take data from data base and provid to this activity
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +74,6 @@ public class Login extends  MenuOptions implements OnClickListener{
 			boolean flag=controller.Authenticate_login(username, pword);     //authenticate userid and password
 			if(flag)
 		     {
-				
 				mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
 				if(!session.checkinfo(mPreferences))
 				{
@@ -81,12 +83,12 @@ public class Login extends  MenuOptions implements OnClickListener{
 	                editor.putString("PassWord", pword);
 	                editor.commit();
 	                Log.i("Login_Session", "User credentials are ok");
-	               // System.out.println(session.getUsername(mPreferences)+"  "+session.getPassword(mPreferences)+"  ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 				}
 				Log.i("Login_onClick", "It is redirecting to Journeydetails");
+
 				Intent intent=new Intent(Login.this,JourneyDetails.class);
 				intent.putExtra("RegisterUsername", "loginid");
-				 intent.putExtra("RegisterPassword", "loginpwd");
+				intent.putExtra("RegisterPassword", "loginpwd");
 				startActivity(intent);
 		     }
 			 else
@@ -94,8 +96,6 @@ public class Login extends  MenuOptions implements OnClickListener{
 				 Log.i("Login_onClick", "Wrong id and password is typed");
 		    	 TextView warn = (TextView)findViewById(R.id.loginwarn);
 		    	 warn.setText("Please enter valid\nuser name and password");
-		    	 
-		    	
 		     }
 			break;
 			

@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class Preferences extends ListActivity {
-	TextView tt ;
+	
+	String username1="";
 	 private SharedPreferences mPreferences; 
 	 Session session;
     @Override
@@ -18,11 +18,10 @@ public class Preferences extends ListActivity {
     {
     super.onCreate(savedInstanceState);
     session=new Session();
-    //setContentView(R.layout.preferences);
+
     String[] pref = getResources().getStringArray(R.array.pref_array);
     setListAdapter(new ArrayAdapter<String>(this,
             R.layout.preferences, R.id.prefer, pref));
-   // tt =(TextView)findViewById(R.id.prefer);
     getListView().setBackgroundResource(R.drawable.radialback);
     getListView().setTextFilterEnabled(true);
    }
@@ -33,8 +32,8 @@ public class Preferences extends ListActivity {
     	switch(position)
 		{
 		case 0:
-			Intent login = new Intent(Preferences.this, ProfilePref.class);
-			startActivity(login);
+			Intent profilepref = new Intent(Preferences.this, ProfilePref.class);
+			startActivity(profilepref);
 			break;
 		case 1:
             Intent register = new Intent(Preferences.this, TravelPref.class);

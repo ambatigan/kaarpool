@@ -24,9 +24,7 @@ public class CancelRoute extends Activity implements OnClickListener
 {
 	
 	private EditText source;
-	@SuppressWarnings("unused")
 	private EditText destination;
-	@SuppressWarnings("unused")
 	private EditText starttime;
 	private Button cancelroutebutton;
 	private boolean cancelrouteflag;

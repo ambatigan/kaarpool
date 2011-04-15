@@ -1,10 +1,7 @@
 package com.saventech.karpool;
 
-
-
-
-
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -36,13 +34,34 @@ public class TravelPref extends Activity implements OnClickListener
 	private Button travelprefsave;
 	private Button travelprefback;
 	private static final int SELECT_PICTURE = 1;
+	String seats = "";
+	/** The a. */
+	CheckBox  ladies;
+
+	/** The b. */
+	CheckBox  gents;
+
+	/** The c. */
+	CheckBox  music;
+
+	/** The d. */
+	CheckBox  smoke;
+	
+	/** The d. */
+	CheckBox  children;
+
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.travelpref);
     
-    
+	ladies = (CheckBox ) findViewById(R.id.ladies);
+	gents = (CheckBox ) findViewById(R.id.gents);
+	music = (CheckBox ) findViewById(R.id.music);
+	smoke = (CheckBox ) findViewById(R.id.smoke);
+	children = (CheckBox ) findViewById(R.id.child);
+	
     travelprefimage=(ImageView)findViewById(R.id.travelpref_image);
     travelprefimageupload=(Button)findViewById(R.id.travelpref_imageupload);
     travelprefsave=(Button)findViewById(R.id.travelprefsave);
@@ -57,9 +76,12 @@ public class TravelPref extends Activity implements OnClickListener
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
+    
+    
+  }
 
 			 
-	}
+
 	
 	//----Gallery functions starts--------------
 	 public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -135,7 +157,7 @@ public class TravelPref extends Activity implements OnClickListener
 		{
 			Toast.makeText(parent.getContext(), "The planet is " +
 	          parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
-
+              seats = parent.getItemAtPosition(pos).toString();
 			
 		}
 
@@ -179,14 +201,52 @@ public class TravelPref extends Activity implements OnClickListener
 		   break;
 	   case R.id.travelprefsave:
 		   Log.i("TravelPref_save", "Travel preference values are storing");
+		   
 		   Toast.makeText(TravelPref.this, "Saving travel preferences ", Toast.LENGTH_LONG).show();
 		   String imagedata=bitmapcode();
 		   System.out.println(imagedata);
+		   ArrayList<String> travelPref;
+		   
+		   travelPref=getUserAnswer();
+		   for(int i=0;i<travelPref.size();i++)
+		   {
+			   System.out.println(travelPref.get(i).toString()+" userTravelPref");
+		   }
+		   System.out.println(seats+"  seats");
 	   }
 		// TODO Auto-generated method stub
 		
 	}
-
+	/**
+	 * Gets the user answer.
+	 * 
+	 * @return the user answer
+	 */
+	public ArrayList<String> getUserAnswer()
+	{
+		ArrayList<String> travelPref = new ArrayList<String>();
+		if (ladies.isChecked())
+		{
+			travelPref.add("ladies");
+		}
+		if (gents.isChecked())
+		{
+			travelPref.add("gents");
+		}
+		if (music.isChecked())
+		{
+			travelPref.add("music");
+		}
+		if (smoke.isChecked())
+		{
+			travelPref.add("smoke");
+		}
+		if (children.isChecked())
+		{
+			travelPref.add("children");
+		}
+		return travelPref;
+	}
 	
     
 }

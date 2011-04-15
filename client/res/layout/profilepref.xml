@@ -107,40 +107,19 @@ android:orientation="horizontal"
 android:id="@+id/widget204"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Date of Birth:"
+android:text="Mobile No:"
 android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
 </TextView>
 <EditText
-android:id="@+id/dob"
+android:id="@+id/mobile"
 android:layout_width="100px"
 android:layout_height="40px"
 android:textSize="16sp"
 android:text=""
 >
 </EditText>
-</TableRow>
-<TableRow
-android:id="@+id/widget195"
-android:layout_width="148px"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
->
-<TextView
-android:id="@+id/widget206"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="              "
->
-</TextView>
-<TextView
-android:id="@+id/widget207"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="ex:dd/mm/yyyy"
-android:textColor="@color/textcolor">
-</TextView>
 </TableRow>
 <TableRow
 android:id="@+id/widget196"

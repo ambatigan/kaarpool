@@ -28,7 +28,7 @@ android:textStyle="bold"
 >
 </TextView>
 <CheckBox
-android:id="@+id/widget439"
+android:id="@+id/ladies"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text=""
@@ -52,7 +52,7 @@ android:textStyle="bold"
 >
 </TextView>
 <CheckBox
-android:id="@+id/widget452"
+android:id="@+id/gents"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text=""
@@ -75,7 +75,7 @@ android:textStyle="bold"
 >
 </TextView>
 <CheckBox
-android:id="@+id/widget453"
+android:id="@+id/music"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text=""
@@ -98,7 +98,7 @@ android:textStyle="bold"
 >
 </TextView>
 <CheckBox
-android:id="@+id/widget454"
+android:id="@+id/smoke"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text=""
@@ -121,7 +121,7 @@ android:textStyle="bold"
 >
 </TextView>
 <CheckBox
-android:id="@+id/widget455"
+android:id="@+id/child"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text=""

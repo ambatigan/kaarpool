@@ -7,7 +7,6 @@ package com.saventech.karpool;
  * Date: Apr 05, 2011
  */
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,6 +39,7 @@ import android.widget.Toast;
 public class Registerwithsysid extends  MenuOptions implements OnClickListener
 {
 	private static final int SELECT_PICTURE = 1;
+	@SuppressWarnings("unused")
 	private String value="";
 	private String selectedImagePath="";
 	ImageButton checksystemavailability;
@@ -264,9 +264,6 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 
 	 private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() 
 	 {
-
-             
-
 			public void onDateSet(DatePicker view, int year, 
                     int monthOfYear, int dayOfMonth) {
 				 mYear = year;
@@ -407,7 +404,6 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 			 break;
 			 
 		case R.id.sysuploadimage:
-			//System.out.println("88888888888888888");
 			final CharSequence[] items = {"Camera", "Gallery"};
             //Prepare the list dialog box
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -430,61 +426,6 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
             alert.show();
 	        
 			break;
-			  
-		
-			 // Trying to implement on focus 
-			 
-//		case R.id.checksysidavailability:
-//			     
-//			Log.i("Registerwithsysid_availableusers", "Checking for available users");
-//		     if(sysuserid.getText().toString().length()!=0)
-//		     {
-//				 checksysidflag=controller.Availablesysids(sysuserid.getText().toString());
-//				 //System.out.println(checksysidflag+"000000000000000000000000000000000000000");
-//				 if(checksysidflag)
-//				 {
-//					 TextView warn = (TextView)findViewById(R.id.availablesysid);
-//			    	 warn.setText("NO");
-//			    	 checksysidflag=false;
-//				 }
-//				 else
-//				 {
-//					 TextView warn = (TextView)findViewById(R.id.availablesysid);
-//			    	// Pattern p = Pattern.compile("^[a-z]+.+@[a-z]+.[a-z]{2,6}$");
-//					Pattern p=Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-//				     Matcher m = p.matcher(sysuserid.getText().toString()+"@karpool.com");
-//					 boolean matchFound = m.lookingAt();
-//					 
-//					 if(matchFound)
-//					 {
-//						 if(sysuserid.getText().toString().length()<=8)
-//						 {
-//							 checksysidflag=matchFound;
-//							 warn.setText("YES, "+sysuserid.getText().toString()+"@karpool.com");
-//						 }
-//						 else
-//						 {
-//							 checksysidflag=false;
-//							 warn.setText("NO");
-//						 }
-//						 
-//						// Toast.makeText(Registerwithsysid.this, "Your id not following validations", Toast.LENGTH_LONG).show();
-//					 }
-//					 else
-//					 {
-//						 checksysidflag=matchFound;
-//						 warn.setText("NO");
-//					 }
-//				 }
-//		     }
-//		     else
-//		     {
-//		    	 TextView warn = (TextView)findViewById(R.id.availablesysid);
-//		    	 warn.setText(" "); 
-//		    	 checksysidflag=false;
-//		     }
-//		     break;
-		
 		}
 		     
 	}
