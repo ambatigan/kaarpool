@@ -61,6 +61,7 @@
 		<servlet-name>DriverNewRoute</servlet-name>
 		<url-pattern>/DriverNewRoute</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<description>
 		</description>
@@ -97,6 +98,18 @@
 	<servlet-mapping>
 		<servlet-name>SaveProfilePref</servlet-name>
 		<url-pattern>/SaveProfilePref</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>RiderNewRoute</display-name>
+		<servlet-name>RiderNewRoute</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.RiderNewRoute</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RiderNewRoute</servlet-name>
+		<url-pattern>/RiderNewRoute</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
