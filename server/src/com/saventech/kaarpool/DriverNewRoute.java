@@ -31,6 +31,7 @@ public class DriverNewRoute extends HttpServlet
  		{
  	   		connect.journeydetails(username, driversrc, driverdest, jstarttime, usermode, seats);
  	   		connect.updateUserdetails(username, usermode);
+ 	   		connect.insterRidemembers(username, usermode);
  		}
         
         out.print("values stored in journey details db");

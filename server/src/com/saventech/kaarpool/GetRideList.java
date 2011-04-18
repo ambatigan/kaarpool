@@ -17,16 +17,17 @@ public class GetRideList extends HttpServlet
 	/** The log. */
 	Logger log = Logger.getLogger(LoginServlet.class);
   //  @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    @SuppressWarnings("rawtypes")
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         PrintWriter out=response.getWriter();
-       String riderid, ridersource, riderdestination, riderstarttime, ridermode;
+       String riderid, ridersource, riderdestination, riderstarttime;
         riderid=request.getParameter("riderid");
         ridersource=request.getParameter("ridersource");
         riderdestination=request.getParameter("riderdestination");
         riderstarttime=request.getParameter("riderstarttime");
         System.out.println(riderstarttime+"-----------------------------------------------");
-        ridermode=request.getParameter("ridermode");
+        //ridermode=request.getParameter("ridermode");
         DBInterface connect = DBInterface.getInstance();
         if(connect.isConnectionOpen())
    	   {

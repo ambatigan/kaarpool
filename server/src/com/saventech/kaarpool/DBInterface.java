@@ -403,7 +403,7 @@ public class DBInterface
 			//inserting values to driver journey details and getting uid from user details using username
 			resultSet = statement.executeQuery(resourceBundle.getString("getuid")+uname+"\"");
 			resultSet.next();
-			statement.executeUpdate(resourceBundle.getString("driverjourneydetails")+src+"\""+","+"\""+dest+"\""+","+resultSet.getBigDecimal(1)+","+"\""+stime+"\""+")");
+			statement.executeUpdate(resourceBundle.getString("journeydetails")+src+"\""+","+"\""+dest+"\""+","+resultSet.getBigDecimal(1)+","+"\""+stime+"\""+")");
 			
 			log.info("updated user details and Stored driver journeydetails");
 			
@@ -414,10 +414,27 @@ public class DBInterface
 			statement.executeUpdate(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+"\""+seats+"\""+")");
 			log.info("stored driver ride details");
 			
-			//updating user_details by inserting user mode id 
+			//updating user_details by inserting user mode id 			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+		}
+	}
+	public void riderJourneydetails(String uname, String src, String dest, String stime, String usermode)
+	{
+	   try
+		{
+		   
+			statement = connection.createStatement();
+			//inserting values to driver journey details and getting uid from user details using username
+			resultSet = statement.executeQuery(resourceBundle.getString("getuid")+uname+"\"");
+			resultSet.next();
+			statement.executeUpdate(resourceBundle.getString("journeydetails")+src+"\""+","+"\""+dest+"\""+","+resultSet.getBigDecimal(1)+","+"\""+stime+"\""+")");
 			
-			
-			
+			log.info("updated user details and Stored rider journeydetails");			
+			//updating user_details by inserting user mode id 			
 		}
 		catch (final SQLException ex)
 		{
@@ -431,9 +448,9 @@ public class DBInterface
 		try 
 		{
 			statement = connection.createStatement();
-			System.out.println("test1");
+			//System.out.println("test1");
 			resultSet = statement.executeQuery(resourceBundle.getString("getuid")+username+"\"");
-			System.out.println("test2");
+			//System.out.println("test2");
 			resultSet.next();
 			statement.executeUpdate("update user_details set modeid="+"("+resourceBundle.getString("getusermode")+usermode+"\""+")"+" where uid="+resultSet.getBigDecimal(1));
 			System.out.println("test3");
@@ -446,6 +463,26 @@ public class DBInterface
 		}
 		
 		
+	}
+	public void insterRidemembers(String username, String usermode)
+	{
+		try 
+		{
+			statement = connection.createStatement();
+			//System.out.println("test1");
+			resultSet = statement.executeQuery(resourceBundle.getString("getuid")+username+"\"");
+			//System.out.println("test2");
+			resultSet.next();
+			statement.executeUpdate(resourceBundle.getString("insertridemembers")+"select max(rid) from ride), "+resultSet.getBigDecimal(1)+" , "+"\""+usermode+"\")");
+			
+			System.out.println("test4");
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+		}		
 	}
 	public ArrayList<String>  getRidelist(String rsource, String rdestination, String rstime,String rid)
 	{
