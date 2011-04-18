@@ -18,6 +18,7 @@ public class AuthenticateIds extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException 
     {
+    	System.out.println("checking authenticate idsss");
         PrintWriter out=response.getWriter();
         @SuppressWarnings("unused")
 		String userid,userpwd;

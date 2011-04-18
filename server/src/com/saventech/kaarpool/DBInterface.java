@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
  
 import org.apache.log4j.Logger;
@@ -444,6 +445,65 @@ public class DBInterface
 			ex.printStackTrace();
 		}
 		
+		
+	}
+	public ArrayList<String>  getRidelist(String rsource, String rdestination, String rstime,String rid)
+	{
+		
+		int count=0;
+		
+		try
+		{
+			ArrayList<String>list=new ArrayList<String>();
+			statement = connection.createStatement();
+			System.out.println(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid");
+			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and journey_details.userid=user_details.uid");
+			
+			while(resultSet.next())
+			{
+				System.out.println(rid.toString()+"-----------------"+resultSet.getString("username"));
+				if(rid.toString().equals(resultSet.getString("username")))
+				{
+					
+				}
+				else
+				{
+					count++;
+					String str="";
+					
+					str=str+resultSet.getString("jsource")+"KPL";
+					str=str+resultSet.getString("jdestination")+"KPL";
+					str=str+resultSet.getString("username")+"KPL";
+					str=str+resultSet.getString("address")+"KPL";
+					str=str+resultSet.getString("gender")+"KPL";
+					str=str+resultSet.getString("mobile")+"\n";
+//					str=str+resultSet.getString("jid")+"KPL";
+//					str=str+resultSet.getString("userid")+"KPL";
+//					str=str+resultSet.getString("locid")+"KPL";
+//					str=str+resultSet.getString("prdid")+"KPL";
+//					str=str+resultSet.getString("accid")+"KPL";
+//					str=str+resultSet.getString("netid")+"KPL";
+//					str=str+resultSet.getString("modeid")+"KPL";
+//					str=str+resultSet.getString("preid")+"KPL";
+//					str=str+resultSet.getString("pid")+"KPL";
+//					str=str+resultSet.getString("dob")+"KPL";
+//					str=str+resultSet.getString("mobile")+"KPL";
+//					str=str+resultSet.getString("image")+"KPL";
+					
+					  list.add(str);
+					  
+				}
+				
+			}
+			return list;
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			//ex.printStackTrace();
+		}
+		return null;
 		
 	}
 }

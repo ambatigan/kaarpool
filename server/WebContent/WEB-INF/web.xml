@@ -52,6 +52,30 @@
 	<servlet>
 		<description>
 		</description>
+		<display-name>DriverNewRoute</display-name>
+		<servlet-name>DriverNewRoute</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.DriverNewRoute</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DriverNewRoute</servlet-name>
+		<url-pattern>/DriverNewRoute</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>GetRideList</display-name>
+		<servlet-name>GetRideList</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.GetRideList</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetRideList</servlet-name>
+		<url-pattern>/GetRideList</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
 		<display-name>ProfilePreferences</display-name>
 		<servlet-name>ProfilePreferences</servlet-name>
 		<servlet-class>
