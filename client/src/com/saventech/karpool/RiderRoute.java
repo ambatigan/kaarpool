@@ -9,6 +9,8 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 /*
  * Project: Karpool
@@ -29,6 +32,8 @@ public class RiderRoute extends Activity implements OnClickListener{
 
 	private String value="";
 	private Button newroute;
+	private String mode="Rider";
+	boolean getRideListflag=true;
 	Controller controller;             //declaring controller object. Responsable to take data from data base and provid to this activity 
 	private boolean checkridelistflag;  
 	private Button ridersettime;
@@ -196,8 +201,47 @@ public class RiderRoute extends Activity implements OnClickListener{
 			checkridelistflag=controller.Getridelist();
 			if(checkridelistflag)
 			{
-				RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
-	            ParentActivity.switchTab(1);
+				
+				Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
+				String response="";
+				response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+				System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
+				String str[]=response.toString().split("\n");
+				int getridelistsize;
+				String toaststring="";
+				if(str.length>0)
+				{  for(int k=0;k<str.length;k++)
+				   {
+						String records[]=str[k].split("KPL");
+						for(int j=0;j<records.length;j++)
+						{
+							if(k==0 && j==0)
+							{
+								
+							}
+							else
+							{
+							  toaststring =toaststring+records[j]+" ";
+							}
+						}
+						toaststring=toaststring+"\n";
+				   }
+					
+					Intent myIntent = getParent().getIntent();
+				    myIntent.putExtra("array", response.toString());
+				    this.setIntent(myIntent);
+                    Toast.makeText(RiderRoute.this, toaststring, Toast.LENGTH_LONG).show();
+					//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+					RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+		            ParentActivity.switchTab(1);
+				}
+				else
+				{
+					Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
+					RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+		            ParentActivity.switchTab(1);
+				}
+				
 			}
 			
 		}

@@ -79,7 +79,7 @@ public class Controller
 		loginid=id.toString().trim();
 		loginpwd=pwd.toString().trim();
 		
-		//checking OpenId register credentials
+		//checking OpenId register  credentials
 		if(loginid.equals("user@gmail.com")&&loginpwd.equals("user"))
 		{
 			Log.i("OpenId_Controller", "OpenId values are verified");
@@ -249,6 +249,32 @@ public class Controller
     		Log.i("Controller","Got exception");
     		return "";
 	}
+	}
+	public String riderGetRideList(String userid, String ridersource, String riderdestination, String riderstarttime, String ridermode)
+	{
+		String ridelistresponse = null;
+		ArrayList<NameValuePair> accessroutedata=new ArrayList<NameValuePair>();
+		accessroutedata.add(new BasicNameValuePair("riderid",userid.toString().trim()));
+		accessroutedata.add(new BasicNameValuePair("ridersource",ridersource.toString().trim()));
+		accessroutedata.add(new BasicNameValuePair("riderdestination",riderdestination.toString().trim()));
+		accessroutedata.add(new BasicNameValuePair("riderstarttime",riderstarttime.toString().trim()));
+		accessroutedata.add(new BasicNameValuePair("ridermode",ridermode.toString().trim()));
+		try 
+    	{
+			Log.i("riderGetRideList_Controller", "Get ride list tab ");
+			System.out.println(userid+" "+ridersource+" "+riderdestination+" "+riderstarttime+" "+ridermode+"--------------");
+			ridelistresponse = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/GetRideList", accessroutedata);
+    	    String res=ridelistresponse.toString();
+			return res;
+			
+    	}
+		catch(Exception e) 
+    	{
+    		e.printStackTrace();
+    		return null;
+    	}
+		
+	
 	}
 	
 	

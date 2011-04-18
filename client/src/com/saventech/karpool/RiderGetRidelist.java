@@ -26,11 +26,12 @@ import android.widget.TextView;
 public class RiderGetRidelist extends Activity implements android.view.View.OnClickListener {
 	private SharedPreferences mPreferences; 
 	Session session;
+	Controller controller;
 
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.ridelist0);
-	        
+	        controller=new Controller();
 	        Log.i("Ridergetridelist_Activity","Entered in Ridergetridelist activity");
 	        session=new Session();
 		    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
