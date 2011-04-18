@@ -46,7 +46,7 @@ public class Controller
 		//checking login credentials
 		try{
 
-	    	    response = CustomHttpClient.executeHttpPost("http://10.0.2.2:8080/kaarpool/LoginServlet", postParameters);
+	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/LoginServlet", postParameters);
 	    	    String res=response.toString();
 	    	    if(res.toString().trim().equals("YES"))
 	    	    {
@@ -155,7 +155,7 @@ public class Controller
 	 * Takes new route details from driver and send to server to store in database
 	 * 
 	 */
-	public String driverNewroute(String regid, String driversrc, String driverdest, String seats, String starttime)
+	public String driverNewroute(String regid, String driversrc, String driverdest, String seats, String starttime, String mode)
 	{
 		String response1 = null;
 		ArrayList<NameValuePair> newrouteparms = new ArrayList<NameValuePair>();
@@ -164,13 +164,13 @@ public class Controller
 		newrouteparms.add(new BasicNameValuePair("driverdest", driverdest.toString().trim()));
 		newrouteparms.add(new BasicNameValuePair("seats", seats.toString().trim()));
 		newrouteparms.add(new BasicNameValuePair("starttime", starttime.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("mode", mode.toString().trim()));
 		
     	try 
     	{
-    		Log.i("Createnewroute_Controller", "New route has been created");
-    	    response1 = CustomHttpClient.executeHttpPost("http://10.0.2.2:8080/kaarpool_server/DriverNewRoute", newrouteparms);
+    	    response1 = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/DriverNewRoute", newrouteparms);
     	    String res=response1.toString();
-    	    Log.i("Createnewroute_Controller", "New route has been created11111");
+    	    Log.i("Createnewroute_Controller", "New route has been created");
     	    return res;
     	}catch(Exception e) 
     	{
@@ -203,7 +203,7 @@ public class Controller
 		
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost("http://10.0.2.2:8080/kaarpool/SysRegistration", postParameters);
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/SysRegistration", postParameters);
     	    String res=response.toString();
     	    Log.i("Controller",res+"  response from the server");
     	    return res;
@@ -220,7 +220,7 @@ public class Controller
 		postParameters.add(new BasicNameValuePair("user_pref",username));
 		String response = null;
 		try {
-    	    response = CustomHttpClient.executeHttpPost("http://10.0.2.2:8080/kaarpool/ProfilePreferences", postParameters);
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/ProfilePreferences", postParameters);
     	    String res=response.toString();
     	    Log.i("Controller",response+"  response from the server");
     	    return res;
@@ -230,23 +230,6 @@ public class Controller
     		return "";
 	}
 	}
-//	public String updatePwd(String changepwdusername,String pwd)
-//	{
-//		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-//		postParameters.add(new BasicNameValuePair("user_pwd",pwd));
-//		postParameters.add(new BasicNameValuePair("changepwdusername",changepwdusername));
-//		String response = null;
-//		try {
-//    	    response = CustomHttpClient.executeHttpPost("http://10.0.2.2:8080/kaarpool/ChangePwd", postParameters);
-//    	    String res=response.toString();
-//    	    Log.i("Controller",res+"  response from the server");
-//    	    return res;
-//    	}catch(Exception e) {
-//    		e.printStackTrace();
-//    		Log.i("Controller","Got exception");
-//    		return "";
-//	}
-//	}
 	public String saveProfilePref(String pusername,String ppwd, String pmobile, String paddress, String pimage)
 	{
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
@@ -257,7 +240,7 @@ public class Controller
 		postParameters.add(new BasicNameValuePair("pimage",pimage));
 		String response = null;
 		try {
-    	    response = CustomHttpClient.executeHttpPost("http://10.0.2.2:8080/kaarpool/SaveProfilePref", postParameters);
+    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/SaveProfilePref", postParameters);
     	    String res=response.toString();
     	    Log.i("Controller",res+"  response from the server");
     	    return res;
