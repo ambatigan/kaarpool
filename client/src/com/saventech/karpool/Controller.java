@@ -179,6 +179,30 @@ public class Controller
     	}
 		
 	}
+	public String riderNewroute(String regid, String ridersrc, String riderdest,String starttime, String mode)
+	{
+		Log.i("Createridernewroute_Controller", "You are in controller riderNewroute method");
+		String response1 = null;
+		ArrayList<NameValuePair> newrouteparms = new ArrayList<NameValuePair>();
+		newrouteparms.add(new BasicNameValuePair("regid", regid.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("ridersrc", ridersrc.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("riderdest", riderdest.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("starttime", starttime.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("mode", mode.toString().trim()));
+		
+    	try 
+    	{
+    	    response1 = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/RiderNewRoute", newrouteparms);
+    	    String res=response1.toString();
+    	    Log.i("Createridernewroute_Controller", "Rider new route has been created");
+    	    return res;
+    	}catch(Exception e) 
+    	{
+    		e.printStackTrace();
+    		return null;
+    	}
+		
+	}
 	/*
 	 * Cancel the current route
 	 */

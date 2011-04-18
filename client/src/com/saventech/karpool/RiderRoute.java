@@ -9,8 +9,6 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -32,7 +30,7 @@ public class RiderRoute extends Activity implements OnClickListener{
 
 	private String value="";
 	private Button newroute;
-	private String mode="Rider";
+	private String mode="rider";
 	boolean getRideListflag=true;
 	Controller controller;             //declaring controller object. Responsable to take data from data base and provid to this activity 
 	private boolean checkridelistflag;  
@@ -194,20 +192,22 @@ public class RiderRoute extends Activity implements OnClickListener{
      */
 	public void onClick(final View view)
 	{
-		// TODO Auto-generated method stub
 		
 		if(view==findViewById(R.id.ridergetridelist))
 		{
+			
 			checkridelistflag=controller.Getridelist();
 			if(checkridelistflag)
 			{
-				
+				String res="";
+				System.out.println("ridergetridelist: before if condition");
+				res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+				System.out.println("Response from server : "+res);
 				Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
 				String response="";
 				response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
 				System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
 				String str[]=response.toString().split("\n");
-				int getridelistsize;
 				String toaststring="";
 				if(str.length>0)
 				{  for(int k=0;k<str.length;k++)
