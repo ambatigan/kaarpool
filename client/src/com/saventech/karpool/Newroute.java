@@ -7,7 +7,6 @@
 
 package com.saventech.karpool;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -17,27 +16,21 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TimePicker;
 
 public class Newroute extends Activity implements OnClickListener{
 	
 	private String value="";
 	
-	
+	private String mode="driver";
 	private Button newroute;
 	Controller controller;
 	private boolean checknewrouteflag;
@@ -48,6 +41,7 @@ public class Newroute extends Activity implements OnClickListener{
 	private EditText driverjourneyedittime;
 	private EditText ed;
 	private EditText ed1;
+	private EditText seatid;
 	private SharedPreferences mPreferences; 
 	Session session;
 
@@ -80,6 +74,7 @@ public class Newroute extends Activity implements OnClickListener{
         driverjourneyedittime.setEnabled(false);
         ed = (EditText)findViewById(R.id.sourceid);
         ed1 = (EditText)findViewById(R.id.destinationid);
+        seatid = (EditText)findViewById(R.id.seatid);
         ed.setEnabled(false);
         ed1.setEnabled(false);
         driverjourneysettime.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +191,9 @@ public class Newroute extends Activity implements OnClickListener{
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
 			Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
+			String response="";
+			response = controller.driverNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
+			System.out.println("Response from server : "+response);
 			checknewrouteflag=controller.Getridelist();
 			if(checknewrouteflag)
 			{
