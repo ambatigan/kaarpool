@@ -24,8 +24,8 @@ public class AuthenticateIds extends HttpServlet {
 		String userid,userpwd;
         userid=request.getParameter("sysregid");
         DBInterface connect = DBInterface.getInstance();
-	  	   if(connect.isConnectionOpen())
-	  	   {
+	  	if(connect.isConnectionOpen())
+	  	{
 	  		     boolean flag= connect.Authenticate_registerids(userid.toString());
 	  		     log.info(flag+"---------------------------------");
 	  		     try
@@ -45,7 +45,12 @@ public class AuthenticateIds extends HttpServlet {
 	  		     {
 	  		    	log.info("User with "+userid+" doesnot exist. Please register");
 	  		     }
-	  	   }
+	  	}
+	  	else
+		{
+				out.print("Please check the db connection");
+		}
+
 	  		     
 	 }	
 }

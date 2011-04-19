@@ -90,6 +90,45 @@
 	<servlet>
 		<description>
 		</description>
+		<display-name>TravelPreferences</display-name>
+		<servlet-name>TravelPreferences</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.TravelPreferences</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TravelPreferences</servlet-name>
+		<url-pattern>/TravelPreferences</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>TimeBased</display-name>
+		<servlet-name>TimeBased</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.TimeBased</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TimeBased</servlet-name>
+		<url-pattern>/TimeBased</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>GetTimeBasedPref</display-name>
+		<servlet-name>GetTimeBasedPref</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.GetTimeBasedPref</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetTimeBasedPref</servlet-name>
+		<url-pattern>/GetTimeBasedPref</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
 		<display-name>SaveProfilePref</display-name>
 		<servlet-name>SaveProfilePref</servlet-name>
 		<servlet-class>
@@ -99,6 +138,20 @@
 		<servlet-name>SaveProfilePref</servlet-name>
 		<url-pattern>/SaveProfilePref</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>GetTravelPref</display-name>
+		<servlet-name>GetTravelPref</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.GetTravelPref</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetTravelPref</servlet-name>
+		<url-pattern>/GetTravelPref</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<description>
 		</description>
@@ -111,6 +164,7 @@
 		<servlet-name>RiderNewRoute</servlet-name>
 		<url-pattern>/RiderNewRoute</url-pattern>
 	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

@@ -61,6 +61,11 @@ public class SysRegistration extends HttpServlet {
  		      }
  		       
  			}
+ 	  else
+		{
+			out.print("Please check the db connection");
+		}
+
  	  out.print("values stored in db");
        
         

@@ -26,6 +26,7 @@ public class LoginServlet extends HttpServlet
   	   if(connect.isConnectionOpen())
   	   {
   		     String pwd = connect.getPwd(userid);
+  		     System.out.println(pwd+"pwd");
   		     try
   		     {
 	  		     if(!pwd.equals(null))
@@ -45,15 +46,21 @@ public class LoginServlet extends HttpServlet
 	  		     }
 	  		     else
 	  		     {
-	  		    	 out.println("NOT Exist");
+	  		    	 System.out.println(pwd+"dfasdfasd");
+	  		    	 out.println("NOT_Exist");
 	  		    	 log.info("User with "+userid+" doesnot exist");
 	  		     }
   		     }
   		     catch(Exception e)
-  		     {
+  		     {	
+  		    	out.println("NOT_Exist");
   		    	log.info("User with "+userid+" doesnot exist. Please register");
   		     }
   	     }
+  	   else
+  	   {
+  		   out.print("Please_check_the_connection");
+  	   }
   		     
   	  }	
 }
