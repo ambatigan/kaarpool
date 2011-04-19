@@ -166,11 +166,16 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	    			//String fname=this.getFilesDir().getAbsolutePath()+"/default1.jpeg";
 	    			Log.i("Registerwithsysid", "Default image is selected as user image");
 	    			//System.out.println("select image   "+getResources().getDrawable(R.drawable.default1)+" "+fname);
+	    			//Bitmap imagethumbnail=BitmapFactory.decodeFile(path);  //complete file path
+	    			
+
 	    			Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.default1); 
+	    			bitmapOrg=Bitmap.createScaledBitmap(bitmapOrg, 40, 40, true);
 	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
 	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
 	    			byte [] ba = bao.toByteArray();
 	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
+	    			System.out.println(ba1.length()+"****************************************************************");
 	    			return ba1;
 	    		}
 	    		else
@@ -178,10 +183,12 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		    		//System.out.println(selectedImagePath+"88888888888888888888888888888888888888888888888");
 	    			Log.i("Registerwithsysid", "Image Selected from Gallery");
 		    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
+		    		bitmapOrg=Bitmap.createScaledBitmap(bitmapOrg, 40, 40, true);
 	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
 	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
 	    			byte [] ba = bao.toByteArray();
 	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
+	    			System.out.println(ba1.length()+"****************************************************************");
 	    			return ba1;
 	    		}
 	    		

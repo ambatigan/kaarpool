@@ -1,5 +1,6 @@
 package com.saventech.karpool;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -208,32 +209,41 @@ public class RiderRoute extends Activity implements OnClickListener{
 				response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
 				System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
 				String str[]=response.toString().split("\n");
+				ArrayList<String>ridelistdata=new ArrayList<String>();
 				String toaststring="";
-				if(str.length>0)
-				{  for(int k=0;k<str.length;k++)
+				if(str.length>1)
+			    {  
+					System.out.println(str.length+"   0000000000000000000000000000000000");
+					for(int k=0;k<str.length;k++)
 				   {
-						String records[]=str[k].split("KPL");
-						for(int j=0;j<records.length;j++)
-						{
-							if(k==0 && j==0)
-							{
-								
-							}
-							else
-							{
-							  toaststring =toaststring+records[j]+" ";
-							}
-						}
-						toaststring=toaststring+"\n";
+					    ridelistdata.add(str[k].toString());
 				   }
-					
-					Intent myIntent = getParent().getIntent();
-				    myIntent.putExtra("array", response.toString());
-				    this.setIntent(myIntent);
-                    Toast.makeText(RiderRoute.this, toaststring, Toast.LENGTH_LONG).show();
+					RiderJourneyDetails.ridelist=ridelistdata;
+					JourneyDetails.ridelist1=ridelistdata;
+//						String records[]=str[k].split("KPL");
+//						for(int j=0;j<records.length;j++)
+//						{
+//							if(k==0 && j==0)
+//							{
+//								
+//							}
+//							else
+//							{
+//							  toaststring =toaststring+records[j]+" ";
+//							}
+//						}
+//						toaststring=toaststring+"\n";
+//				   }
+//				    JourneyDetails.ridelist=ridelistdata;
+//					Intent myIntent = getParent().getIntent();
+//				    myIntent.putExtra("array", response.toString());
+//				    this.setIntent(myIntent);
+                    //Toast.makeText(RiderRoute.this, toaststring, Toast.LENGTH_LONG).show();
 					//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+					
 					RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 		            ParentActivity.switchTab(1);
+		            //finish();
 				}
 				else
 				{

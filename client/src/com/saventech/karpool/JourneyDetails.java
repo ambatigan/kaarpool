@@ -7,6 +7,8 @@
 
 package com.saventech.karpool;
 
+import java.util.ArrayList;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,8 @@ public class JourneyDetails extends TabActivity {
 	Session session;
 	String Regusername="";
 	String Regpwd="";
+	public static ArrayList<String> ridelist1 = new ArrayList<String>();
+
 	public void onCreate(Bundle savedInstanceState) {
 		
 		Log.i("JourneyDetails","You are now in Journeydetails table");

@@ -1,5 +1,7 @@
 package com.saventech.karpool;
 
+import java.util.ArrayList;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +23,7 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	TabHost tabHost;
 	private SharedPreferences mPreferences; 
 	Session session;
+	public static ArrayList<String> ridelist = new ArrayList<String>();
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journeydetails);
@@ -79,7 +82,8 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	}
 	public void switchTab(int tab)
 	{
-		Log.i("RiderJourneyDetails_switchTab", "enable ridelist tab");
+		
+		Log.i("RiderJourneyDetails_switchTab", "enable ridelist tab ");
 		tabHost.setCurrentTab(tab);
 		tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(true);
 	}
