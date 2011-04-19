@@ -22,7 +22,7 @@ public class Controller
 	String regid;
 	String regpwd;
 	int checksysid=0;
-	
+	String url="http://10.0.2.2:8080/kaarpool/";
 	
 	/* Deafault constructor for Controller
 	 * 
@@ -34,7 +34,7 @@ public class Controller
 	/*Authenticate User id and password 
 	 * 
 //	 */
-	public boolean Authenticate_login(String id, String pwd)
+	public String Authenticate_login(String id, String pwd)
 	{
 		//Trim id and password
 		loginid=id.toString().trim();
@@ -42,33 +42,23 @@ public class Controller
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair("loginuserid", id.toString().trim()));
 		postParameters.add(new BasicNameValuePair("loginuserpwd", pwd.toString().trim()));
-	    String response;
+	    String response ="";
+	    String res="";
+	    
 		//checking login credentials
-		try{
-
-	    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/LoginServlet", postParameters);
-	    	    String res=response.toString();
-	    	    if(res.toString().trim().equals("YES"))
-	    	    {
-	    	    	Log.i("Login_Controller", "Login values are authenticated");
-	    	    	return true;
-	    	    }
-	    	    else if(res.toString().trim().equals("NO"))
-	    	    {   
-	    	    	Log.i("Login_Controller", "Login values didnot match");
-	    	    	return false;
-	    	    }
-	    	    else
-	    	    {
-	    	    	Log.i("Login_Controller", "User name doesnot exist");
-	    	    	return false;
-	    	    }
-    	   }
-		   catch(Exception e) 
-    	   {
-    		//e.printStackTrace();
-    		return false;
-	      }		
+		try
+		{
+			System.out.println(url+"LoginServlet");
+			res = CustomHttpClient.executeHttpPost(url+"LoginServlet", postParameters);   
+    	}
+		catch(Exception e) 
+    	{
+    	    e.printStackTrace();
+    		Log.i("Login Auth","  got exception");
+    		
+	    }
+		   response=res.toString();
+		   return response;
 	}
 	/*
 	 * Checking openId Credentials and storing data in database
@@ -93,29 +83,12 @@ public class Controller
 	 */
 	public boolean Availablesysids(String id)
 	{
-		
-		//List to store available id's from database
-//		ArrayList<String> list=new ArrayList<String>();
-//		list.add("rajesh");
-//		list.add("mahesh");
-//		list.add("somesh");
-//		list.add("hareesh");
-//		Log.i("Availableids_Controller", "Checking for available ides");
-//		for(int i=0;i<list.size();i++)
-//		{
-//			//checking entered id with existed ids
-//			if(list.get(i).toString().equals(id.toString()))
-//			{
-//				return true;
-//			}
-//		}
-//		return false;
 		System.out.println("Controller 999999999999999999999");
 		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair("sysregid", id.toString().trim()));
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/AuthenticateIds", postParameters);
+    	    response = CustomHttpClient.executeHttpPost(url+"AuthenticateIds", postParameters);
     	    String res=response.toString();
     	  System.out.println(res.length()+"dddddddddddddddddddddddddddd");
     	    if(res.toString().trim().equals("YES"))
@@ -129,8 +102,6 @@ public class Controller
     	}catch(Exception e) {
     		e.printStackTrace();
     		return true;
-		
-
 	}
 
 	}
@@ -168,7 +139,10 @@ public class Controller
 		
     	try 
     	{
-    	    response1 = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/DriverNewRoute", newrouteparms);
+
+    		Log.i("Createnewroute_Controller", "New route has been created");
+    	    response1 = CustomHttpClient.executeHttpPost(url+"DriverNewRoute", newrouteparms);
+
     	    String res=response1.toString();
     	    Log.i("Createnewroute_Controller", "New route has been created");
     	    return res;
@@ -227,13 +201,15 @@ public class Controller
 		
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/SysRegistration", postParameters);
+
+    	    response = CustomHttpClient.executeHttpPost(url+"SysRegistration", postParameters);
+
     	    String res=response.toString();
     	    Log.i("Controller",res+"  response from the server");
     	    return res;
     	}catch(Exception e) {
     		e.printStackTrace();
-    		Log.i("Controller","Got exception");
+    		Log.i("Controller","Got exception in Sysid_registration");
     		return null;
 	}
 	}
@@ -244,13 +220,15 @@ public class Controller
 		postParameters.add(new BasicNameValuePair("user_pref",username));
 		String response = null;
 		try {
-    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/ProfilePreferences", postParameters);
+
+    	    response = CustomHttpClient.executeHttpPost(url+"ProfilePreferences", postParameters);
+
     	    String res=response.toString();
     	    Log.i("Controller",response+"  response from the server");
     	    return res;
     	}catch(Exception e) {
     		e.printStackTrace();
-    		Log.i("Controller","Got exception");
+    		Log.i("Controller","Got exception in getUserPreferences ");
     		return "";
 	}
 	}
@@ -264,16 +242,94 @@ public class Controller
 		postParameters.add(new BasicNameValuePair("pimage",pimage));
 		String response = null;
 		try {
-    	    response = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/SaveProfilePref", postParameters);
+
+    	    response = CustomHttpClient.executeHttpPost(url+"SaveProfilePref", postParameters);
+
     	    String res=response.toString();
     	    Log.i("Controller",res+"  response from the server");
     	    return res;
     	}catch(Exception e) {
     		e.printStackTrace();
-    		Log.i("Controller","Got exception");
+    		Log.i("Controller","Got exception in saveProfilePref");
     		return "";
 	}
 	}
+	public String saveTravelPref(String travelPref, String seats, String image,String username)
+	{
+		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+		postParameters.add(new BasicNameValuePair("travelPref",travelPref));
+		postParameters.add(new BasicNameValuePair("seats",seats));
+		postParameters.add(new BasicNameValuePair("image",image));
+		postParameters.add(new BasicNameValuePair("username",username));
+		String response = null;
+		try {
+    	    response = CustomHttpClient.executeHttpPost(url+"TravelPreferences", postParameters);
+    	    String res=response.toString();
+    	    Log.i("Controller",res+"  response from the server");
+    	    return res;
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		Log.i("Controller","Got exception in saveTravelPref");
+    		return "";
+	}
+	}
+    	public String saveTimeBasedPref(String weekdays,String tsource, String tdestination, String timing, String tlocation, String username)
+    	{
+    		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+    		postParameters.add(new BasicNameValuePair("tsource",tsource));
+    		postParameters.add(new BasicNameValuePair("tlocation",tlocation));
+    		postParameters.add(new BasicNameValuePair("tdestination",tdestination));
+    		postParameters.add(new BasicNameValuePair("timing",timing));
+    		postParameters.add(new BasicNameValuePair("weekdays",weekdays));
+    		postParameters.add(new BasicNameValuePair("username",username));
+    		System.out.println(username+"usssssssssssssssssssssss");
+    		String response = null;
+    		try {
+        	    response = CustomHttpClient.executeHttpPost(url+"TimeBased", postParameters);
+        	    String res=response.toString();
+        	    Log.i("Controller",res+"  response from the server");
+        	    return res;
+        	}catch(Exception e) {
+        		e.printStackTrace();
+        		Log.i("Controller","Got exception in saveTimeBasedPref");
+        		return "";
+    	}  
+	}
+    	public String getTimeBasedPref(String username)
+    	{
+    		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+    		postParameters.add(new BasicNameValuePair("username",username));
+    		System.out.println(username+"usssssssssssssssssssssss");
+    		String response = null;
+    		try {
+        	    response = CustomHttpClient.executeHttpPost(url+"GetTimeBasedPref", postParameters);
+        	    String res=response.toString();
+        	    Log.i("Controller",res+"  response from the server");
+        	    return res;
+        	}catch(Exception e) {
+        		e.printStackTrace();
+        		Log.i("Controller","Got exception in saveTimeBasedPref");
+        		return "";
+    	}  
+    	}
+        	public String getTravelBasedPref(String username)
+        	{
+        		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+        		postParameters.add(new BasicNameValuePair("username",username));
+        		System.out.println(username+"usssssssssssssssssssssss");
+        		String response = null;
+        		try {
+            	    response = CustomHttpClient.executeHttpPost(url+"GetTravelPref", postParameters);
+            	    String res=response.toString();
+            	    Log.i("Controller",res+"  response from the server");
+            	    return res;
+            	}catch(Exception e) {
+            		e.printStackTrace();
+            		Log.i("Controller","Got exception in saveTimeBasedPref");
+            		return "";
+        	}
+	}
+
 	public String riderGetRideList(String userid, String ridersource, String riderdestination, String riderstarttime, String ridermode)
 	{
 		String ridelistresponse = null;
@@ -298,8 +354,6 @@ public class Controller
     		return null;
     	}
 		
-	
 	}
-	
-	
+
 }

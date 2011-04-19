@@ -24,6 +24,7 @@ public class Preferences extends ListActivity {
             R.layout.preferences, R.id.prefer, pref));
     getListView().setBackgroundResource(R.drawable.radialback);
     getListView().setTextFilterEnabled(true);
+   // getListView().set.setTextFilterEnabled(true);
    }
     
     protected void onListItemClick(ListView l, View v, int position, long id) {

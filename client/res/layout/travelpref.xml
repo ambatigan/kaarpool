@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
 <LinearLayout
 android:id="@+id/widget318"
 android:layout_width="fill_parent"
@@ -129,6 +130,29 @@ android:text=""
 </CheckBox>
 </TableRow>
 <TableRow
+android:id="@+id/widget443"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget438"
+android:layout_width="250px"
+android:layout_height="30px"
+android:text="Handicapped"
+android:typeface="sans"
+android:textStyle="bold"
+>
+</TextView>
+<CheckBox
+android:id="@+id/handicap"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text=""
+>
+</CheckBox>
+</TableRow>
+<TableRow
 android:id="@+id/widget444"
 android:layout_width="fill_parent"
 android:layout_height="wrap_content"
@@ -226,3 +250,4 @@ android:text="Back"
 </Button>
 </TableRow>
 </LinearLayout>
+</ScrollView>

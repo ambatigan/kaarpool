@@ -11,7 +11,6 @@
         <item>Travel Preferences</item>
         <item>Time Based Default Preferences</item>
         <item>Sign out</item>
-        <item>Exit</item>
     </string-array>
     
      <string-array name="travelpref_array">
@@ -41,5 +40,10 @@
 		<item>Three</item>
 		<item>Four</item>
 		<item>Five</item>
+	</string-array>
+	
+	<string-array name="time_based">
+		<item>Home</item>
+		<item>Work</item>
 	</string-array>
 </resources>

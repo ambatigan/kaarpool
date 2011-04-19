@@ -1,12 +1,13 @@
 package com.saventech.karpool;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
+import java.util.Hashtable;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,34 +36,112 @@ public class TravelPref extends Activity implements OnClickListener
 	private Button travelprefback;
 	private static final int SELECT_PICTURE = 1;
 	String seats = "";
-	/** The a. */
+	/** The ladies. */
 	CheckBox  ladies;
 
-	/** The b. */
+	/** The music. */
 	CheckBox  gents;
 
 	/** The c. */
 	CheckBox  music;
 
-	/** The d. */
+	/** The smoke. */
 	CheckBox  smoke;
 	
-	/** The d. */
+	/** The children. */
 	CheckBox  children;
+	
+	Spinner spinner;
+	
+	/** The handicap. */
+	CheckBox  handicap;
 
+	Controller controller=null; 
+
+	Session session;
+	String username="";
+	private SharedPreferences mPreferences;
+	int selectPos=0;
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.travelpref);
     
+    session = new Session();
+    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+    
+	if(!session.checkinfo(mPreferences))
+	{
+		Intent intent=new Intent(TravelPref.this,Login.class);
+		startActivity(intent);
+	}
+    username = session.getUsername(mPreferences);
+    System.out.println(username+"username");
+    controller=new Controller();   
 	ladies = (CheckBox ) findViewById(R.id.ladies);
 	gents = (CheckBox ) findViewById(R.id.gents);
+	handicap = (CheckBox ) findViewById(R.id.handicap);
 	music = (CheckBox ) findViewById(R.id.music);
 	smoke = (CheckBox ) findViewById(R.id.smoke);
 	children = (CheckBox ) findViewById(R.id.child);
+	spinner = (Spinner) findViewById(R.id.travelprefspinner);
+	 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+	            this, R.array.seats, android.R.layout.simple_spinner_item);
+	 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    spinner.setAdapter(adapter);
+	 
+	 
+	travelprefimage=(ImageView)findViewById(R.id.travelpref_image);
 	
-    travelprefimage=(ImageView)findViewById(R.id.travelpref_image);
+	controller = new Controller();
+    String totalString = controller.getTravelBasedPref(username);
+    System.out.print(totalString +"totalStringtotalStringtotalStringtotalString");
+   
+    System.out.print(totalString+"rohsna");
+    String[] fields = totalString.split("::");
+    System.out.print(fields.length+"rohsna");
+    if(!totalString.equals("") &&fields.length>1)
+    {
+    	if(!fields[0].equals("N"))
+    	{
+    		ladies.setChecked(true);
+    	}
+    	if(!fields[1].equals("N"))
+    	{
+    		gents.setChecked(true);
+    	}
+    	if(!fields[2].equals("N"))
+    	{
+    		music.setChecked(true);
+    	}
+    	if(!fields[3].equals("N"))
+    	{
+    		smoke.setChecked(true);
+    	}
+    	if(!fields[4].equals("N"))
+    	{
+    		children.setChecked(true);
+    	}
+    	if(!fields[5].equals("N"))
+    	{
+    		handicap.setChecked(true);
+    	}
+    	
+    	int i = adapter.getPosition(fields[6]);
+    	System.out.println(i+"selectPos");
+    	spinner.setSelection(i);
+    	
+    	String imagebyte = fields[7];
+        byte[] decodedString = Base64.decode(imagebyte, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        travelprefimage.setImageBitmap(decodedByte);
+        
+        
+    	
+    }
+	
+    
     travelprefimageupload=(Button)findViewById(R.id.travelpref_imageupload);
     travelprefsave=(Button)findViewById(R.id.travelprefsave);
     travelprefback=(Button)findViewById(R.id.travelprefback);
@@ -70,11 +149,9 @@ public class TravelPref extends Activity implements OnClickListener
     travelprefback.setOnClickListener(this);
     travelprefimageupload.setOnClickListener(this);
     
-    Spinner spinner = (Spinner) findViewById(R.id.travelprefspinner);
-    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-            this, R.array.seats, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(adapter);
+    
+   
+    
     spinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
     
     
@@ -155,8 +232,8 @@ public class TravelPref extends Activity implements OnClickListener
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) 
 		{
-			Toast.makeText(parent.getContext(), "The planet is " +
-	          parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
+			//Toast.makeText(parent.getContext(), "The planet is " +
+	         // parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
               seats = parent.getItemAtPosition(pos).toString();
 			
 		}
@@ -205,14 +282,12 @@ public class TravelPref extends Activity implements OnClickListener
 		   Toast.makeText(TravelPref.this, "Saving travel preferences ", Toast.LENGTH_LONG).show();
 		   String imagedata=bitmapcode();
 		   System.out.println(imagedata);
-		   ArrayList<String> travelPref;
-		   
-		   travelPref=getUserAnswer();
-		   for(int i=0;i<travelPref.size();i++)
-		   {
-			   System.out.println(travelPref.get(i).toString()+" userTravelPref");
-		   }
+		   String userTravelPref=getUserAnswer();
+		   System.out.println(userTravelPref+" userTravelPref");
 		   System.out.println(seats+"  seats");
+		   controller.saveTravelPref(userTravelPref,seats,imagedata,username);
+		   Intent save = new Intent(TravelPref.this,Preferences.class);
+		   startActivity(save);
 	   }
 		// TODO Auto-generated method stub
 		
@@ -222,31 +297,61 @@ public class TravelPref extends Activity implements OnClickListener
 	 * 
 	 * @return the user answer
 	 */
-	public ArrayList<String> getUserAnswer()
+	public String getUserAnswer()
 	{
-		ArrayList<String> travelPref = new ArrayList<String>();
+		String ladies1 ="", gents1="", music1="", smoke1="", children1 = "", handicap1 = "";
+		String total = "";
 		if (ladies.isChecked())
 		{
-			travelPref.add("ladies");
+			ladies1 = "ladies";		
+		}
+		else
+		{
+			ladies1 = null;
 		}
 		if (gents.isChecked())
 		{
-			travelPref.add("gents");
+			gents1 = "gents";
+		}
+		else
+		{
+			gents1 = null;
 		}
 		if (music.isChecked())
 		{
-			travelPref.add("music");
+			music1 = "music";
+		}
+		else
+		{
+			music1 = null;
 		}
 		if (smoke.isChecked())
 		{
-			travelPref.add("smoke");
+			smoke1 = "smoke";
+		}
+		else
+		{
+			smoke1 = null;
 		}
 		if (children.isChecked())
 		{
-			travelPref.add("children");
+			children1 = "children";
 		}
-		return travelPref;
+		else
+		{
+			children1 = null;
+		}
+		if (handicap.isChecked())
+		{
+			handicap1 = "handicap";
+		}
+		else
+		{
+			handicap1 = null;
+		}
+		total=ladies1+":"+gents1+":"+music1+":"+smoke1+":"+children1+":"+handicap1;
+		Log.i("TravelPref_save",total+"  travel prefv");
+		return total;
 	}
-	
     
 }
