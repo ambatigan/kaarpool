@@ -15,6 +15,7 @@ import android.util.Log;
  * Description:It is responsible for Connectivity and sending request to server and getting response and sending data  to requested services
  * 
  */
+//fdasfasf
 public class Controller 
 {
 	String loginid;

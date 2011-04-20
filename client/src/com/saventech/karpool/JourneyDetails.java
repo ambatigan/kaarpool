@@ -26,6 +26,8 @@ public class JourneyDetails extends TabActivity {
 	Session session;
 	String Regusername="";
 	String Regpwd="";
+	long transactionID = -1;
+	TabHost tabHost;
 	public static ArrayList<String> ridelist1 = new ArrayList<String>();
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class JourneyDetails extends TabActivity {
 	    }
 	   
 	    Resources res = getResources(); // Resource object to get Drawables
-	    TabHost tabHost = getTabHost();  // The activity TabHost
+	    tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
 	    Intent intent;  // Reusable Intent for each tab
 
@@ -170,6 +172,15 @@ public class JourneyDetails extends TabActivity {
 		Log.i("JourneyDetails_preferences","preferences menu option has been selected");
 		Intent in = new Intent(this, Preferences.class);
 		startActivity(in);
+	}
+	public long getTransactionID(){
+		return transactionID;
+	}
+	public void setTransactionID(long l){
+		transactionID = l;
+	}
+	public void switchTabSpecial(int tab){
+		tabHost.setCurrentTab(tab);
 	}
 	
 }
