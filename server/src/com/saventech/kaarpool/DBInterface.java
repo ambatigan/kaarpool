@@ -460,8 +460,8 @@ public class DBInterface
 			}
 			else
 			{
-				System.out.println(resourceBundle.getString("insertride")+newpref[0]+"\""+","+"\""+newpref[1]+"\""+","+"\""+newpref[2]+"\""+","+"\""+newpref[3]+"\""+","+"\""+newpref[4]+"\""+","+"\""+newpref[5]+"\""+","+"\""+seats+"\""+","+"\""+image+"\""+") ");
-				int r = statement.executeUpdate(resourceBundle.getString("insertride")+newpref[0]+"\""+","+"\""+newpref[1]+"\""+","+"\""+newpref[2]+"\""+","+"\""+newpref[3]+"\""+","+"\""+newpref[4]+"\""+","+"\""+newpref[5]+"\""+","+"\""+seats+"\""+","+"\""+image+"\""+") ");
+				System.out.println(resourceBundle.getString("insert_ride")+newpref[0]+"\""+","+"\""+newpref[1]+"\""+","+"\""+newpref[2]+"\""+","+"\""+newpref[3]+"\""+","+"\""+newpref[4]+"\""+","+"\""+newpref[5]+"\""+","+"\""+seats+"\""+","+"\""+image+"\""+") ");
+				int r = statement.executeUpdate(resourceBundle.getString("insert_ride")+newpref[0]+"\""+","+"\""+newpref[1]+"\""+","+"\""+newpref[2]+"\""+","+"\""+newpref[3]+"\""+","+"\""+newpref[4]+"\""+","+"\""+newpref[5]+"\""+","+"\""+seats+"\""+","+"\""+image+"\""+") ");
 				System.out.println("insert into preferences(travelid) values(select max(trid) from ridepreferences)");
 				resultSet = statement.executeQuery("select max(trid) from ridepreferences");
 				resultSet.next();
@@ -521,23 +521,26 @@ public class DBInterface
 			resultSet.next();
 			if(resultSet.getRow()>0)
 			{		resultSet.close();		
-			System.out.println(resourceBundle.getString("get_tbid_timebased")+username+"\"");
+				System.out.println(resourceBundle.getString("get_tbid_timebased")+username+"\"");
 				resultSet = statement.executeQuery(resourceBundle.getString("get_tbid_timebased")+username+"\"");
 				resultSet.next();
 				System.out.println(resourceBundle.getString("update_timebased")+"\""+weekdays+"\""+","+"source="+"\""+tsource+"\""+","+"destination="+"\""+tdestination+"\""+","+"startime="+"\""+timing+"\""+","+"location="+"\""+tlocation+"\""+resourceBundle.getString("update_timebased1")+resultSet.getBigDecimal(1));
 				statement.executeUpdate(resourceBundle.getString("update_timebased")+"\""+weekdays+"\""+","+"source="+"\""+tsource+"\""+","+"destination="+"\""+tdestination+"\""+","+"startime="+"\""+timing+"\""+","+"location="+"\""+tlocation+"\""+resourceBundle.getString("update_timebased1")+resultSet.getBigDecimal(1));
-				resultSet.close();	
+				//resultSet.close();	
 			}
 			else
 			{
-				System.out.println(resourceBundle.getString("insert_timebased")+"\""+weekdays+"\""+","+"\""+tsource+"\""+","+"\""+tdestination+"\""+","+"\""+timing+"\""+","+"\""+tlocation+"\""+") ");
+				//System.out.println(resourceBundle.getString("insert_timebased")+"\""+weekdays+"\""+","+"\""+tsource+"\""+","+"\""+tdestination+"\""+","+"\""+timing+"\""+","+"\""+tlocation+"\""+") ");
 				statement.executeUpdate(resourceBundle.getString("insert_timebased")+"\""+weekdays+"\""+","+"\""+tsource+"\""+","+"\""+tdestination+"\""+","+"\""+timing+"\""+","+"\""+tlocation+"\""+") ");
 				resultSet = statement.executeQuery(resourceBundle.getString("maxtimebasedrecord"));
 				resultSet.next();
-				//System.out.println(resourceBundle.getString("insert_pref")+resultSet.getBigDecimal(1)+")");
-				statement.executeUpdate(resourceBundle.getString("insert_pref")+resultSet.getBigDecimal(1)+")");
+				//System.out.println(resourceBundle.getString("update_pref1")+username+"\"");
+				resultSet1 = statement.executeQuery(resourceBundle.getString("update_pref1")+username+"\"");
+				resultSet1.next();
+				System.out.println(resourceBundle.getString("update_pref")+"(select max(tbid) from timebased_defaultloc)"+" where preferences.prefid="+resultSet1.getBigDecimal(1));
+				statement.executeUpdate(resourceBundle.getString("update_pref")+"(select max(tbid) from timebased_defaultloc)"+" where preferences.prefid="+resultSet1.getBigDecimal(1));
 				//System.out.println(resourceBundle.getString("getpid")+username+"\"" );
-				resultSet.close();	
+					
 				resultSet2 = statement.executeQuery(resourceBundle.getString("getpid")+username+"\"" );
 				resultSet2.next();
 				
@@ -602,7 +605,8 @@ public class DBInterface
 			resultSet = null;
 			resultSet = statement.executeQuery(resourceBundle.getString("getjid"));
 			resultSet.next();
-			statement.executeUpdate(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+"\""+seats+"\""+")");
+			System.out.println(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+seats+")");
+			statement.executeUpdate(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+seats+")");
 			log.info("stored driver ride details");
 
 			//updating user_details by inserting user mode id 			
@@ -740,4 +744,5 @@ public class DBInterface
 		return null;
 		
 	}
+
 }
