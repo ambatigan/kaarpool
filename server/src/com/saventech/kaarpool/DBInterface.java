@@ -697,29 +697,34 @@ public class DBInterface
 				}
 				else
 				{
-					count++;
-					String str="";
 					
-					str=str+resultSet.getString("jsource")+"KPL";
-					str=str+resultSet.getString("jdestination")+"KPL";
-					str=str+resultSet.getString("username")+"KPL";
-					str=str+resultSet.getString("address")+"KPL";
-					str=str+resultSet.getString("gender")+"KPL";
-					str=str+resultSet.getString("mobile")+"\n";
-//					str=str+resultSet.getString("jid")+"KPL";
-//					str=str+resultSet.getString("userid")+"KPL";
-//					str=str+resultSet.getString("locid")+"KPL";
-//					str=str+resultSet.getString("prdid")+"KPL";
-//					str=str+resultSet.getString("accid")+"KPL";
-//					str=str+resultSet.getString("netid")+"KPL";
-//					str=str+resultSet.getString("modeid")+"KPL";
-//					str=str+resultSet.getString("preid")+"KPL";
-//					str=str+resultSet.getString("pid")+"KPL";
-//					str=str+resultSet.getString("dob")+"KPL";
-//					str=str+resultSet.getString("mobile")+"KPL";
-//					str=str+resultSet.getString("image")+"KPL";
-					
-					  list.add(str);
+					if(resultSet.getString("jsource").toString().trim().equals(rsource) && resultSet.getString("jdestination").toString().trim().equals(rdestination) && resultSet.getString("stime").toString().trim().equals(rstime) )
+					{
+						count++;
+						String str="";
+						
+						str=str+resultSet.getString("jsource")+"KRL";
+						str=str+resultSet.getString("jdestination")+"KRL";
+						str=str+resultSet.getString("username")+"KRL";
+						str=str+resultSet.getString("address")+"KRL";
+						str=str+resultSet.getString("gender")+"KRL";
+						str=str+resultSet.getString("mobile")+"KRL";
+	//					str=str+resultSet.getString("jid")+"KPL";
+	//					str=str+resultSet.getString("userid")+"KPL";
+	//					str=str+resultSet.getString("locid")+"KPL";
+	//					str=str+resultSet.getString("prdid")+"KPL";
+	//					str=str+resultSet.getString("accid")+"KPL";
+	//					str=str+resultSet.getString("netid")+"KPL";
+	//					str=str+resultSet.getString("modeid")+"KPL";
+	//					str=str+resultSet.getString("preid")+"KPL";
+	//					str=str+resultSet.getString("pid")+"KPL";
+	//					str=str+resultSet.getString("dob")+"KPL";
+	//					str=str+resultSet.getString("mobile")+"KPL";
+					    str=str+resultSet.getString("image")+"KPLL";
+						
+						System.out.println(resultSet.getString("image"));
+						  list.add(str);
+					}
 					  
 				}
 				

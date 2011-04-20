@@ -37,7 +37,7 @@ public class GetRideList extends HttpServlet
        	        list=connect.getRidelist(ridersource, riderdestination, riderstarttime, riderid);
        	        if(list.size()!=0)
        	        {
-       	        	out.print(list.size()+"KPL");
+       	        	out.print(list.size()+"KRL");
        	        	for( int i =0; i<list.size();i++)
        	        	{
        	        		//System.out.println(list.get(0).toString()+"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
