@@ -147,6 +147,7 @@ public class RiderRoute extends Activity implements OnClickListener{
     	Log.i("Riderroute_changesource", "Changing the source of a ride");
     	
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
+    	alert.setTitle("Source");
 		final EditText input = new EditText(this);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -170,7 +171,27 @@ public class RiderRoute extends Activity implements OnClickListener{
     public void changeDestination(View view)
     {
     	
-    	Log.i("Riderroute_changedestinaton", "Changing the destination of a ride");
+Log.i("Riderroute_changesource", "Changing the Destination of a ride");
+    	
+    	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
+    	alert.setTitle("Destination");
+		final EditText input = new EditText(this);
+		alert.setView(input);
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				value = input.getText().toString().trim();
+		    	ed1.setText(value);
+			}
+		});
+		alert.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.cancel();
+					}
+				});
+		alert.show();
+    	
+    	/*Log.i("Riderroute_changedestinaton", "Changing the destination of a ride");
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
 		final EditText input = new EditText(this);
 		alert.setView(input);
@@ -186,7 +207,7 @@ public class RiderRoute extends Activity implements OnClickListener{
 						dialog.cancel();
 					}
 				});
-		alert.show();
+		alert.show();*/
     }
     /*
      * this function will be performed when ever a button is pressed
@@ -208,14 +229,15 @@ public class RiderRoute extends Activity implements OnClickListener{
 				String response="";
 				response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
 				System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
-				String str[]=response.toString().split("\n");
+				String str[]=response.toString().split("KPLL");
 				ArrayList<String>ridelistdata=new ArrayList<String>();
 				String toaststring="";
 				if(str.length>1)
 			    {  
-					System.out.println(str.length+"   0000000000000000000000000000000000");
-					for(int k=0;k<str.length;k++)
+					System.out.println(str.length+"   00000000000000000000000000000000000");
+					for(int k=0;k<str.length-1;k++)
 				   {
+						System.out.println(str[k]+"   mmm");
 					    ridelistdata.add(str[k].toString());
 				   }
 					RiderJourneyDetails.ridelist=ridelistdata;
@@ -283,7 +305,28 @@ public class RiderRoute extends Activity implements OnClickListener{
         /** check whether the change2 button has been clicked */
         if (view == findViewById(R.id.riderjourneychangedestination)) {
         	
-        	Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the destinaton");
+        	Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the source");
+            //List items
+            final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
+            //Prepare the list dialog box
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
+            //Set its title
+            builder.setTitle("Choose Location");
+            //Set the list items and assign with the click listener
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                // Click listener
+                public void onClick(DialogInterface dialog, int item) {
+                    if(items[item]=="New Location")
+                    {
+                    	changeDestination(view);                 	                    	
+                    }
+                }
+            });
+            AlertDialog alert = builder.create();
+            //display dialog box
+            alert.show();
+        	
+        	/*Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the destinaton");
             //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
@@ -309,7 +352,7 @@ public class RiderRoute extends Activity implements OnClickListener{
     		});
             AlertDialog alert = builder.create();
             //display dialog box
-            alert.show();
+            alert.show();*/
         }
     }
 }

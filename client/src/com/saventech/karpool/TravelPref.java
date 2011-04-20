@@ -57,6 +57,7 @@ public class TravelPref extends Activity implements OnClickListener
 	CheckBox  handicap;
 
 	Controller controller=null; 
+	UploadandCompressImage uploadimage=null;
 
 	Session session;
 	String username="";
@@ -69,6 +70,7 @@ public class TravelPref extends Activity implements OnClickListener
     setContentView(R.layout.travelpref);
     
     session = new Session();
+    uploadimage=new UploadandCompressImage();
     mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
     
 	if(!session.checkinfo(mPreferences))
@@ -184,50 +186,7 @@ public class TravelPref extends Activity implements OnClickListener
 	    }
 	 
 	 
-	 //-------Gallery functions ends--------
 	 
-	    // ----------bitmap code starts----------
-	    
-	    public String bitmapcode()
-	    {
-	    	try{
-	    		if(selectedImagePath.length()==0)
-	    		{
-	    			//String imagepath=getResources().getDrawable(R.drawable.default1).toString();
-	    			//String fname=this.getFilesDir().getAbsolutePath()+"/default1.jpeg";
-	    			Log.i("Registerwithsysid", "Default image is selected as user image");
-	    			//System.out.println("select image   "+getResources().getDrawable(R.drawable.default1)+" "+fname);
-	    			Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.default1); 
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			return ba1;
-	    		}
-	    		else
-	    		{
-		    		//System.out.println(selectedImagePath+"88888888888888888888888888888888888888888888888");
-	    			Log.i("Registerwithsysid", "Image Selected from Gallery");
-		    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			return ba1;
-	    		}
-	    		
-	    	}
-	    	catch(Exception e)
-	    	{
-	    		e.printStackTrace();
-	    		return "";
-	    	}
-	    	
-
-	    }
-	    
-	    
-	    //------------bitmap code ends------------
 	public class MyOnItemSelectedListener implements OnItemSelectedListener {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) 
@@ -280,7 +239,7 @@ public class TravelPref extends Activity implements OnClickListener
 		   Log.i("TravelPref_save", "Travel preference values are storing");
 		   
 		   Toast.makeText(TravelPref.this, "Saving travel preferences ", Toast.LENGTH_LONG).show();
-		   String imagedata=bitmapcode();
+		   String imagedata=uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
 		   System.out.println(imagedata);
 		   String userTravelPref=getUserAnswer();
 		   System.out.println(userTravelPref+" userTravelPref");

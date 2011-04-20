@@ -30,6 +30,7 @@ public class ProfilePref extends  Activity implements OnClickListener {
     private static final int SELECT_PICTURE = 1;
     private String selectedImagePath="";
     private ImageView userImage;
+    UploadandCompressImage uploadimage=null;
     
     EditText userPwd;
     EditText userMobile;
@@ -53,6 +54,7 @@ public class ProfilePref extends  Activity implements OnClickListener {
         username = session.getUsername(mPreferences);
         Log.i("ProfilePref",username+ "  in sessions");
         controller=new Controller(); 
+        uploadimage=new UploadandCompressImage();
         String totalString = controller.getUserPreferences(username) ;
         String[] fields = totalString.split(":");
         
@@ -124,7 +126,7 @@ public class ProfilePref extends  Activity implements OnClickListener {
 			startActivity(backpref);
 			break;
 		case R.id.savepropref:
-			String ima = bitmapcode();
+			String ima = uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
 			controller.saveProfilePref(userId.getText().toString(),userPwd.getText().toString(),userMobile.getText().toString(),userAdd.getText().toString(),ima);
             Intent savepropref = new Intent(ProfilePref.this, Preferences.class);
 			startActivity(savepropref);
@@ -178,50 +180,7 @@ public class ProfilePref extends  Activity implements OnClickListener {
 	    }
 	 
 	 
-	 //-------Gallery functions ends--------
-	 
-	    // ----------bitmap code starts----------
-	    
-	    public String bitmapcode()
-	    {
-	    	try{
-	    		if(selectedImagePath.length()==0)
-	    		{
-	    			//String imagepath=getResources().getDrawable(R.drawable.default1).toString();
-	    			//String fname=this.getFilesDir().getAbsolutePath()+"/default1.jpeg";
-	    			Log.i("Registerwithsysid", "Default image is selected as user image");
-	    			//System.out.println("select image   "+getResources().getDrawable(R.drawable.default1)+" "+fname);
-	    			Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.default1); 
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			return ba1;
-	    		}
-	    		else
-	    		{
-		    		//System.out.println(selectedImagePath+"88888888888888888888888888888888888888888888888");
-	    			Log.i("Registerwithsysid", "Image Selected from Gallery");
-		    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			return ba1;
-	    		}
-	    		
-	    	}
-	    	catch(Exception e)
-	    	{
-	    		e.printStackTrace();
-	    		return "";
-	    	}
-	    	
-
-	    }
-	    
-	    
-	    //------------bitmap code ends------------
+	
 	    
 
 }

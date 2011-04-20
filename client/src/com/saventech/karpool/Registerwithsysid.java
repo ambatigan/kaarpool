@@ -53,6 +53,8 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 
     static final int DATE_DIALOG_ID = 0;
 	Controller controller=null;
+	UploadandCompressImage uploadimage=null;
+	
 	boolean checksysidflag=false;
 	boolean checksyspwdflag=false;
 	boolean checksysaddressflag=false;
@@ -77,6 +79,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	        setContentView(R.layout.sysidscreen);
 	        
 	        controller=new Controller();
+	        uploadimage=new UploadandCompressImage();
 	        Log.i("Registration", "You are now in registration page");
 	        sysuserid=(EditText)findViewById(R.id.sysuseridtxt);
 	        
@@ -155,55 +158,58 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	 
 	 //-------Gallery functions ends--------
 	 
-	    // ----------bitmap code starts----------
-	    
-	    public String bitmapcode()
-	    {
-	    	try{
-	    		if(selectedImagePath.length()==0)
-	    		{
-	    			//String imagepath=getResources().getDrawable(R.drawable.default1).toString();
-	    			//String fname=this.getFilesDir().getAbsolutePath()+"/default1.jpeg";
-	    			Log.i("Registerwithsysid", "Default image is selected as user image");
-	    			//System.out.println("select image   "+getResources().getDrawable(R.drawable.default1)+" "+fname);
-	    			//Bitmap imagethumbnail=BitmapFactory.decodeFile(path);  //complete file path
-	    			
-
-	    			Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.default1); 
-	    			bitmapOrg=Bitmap.createScaledBitmap(bitmapOrg, 40, 40, true);
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			System.out.println(ba1.length()+"****************************************************************");
-	    			return ba1;
-	    		}
-	    		else
-	    		{
-		    		//System.out.println(selectedImagePath+"88888888888888888888888888888888888888888888888");
-	    			Log.i("Registerwithsysid", "Image Selected from Gallery");
-		    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
-		    		bitmapOrg=Bitmap.createScaledBitmap(bitmapOrg, 40, 40, true);
-	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
-	    			byte [] ba = bao.toByteArray();
-	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
-	    			System.out.println(ba1.length()+"****************************************************************");
-	    			return ba1;
-	    		}
-	    		
-	    	}
-	    	catch(Exception e)
-	    	{
-	    		e.printStackTrace();
-	    		return "";
-	    	}
-	    	
-
-	    }
-	    
-	    
-	    //------------bitmap code ends------------
+//	    // ----------bitmap code starts----------
+//	    
+//	    public String bitmapcode()
+//	    {
+//	    	try{
+//	    		if(selectedImagePath.length()==0)
+//	    		{
+//	    			//String imagepath=getResources().getDrawable(R.drawable.default1).toString();
+//	    			//String fname=this.getFilesDir().getAbsolutePath()+"/default1.jpeg";
+//	    			Log.i("Registerwithsysid", "Default image is selected as user image");
+//	    			//System.out.println("select image   "+getResources().getDrawable(R.drawable.default1)+" "+fname);
+//	    			//Bitmap imagethumbnail=BitmapFactory.decodeFile(path);  //complete file path
+//	    			
+//	    			
+//	    			
+//	    			
+//	    			Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.default1); 
+//	    			bitmapOrg=Bitmap.createScaledBitmap(bitmapOrg, 40, 40, true);
+//	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+//	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+//	    			byte [] ba = bao.toByteArray();
+//	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
+//	    			System.out.println(ba1.length()+"****************************************************************");
+//	    			return ba1;
+//	    		}
+//	    		else
+//	    		{
+//		    		//System.out.println(selectedImagePath+"88888888888888888888888888888888888888888888888");
+//	    			Log.i("Registerwithsysid", "Image Selected from Gallery");
+//		    		Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedImagePath);
+//		    		bitmapOrg=Bitmap.createScaledBitmap(bitmapOrg, 40, 40, true);
+//		    		//bitmapOrg=Bitmap.createScaledBitmap(bitmapOrg, 40, 40, true);
+//	    			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+//	    			bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+//	    			byte [] ba = bao.toByteArray();
+//	    			String ba1=Base64.encodeToString(ba, Base64.DEFAULT);
+//	    			System.out.println(ba1.length()+"****************************************************************");
+//	    			return ba1;
+//	    		}
+//	    		
+//	    	}
+//	    	catch(Exception e)
+//	    	{
+//	    		e.printStackTrace();
+//	    		return "";
+//	    	}
+//	    	
+//
+//	    }
+//	    
+//	    
+//	    //------------bitmap code ends------------
 	    
 	 // on focus starts: validating the sysid by on focus
         public void focus(View v)
@@ -383,7 +389,8 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 			 }
 		     //-----------validating mobile number ends---------------
 			 //------------uploading image code starts-------------------
-			 String imagedata=bitmapcode();
+			 System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+BitmapFactory.decodeResource(getResources(), R.drawable.default1));
+			 String imagedata=uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
 			 //------------uploading image code ends-----------------
 			 
 		     if(checksysaddressflag && checksyspwdflag &&  checksysidflag && (checksysmaleflag || checksysfemaleflag) && checksysmobileflag)

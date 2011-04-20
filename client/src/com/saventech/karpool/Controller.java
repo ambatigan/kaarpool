@@ -22,7 +22,7 @@ public class Controller
 	String regid;
 	String regpwd;
 	int checksysid=0;
-	String url="http://10.0.2.2:8080/kaarpool/";
+	String url="http://198.162.18.22:8080/kaarpool/";
 	
 	/* Deafault constructor for Controller
 	 * 
@@ -54,7 +54,7 @@ public class Controller
 		catch(Exception e) 
     	{
     	    e.printStackTrace();
-    		Log.i("Login Auth","  got exception");
+    		Log.i("Login Auth","  got exception ");
     		
 	    }
 		   response=res.toString();
@@ -166,7 +166,7 @@ public class Controller
 		
     	try 
     	{
-    	    response1 = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/RiderNewRoute", newrouteparms);
+    	    response1 = CustomHttpClient.executeHttpPost(url+"RiderNewRoute", newrouteparms);
     	    String res=response1.toString();
     	    Log.i("Createridernewroute_Controller", "Rider new route has been created");
     	    return res;
@@ -343,7 +343,7 @@ public class Controller
     	{
 			Log.i("riderGetRideList_Controller", "Get ride list tab ");
 			System.out.println(userid+" "+ridersource+" "+riderdestination+" "+riderstarttime+" "+ridermode+"--------------");
-			ridelistresponse = CustomHttpClient.executeHttpPost("http://198.162.18.22:8080/kaarpool/GetRideList", accessroutedata);
+			ridelistresponse = CustomHttpClient.executeHttpPost(url+"GetRideList", accessroutedata);
     	    String res=ridelistresponse.toString();
 			return res;
 			

@@ -146,6 +146,7 @@ public class Newroute extends Activity implements OnClickListener{
     {
     	Log.i("Newroute_changeSource", "change button pressed to change source location");
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
+    	alert.setTitle("Source");
 		final EditText input = new EditText(this);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -167,13 +168,18 @@ public class Newroute extends Activity implements OnClickListener{
     
     public void changeDestination(View view)
     {
-    	Log.i("Newroute_changeDestination", "change button pressed to change Destination location");
+    	
+    	Log.i("Newroute_changeSource", "change button pressed to change destination location");
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
+    	alert.setTitle("Destination");
 		final EditText input = new EditText(this);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				value = input.getText().toString().trim();
+				//Toast.makeText(getApplicationContext(), value,Toast.LENGTH_SHORT).show();
+				
+		    	ed1.setText(value);
 			}
 		});
 		alert.setNegativeButton("Cancel",
@@ -183,6 +189,22 @@ public class Newroute extends Activity implements OnClickListener{
 					}
 				});
 		alert.show();
+//    	Log.i("Newroute_changeDestination", "change button pressed to change Destination location");
+//    	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
+//		final EditText input = new EditText(this);
+//		alert.setView(input);
+//		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//			public void onClick(DialogInterface dialog, int whichButton) {
+//				value = input.getText().toString().trim();
+//			}
+//		});
+//		alert.setNegativeButton("Cancel",
+//				new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int whichButton) {
+//						dialog.cancel();
+//					}
+//				});
+//		alert.show();
     }
 	public void onClick(final View view)
 	{
@@ -228,8 +250,31 @@ public class Newroute extends Activity implements OnClickListener{
             alert.show();
         }
         /** check whether the change2 button has been clicked */
-        if (view == findViewById(R.id.change2)) {
-            //List items
+        if (view == findViewById(R.id.change2)) 
+        {
+        	
+        	 //List items
+            final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
+            //Prepare the list dialog box
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
+            //Set its title
+            builder.setTitle("Choose Location");
+            //Set the list items and assign with the click listener
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                // Click listener
+                public void onClick(DialogInterface dialog, int item) {
+                    //Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                    if(items[item]=="New Location")
+                    {
+                    	changeDestination(view);                 	                    	
+                    }
+                }
+            });
+            AlertDialog alert = builder.create();
+            //display dialog box
+            alert.show();
+            //display dialog box
+           /* //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
             AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
@@ -256,7 +301,7 @@ public class Newroute extends Activity implements OnClickListener{
     		});
             AlertDialog alert = builder.create();
             //display dialog box
-            alert.show();
+            alert.show();*/
         }
 		
 	}

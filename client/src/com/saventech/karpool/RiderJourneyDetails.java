@@ -84,6 +84,7 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	{
 		
 		Log.i("RiderJourneyDetails_switchTab", "enable ridelist tab ");
+	
 		tabHost.setCurrentTab(tab);
 		tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(true);
 	}
