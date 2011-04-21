@@ -34,11 +34,20 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	Session session;
 	Controller controller;
 	ArrayList<String> ridelistdetails=new ArrayList<String>();
-	
+	private ImageButton sendrequest;
 	
 
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);	        
+
+	        drawUI();
+	}
+	 
+	 public void drawUI()
+	 {
+		 setContentView(R.layout.ridelist0);
+		 controller=new Controller();
+
 	        setContentView(R.layout.ridelist0);
 			 controller=new Controller();
 		        Log.i("Ridergetridelist_Activity","Entered in Ridergetridelist activity");
@@ -120,125 +129,18 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 				            
 				            l.addView(customView); 
 		        	}
-		        }//adding customview to lis
-	        /*controller=new Controller();
-	        Log.i("Ridergetridelist_Activity","Entered in Ridergetridelist activity");
-	        session=new Session();
-	        ridelistdetails=RiderJourneyDetails.ridelist;
-		    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
-			if(!session.checkinfo(mPreferences))
-			{
-				Intent intent=new Intent(RiderGetRidelist.this,Login.class);
-				startActivity(intent);
+		        }
+		        
+		 
+	 }
+	 
+	 @Override
+		public void onResume() {
+			super.onResume();
+			drawUI();
 			
-			}
-			System.out.println(session.getUsername(mPreferences)+"-----"+session.getPassword(mPreferences)+ridelistdetails.size()+"  *****************");
-	        LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
-	        LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	        String toaststring="";
-	        if(ridelistdetails.size()!=0 && JourneyDetails.ridelist1.size()!=0)
-	        {
-	        	for(int k=0;k<ridelistdetails.size();k++)
-	        	{
-		        	String records[]=ridelistdetails.get(k).toString().split("KPL");
-					for(int j=0;j<records.length;j++)
-					{
-						if(k==0 && j==0)
-						{
-							
-						}
-						else
-						{
-						  toaststring =toaststring+records[j]+" ";
-						}
-					}
-					toaststring=toaststring+"\n";
-					View customView = linflater.inflate(R.layout.ridelist, null);
-			            TextView route = (TextView) customView.findViewById(R.id.route);
-			            TextView rate = (TextView) customView.findViewById(R.id.rate);
-			            if(k==0)
-			            {
-			            	route.setText("   Route:"+records[1].toString().trim()+" to "+records[2].toString().trim());
-				            rate.setText("   Rate:");
-			            }
-			            else
-			            {
-			            	route.setText("   Route:"+records[0].toString().trim()+" to "+records[1].toString().trim());
-				            rate.setText("   Rate:");
-			            }
-			            
-			           // System.out.println(imgbyte.length);
-			            
-			            //findViewById(R.id.image).setOnClickListener(this);
-			            ImageButton img=(ImageButton)customView.findViewById(R.id.image);
-			            img.setOnClickListener(this);
-			            CheckBox check=(CheckBox)customView.findViewById(R.id.ridelistcheckbox);
-			            // Bitmap bmp=BitmapFactory.decodeByteArray(imgbyte, 0, imgbyte.length
-			            img.setImageDrawable(getResources().getDrawable(R.drawable.image1));            
-			            //setting ids to all widgets in the custome list view
-			            route.setId(k);
-			            rate.setId(k);
-			            check.setId(k);
-			            img.setId(k+ridelistdetails.size());
-			           
-			            
-			            
-			            l.addView(customView);   //adding customview to list
-	        	}
-	        }
-	        
-	        Toast.makeText(RiderGetRidelist.this, toaststring, Toast.LENGTH_LONG).show();*/
-	        //Loop to display a custom list view
-	        
-//	        for (int i = 0; i < 4; i++) 
-//	        {
-//	            View customView = linflater.inflate(R.layout.ridelist,
-//	                null);
-//	            TextView route = (TextView) customView.findViewById(R.id.route);
-//	            TextView rate = (TextView) customView.findViewById(R.id.rate);
-//	            route.setText("   Route: IIIT to Secrateriate");
-//	            rate.setText("   Rate:");
-//	           // System.out.println(imgbyte.length);
-//	            
-//	            //findViewById(R.id.image).setOnClickListener(this);
-//	            ImageButton img=(ImageButton)customView.findViewById(R.id.image);
-//	            img.setOnClickListener(this);
-//	            CheckBox check=(CheckBox)customView.findViewById(R.id.ridelistcheckbox);
-//	           // Bitmap bmp=BitmapFactory.decodeByteArray(imgbyte, 0, imgbyte.length);
-//	           
-//
-//	            //setting different images based on the value
-//	            switch(i)
-//	            {
-//	            case 0:
-//	            	img.setImageDrawable(getResources().getDrawable(R.drawable.image1));
-//	            	break;
-//	            case 1:
-//	            	img.setImageDrawable(getResources().getDrawable(R.drawable.image2));
-//	            	break;
-//	            case 2:
-//	            	img.setImageDrawable(getResources().getDrawable(R.drawable.image3));
-//	            	break;
-//	            case 3:
-//	            	img.setImageDrawable(getResources().getDrawable(R.drawable.image4));
-//	            	break;
-//	            }
-//	            
-//	            //setting ids to all widgets in the custome list view
-//	            route.setId(i);
-//	            rate.setId(i);
-//	            check.setId(i);
-//	            img.setId(i);
-//	           
-//	            
-//	            
-//	            l.addView(customView);   //adding customview to list
-//	        }
-	        }
-	 
-	 
-	 
-	 
+			
+		}
 	 
 	 public static Bitmap retriveImagefromstring(String data)
 	 {
@@ -282,11 +184,11 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 					
 		 						if(k==0)
 		 						{
-		 							input.setText("\tName\t\t\t:"+records[3]+"\n\tSource\t\t:"+records[1]+"\n\tDestination  :"+records[2]+"\n");
+		 							input.setText("\tName\t\t\t:"+records[3]+"\n\tSource\t\t:"+records[1]+"\n\tDestination  :"+records[2]+"\n\tMobile\t\t:"+records[6]+"\n");
 		 						}
 		 						else
 		 						{
-		 							input.setText("\tName\t\t\t:"+records[2]+"\n\tSource\t\t:"+records[0]+"\n\tDestination  :"+records[1]+"\n");
+		 							input.setText("\tName\t\t\t:"+records[2]+"\n\tSource\t\t:"+records[0]+"\n\tDestination  :"+records[1]+"\n\tMobile\t\t:"+records[5]+"\n");
 		 						}
 	 				        }
 	 					

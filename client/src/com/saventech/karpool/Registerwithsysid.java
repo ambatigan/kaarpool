@@ -68,6 +68,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	RadioButton sysusergenderfemale;
 	boolean validateflag;
 	String validatestring;
+	Validations mobilevalidate;
 	
 	
 	 public void onCreate(Bundle savedInstanceState) 
@@ -76,6 +77,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	        setContentView(R.layout.sysidscreen);
 	        
 	        controller=new Controller();
+	        mobilevalidate=new Validations();
 	        uploadimage=new UploadandCompressImage();
 	        Log.i("Registration", "You are now in registration page");
 	        sysuserid=(EditText)findViewById(R.id.sysuseridtxt);
@@ -364,8 +366,12 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     
 		     //-----------validating gender buttons ends------------------
 		     //--------validating mobile number -----------------
-		     
-		     Pattern mobile = Pattern.compile("\\d{11}");
+		     checksysmobileflag= mobilevalidate.mobileValidate(sysusermobile.getText().toString().trim());
+		     if(!checksysmobileflag)
+				{
+					validatestring=validatestring+"-> Pls enter correct mobile number(start with zero and follows by 10 digits) \n";
+				}
+		     /*Pattern mobile = Pattern.compile("\\d{11}");
 		     Matcher match = mobile.matcher(sysusermobile.getText().toString());
 			 boolean matchfound= match.lookingAt();
 			 if(matchfound)
@@ -383,7 +389,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 			 else
 			 {
 				 validatestring=validatestring+"-> Pls enter correct mobile number (start with zero)\n";
-			 }
+			 }*/
 		     //-----------validating mobile number ends---------------
 			 //------------uploading image code starts-------------------
 			 System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+BitmapFactory.decodeResource(getResources(), R.drawable.default1));

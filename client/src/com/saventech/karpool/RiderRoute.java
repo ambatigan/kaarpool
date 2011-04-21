@@ -231,6 +231,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 				}
 				else
 				{
+					RiderJourneyDetails.ridelist=ridelistdata;
 					Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 					RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 		            ParentActivity.switchTab(1);

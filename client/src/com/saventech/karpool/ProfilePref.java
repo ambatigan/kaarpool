@@ -1,5 +1,11 @@
 package com.saventech.karpool;
 
+
+import java.io.ByteArrayOutputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,6 +30,7 @@ public class ProfilePref extends  Activity implements OnClickListener {
     /** Called when the activity is first created. */
     String value="";
     Controller controller=null; 
+    Validations validate=null;
     String username="";
     private static final int SELECT_PICTURE = 1;
     private String selectedImagePath="";
@@ -52,6 +59,7 @@ public class ProfilePref extends  Activity implements OnClickListener {
         username = session.getUsername(mPreferences);
         Log.i("ProfilePref",username+ "  in sessions");
         controller=new Controller(); 
+        validate=new Validations();
         uploadimage=new UploadandCompressImage();
         String totalString = controller.getUserPreferences(username) ;
         String[] fields = totalString.split(":");
@@ -124,10 +132,61 @@ public class ProfilePref extends  Activity implements OnClickListener {
 			startActivity(backpref);
 			break;
 		case R.id.savepropref:
-			String ima = uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
-			controller.saveProfilePref(userId.getText().toString(),userPwd.getText().toString(),userMobile.getText().toString(),userAdd.getText().toString(),ima);
-            Intent savepropref = new Intent(ProfilePref.this, Preferences.class);
-			startActivity(savepropref);
+			String validatestring="";
+			boolean mobileflag=false;
+			boolean passwordflag=false;
+			mobileflag=validate.mobileValidate(userMobile.getText().toString().trim());
+			if(!mobileflag)
+			{
+				validatestring=validatestring+"-> Pls enter correct mobile number(start with zero and follows by 10 digits) \n";
+			}
+			passwordflag=validate.passwordValidation(userPwd.getText().toString().trim());
+			if(!passwordflag)
+			{
+				validatestring=validatestring+"-> Make sure password length >=5";
+			}
+			/*Pattern mobile = Pattern.compile("\\d{11}");
+		     Matcher match = mobile.matcher(userMobile.getText().toString());
+			 boolean matchfound= match.lookingAt();
+			 if(matchfound)
+			 {
+				 
+				 if(userMobile.getText().toString().charAt(0)=='0' && (userMobile.getText().toString().length()==10 || userMobile.getText().toString().length()==11))
+				 {
+					 
+					 mobileflag=true;
+				 }
+				 else
+				 {
+					
+					 validatestring=validatestring+"-> Pls enter correct mobile number(start with zero and follows by 10 digits) \n";
+				 }
+			 }
+			 else
+			 {
+				 validatestring=validatestring+"-> Pls enter correct mobile number(start with zero and follows by 10 digits) \n";
+			 }*/
+			 /*if(userPwd.getText().toString().trim().length()>=5)
+			 {
+				 passwordflag=true;
+			 }
+			 else
+			 {
+				 //System.out.println(matchfound+"-------"+userMobile.length()+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+				 validatestring=validatestring+"-> Make sure password length >=5";
+			 }*/
+			 if(mobileflag && passwordflag )
+			 {
+				 String ima = uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
+					controller.saveProfilePref(userId.getText().toString(),userPwd.getText().toString(),userMobile.getText().toString(),userAdd.getText().toString(),ima);
+		            Intent savepropref = new Intent(ProfilePref.this, Preferences.class);
+					startActivity(savepropref);
+			 }
+			 else
+			 {
+				 Toast.makeText(ProfilePref.this, validatestring, Toast.LENGTH_LONG).show();
+			 }
+			
 			break;
 		case R.id.imagesubmit:
 			final CharSequence[] items = {"Camera", "Gallery"};
