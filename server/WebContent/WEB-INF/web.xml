@@ -164,6 +164,42 @@
 		<servlet-name>RiderNewRoute</servlet-name>
 		<url-pattern>/RiderNewRoute</url-pattern>
 	</servlet-mapping>
+<servlet>
+		<description>
+		</description>
+		<display-name>CancelRide</display-name>
+		<servlet-name>CancelRide</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.CancelRide</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CancelRide</servlet-name>
+		<url-pattern>/CancelRide</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>DriverRidecancel</display-name>
+		<servlet-name>DriverRidecancel</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.DriverRidecancel</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DriverRidecancel</servlet-name>
+		<url-pattern>/DriverRidecancel</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>GetRidedetails</display-name>
+		<servlet-name>GetRidedetails</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.GetRidedetails</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetRidedetails</servlet-name>
+		<url-pattern>/GetRidedetails</url-pattern>
+	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
