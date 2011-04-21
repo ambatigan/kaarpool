@@ -37,6 +37,8 @@ public class DBInterface
 	
 	/** The result set. */
 	ResultSet resultSet2 = null;
+	
+	ResultSet rs = null;
 
 	/** The statement. */
 	Statement statement = null;
@@ -605,10 +607,9 @@ public class DBInterface
 			resultSet = null;
 			resultSet = statement.executeQuery(resourceBundle.getString("getjid"));
 			resultSet.next();
-			System.out.println(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+seats+")");
-			statement.executeUpdate(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+seats+")");
+			statement.executeUpdate(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+"\""+seats+"\""+")");
 			log.info("stored driver ride details");
-
+			
 			//updating user_details by inserting user mode id 			
 		}
 		catch (final SQLException ex)
@@ -630,7 +631,6 @@ public class DBInterface
 			
 			log.info("updated user details and Stored rider journeydetails");			
 			//updating user_details by inserting user mode id 			
-
 		}
 		catch (final SQLException ex)
 		{
@@ -701,35 +701,16 @@ public class DBInterface
 				}
 				else
 				{
+					count++;
+					String str="";
 					
-					if(resultSet.getString("jsource").toString().trim().equals(rsource) && resultSet.getString("jdestination").toString().trim().equals(rdestination) && resultSet.getString("stime").toString().trim().equals(rstime) )
-					{
-						count++;
-						String str="";
-						
-						str=str+resultSet.getString("jsource")+"KRL";
-						str=str+resultSet.getString("jdestination")+"KRL";
-						str=str+resultSet.getString("username")+"KRL";
-						str=str+resultSet.getString("address")+"KRL";
-						str=str+resultSet.getString("gender")+"KRL";
-						str=str+resultSet.getString("mobile")+"KRL";
-	//					str=str+resultSet.getString("jid")+"KPL";
-	//					str=str+resultSet.getString("userid")+"KPL";
-	//					str=str+resultSet.getString("locid")+"KPL";
-	//					str=str+resultSet.getString("prdid")+"KPL";
-	//					str=str+resultSet.getString("accid")+"KPL";
-	//					str=str+resultSet.getString("netid")+"KPL";
-	//					str=str+resultSet.getString("modeid")+"KPL";
-	//					str=str+resultSet.getString("preid")+"KPL";
-	//					str=str+resultSet.getString("pid")+"KPL";
-	//					str=str+resultSet.getString("dob")+"KPL";
-	//					str=str+resultSet.getString("mobile")+"KPL";
-					    str=str+resultSet.getString("image")+"KPLL";
-						
-						System.out.println(resultSet.getString("image"));
-						  list.add(str);
-					}
-					  
+					str=str+resultSet.getString("jsource")+"KPL";
+					str=str+resultSet.getString("jdestination")+"KPL";
+					str=str+resultSet.getString("username")+"KPL";
+					str=str+resultSet.getString("address")+"KPL";
+					str=str+resultSet.getString("gender")+"KPL";
+					str=str+resultSet.getString("mobile")+"\n";				
+					  list.add(str);  
 				}
 				
 			}
@@ -739,10 +720,171 @@ public class DBInterface
 		catch (final SQLException ex)
 		{
 			log.fatal("SQLException"+ex.getStackTrace());
-			//ex.printStackTrace();
+			ex.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	
+	public String getCancelroutedetails(String username)
+	{
+		
+		String data="nodata";
+		try
+		{
+			System.out.println("i am in get cancelroutedetails");
+			statement = connection.createStatement();
+			System.out.println(resourceBundle.getString("ridecancellation")+username+"\""+" order by jid DESC LIMIT 1");
+			String str = resourceBundle.getString("ridecancellation")+username+"\""+" order by jid DESC LIMIT 1";
+			//resultSet=statement.executeQuery(resourceBundle.getString("ridecancellation")+username+"\""+" order by stime DESC LIMIT 1");
+			resultSet = statement.executeQuery(str);
+			resultSet.next();
+			int s = resultSet.getRow();
+			System.out.println("getrow:"+s);
+			if(s>0)
+			{
+				System.out.println("after query execution");
+				
+				data = resultSet.getString("jsource")+","+resultSet.getString("jdestination")+","+resultSet.getString("stime");
+				System.out.println("cancelride: "+data);
+				return data;
+			} 
+			else
+			{
+				System.out.println("no data for user: "+username);
+				return "nodata";
+			}
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	public boolean confirmRideDetails(String username, String csource, String cdestination, String ctime)
+	{
+		try {
+			boolean bool = false;
+			statement = connection.createStatement();
+			System.out.println(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet = statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet.next();
+			System.out.println("bbbbbbbbbbbbbb");
+			System.out.println(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+			rs = statement.executeQuery(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+			
+			while(rs.next())
+			{
+				//System.out.println(csource+" "+rs.getString("jsource")+" "+cdestination+" "+rs.getString("jdestination")+" "+ctime+" "+rs.getString("stime"));
+				if(csource.trim().equals(rs.getString(1).trim()) && cdestination.trim().equals(rs.getString(2).trim()) && ctime.trim().equals(rs.getString(3).trim()))
+				{
+					System.out.println("details are matched");
+					bool = true;
+				}
+				else
+					bool = false;
+			}
+			return bool;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	public String driverRideCacellation(String username, String csource, String cdestination, String ctime)
+	{
+		System.out.println("DriverRideCancellation");
+		try
+		{
+			//System.out.println("i am in get cancelroutedetails");
+			statement = connection.createStatement();
+			System.out.println(resourceBundle.getString("driverridecancel")+username+"\""+" order by jid DESC LIMIT 1");
+			String str = resourceBundle.getString("driverridecancel")+username+"\""+" order by jid DESC LIMIT 1";
+			System.out.println("aaaaaaaaaaaaaaaa");
+			boolean check = confirmRideDetails(username, csource, cdestination, ctime);
+			System.out.println("confirridedetails: "+check);
+			if(check)
+			{
+				resultSet = statement.executeQuery(str);
+				resultSet.next();
+				int s = resultSet.getRow();
+				System.out.println("getrow:"+s);
+				if(s>0)
+				{
+					statement.executeUpdate("delete from ride where jdid = "+resultSet.getBigDecimal(1));
+					System.out.println("after query execution");
+					rs = statement.executeQuery(str);
+					rs.next();
+					int s1 = rs.getRow();
+					System.out.println("getrow1:"+s);
+					if(s1>0)
+					{
+						statement.executeUpdate("delete from journey_details where jid = "+rs.getBigDecimal(1));
+						return "driverridecancel completed";
+					}
+					else
+					{
+						System.out.println("no data for user: "+username);
+						return "nodatafound";
+					}
+					
+					
+				} 
+				else
+				{
+					System.out.println("no data for user: "+username);
+					return "nodatafound";
+				}				
+			}
+			else
+				return "nodatafound";
+			
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String getTotalRidedetails(String username)
+	{
+		
+		String str ="";
+		
+		try
+		{
+			statement = connection.createStatement();
+			System.out.println(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet=statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet.next();
+			//System.out.println("1111111111111");
+			System.out.println(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+			rs = statement.executeQuery(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+			//System.out.println("2222222222222");
+			while(rs.next())
+			{
+				str += "source: "+rs.getString("jsource")+"\n"+"dest: "+rs.getString("jdestination")+"\n"+"start time: "+rs.getString("stime")+"\n";
+				System.out.println(str);
+			}
+			return str;
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
 		}
 		return null;
-		
 	}
 
 }
