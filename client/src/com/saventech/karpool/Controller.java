@@ -15,7 +15,6 @@ import android.util.Log;
  * Description:It is responsible for Connectivity and sending request to server and getting response and sending data  to requested services
  * 
  */
-//fdasfasf
 public class Controller 
 {
 	String loginid;
@@ -23,7 +22,7 @@ public class Controller
 	String regid;
 	String regpwd;
 	int checksysid=0;
-	String url="http://198.162.18.22:8080/kaarpool/";
+	String url="http://198.162.18.171:8080/kaarpool/";
 	
 	/* Deafault constructor for Controller
 	 * 
@@ -140,10 +139,7 @@ public class Controller
 		
     	try 
     	{
-
-    		Log.i("Createnewroute_Controller", "New route has been created");
     	    response1 = CustomHttpClient.executeHttpPost(url+"DriverNewRoute", newrouteparms);
-
     	    String res=response1.toString();
     	    Log.i("Createnewroute_Controller", "New route has been created");
     	    return res;
@@ -181,10 +177,25 @@ public class Controller
 	/*
 	 * Cancel the current route
 	 */
-	public boolean Canceldriverroute()
+	public String Canceldriverroute(String username, String csource, String cdestination, String ctime)
 	{
-		Log.i("Canceldriver_Controller", "Current route has been canceled");
-		return true;
+		ArrayList<NameValuePair> cancelparams = new ArrayList<NameValuePair>();
+		cancelparams.add(new BasicNameValuePair("username", username.toString().trim()));
+		cancelparams.add(new BasicNameValuePair("csource", csource.toString().trim()));
+		cancelparams.add(new BasicNameValuePair("cdestination", cdestination.toString().trim()));
+		cancelparams.add(new BasicNameValuePair("ctime", ctime.toString().trim()));
+		
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost(url+"DriverRidecancel", cancelparams);
+    	    String res=response.toString();
+    	    Log.i("Canceldriver_Controller", "Current route has been canceled");
+    	    return res;
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		Log.i("Controller","Got exception");
+    		return null;
+    	}
 	}
 	public String Sysid_registration(String sysregid, String sysregpwd, String sysregdob, String sysregaddress, String sysregmobile,String sysreggender,String sysregimage)
 	{
@@ -355,6 +366,46 @@ public class Controller
     		return null;
     	}
 		
+	}
+	public String getCancelroutedetails(String username)
+	{
+		String canceljourneylist = null;
+		ArrayList<NameValuePair> cancelroutedata=new ArrayList<NameValuePair>();
+		cancelroutedata.add(new BasicNameValuePair("username",username.toString().trim()));
+		try 
+    	{
+			Log.i("getCancelroutedetails_Controller", "Get cancel route details ");
+			canceljourneylist = CustomHttpClient.executeHttpPost(url+"CancelRide", cancelroutedata);
+    	    String res=canceljourneylist.toString();
+    	    System.out.println("Controller: "+res);
+			return res;
+			
+    	}
+		catch(Exception e) 
+    	{
+    		e.printStackTrace();
+    		return null;
+    	}
+	}
+	public String userTotalRidedetails(String username)
+	{
+		String canceljourneylist = null;
+		ArrayList<NameValuePair> cancelroutedata=new ArrayList<NameValuePair>();
+		cancelroutedata.add(new BasicNameValuePair("username",username.toString().trim()));
+		try 
+    	{
+			Log.i("getCancelroutedetails_Controller", "Get cancel route details ");
+			canceljourneylist = CustomHttpClient.executeHttpPost(url+"GetRidedetails", cancelroutedata);
+    	    String res=canceljourneylist.toString();
+    	    System.out.println("Controller: "+res);
+			return res;
+			
+    	}
+		catch(Exception e) 
+    	{
+    		e.printStackTrace();
+    		return null;
+    	}
 	}
 
 }

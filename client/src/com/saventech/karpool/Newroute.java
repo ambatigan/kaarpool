@@ -12,7 +12,6 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,21 +21,21 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TimePicker;
+import android.widget.RelativeLayout;
+
+import com.saventech.karpool.DateTimePicker;
 
 public class Newroute extends Activity implements OnClickListener{
 	
 	private String value="";
-	
+	private String datetime="";
 	private String mode="driver";
 	private Button newroute;
 	Controller controller;
 	private boolean checknewrouteflag;
-	private int mHour;
-	private int mMinute;
-	static final int TIME_DIALOG_ID = 0;
 	private Button driverjourneysettime;
 	private EditText driverjourneyedittime;
 	private EditText ed;
@@ -70,30 +69,15 @@ public class Newroute extends Activity implements OnClickListener{
         
         newroute=(Button)findViewById(R.id.drivernewrouteregsubmit);
         driverjourneysettime=(Button)findViewById(R.id.driverjourneysettime);
+        driverjourneysettime.setOnClickListener(this);
         driverjourneyedittime=(EditText)findViewById(R.id.driverjourneyedittime);
         driverjourneyedittime.setEnabled(false);
         ed = (EditText)findViewById(R.id.sourceid);
         ed1 = (EditText)findViewById(R.id.destinationid);
         seatid = (EditText)findViewById(R.id.seatid);
         ed.setEnabled(false);
-        ed1.setEnabled(false);
-        driverjourneysettime.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showDialog(TIME_DIALOG_ID);
-            }
-        });
-        
-        newroute.setOnClickListener(this);     
-        
-      //----------time picker---------
-        // get the current time
-        final Calendar c = Calendar.getInstance();
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
-
-        // display the current date
-        updateDisplay();
-        
+        ed1.setEnabled(false);        
+        newroute.setOnClickListener(this);             
     }
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 
@@ -104,40 +88,6 @@ public class Newroute extends Activity implements OnClickListener{
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-    @Override
-	protected Dialog onCreateDialog(int id) {
-	    switch (id) {
-	    case TIME_DIALOG_ID:
-	        return new TimePickerDialog(this.getParent(),mTimeSetListener, mHour, mMinute, false);
-	    }
-	    return null;
-	}
-	
-	// updates the time we display in the TextView
-	private void updateDisplay() {
-		driverjourneyedittime.setText(
-	        new StringBuilder()
-	                .append(pad(mHour)).append(":")
-	                .append(pad(mMinute)));
-	}
-	
-	// the callback received when the user "sets" the time in the dialog
-	private TimePickerDialog.OnTimeSetListener mTimeSetListener =
-	    new TimePickerDialog.OnTimeSetListener() {
-	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-	            mHour = hourOfDay;
-	            mMinute = minute;
-	            updateDisplay();
-	        }
-	    };
-	    
-	    
-	    private static String pad(int c) {
-	        if (c >= 10)
-	            return String.valueOf(c);
-	        else
-	            return "0" + String.valueOf(c);
-	    }
     /**
      *  The following methods are used to change source and destination of 
      *  particular ride
@@ -189,23 +139,60 @@ public class Newroute extends Activity implements OnClickListener{
 					}
 				});
 		alert.show();
-//    	Log.i("Newroute_changeDestination", "change button pressed to change Destination location");
-//    	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
-//		final EditText input = new EditText(this);
-//		alert.setView(input);
-//		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//			public void onClick(DialogInterface dialog, int whichButton) {
-//				value = input.getText().toString().trim();
-//			}
-//		});
-//		alert.setNegativeButton("Cancel",
-//				new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int whichButton) {
-//						dialog.cancel();
-//					}
-//				});
-//		alert.show();
     }
+    private void showDateTimeDialog() {
+		// Create the dialog
+		final Dialog mDateTimeDialog = new Dialog(this.getParent());
+		// Inflate the root layout
+		final RelativeLayout mDateTimeDialogView = (RelativeLayout) getLayoutInflater().inflate(R.layout.date_time_dialog, null);
+		// Grab widget instance
+		final DateTimePicker mDateTimePicker = (DateTimePicker) mDateTimeDialogView.findViewById(R.id.DateTimePicker);
+		// Check is system is set to use 24h time (this doesn't seem to work as expected though)
+		final String timeS = android.provider.Settings.System.getString(getContentResolver(), android.provider.Settings.System.TIME_12_24);
+		final boolean is24h = !(timeS == null || timeS.equals("12"));
+		// Update demo TextViews when the "OK" button is clicked 
+		((Button) mDateTimeDialogView.findViewById(R.id.SetDateTime)).setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				datetime = mDateTimePicker.get(Calendar.YEAR) + "/" + (mDateTimePicker.get(Calendar.MONTH)+1) + "/"
+				+ mDateTimePicker.get(Calendar.DAY_OF_MONTH);
+				if (mDateTimePicker.is24HourView()) {
+					datetime += " "+mDateTimePicker.get(Calendar.HOUR_OF_DAY) + ":" + mDateTimePicker.get(Calendar.MINUTE);
+					
+				} else {
+					datetime += " "+mDateTimePicker.get(Calendar.HOUR) + ":" + mDateTimePicker.get(Calendar.MINUTE) + " "
+					+ (mDateTimePicker.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM");
+				}
+				((EditText)findViewById(R.id.driverjourneyedittime)).setText(datetime);
+				mDateTimeDialog.dismiss();
+			}
+		});
+
+		// Cancel the dialog when the "Cancel" button is clicked
+		((Button) mDateTimeDialogView.findViewById(R.id.CancelDialog)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mDateTimeDialog.cancel();
+			}
+		});
+
+		// Reset Date and Time pickers when the "Reset" button is clicked
+		((Button) mDateTimeDialogView.findViewById(R.id.ResetDateTime)).setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mDateTimePicker.reset();
+			}
+		});
+		// Setup TimePicker
+		mDateTimePicker.setIs24HourView(is24h);
+		// No title on the dialog window
+		mDateTimeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// Set the dialog content view
+		mDateTimeDialog.setContentView(mDateTimeDialogView);
+		// Display the dialog
+		mDateTimeDialog.show();
+	}
 	public void onClick(final View view)
 	{
 		// TODO Auto-generated method stub
@@ -273,35 +260,11 @@ public class Newroute extends Activity implements OnClickListener{
             AlertDialog alert = builder.create();
             //display dialog box
             alert.show();
-            //display dialog box
-           /* //List items
-            final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
-            //Prepare the list dialog box
-            AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
-            //Set its title
-            builder.setTitle("Choose Location");
-            //Set the list items along with checkbox and assign with the click listener
-            builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-                // Click listener
-                public void onClick(DialogInterface dialog, int item) {
-                    //Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-                    //If the Cheese item is chosen close the dialog box
-                    if(items[item]=="New Location")
-                    {
-                    	changeDestination(view);
-                    }
-                }
-            });
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-    			public void onClick(DialogInterface dialog, int whichButton) {
-    				//Toast.makeText(getApplicationContext(), value,Toast.LENGTH_SHORT).show();
-    				
-    		    	ed1.setText(value);
-    			}
-    		});
-            AlertDialog alert = builder.create();
-            //display dialog box
-            alert.show();*/
+        }
+        if (view == findViewById(R.id.driverjourneysettime))
+        {
+        	System.out.println("if condition in driverjourneysettime");
+        	showDateTimeDialog();
         }
 		
 	}

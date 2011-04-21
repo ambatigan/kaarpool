@@ -20,9 +20,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /*
  * Project: Karpool
@@ -62,7 +60,6 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		        {
 		        	for(int k=0;k<ridelistdetails.size();k++)
 		        	{
-		        		Bitmap bm;
 			        	String records[]=ridelistdetails.get(k).toString().split("KRL");
 						for(int j=0;j<records.length;j++)
 						{

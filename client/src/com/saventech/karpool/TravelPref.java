@@ -1,8 +1,5 @@
 package com.saventech.karpool;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Hashtable;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
