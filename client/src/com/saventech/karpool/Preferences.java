@@ -54,10 +54,7 @@ public class Preferences extends ListActivity {
              startActivity(intent); 
              removeDialog(0);
            break;
-		case 4:
-			finish();
-			break;
-			
+		
 		}
     		
     }

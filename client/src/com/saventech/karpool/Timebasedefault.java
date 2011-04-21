@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class Timebasedefault extends Activity implements OnClickListener{
@@ -111,10 +113,26 @@ public class Timebasedefault extends Activity implements OnClickListener{
 			break;
 		case R.id.timesave:
 			 System.out.println(username+"username in savre");
+			 if(weekdays.getText().length()!=0 && source.getText().toString().length()!=0 && destination.getText().toString().length() !=0 && timings.getText().toString().length() !=0)
+			 {
+				 if((!source.getText().toString().equals(destination.getText().toString())))
+				{
 			String res =controller.saveTimeBasedPref(weekdays.getText().toString(),source.getText().toString(), destination.getText().toString(), timings.getText().toString(),location,username);
 			System.out.println(res+"response   kkkkkkkkkkkkk");
 			Intent timebased = new Intent(Timebasedefault.this, Preferences.class);
 			startActivity(timebased);
+				}
+				 else
+				 {
+					 Toast.makeText(Timebasedefault.this,"Please check source and destination", Toast.LENGTH_LONG).show();
+			    	    Log.i("Timebasedefault", "Please check source and destination"); 
+				 }
+			 }
+			 else
+			 {
+				Toast.makeText(Timebasedefault.this,"Please enter all fields", Toast.LENGTH_LONG).show();
+	    	    Log.i("Timebasedefault", "Please enter all fields");
+			 }
 			break;
 		}
 		

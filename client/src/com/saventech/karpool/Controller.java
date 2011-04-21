@@ -22,7 +22,8 @@ public class Controller
 	String regid;
 	String regpwd;
 	int checksysid=0;
-	String url="http://198.162.18.171:8080/kaarpool/";
+
+	String url="http://198.162.18.22:8080/kaarpool/";
 	
 	/* Deafault constructor for Controller
 	 * 
