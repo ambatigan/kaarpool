@@ -114,9 +114,9 @@ android:textColor="@color/textcolor"
 	    <EditText
 	    android:id="@+id/riderjourneyedittime"
 		android:layout_width="100px"
-		android:layout_height="40px"
+		android:layout_height="50px"
 		android:layout_marginLeft="10px"
-		android:textSize="16sp">
+		android:textSize="14sp">
 		</EditText>
 		<Button
 		android:id="@+id/riderjourneysettime"

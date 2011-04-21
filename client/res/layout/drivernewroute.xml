@@ -143,7 +143,7 @@ android:textStyle="bold"
 		android:layout_width="100px"
 		android:layout_height="40px"
 		android:layout_marginLeft="10px"
-		android:textSize="16sp">
+		android:textSize="11sp">
 		</EditText>
 		<Button
 		android:id="@+id/driverjourneysettime"
