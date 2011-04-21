@@ -26,7 +26,7 @@ public class GetRideList extends HttpServlet
         ridersource=request.getParameter("ridersource");
         riderdestination=request.getParameter("riderdestination");
         riderstarttime=request.getParameter("riderstarttime");
-        System.out.println(riderstarttime+"-----------------------------------------------");
+        System.out.println(riderstarttime+"---------------------------------------------");
         //ridermode=request.getParameter("ridermode");
         DBInterface connect = DBInterface.getInstance();
         if(connect.isConnectionOpen())

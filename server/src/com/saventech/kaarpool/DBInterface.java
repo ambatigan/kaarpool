@@ -690,7 +690,7 @@ public class DBInterface
 			ArrayList<String>list=new ArrayList<String>();
 			statement = connection.createStatement();
 			System.out.println(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid");
-			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and journey_details.userid=user_details.uid");
+			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and journey_details.userid=user_details.uid and user_details.modeid=1");
 			
 			while(resultSet.next())
 			{
@@ -701,16 +701,19 @@ public class DBInterface
 				}
 				else
 				{
-					count++;
-					String str="";
-					
-					str=str+resultSet.getString("jsource")+"KPL";
-					str=str+resultSet.getString("jdestination")+"KPL";
-					str=str+resultSet.getString("username")+"KPL";
-					str=str+resultSet.getString("address")+"KPL";
-					str=str+resultSet.getString("gender")+"KPL";
-					str=str+resultSet.getString("mobile")+"\n";				
-					  list.add(str);  
+					if(resultSet.getString("jsource").toString().trim().equals(rsource) && resultSet.getString("jdestination").toString().trim().equals(rdestination) && resultSet.getString("stime").toString().trim().equals(rstime) )
+					{
+						count++;
+						String str="";
+						
+						str=str+resultSet.getString("jsource")+"KPL";
+						str=str+resultSet.getString("jdestination")+"KPL";
+						str=str+resultSet.getString("username")+"KPL";
+						str=str+resultSet.getString("address")+"KPL";
+						str=str+resultSet.getString("gender")+"KPL";
+						str=str+resultSet.getString("mobile")+"\n";				
+						  list.add(str);  
+					}
 				}
 				
 			}
