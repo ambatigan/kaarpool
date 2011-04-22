@@ -42,5 +42,37 @@ public class Validations
 			 return false;
 		 }
 	}
+	public boolean rideGetRidelist(String source, String destination, String time)
+	{
+		if((source.toString().trim().length()!=0) && (destination.toString().trim().length()!=0) && (time.toString().trim().length()!=0))
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean addressValidation(String address)
+	{
+		if(address.toString().trim().length()<=200 && address.toString().trim().length()>0)
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean genderValidation(boolean gender)
+	{
+		if(gender)
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean driverNewRouteDetails(String source,String destination,String seats, String time )
+	{
+		if((source.toString().trim().length()!=0) && (destination.toString().trim().length()!=0) && (time.toString().trim().length()!=0) && (seats.toString().trim().length()!=0))
+		{
+			return true;
+		}
+		return false;
+	}
 
 }

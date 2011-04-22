@@ -38,7 +38,56 @@ public class Session
 		 SharedPreferences.Editor editor=mPreferences.edit();
          editor.remove("UserName");
          editor.remove("PassWord");
+         editor.remove("ridersource");
+         editor.remove("riderdestination");
+         editor.remove("ridersettime");
+         editor.remove("driversource");
+         editor.remove("driverdestination");
+         editor.remove("driversettime");
+         editor.remove("driverseats");
          editor.commit();
+	 }
+	 public  boolean checkRideDetails(SharedPreferences mPreferences)
+	 {
+		 boolean rider_source = mPreferences.contains("ridersource");
+	        boolean rider_destination = mPreferences.contains("riderdestination");
+	        boolean rider_settime = mPreferences.contains("ridersettime");
+	        System.out.println(rider_source+" "+rider_destination+" "+rider_settime);
+	        if ( rider_source || rider_destination ||rider_settime) {
+	              return true;
+	        } 
+	    	return false;
+	 }
+	 public void saveRideDetails(SharedPreferences mPreferences,String source,String destination, String time)
+	 {
+		 SharedPreferences.Editor editor=mPreferences.edit();
+         editor.putString("ridersource", source.toString().trim());
+         editor.putString("riderdestination", destination.toString().trim());
+         editor.putString("ridersettime", time.toString().trim());
+         editor.commit();
+	 }
+	 public void saveDriverDetails(SharedPreferences mPreferences,String source,String destination, String time, String seats)
+	 {
+		 SharedPreferences.Editor editor=mPreferences.edit();
+         editor.putString("driversource", source.toString().trim());
+         editor.putString("driverdestination", destination.toString().trim());
+         editor.putString("driversettime", time.toString().trim());
+         editor.putString("driverseats", seats.toString().trim());
+         editor.commit();
+		 
+	 }
+	 public  boolean checkNewRouteDetails(SharedPreferences mPreferences)
+	 {
+		 boolean driver_source = mPreferences.contains("driversource");
+	        boolean driver_destination = mPreferences.contains("driverdestination");
+	        boolean driver_settime = mPreferences.contains("driversettime");
+	        boolean driver_seats = mPreferences.contains("driverseats");
+	        System.out.println(driver_source+" "+driver_destination+" "+driver_settime);
+	        if ( driver_source || driver_destination ||driver_settime || driver_seats) 
+	        {
+	              return true;
+	        } 
+	    	return false;
 	 }
 
 }

@@ -21,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*
  * Project: Karpool
@@ -61,7 +62,13 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 				
 				}
 				System.out.println(session.getUsername(mPreferences)+"-----"+session.getPassword(mPreferences)+ridelistdetails.size()+"  *****************");
-				
+				sendrequest=(ImageButton)findViewById(R.id.sendrequest);
+				sendrequest.setOnClickListener(new View.OnClickListener() {
+		            public void onClick(View v) {
+		            	Toast.makeText(RiderGetRidelist.this, "Pressed send request button", Toast.LENGTH_LONG).show();
+		               // showDialog(DATE_DIALOG_ID);
+		            }
+		        });
 				LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
 		        LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		        String toaststring="";

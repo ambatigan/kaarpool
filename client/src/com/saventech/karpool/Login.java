@@ -37,12 +37,11 @@ public class Login extends  MenuOptions implements OnClickListener{
         
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
         SharedPreferences.Editor editor=mPreferences.edit();
-        editor.remove("UserName");
-        editor.remove("PassWord");
-        editor.commit();
+       
         System.out.println("DATA REMOVED");
         Log.i("Login_Activity", "Now you are in login activity");
         session=new Session();
+        session.removeSession(mPreferences);
         controller=new Controller();                //initializing controller object
         userid = (EditText)findViewById(R.id.useridlogintxt);
         pwd = (EditText)findViewById(R.id.pwdlogintxt);
@@ -95,15 +94,6 @@ public class Login extends  MenuOptions implements OnClickListener{
 				intent.putExtra("RegisterPassword", "loginpwd");
 				startActivity(intent);
     	    	Log.i("Login_Controller", "Login values are authenticated");
-    	    	
-    	    }
-    	    else if(authenticate.toString().trim().equals("NO"))
-    	    {   
-    	    	System.out.println(authenticate.toString());
-		    	 
-		    	 warn.setText("Please enter valid\nuser name and password");
-		    	 //Toast.makeText(Login.this,"Please check the server connection", Toast.LENGTH_LONG).show();
-    	    	 Log.i("Login_Controller", "Login values didnot match");
     	    	
     	    }
     	    else if(authenticate.toString().trim().equals("NOT_Exist"))

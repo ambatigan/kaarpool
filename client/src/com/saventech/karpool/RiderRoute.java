@@ -42,6 +42,7 @@ public class RiderRoute extends Activity implements OnClickListener{
 	private EditText ed1;
 	private SharedPreferences mPreferences; 
 	Session session;
+	Validations riderroutevalidate;
 
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,8 @@ public class RiderRoute extends Activity implements OnClickListener{
 			startActivity(intent);
 		
 		}
+		
+		riderroutevalidate=new Validations();
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.riderjourney);
         Button change1 = (Button) findViewById(R.id.riderjourneychangesource);
@@ -75,8 +78,30 @@ public class RiderRoute extends Activity implements OnClickListener{
         change2.setOnClickListener(this);
         newroute=(Button)findViewById(R.id.ridergetridelist);
         newroute.setOnClickListener(this);
+        System.out.println(session.checkRideDetails(mPreferences)+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^898989");
+        if(session.checkRideDetails(mPreferences))
+		{
+        	ed.setText(mPreferences.getString("ridersource","rs"));
+        	ed1.setText(mPreferences.getString("riderdestination","rd"));
+        	ridereditsettime.setText(mPreferences.getString("ridersettime","rt"));
+			
+		}
+       
         
     }
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	  // Save UI state changes to the savedInstanceState.
+	  // This bundle will be passed to onCreate if the process is
+	  // killed and restarted.
+		
+	  // etc.
+	  super.onSaveInstanceState(savedInstanceState);
+	}
+	
+
+
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
@@ -201,30 +226,58 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		if(view==findViewById(R.id.ridergetridelist))
 		{
 			
-			checkridelistflag=controller.Getridelist();
-			if(checkridelistflag)
+			boolean validateridelistflag=riderroutevalidate.rideGetRidelist(ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
+			if(validateridelistflag)
 			{
-				String res="";
-				System.out.println("ridergetridelist: before if condition");
-				res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
-				System.out.println("Response from server : "+res);
-				Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
-				String response="";
-				response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
-				System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
-				String str[]=response.toString().split("KPLL");
-				ArrayList<String>ridelistdata=new ArrayList<String>();
-				if(str.length>1)
-			    {  
-					System.out.println(str.length+"   00000000000000000000000000000000000");
-					for(int k=0;k<str.length-1;k++)
-				   {
-						System.out.println(str[k]+"   mmm");
-					    ridelistdata.add(str[k].toString());
-				   }
-					RiderJourneyDetails.ridelist=ridelistdata;
-					JourneyDetails.ridelist1=ridelistdata;
+				checkridelistflag=controller.Getridelist();
+				if(checkridelistflag)
+				{
+					String res="";
+					System.out.println("ridergetridelist: before if condition");
+					res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+					System.out.println("Response from server : "+res);
+					Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
+					String response="";
+					response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+					System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
+					String str[]=response.toString().split("KPLL");
+					ArrayList<String>ridelistdata=new ArrayList<String>();
+					if(str.length>1)
+				    {  
+						
+						for(int k=0;k<str.length-1;k++)
+					   {
+							System.out.println(str[k]+"   mmm");
+						    ridelistdata.add(str[k].toString());
+					   }
+						RiderJourneyDetails.ridelist=ridelistdata;
+						JourneyDetails.ridelist1=ridelistdata;
+						
+						
+						if(!session.checkRideDetails(mPreferences))
+						{
+							session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
+						}
+						
+						
+						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+			            ParentActivity.switchTab(1);
+			            //finish();
+					}
+					else
+					{
+						if(!session.checkRideDetails(mPreferences))
+						{
+							session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
+						}
+						RiderJourneyDetails.ridelist=ridelistdata;
+						Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
+						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+			            ParentActivity.switchTab(1);
+					}
 					
+
+
 					RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 		            ParentActivity.switchTab(1);
 		            //finish();
@@ -232,14 +285,20 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 				else
 				{
 
-					RiderJourneyDetails.ridelist=ridelistdata;
+					RiderJourneyDetails.ridelist=null;
 
 					Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 					RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 		            ParentActivity.switchTab(1);
+
 				}
 				
 			}
+			else
+			{
+				Toast.makeText(RiderRoute.this, "Please make sure all details are filled", Toast.LENGTH_LONG ).show();
+			}
+			
 			
 		}
 		

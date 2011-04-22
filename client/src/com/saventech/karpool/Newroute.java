@@ -25,6 +25,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.saventech.karpool.DateTimePicker;
 
@@ -43,6 +44,7 @@ public class Newroute extends Activity implements OnClickListener{
 	private EditText seatid;
 	private SharedPreferences mPreferences; 
 	Session session;
+	Validations validate;
 
 	
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class Newroute extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         Log.i("DriverJourneyDetails_New route", "New route tab in DriverJourneyDetails");
         session=new Session();
+        validate=new Validations();
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
 		if(!session.checkinfo(mPreferences))
 		{
@@ -77,7 +80,16 @@ public class Newroute extends Activity implements OnClickListener{
         seatid = (EditText)findViewById(R.id.seatid);
         ed.setEnabled(false);
         ed1.setEnabled(false);        
-        newroute.setOnClickListener(this);             
+        newroute.setOnClickListener(this);    
+        if(session.checkNewRouteDetails(mPreferences))
+		{
+        	ed.setText(mPreferences.getString("driversource","rs"));
+        	ed1.setText(mPreferences.getString("driverdestination","rd"));
+        	driverjourneyedittime.setText(mPreferences.getString("driversettime","rt"));
+        	seatid.setText(mPreferences.getString("driverseats","rt"));
+        	
+			
+		}
     }
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 
@@ -199,17 +211,30 @@ public class Newroute extends Activity implements OnClickListener{
 		
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
-			Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
-			String response="";
-			response = controller.driverNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
-			System.out.println("Response from server : "+response);
-			checknewrouteflag=controller.Getridelist();
-			if(checknewrouteflag)
+			boolean driverregsubmitflag=validate.driverNewRouteDetails(ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
+			if(driverregsubmitflag)
 			{
-				//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
-				DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
-	            ParentActivity.switchTab(2);
+				if(!session.checkNewRouteDetails(mPreferences))
+				{
+					session.saveDriverDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(),driverjourneyedittime.getText().toString().trim(), seatid.getText().toString().trim());
+				}
+				Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
+				String response="";
+				response = controller.driverNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
+				System.out.println("Response from server : "+response);
+				checknewrouteflag=controller.Getridelist();
+				if(checknewrouteflag)
+				{
+					//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+					DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
+		            ParentActivity.switchTab(2);
+				}
 			}
+			else
+			{
+				Toast.makeText(Newroute.this, "Please make sure all fields are filled", Toast.LENGTH_LONG).show();
+			}
+			
 			
 		}
 		

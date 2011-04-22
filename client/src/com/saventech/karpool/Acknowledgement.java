@@ -28,6 +28,7 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
 	//
 	private SharedPreferences mPreferences; 
 	Session session;
+	private ImageButton driveracknowledgement;
 	/**
 	 * This screen show the riders list for driver and driver can get notifications(accept/reject)
 	 * also in this screen.
@@ -47,6 +48,8 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         Log.i("DriverJourneyDetails_Acknowledgement","Acknowledgement tab in DriverJourneyDetails");
         setContentView(R.layout.ridelist0);
+        driveracknowledgement=(ImageButton)findViewById(R.id.sendrequest);
+        driveracknowledgement.setVisibility(View.INVISIBLE);
         LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
         LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       

@@ -84,8 +84,12 @@ public class CancelRoute extends Activity implements OnClickListener
         cancelroutebutton.setOnClickListener(this);
         if((cancelinfo.trim()).equals("nodata"))
         {
-        	Log.i("Cancel info", "No data from this user");
+        	Log.i("Cancel info", "No route is created by with this name");
         	Toast.makeText(this, "You didn't create any ride till now", Toast.LENGTH_LONG).show();
+        }
+        else if((cancelinfo.toString().trim().equals(",,")))
+        {
+        	
         }
         else
         {
@@ -116,6 +120,7 @@ public class CancelRoute extends Activity implements OnClickListener
     	Log.i("Riderroute_changesource", "Changing the source of a ride");
     	
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
+    	alert.setTitle("Source");
 		final EditText input = new EditText(this);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -139,14 +144,16 @@ public class CancelRoute extends Activity implements OnClickListener
     public void changeDestination(View view)
     {
     	
-    	Log.i("Riderroute_changedestinaton", "Changing the destination of a ride");
+    	Log.i("Riderroute_changesource", "Changing the source of a ride");
+    	
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
+    	alert.setTitle("Destination");
 		final EditText input = new EditText(this);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				value = input.getText().toString().trim();
-				
+				destination.setText(value);
 			}
 		});
 		alert.setNegativeButton("Cancel",
@@ -215,6 +222,10 @@ public class CancelRoute extends Activity implements OnClickListener
     	String data="";
     	data = controller.userTotalRidedetails(session.getUsername(mPreferences));
     	System.out.println("ride details: "+data);
+    	if(data.length()==0)
+    	{
+    		data="No route is created/all routes are delted by you";
+    	}
     	AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
 		builder.setTitle("Ride Details")
 			   .setMessage(data)
@@ -236,7 +247,7 @@ public class CancelRoute extends Activity implements OnClickListener
 		{
 			if(source.getText().toString()==null || destination.getText().toString()==null || starttime.getText().toString()==null)
 			{
-				Toast.makeText(this, "please enter correct cancel details", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "please enter valid cancel details", Toast.LENGTH_LONG).show();
 			}
 			else
 			{
@@ -297,30 +308,23 @@ public class CancelRoute extends Activity implements OnClickListener
         /** check whether the change2 button has been clicked */
         if (view == findViewById(R.id.drivercancelroutechange2)) {
         	
-        	Log.i("driver cancel route destination", "Pop will be displayed to change the destinaton");
+        	Log.i("driver cancel route source", "Pop will be displayed to change the source");
             //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
             AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
             //Set its title
             builder.setTitle("Choose Location");
-            //Set the list items along with checkbox and assign with the click listener
-            builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            //Set the list items and assign with the click listener
+            builder.setItems(items, new DialogInterface.OnClickListener() {
                 // Click listener
                 public void onClick(DialogInterface dialog, int item) {
                     if(items[item]=="New Location")
                     {
-                    	changeDestination(view);
+                    	changeDestination(view);                 	                    	
                     }
                 }
             });
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-    			public void onClick(DialogInterface dialog, int whichButton) {
-    				//Toast.makeText(getApplicationContext(), value,Toast.LENGTH_SHORT).show();
-    				
-    		    	destination.setText(value);
-    			}
-    		});
             AlertDialog alert = builder.create();
             //display dialog box
             alert.show();

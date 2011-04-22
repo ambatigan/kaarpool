@@ -320,23 +320,14 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     
 		     
 		     //--------------validating password starts-----------------
-		     
-		     if(sysuserpwd.getText().toString().length()>=5)
-		     {
-		    	 checksyspwdflag=true;
-		     }
-		     else
+		     checksyspwdflag=mobilevalidate.passwordValidation(sysuserpwd.getText().toString().trim());
+		     if(!checksyspwdflag)
 		     {
 		    	 validatestring="-> Type the correct password(length>=5)\n";
-		     }
-		     
+		     }		     
 		     // validating address
-		     
-		     if(sysuseraddress.getText().toString().length()<=200 && sysuseraddress.getText().length()>0)
-		     {
-		    	 checksysaddressflag=true;
-		     }
-		     else
+		     checksysaddressflag=mobilevalidate.addressValidation(sysuseraddress.getText().toString().trim());
+		     if(!checksysaddressflag)
 		     {
 		    	 validatestring=validatestring+"-> Address length should be one to two hundred\n";
 		     }
@@ -349,18 +340,11 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     }
 		     
 		     //--------validating gender buttons starts--------------
-		     
-		     if(sysusergenderfemale.isChecked())
+		     checksysfemaleflag=mobilevalidate.genderValidation(sysusergenderfemale.isChecked());
+		     checksysmaleflag=mobilevalidate.genderValidation(sysusergendermale.isChecked());
+		     if(!checksysfemaleflag && !checksysmaleflag)
 		     {
-		    	 checksysfemaleflag=true; 
-		    	// System.out.println(sysusergendermale.getText().toString()+"  oooooooooooooooooooooooooooooooooo");
-		     }
-		     else if(sysusergendermale.isChecked())
-		     {
-		    	 checksysmaleflag=true; 
-		     }
-		     else
-		     {
+		    	 System.out.println(checksysmaleflag+"------------------"+checksysmaleflag+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		    	 validatestring=validatestring+"-> Pls select your gender\n";
 		     }
 		     
@@ -371,25 +355,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 				{
 					validatestring=validatestring+"-> Pls enter correct mobile number(start with zero and follows by 10 digits) \n";
 				}
-		     /*Pattern mobile = Pattern.compile("\\d{11}");
-		     Matcher match = mobile.matcher(sysusermobile.getText().toString());
-			 boolean matchfound= match.lookingAt();
-			 if(matchfound)
-			 {
-				 if(sysusermobile.getText().toString().charAt(0)=='0' && (sysusermobile.getText().toString().length()==10 || sysusermobile.getText().toString().length()==11))
-				 {
-					 checksysmobileflag=true;
-				 }
-				 else
-				 {
-					 validatestring=validatestring+"-> Pls enter correct mobile number(start with zero) \n";
-				 }
-				 
-			 }
-			 else
-			 {
-				 validatestring=validatestring+"-> Pls enter correct mobile number (start with zero)\n";
-			 }*/
+		     
 		     //-----------validating mobile number ends---------------
 			 //------------uploading image code starts-------------------
 			 System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+BitmapFactory.decodeResource(getResources(), R.drawable.default1));

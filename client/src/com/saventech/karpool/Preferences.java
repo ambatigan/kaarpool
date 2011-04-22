@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,6 +27,17 @@ public class Preferences extends ListActivity {
     getListView().setTextFilterEnabled(true);
    // getListView().set.setTextFilterEnabled(true);
    }
+    
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			Intent intent=new Intent(Preferences.this,JourneyDetails.class);
+			startActivity(intent);
+			//return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
     
     protected void onListItemClick(ListView l, View v, int position, long id) {
     	super.onListItemClick(l, v, position, id);
