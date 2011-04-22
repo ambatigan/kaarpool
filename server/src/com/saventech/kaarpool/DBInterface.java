@@ -454,9 +454,11 @@ public class DBInterface
 			System.out.println(s+"Size of result set");
 			//System.out.println(resultSet.getHoldability()+"resultSet.getHoldability();");
 			if(s>0)
-			{				
+			{			
+				System.out.println(resourceBundle.getString("get_trid_ride")+username+"\"");
 				resultSet1 = statement.executeQuery(resourceBundle.getString("get_trid_ride")+username+"\"");
 				resultSet1.next();
+				System.out.println(resourceBundle.getString("update_ride")+newpref[0]+"\""+","+"gents="+"\""+newpref[1]+"\""+","+"music="+"\""+newpref[2]+"\""+","+"smoke="+"\""+newpref[3]+"\""+","+"children="+"\""+newpref[4]+"\""+","+"handicap="+"\""+newpref[5]+"\""+","+"seatavail="+"\""+seats+"\""+","+"carimg="+"\""+image+"\""+resourceBundle.getString("update_ride1")+resultSet1.getBigDecimal(1));
 				int res=statement.executeUpdate(resourceBundle.getString("update_ride")+newpref[0]+"\""+","+"gents="+"\""+newpref[1]+"\""+","+"music="+"\""+newpref[2]+"\""+","+"smoke="+"\""+newpref[3]+"\""+","+"children="+"\""+newpref[4]+"\""+","+"handicap="+"\""+newpref[5]+"\""+","+"seatavail="+"\""+seats+"\""+","+"carimg="+"\""+image+"\""+resourceBundle.getString("update_ride1")+resultSet1.getBigDecimal(1));
 				System.out.println(res+" in in");
 			}
@@ -464,12 +466,33 @@ public class DBInterface
 			{
 				System.out.println(resourceBundle.getString("insert_ride")+newpref[0]+"\""+","+"\""+newpref[1]+"\""+","+"\""+newpref[2]+"\""+","+"\""+newpref[3]+"\""+","+"\""+newpref[4]+"\""+","+"\""+newpref[5]+"\""+","+"\""+seats+"\""+","+"\""+image+"\""+") ");
 				int r = statement.executeUpdate(resourceBundle.getString("insert_ride")+newpref[0]+"\""+","+"\""+newpref[1]+"\""+","+"\""+newpref[2]+"\""+","+"\""+newpref[3]+"\""+","+"\""+newpref[4]+"\""+","+"\""+newpref[5]+"\""+","+"\""+seats+"\""+","+"\""+image+"\""+") ");
-				System.out.println("insert into preferences(travelid) values(select max(trid) from ridepreferences)");
+				System.out.println("select prefid from user_details,personal_details,preferences where user_details.preid=preferences.prefid and user_details.prdid=personal_details.pid and personal_details.username="+"\""+username+"\"");
+				resultSet = statement.executeQuery("select prefid from user_details,personal_details,preferences where user_details.preid=preferences.prefid and user_details.prdid=personal_details.pid and personal_details.username="+"\""+username+"\"");
+				resultSet.next();
+				//System.out.println(resultSet.getBigDecimal(1));
+				if(resultSet.getRow()>0)
+				{
+					System.out.println("in             ddddddd");
+					//resultSet.close();
+					//resultSet1 = statement.executeQuery("select max(trid) from ridepreferences");
+					//resultSet1.next();
+					System.out.println("update preferences set travelid="+"(select max(trid) from ridepreferences) "+"where preferences.prefid="+resultSet.getBigDecimal(1));
+					statement.executeUpdate("update preferences set travelid="+"(select max(trid) from ridepreferences) "+"where preferences.prefid="+resultSet.getBigDecimal(1));
+					//resultSet1.close();
+				}
+				else
+				{
+				//System.out.println("insert into preferences(travelid) values(select max(trid) from ridepreferences)");
 				resultSet = statement.executeQuery("select max(trid) from ridepreferences");
 				resultSet.next();
+				System.out.println("insert into preferences(travelid) values("+resultSet.getBigDecimal(1)+")");
 				statement.executeUpdate("insert into preferences(travelid) values("+resultSet.getBigDecimal(1)+")");
+				
+				}
+				System.out.println(resourceBundle.getString("getpid")+username+"\"");
 				resultSet1 = statement.executeQuery(resourceBundle.getString("getpid")+username+"\"");
 				resultSet1.next();
+				System.out.println(resourceBundle.getString("update_userdetails1")+resultSet1.getBigDecimal(1));
 				statement.executeUpdate(resourceBundle.getString("update_userdetails1")+resultSet1.getBigDecimal(1));
 				log.info("update  store_travelPref"+r);
 			}			
@@ -522,31 +545,66 @@ public class DBInterface
 			resultSet = statement.executeQuery(resourceBundle.getString("getTimeBased")+username+"\"");
 			resultSet.next();
 			if(resultSet.getRow()>0)
-			{		resultSet.close();		
-				System.out.println(resourceBundle.getString("get_tbid_timebased")+username+"\"");
-				resultSet = statement.executeQuery(resourceBundle.getString("get_tbid_timebased")+username+"\"");
-				resultSet.next();
-				System.out.println(resourceBundle.getString("update_timebased")+"\""+weekdays+"\""+","+"source="+"\""+tsource+"\""+","+"destination="+"\""+tdestination+"\""+","+"startime="+"\""+timing+"\""+","+"location="+"\""+tlocation+"\""+resourceBundle.getString("update_timebased1")+resultSet.getBigDecimal(1));
-				statement.executeUpdate(resourceBundle.getString("update_timebased")+"\""+weekdays+"\""+","+"source="+"\""+tsource+"\""+","+"destination="+"\""+tdestination+"\""+","+"startime="+"\""+timing+"\""+","+"location="+"\""+tlocation+"\""+resourceBundle.getString("update_timebased1")+resultSet.getBigDecimal(1));
+			{		//resultSet.close();		
+				System.out.println(resourceBundle.getString("get_tbid_timebased")+username+"\""+"roshanffffffffffffffffff");
+				resultSet1 = statement.executeQuery(resourceBundle.getString("get_tbid_timebased")+username+"\"");
+				resultSet1.next();
+				System.out.println(resourceBundle.getString("update_timebased")+"\""+weekdays+"\""+","+"source="+"\""+tsource+"\""+","+"destination="+"\""+tdestination+"\""+","+"startime="+"\""+timing+"\""+","+"location="+"\""+tlocation+"\""+resourceBundle.getString("update_timebased1")+resultSet1.getBigDecimal(1));
+				statement.executeUpdate(resourceBundle.getString("update_timebased")+"\""+weekdays+"\""+","+"source="+"\""+tsource+"\""+","+"destination="+"\""+tdestination+"\""+","+"startime="+"\""+timing+"\""+","+"location="+"\""+tlocation+"\""+resourceBundle.getString("update_timebased1")+resultSet1.getBigDecimal(1));
 				//resultSet.close();	
 			}
 			else
 			{
-				//System.out.println(resourceBundle.getString("insert_timebased")+"\""+weekdays+"\""+","+"\""+tsource+"\""+","+"\""+tdestination+"\""+","+"\""+timing+"\""+","+"\""+tlocation+"\""+") ");
+				
+				
+				System.out.println(resourceBundle.getString("insert_timebased")+"\""+weekdays+"\""+","+"\""+tsource+"\""+","+"\""+tdestination+"\""+","+"\""+timing+"\""+","+"\""+tlocation+"\""+") ");
 				statement.executeUpdate(resourceBundle.getString("insert_timebased")+"\""+weekdays+"\""+","+"\""+tsource+"\""+","+"\""+tdestination+"\""+","+"\""+timing+"\""+","+"\""+tlocation+"\""+") ");
-				resultSet = statement.executeQuery(resourceBundle.getString("maxtimebasedrecord"));
-				resultSet.next();
-				//System.out.println(resourceBundle.getString("update_pref1")+username+"\"");
-				resultSet1 = statement.executeQuery(resourceBundle.getString("update_pref1")+username+"\"");
-				resultSet1.next();
-				System.out.println(resourceBundle.getString("update_pref")+"(select max(tbid) from timebased_defaultloc)"+" where preferences.prefid="+resultSet1.getBigDecimal(1));
-				statement.executeUpdate(resourceBundle.getString("update_pref")+"(select max(tbid) from timebased_defaultloc)"+" where preferences.prefid="+resultSet1.getBigDecimal(1));
-				//System.out.println(resourceBundle.getString("getpid")+username+"\"" );
-					
+				
+				System.out.println("select prefid from user_details,personal_details,preferences where user_details.preid=preferences.prefid and user_details.prdid=personal_details.pid and personal_details.username="+"\""+username+"\"");
+				
+				
+				
+				rs = statement.executeQuery("select prefid from user_details,personal_details,preferences where user_details.preid=preferences.prefid and user_details.prdid=personal_details.pid and personal_details.username="+"\""+username+"\"");
+				System.out.println(rs.getRow()+"resultSet.getRow() in store tarave");
+				int i=0;
+				while(rs.next())
+				{
+					i++;
+				}
+				System.out.println(i+"number of rows");
+				if(i>0)
+				{
+					//resultSet.close();
+//					resultSet = statement.executeQuery(resourceBundle.getString("maxtimebasedrecord"));
+//					resultSet.next();
+					System.out.println(resourceBundle.getString("update_pref1")+username+"\"");
+					resultSet1 = statement.executeQuery(resourceBundle.getString("update_pref1")+username+"\"");
+					resultSet1.next();
+					//System.out.println(resourceBundle.getString("update_pref")+"(select max(tbid) from timebased_defaultloc)"+" where preferences.prefid="+resultSet1.getBigDecimal(1));
+					System.out.println(resourceBundle.getString("update_pref")+"(select max(tbid) from timebased_defaultloc)"+" where preferences.prefid="+resultSet1.getBigDecimal(1));
+					statement.executeUpdate(resourceBundle.getString("update_pref")+"(select max(tbid) from timebased_defaultloc)"+" where preferences.prefid="+resultSet1.getBigDecimal(1));
+					//System.out.println(resourceBundle.getString("getpid")+username+"\"" );
+//					resultSet1 = statement.executeQuery("select max(trid) from ridepreferences");
+//					resultSet1.next();
+//					statement.executeUpdate("update preferences set travelid="+resultSet1.getBigDecimal(1)+"where preferences.prefid="+resultSet.getBigDecimal(1));
+//					resultSet1.close();
+					System.out.println("greater than 0");
+				}
+				else
+				{
+					//resultSet1 = statement.executeQuery(resourceBundle.getString("update_pref1")+username+"\"");
+					//resultSet1.next();
+					resultSet = statement.executeQuery(resourceBundle.getString("maxtimebasedrecord"));
+					resultSet.next();
+					System.out.println("insert into preferences (tbdid) values ("+resultSet.getBigDecimal(1)+")");//where preferences.prefid="+resultSet1.getBigDecimal(1));
+					statement.executeUpdate("insert into preferences (tbdid) values ("+resultSet.getBigDecimal(1)+")");// where preferences.prefid="+resultSet1.getBigDecimal(1));
+				}
+				
+					System.out.println(resourceBundle.getString("getpid")+username+"\"" );
 				resultSet2 = statement.executeQuery(resourceBundle.getString("getpid")+username+"\"" );
 				resultSet2.next();
 				
-				System.out.println(resultSet2.getBigDecimal(1));
+				System.out.println(resourceBundle.getString("update_userdetails1")+resultSet2.getBigDecimal(1));
 				statement.executeUpdate(resourceBundle.getString("update_userdetails1")+resultSet2.getBigDecimal(1));
 				log.info("update  store_travelPref");
 					
