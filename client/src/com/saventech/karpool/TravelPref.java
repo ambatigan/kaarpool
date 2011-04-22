@@ -236,7 +236,7 @@ public class TravelPref extends Activity implements OnClickListener
 		   Log.i("TravelPref_save", "Travel preference values are storing");
 		   
 		   Toast.makeText(TravelPref.this, "Saving travel preferences ", Toast.LENGTH_LONG).show();
-		   String imagedata=uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
+		   String imagedata=uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.car2));
 		   System.out.println(imagedata);
 		   String userTravelPref=getUserAnswer();
 		   System.out.println(userTravelPref+" userTravelPref");

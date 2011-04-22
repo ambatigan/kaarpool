@@ -36,7 +36,8 @@ public class Login extends  MenuOptions implements OnClickListener{
         setContentView(R.layout.login);
         
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
-        SharedPreferences.Editor editor=mPreferences.edit();
+        @SuppressWarnings("unused")
+		SharedPreferences.Editor editor=mPreferences.edit();
        
         System.out.println("DATA REMOVED");
         Log.i("Login_Activity", "Now you are in login activity");

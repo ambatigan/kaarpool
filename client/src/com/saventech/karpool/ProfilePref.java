@@ -1,11 +1,5 @@
 package com.saventech.karpool;
 
-
-import java.io.ByteArrayOutputStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
