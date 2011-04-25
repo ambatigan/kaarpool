@@ -24,9 +24,7 @@ public class Controller
 	int checksysid=0;
 
 
-
 	String url="http://198.162.18.22:8080/kaarpool/";
-
 
 	/* Deafault  constructor for Controller
 	 * 
@@ -402,6 +400,31 @@ public class Controller
 			canceljourneylist = CustomHttpClient.executeHttpPost(url+"GetRidedetails", cancelroutedata);
     	    String res=canceljourneylist.toString();
     	    System.out.println("Controller: "+res);
+			return res;
+			
+    	}
+		catch(Exception e) 
+    	{
+    		e.printStackTrace();
+    		return null;
+    	}
+	}
+	public String checkDriverridedetails(String username, String src,
+			String dest, String seats, String time) {
+		// TODO Auto-generated method stub
+		ArrayList<NameValuePair> checkdetails=new ArrayList<NameValuePair>();
+		checkdetails.add(new BasicNameValuePair("username",username.toString().trim()));
+		checkdetails.add(new BasicNameValuePair("src",src.toString().trim()));
+		checkdetails.add(new BasicNameValuePair("dest",dest.toString().trim()));
+		checkdetails.add(new BasicNameValuePair("seats",seats.toString().trim()));
+		checkdetails.add(new BasicNameValuePair("time",time.toString().trim()));
+		String checkRidedetails = "";
+		try 
+    	{
+			Log.i("getCancelroutedetails_Controller", "Get cancel route details ");
+			checkRidedetails = CustomHttpClient.executeHttpPost(url+"CheckRidedetails", checkdetails);
+    	    String res=checkRidedetails.toString();
+    	    System.out.println("CheckRidedetails: "+res);
 			return res;
 			
     	}
