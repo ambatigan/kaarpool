@@ -224,7 +224,7 @@ public class CancelRoute extends Activity implements OnClickListener
     	System.out.println("ride details: "+data);
     	if(data.length()==0)
     	{
-    		data="No route is created/all routes are delted by you";
+    		data="No route is created/all routes are deleted by you";
     	}
     	AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
 		builder.setTitle("Ride Details")
