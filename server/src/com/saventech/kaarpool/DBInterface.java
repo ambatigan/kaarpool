@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
  
 import org.apache.log4j.Logger;
 /**
@@ -817,8 +818,10 @@ public class DBInterface
 		{
 			System.out.println("i am in get cancelroutedetails");
 			statement = connection.createStatement();
-			System.out.println(resourceBundle.getString("ridecancellation")+username+"\""+" order by jid DESC LIMIT 1");
-			String str = resourceBundle.getString("ridecancellation")+username+"\""+" order by jid DESC LIMIT 1";
+			rs = statement.executeQuery(resourceBundle.getString("getDrivername")+username+"\"");
+			rs.next();
+			System.out.println(resourceBundle.getString("ridecancellation")+rs.getBigDecimal(1));
+			String str = resourceBundle.getString("ridecancellation")+rs.getBigDecimal(1);
 			//resultSet=statement.executeQuery(resourceBundle.getString("ridecancellation")+username+"\""+" order by stime DESC LIMIT 1");
 			resultSet = statement.executeQuery(str);
 			resultSet.next();
@@ -873,12 +876,9 @@ public class DBInterface
 			}
 			return bool;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-		
-		
 	}
 	public String driverRideCacellation(String username, String csource, String cdestination, String ctime)
 	{
@@ -949,15 +949,14 @@ public class DBInterface
 			System.out.println(resourceBundle.getString("uidforridedetails")+username+"\"");
 			resultSet=statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
 			resultSet.next();
-			//System.out.println("1111111111111");
 			System.out.println(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
-			rs = statement.executeQuery(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
-			//System.out.println("2222222222222");
+			rs = statement.executeQuery(resourceBundle.getString("driverRidedetails")+username+"\"");
 			while(rs.next())
 			{
 				str += "source: "+rs.getString("jsource")+"\n"+"dest: "+rs.getString("jdestination")+"\n"+"start time: "+rs.getString("stime")+"\n";
 				System.out.println(str);
 			}
+			
 			return str;
 			
 		}
@@ -967,6 +966,41 @@ public class DBInterface
 			ex.printStackTrace();
 		}
 		return null;
+	}
+
+	public String checkDriverjourneydetails(String username, String src,
+			String dest, String seats, String time) {
+		// TODO Auto-generated method stub
+		String str ="true";
+		
+		try
+		{
+			statement = connection.createStatement();
+			System.out.println(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet=statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet.next();
+			System.out.println(resourceBundle.getString("checkDriverdetails")+resultSet.getBigDecimal(1)+")");
+			rs = statement.executeQuery(resourceBundle.getString("checkDriverdetails")+resultSet.getBigDecimal(1));
+			while(rs.next())
+			{
+				//str += "source: "+rs.getString("jsource")+"\n"+"dest: "+rs.getString("jdestination")+"\n"+"start time: "+rs.getString("stime")+"\n";
+				//System.out.println(str);
+				if(rs.getString("jsource").trim().equals(src) && rs.getString("jdestination").trim().equals(dest) && rs.getString("stime").trim().equals(time))
+				{
+					System.out.println("if condition: ");
+					return str;
+				}
+			}
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+			
+		}
+		return "false";
+		
 	}
 
 }
