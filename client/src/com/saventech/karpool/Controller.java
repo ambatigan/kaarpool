@@ -24,7 +24,9 @@ public class Controller
 	int checksysid=0;
 
 
-	String url="http://198.162.18.156:8080/kaarpool/";
+
+	String url="http://198.162.18.22:8080/kaarpool/";
+
 
 	/* Deafault  constructor for Controller
 	 * 

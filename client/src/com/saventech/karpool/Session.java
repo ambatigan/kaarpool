@@ -6,6 +6,7 @@ public class Session
 {
 	private String username;
 	private String password;
+	
 	//private SharedPreferences mPreferences; 
 	 public boolean checkinfo(SharedPreferences mPreferences)
 	    {
@@ -45,6 +46,7 @@ public class Session
          editor.remove("driverdestination");
          editor.remove("driversettime");
          editor.remove("driverseats");
+         editor.remove("checkboxesclicked");
          editor.commit();
 	 }
 	 public  boolean checkRideDetails(SharedPreferences mPreferences)
@@ -88,6 +90,28 @@ public class Session
 	              return true;
 	        } 
 	    	return false;
+	 }
+	 public boolean ischeckboxesclicked(SharedPreferences mPreferences)
+	 {
+		 boolean checkboxes_clicked=mPreferences.contains("checkboxesclicked");
+		 if(checkboxes_clicked)
+		 {
+			 return true;
+		 }
+		 return false;
+	 }
+	 public String getCheckBoxesClicked(SharedPreferences mPreferences)
+	 {
+		 return mPreferences.getString("checkboxesclicked", "cc");
+	 }
+	 public void saveCheckBoxesClicked(SharedPreferences mPreferences,String checkboxes)
+	 {
+		 SharedPreferences.Editor editor=mPreferences.edit();
+		 String previouscheckboxes=mPreferences.getString("checkboxesclicked","cd");
+         editor.putString("checkboxesclicked", checkboxes.toString().trim());
+         System.out.println(mPreferences.getString("checkboxesclicked","cd")+" ############################");
+         editor.commit();
+         
 	 }
 
 }

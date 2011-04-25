@@ -21,45 +21,6 @@ android:textColor="#ffccccff"
 android:layout_width="wrap_content" 
 android:layout_gravity="center_horizontal"></TextView>
 <TextView
-android:id="@+id/widget85"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_marginTop="10px"
-android:layout_marginBottom="25px"
-android:layout_marginLeft="10px"
-android:layout_marginRight="10px"
-android:text="Register with:"
-android:textSize="16sp"
-android:typeface="sans"
-android:textStyle="bold"
-android:textColor="#ff00cc99"
->
-</TextView>
-<TableLayout
-android:id="@+id/widget89"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:padding="30px"
-android:layout_marginRight="10px"
-android:orientation="vertical"
-android:stretchColumns="3"
-android:layout_gravity="center_horizontal"
-android:clipToPadding="true" android:gravity="center_horizontal">
-<TableRow
-android:id="@+id/widget90"
-android:layout_width="fill_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
-android:clipToPadding="true"
-
->
-<ImageButton android:src="@drawable/facebook" android:layout_height="50px" android:id="@+id/facebook" android:layout_width="50px" android:layout_margin="5px"></ImageButton>
-<ImageButton android:src="@drawable/gmail" android:layout_height="50px" android:id="@+id/gmail" android:layout_width="50px" android:layout_margin="5px"></ImageButton>
-
-
-</TableRow>
-</TableLayout>
-<TextView
 android:id="@+id/widget97"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"

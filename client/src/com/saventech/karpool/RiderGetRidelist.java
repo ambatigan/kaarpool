@@ -36,6 +36,8 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	Controller controller;
 	ArrayList<String> ridelistdetails=new ArrayList<String>();
 	private ImageButton sendrequest;
+	String checkboxesclicked="";
+	String getcheckboxesclicked="";
 	
 
 	 public void onCreate(Bundle savedInstanceState) {
@@ -61,14 +63,19 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 					startActivity(intent);
 				
 				}
+				if(session.ischeckboxesclicked(mPreferences))
+				{
+					getcheckboxesclicked=session.getCheckBoxesClicked(mPreferences);
+				}
+				else
+				{
+					 SharedPreferences.Editor editor=mPreferences.edit();
+					 editor.putString("checkboxesclicked", checkboxesclicked);
+					 editor.commit();
+				}
 				System.out.println(session.getUsername(mPreferences)+"-----"+session.getPassword(mPreferences)+ridelistdetails.size()+"  *****************");
 				sendrequest=(ImageButton)findViewById(R.id.sendrequest);
-				sendrequest.setOnClickListener(new View.OnClickListener() {
-		            public void onClick(View v) {
-		            	Toast.makeText(RiderGetRidelist.this, "Pressed send request button", Toast.LENGTH_LONG).show();
-		               // showDialog(DATE_DIALOG_ID);
-		            }
-		        });
+				
 				LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
 		        LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		        String toaststring="";
@@ -130,6 +137,15 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 				            route.setId(k);
 				            rate.setId(k);
 				            check.setId(k);
+				            check.setOnClickListener(new View.OnClickListener() {
+				            
+				            	 public void onClick(View v) {
+						            	//Toast.makeText(RiderGetRidelist.this, "Pressed checkbutton", Toast.LENGTH_LONG).show();
+						            	checkbuttonid(v);
+						               // showDialog(DATE_DIALOG_ID);
+						            }
+						        });
+				            
 				            img.setId(k+ridelistdetails.size());
 				           
 				            
@@ -137,7 +153,59 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 				            l.addView(customView); 
 		        	}
 		        }
+		        sendrequest.setOnClickListener(new View.OnClickListener() {
+		            public void onClick(View v) 
+		            {
+		            	System.out.println("Pressed send request button");
+		            	Toast.makeText(RiderGetRidelist.this, "Pressed send request button", Toast.LENGTH_LONG).show();
+		            	//sendrequest(v);
+		               // showDialog(DATE_DIALOG_ID);
+		            }
+		        });
 		        
+		 
+	 }
+	 
+	 
+	 public void sendrequest(View v)
+	 {
+		 checkboxesclicked=checkboxesclicked+getcheckboxesclicked;
+		 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
+		 checkboxesclicked="";
+		 
+		 
+	 }
+	 public void checkbuttonid(View v)
+	 {
+		 if(ridelistdetails.size()!=0)
+	        {
+	        	for(int k=0;k<ridelistdetails.size();k++)
+	        	{
+	        		if(v.getId()==k)
+	        		{
+	        			String checkrecords[]=ridelistdetails.get(k).toString().trim().split("KRL");
+	        			for(int j=0;j<checkrecords.length;j++)
+						{
+							if(k==0 && j==0)
+							{
+								checkboxesclicked=checkboxesclicked+checkrecords[3]+":";
+								break;
+							}
+							else
+							{
+								checkboxesclicked=checkboxesclicked+checkrecords[2]+":";
+								break;
+							}
+							
+						}
+	        			
+	        		}
+	        	}
+	        	//Toast.makeText(RiderGetRidelist.this, "checkbox data is: "+checkboxesclicked, Toast.LENGTH_LONG).show();
+	        	
+	        }
+		 
+		 //session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
 		 
 	 }
 	 

@@ -56,7 +56,7 @@ public class MainActivity extends  MenuOptions implements OnClickListener{
 		switch(v.getId())
 		{
 		case R.id.login:
-			Intent login = new Intent(MainActivity.this, Login.class);
+			Intent login = new Intent(MainActivity.this, MainLogin.class);
 			startActivity(login);
 			break;
 		case R.id.register:

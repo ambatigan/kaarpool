@@ -54,7 +54,7 @@ public class Login extends  MenuOptions implements OnClickListener{
 	{
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			Intent intent=new Intent(Login.this,MainActivity.class);
+			Intent intent=new Intent(Login.this,MainLogin.class);
 			startActivity(intent);
 			//return true;
 		}
