@@ -206,9 +206,7 @@ public class Newroute extends Activity implements OnClickListener{
 		mDateTimeDialog.show();
 	}
 	public void onClick(final View view)
-	{
-		// TODO Auto-generated method stub
-		
+	{		
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
 			boolean driverregsubmitflag=validate.driverNewRouteDetails(ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
@@ -218,17 +216,31 @@ public class Newroute extends Activity implements OnClickListener{
 				{
 					session.saveDriverDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(),driverjourneyedittime.getText().toString().trim(), seatid.getText().toString().trim());
 				}
-				Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
-				String response="";
-				response = controller.driverNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
-				System.out.println("Response from server : "+response);
-				checknewrouteflag=controller.Getridelist();
-				if(checknewrouteflag)
+				String check = controller.checkDriverridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
+				System.out.println("response for checkDriverridedetails: "+check);
+				if(check.trim().equals("true"))
 				{
-					//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
-					DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
-		            ParentActivity.switchTab(2);
+					Toast.makeText(this, "You've already created ride with this details", Toast.LENGTH_LONG).show();
+					ed.setText("");
+					ed1.setText("");
+					driverjourneyedittime.setText("");
+					seatid.setText("");
 				}
+				else
+				{
+					Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
+					String response="";
+					response = controller.driverNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
+					System.out.println("Response from server : "+response);
+					checknewrouteflag=controller.Getridelist();
+					if(checknewrouteflag)
+					{
+						//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+						DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
+			            ParentActivity.switchTab(2);
+					}
+				}
+				
 			}
 			else
 			{
