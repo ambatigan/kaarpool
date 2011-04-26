@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
  
 import org.apache.log4j.Logger;
 /**
@@ -1001,6 +1000,36 @@ public class DBInterface
 		}
 		return "false";
 		
+	}
+
+	public String checkRiderjourneydetails(String username, String src,	String dest, String time) 
+	{
+		String str ="true";
+		try
+		{
+			statement = connection.createStatement();
+			System.out.println(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet=statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet.next();
+			System.out.println(resourceBundle.getString("checkDriverdetails")+resultSet.getBigDecimal(1)+")");
+			rs = statement.executeQuery(resourceBundle.getString("checkDriverdetails")+resultSet.getBigDecimal(1));
+			while(rs.next())
+			{
+				if(rs.getString("jsource").trim().equals(src) && rs.getString("jdestination").trim().equals(dest) && rs.getString("stime").trim().equals(time))
+				{
+					System.out.println("if condition in check rider ride details: ");
+					return str;
+				}
+			}
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+			
+		}
+		return "false";
 	}
 
 }
