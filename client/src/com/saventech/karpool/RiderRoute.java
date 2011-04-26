@@ -229,69 +229,81 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 			boolean validateridelistflag=riderroutevalidate.rideGetRidelist(ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
 			if(validateridelistflag)
 			{
-				checkridelistflag=controller.Getridelist();
-				if(checkridelistflag)
+				String check = controller.checkRiderridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString());
+				System.out.println("response for checkDriverridedetails: "+check);
+				if(check.trim().equals("true"))
 				{
-					String res="";
-					System.out.println("ridergetridelist: before if condition");
-					res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
-					System.out.println("Response from server : "+res);
-					Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
-					String response="";
-					response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
-					System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
-					String str[]=response.toString().split("KPLL");
-					ArrayList<String>ridelistdata=new ArrayList<String>();
-					if(str.length>1)
-				    {  
-						
-						for(int k=0;k<str.length-1;k++)
-					   {
-							System.out.println(str[k]+"   mmm");
-						    ridelistdata.add(str[k].toString());
-					   }
-						RiderJourneyDetails.ridelist=ridelistdata;
-						JourneyDetails.ridelist1=ridelistdata;
-						
-						
-						if(!session.checkRideDetails(mPreferences))
+					Toast.makeText(this, "You've already created ride with this details", Toast.LENGTH_LONG).show();
+					ed.setText("");
+					ed1.setText("");
+					ridereditsettime.setText("");
+				}
+				else
+				{
+					checkridelistflag=controller.Getridelist();
+					if(checkridelistflag)
+					{
+						String res="";
+						System.out.println("ridergetridelist: before if condition");
+						res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+						System.out.println("Response from server : "+res);
+						Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
+						String response="";
+						response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+						System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
+						String str[]=response.toString().split("KPLL");
+						ArrayList<String>ridelistdata=new ArrayList<String>();
+						if(str.length>1)
+					    {  
+							
+							for(int k=0;k<str.length-1;k++)
+						   {
+								System.out.println(str[k]+"   mmm");
+							    ridelistdata.add(str[k].toString());
+						   }
+							RiderJourneyDetails.ridelist=ridelistdata;
+							JourneyDetails.ridelist1=ridelistdata;
+							
+							
+							if(!session.checkRideDetails(mPreferences))
+							{
+								session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
+							}
+							
+							
+							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+				            ParentActivity.switchTab(1);
+						}
+						else
 						{
-							session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
+							if(!session.checkRideDetails(mPreferences))
+							{
+								session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
+							}
+							RiderJourneyDetails.ridelist=ridelistdata;
+							Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
+							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+				            ParentActivity.switchTab(1);
 						}
 						
 						
+
 						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 			            ParentActivity.switchTab(1);
 			            //finish();
 					}
 					else
 					{
-						if(!session.checkRideDetails(mPreferences))
-						{
-							session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
-						}
-						RiderJourneyDetails.ridelist=ridelistdata;
+
+						RiderJourneyDetails.ridelist=null;
+
 						Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 			            ParentActivity.switchTab(1);
+
 					}
-					
-					
-
-					RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
-		            ParentActivity.switchTab(1);
-		            //finish();
 				}
-				else
-				{
-
-					RiderJourneyDetails.ridelist=null;
-
-					Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
-					RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
-		            ParentActivity.switchTab(1);
-
-				}
+				
 				
 			}
 			else

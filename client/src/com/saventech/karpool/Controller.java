@@ -434,5 +434,28 @@ public class Controller
     		return null;
     	}
 	}
+	public String checkRiderridedetails(String username, String src, String dest, String time) 
+	{
+		ArrayList<NameValuePair> checkdetails=new ArrayList<NameValuePair>();
+		checkdetails.add(new BasicNameValuePair("username",username.toString().trim()));
+		checkdetails.add(new BasicNameValuePair("src",src.toString().trim()));
+		checkdetails.add(new BasicNameValuePair("dest",dest.toString().trim()));
+		checkdetails.add(new BasicNameValuePair("time",time.toString().trim()));
+		String checkRidedetails = "";
+		try 
+    	{
+			Log.i("getCancelroutedetails_Controller", "Get cancel route details ");
+			checkRidedetails = CustomHttpClient.executeHttpPost(url+"CheckRiderRidedetails", checkdetails);
+    	    String res=checkRidedetails.toString();
+    	    System.out.println("CheckRiderRidedetails: "+res);
+			return res;
+			
+    	}
+		catch(Exception e) 
+    	{
+    		e.printStackTrace();
+    		return null;
+    	}		
+	}
 
 }
