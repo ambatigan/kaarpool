@@ -212,6 +212,18 @@
 		<servlet-name>CheckRidedetails</servlet-name>
 		<url-pattern>/CheckRidedetails</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>CheckRiderRidedetails</display-name>
+		<servlet-name>CheckRiderRidedetails</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.CheckRiderRidedetails</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CheckRiderRidedetails</servlet-name>
+		<url-pattern>/CheckRiderRidedetails</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
