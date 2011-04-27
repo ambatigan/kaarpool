@@ -774,7 +774,8 @@ public class DBInterface
 						str=str+resultSet.getString("jsource")+"KRL";
 						str=str+resultSet.getString("jdestination")+"KRL";
 						str=str+resultSet.getString("username")+"KRL";
-						str=str+resultSet.getString("address")+"KRL";
+						str=str+resultSet.getString("stime")+"KRL";
+						//str=str+resultSet.getString("address")+"KRL";
 						str=str+resultSet.getString("gender")+"KRL";
 						str=str+resultSet.getString("mobile")+"KRL";
 	//					str=str+resultSet.getString("jid")+"KPL";
@@ -1030,6 +1031,68 @@ public class DBInterface
 			
 		}
 		return "false";
+	}
+	
+	
+	/*
+	 * updating the msg_updates table when request was sent
+	 */
+	
+	public String sendrequest(String desiredsendrequests,String ridername)
+	{
+		int insertedvalues=0;
+		String newdrivername="";
+		System.out.println(desiredsendrequests+"DBINTERFACEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+		try
+		{
+			String sendrequests[]=desiredsendrequests.split("::");
+			System.out.println(desiredsendrequests+"DBINTERFACEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEFFFFFFFFFFFF");
+			for(int i=0;i<sendrequests.length;i++)
+			{
+				String temp[]=sendrequests[i].split("CHECKBOX");
+				System.out.println(resourceBundle.getString("sendrequest")+temp[2]+"\" and personal_details.pid=user_details.prdid and user_details.modeid=1 and journey_details.jsource=\""+temp[0]+"\" and journey_details.jdestination=\""+temp[1]+"\" and journey_details.stime=\""+temp[3]+"\" and user_details.uid=journey_details.userid and journey_details.jid=ride.jdid");
+				resultSet=statement.executeQuery(resourceBundle.getString("sendrequest")+temp[2]+"\" and personal_details.pid=user_details.prdid and user_details.modeid=1 and journey_details.jsource=\""+temp[0]+"\" and journey_details.jdestination=\""+temp[1]+"\" and journey_details.stime=\""+temp[3]+"\" and user_details.uid=journey_details.userid and journey_details.jid=ride.jdid");
+				if(resultSet.next())
+				{
+					String rid=resultSet.getString("rid");
+					System.out.println(resourceBundle.getString("select_msgs")+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+					resultSet=statement.executeQuery(resourceBundle.getString("select_msgs")+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+					System.out.println("ddddddddddddddddddddddddddddddddddddd"+resultSet.getRow());
+					if(resultSet.next())
+					{
+						System.out.println(resourceBundle.getString("update_msgs")+ 1+" where rid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+						statement.executeUpdate(resourceBundle.getString("update_msgs")+ 1+" where rdid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+					}
+					else
+					{
+						insertedvalues++;
+						newdrivername=newdrivername+temp[2].toString().trim()+":";
+						System.out.println(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\","+1+",\"running\")");
+						statement.executeUpdate(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\","+1+",\"running\")");
+					}
+					//System.out.println(rid+"      RIDSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+				}
+				else
+				{
+					System.out.println("ooooooooooooooooooooooooooooooooooooooo");
+				}
+			}
+			if(insertedvalues>0)
+			{
+				return "Your request has been sent:"+newdrivername;
+			}
+			else
+			{
+				return "Please select a ride to send request:";
+			}
+			//return "OK";
+			
+		}
+		catch(Exception e)
+		{
+			log.fatal("SQLException"+e.getStackTrace()+"  888888888888");
+			return "Sql exception";
+		}
 	}
 
 }

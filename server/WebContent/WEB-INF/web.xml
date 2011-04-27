@@ -28,6 +28,18 @@
 	<servlet>
 		<description>
 		</description>
+		<display-name>SendRideRequest</display-name>
+		<servlet-name>SendRideRequest</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.SendRideRequest</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendRideRequest</servlet-name>
+		<url-pattern>/SendRideRequest</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
 		<display-name>LoginServlet</display-name>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>
