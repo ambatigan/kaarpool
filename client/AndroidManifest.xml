@@ -88,9 +88,6 @@
                   android:label="@string/app_name">
             
         </activity>
-        <activity android:name=".DateTimePicker"
-        		  android:label="@string/app_name">
-        </activity>
          <activity android:name=".TrackRoute"
                   android:label="@string/app_name">
             
