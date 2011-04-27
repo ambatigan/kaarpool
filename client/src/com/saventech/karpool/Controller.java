@@ -444,10 +444,10 @@ public class Controller
 		String checkRidedetails = "";
 		try 
     	{
-			Log.i("getCancelroutedetails_Controller", "Get cancel route details ");
+			Log.i("getCancelroutedetails_Controller", "Get cancel route details");
 			checkRidedetails = CustomHttpClient.executeHttpPost(url+"CheckRiderRidedetails", checkdetails);
     	    String res=checkRidedetails.toString();
-    	    System.out.println("CheckRiderRidedetails: "+res);
+    	    System.out.println("CheckRiderRidedetails:   "+res);
 			return res;
 			
     	}
@@ -456,6 +456,29 @@ public class Controller
     		e.printStackTrace();
     		return null;
     	}		
+	}
+	public String sendRiderequest(String checkboxesclicked,String ridername)
+	{
+		
+		
+		
+		ArrayList<NameValuePair> sendrequest=new ArrayList<NameValuePair>();
+		sendrequest.add(new BasicNameValuePair("checkboxesclicked",checkboxesclicked.toString().trim()));
+		sendrequest.add(new BasicNameValuePair("senderridename",ridername.toString().trim()));
+		String sendRequest="";
+		try
+		{
+			sendRequest=CustomHttpClient.executeHttpPost(url+"SendRideRequest", sendrequest);
+			String res=sendRequest.toString();
+			return res;		
+			
+			
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+		
 	}
 
 }

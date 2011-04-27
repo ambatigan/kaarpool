@@ -2,6 +2,7 @@ package com.saventech.karpool;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,42 +33,63 @@ import android.widget.Toast;
  */
 public class RiderGetRidelist extends Activity implements android.view.View.OnClickListener {
 	private SharedPreferences mPreferences; 
+	
 	Session session;
 	Controller controller;
 	ArrayList<String> ridelistdetails=new ArrayList<String>();
 	private ImageButton sendrequest;
 	String checkboxesclicked="";
 	String getcheckboxesclicked="";
-	
+    String sendrequests[];
+	private boolean checkboxesflag=false;
+	private String unchecked="";
+	ArrayList<String> list=new ArrayList<String>();                   //Arraylist to store the  sent requests
 
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);	        
 
-	        drawUI();
+	        drawUI();                             //drawUI methods draw UI of the RideGetRidelist screen
+	        checkboxesclicked="";
+	        getcheckboxesclicked="";
+	        
 	}
 	 
 	 public void drawUI()
 	 {
 		 setContentView(R.layout.ridelist0);
 		 controller=new Controller();
-
+		
 	        setContentView(R.layout.ridelist0);
 			 controller=new Controller();
 		        Log.i("Ridergetridelist_Activity","Entered in Ridergetridelist activity");
 		        session=new Session();
 		        ridelistdetails=RiderJourneyDetails.ridelist;
 			    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
-				if(!session.checkinfo(mPreferences))
+			  
+				if(!session.checkinfo(mPreferences))                             //checking session existence
 				{
 					Intent intent=new Intent(RiderGetRidelist.this,Login.class);
 					startActivity(intent);
 				
 				}
-				if(session.ischeckboxesclicked(mPreferences))
+				if(session.ischeckboxesclicked(mPreferences))                  //checking any request were sent previously
 				{
-					getcheckboxesclicked=session.getCheckBoxesClicked(mPreferences);
+					list=new ArrayList<String>();
+				    getcheckboxesclicked=session.getCheckBoxesClicked(mPreferences);  //getting previously send request in string format
+				   // System.out.println("777777777777777"+getcheckboxesclicked);
+					System.out.println("checked ride list=================================================="+getcheckboxesclicked.toString().trim()+"  ********"+getcheckboxesclicked.toString().trim().length());
+					if(getcheckboxesclicked.toString().trim().length()!=0)    
+					{
+						sendrequests=getcheckboxesclicked.toString().trim().split("::");
+						for(int val=0;val<sendrequests.length;val++)
+						{
+							list.add(sendrequests[val].toString().trim()+"::"); //storing previously send request in list
+						}
+						
+						
+					}
 				}
-				else
+				else                                                       //puting checkboxesclicked is empty string
 				{
 					 SharedPreferences.Editor editor=mPreferences.edit();
 					 editor.putString("checkboxesclicked", checkboxesclicked);
@@ -76,12 +98,13 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 				System.out.println(session.getUsername(mPreferences)+"-----"+session.getPassword(mPreferences)+ridelistdetails.size()+"  *****************");
 				sendrequest=(ImageButton)findViewById(R.id.sendrequest);
 				
+				// making customised linear layout
 				LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
 		        LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		        String toaststring="";
 		        if(ridelistdetails.size()!=0)
 		        {
-		        	for(int k=0;k<ridelistdetails.size();k++)
+		        	for(int k=0;k<ridelistdetails.size();k++)            //setting rides details to appropriate widgets in screen
 		        	{
 			        	String records[]=ridelistdetails.get(k).toString().split("KRL");
 						for(int j=0;j<records.length;j++)
@@ -108,8 +131,16 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 					            byte[] decodedString = Base64.decode(imagebyte, Base64.DEFAULT);
 					            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 					            img.setImageBitmap(decodedByte);
-					            System.out.println(records.length+"             ************************************8");
-					          // bm=retriveImagefromstring(records[records.length-1].toString());
+					            System.out.println(records.length+"             ************************************8"+records[3].toString().trim());
+					          
+					            if(getcheckboxesclicked.length()!=0)     
+					            {
+					            	//checking check box is clicked previously or not if so black the check box
+					            	checkboxesflag=issendrequest(list,records[1].toString().trim(),records[2].toString().trim(),records[3].toString().trim(),records[4].toString().trim());
+					            }
+					            
+					           
+					          
 				            }
 				            else
 				            {
@@ -120,29 +151,44 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 					            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 					            img.setImageBitmap(decodedByte);
 					            System.out.println(records[records.length-1]+"             ************************************88");
-					          // bm=retriveImagefromstring(records[records.length-1].toString());
+					            if(getcheckboxesclicked.length()!=0)
+					            {
+					            	//checking check box is clicked previously or not if so black the check box
+					            	checkboxesflag=issendrequest(list,records[0].toString().trim(),records[1].toString().trim(),records[2].toString().trim(),records[3].toString().trim());
+					            }
+					         
 				            }
 				            
-				           // System.out.println(imgbyte.length);
-				            
-				            //findViewById(R.id.image).setOnClickListener(this);
+				           
 				           
 				            img.setOnClickListener(this);
-				            CheckBox check=(CheckBox)customView.findViewById(R.id.ridelistcheckbox);
-				           // img.setImageBitmap(bm);
-
-				            // Bitmap bmp=BitmapFactory.decodeByteArray(imgbyte, 0, imgbyte.length
-				           //img.setImageDrawable(getResources().getDrawable(R.drawable.image1));            
-				            //setting ids to all widgets in the custome list view
-				            route.setId(k);
-				            rate.setId(k);
+				            final CheckBox check=(CheckBox)customView.findViewById(R.id.ridelistcheckbox);
+				          
+				           /* route.setId(k);
+				            rate.setId(k);*/
 				            check.setId(k);
+				            if(checkboxesflag)           //disable the check box if it is previously checked and sent request
+				            {
+				            	//System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+				            	check.setChecked(true);
+				            	check.setEnabled(false);
+				            	checkboxesflag=false;
+				            }
 				            check.setOnClickListener(new View.OnClickListener() {
 				            
 				            	 public void onClick(View v) {
 						            	//Toast.makeText(RiderGetRidelist.this, "Pressed checkbutton", Toast.LENGTH_LONG).show();
-						            	checkbuttonid(v);
-						               // showDialog(DATE_DIALOG_ID);
+				            		    if(check.isChecked())
+				            		    {
+				            		    	checkbuttonid(v);      //store driver details in list on check box checked
+				            		    }
+				            		    else
+				            		    {
+				            		    	
+				            		    	multipletimepressedcheckboxes(v);      //remove driver details in list on check box unchecked
+				            		    }
+						            	
+						               
 						            }
 						        });
 				            
@@ -156,26 +202,18 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		        sendrequest.setOnClickListener(new View.OnClickListener() {
 		            public void onClick(View v) 
 		            {
-		            	System.out.println("Pressed send request button");
-		            	Toast.makeText(RiderGetRidelist.this, "Pressed send request button", Toast.LENGTH_LONG).show();
-		            	//sendrequest(v);
-		               // showDialog(DATE_DIALOG_ID);
+		            	Log.i("RiderGetRidelist_sendrequestbutton", "Pressed send request button");
+		            	
+		            	sendrequest(getcheckboxesclicked.toString().trim());
+		               
 		            }
 		        });
 		        
 		 
 	 }
 	 
-	 
-	 public void sendrequest(View v)
-	 {
-		 checkboxesclicked=checkboxesclicked+getcheckboxesclicked;
-		 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
-		 checkboxesclicked="";
-		 
-		 
-	 }
-	 public void checkbuttonid(View v)
+	 //removing ride from arraylist on uncheck check box
+	 public void multipletimepressedcheckboxes(View v)
 	 {
 		 if(ridelistdetails.size()!=0)
 	        {
@@ -183,17 +221,20 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	        	{
 	        		if(v.getId()==k)
 	        		{
+	        			Log.i("RiderGetRidelist_uncheck", "Unchecked the previously selected check box");
 	        			String checkrecords[]=ridelistdetails.get(k).toString().trim().split("KRL");
 	        			for(int j=0;j<checkrecords.length;j++)
 						{
 							if(k==0 && j==0)
 							{
-								checkboxesclicked=checkboxesclicked+checkrecords[3]+":";
+								list.remove(checkrecords[1]+"CHECKBOX"+checkrecords[2]+"CHECKBOX"+checkrecords[3]+"CHECKBOX"+checkrecords[4]+"::");
+								//checkboxesclicked=checkboxesclicked+checkrecords[1]+"CHECKBOX"+checkrecords[2]+"CHECKBOX"+checkrecords[3]+"CHECKBOX"+checkrecords[4]+"CHECKBOX"+"unchecked"+"::";
 								break;
 							}
 							else
 							{
-								checkboxesclicked=checkboxesclicked+checkrecords[2]+":";
+								list.remove(checkrecords[0]+"CHECKBOX"+checkrecords[1]+"CHECKBOX"+checkrecords[2]+"CHECKBOX"+checkrecords[3]+"::");
+								//checkboxesclicked=checkboxesclicked+checkrecords[0]+"CHECKBOX"+checkrecords[1]+"CHECKBOX"+checkrecords[2]+"CHECKBOX"+checkrecords[3]+"CHECKBOX"+"unchecked"+"::";
 								break;
 							}
 							
@@ -204,8 +245,108 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	        	//Toast.makeText(RiderGetRidelist.this, "checkbox data is: "+checkboxesclicked, Toast.LENGTH_LONG).show();
 	        	
 	        }
+	 }
+	 
+	 //checking request wheather it is already send or not
+	 public boolean issendrequest(ArrayList<String> listdata, String source, String destination, String username, String time)
+	 {
+		
 		 
-		 //session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
+		 for(int val=0;val<listdata.size();val++)
+		 {
+			 //System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"+array[val]);
+			 String temp1[]=listdata.get(val).toString().trim().split("::");
+			 for(int val1=0;val1<temp1.length;val1++)
+			 {
+				 String temp[]=temp1[val1].toString().trim().split("CHECKBOX");
+					
+				 if(username.toString().trim().equals(temp[2].toString().trim()) && source.toString().trim().equals(temp[0].toString().trim()) && destination.toString().trim().equals(temp[1].toString().trim()) && time.toString().trim().equals(temp[3].toString().trim()))
+				 { 
+					 System.out.println(list.get(val).toString().trim()+"  =="+username+"\t"+temp[2]+"\t"+source+"\t"+temp[0]+"\t"+destination+"\t"+temp[1]+"\t"+time+"\t"+temp[3]);
+					 
+					 return true;
+				 }
+				 
+			 }
+			 
+		 }
+		 return false;
+	 }
+	 
+	 
+	 //methods to remove duplicates in ride arraylist
+	 public static void removeDuplicates(ArrayList list) {
+         HashSet set = new HashSet(list);
+         list.clear();
+         list.addAll(set);
+ }
+
+	 
+	 //sending request when sendrequest button is pressed
+	 public void sendrequest(String getcheckboxesclicked)
+	 {
+		 removeDuplicates(list);
+		 for (Object data : list) {
+			 checkboxesclicked=checkboxesclicked+data.toString().trim();
+	    }
+		 //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
+		 System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+		 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
+		 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim());
+		 checkboxesclicked="";
+		 String channelnames[]=messagedata.toString().trim().split(":");
+		 for(int val=0;val<channelnames.length;val++)
+		 {
+			 if(channelnames.length>1 && (val!=0))
+			 {
+				 System.out.println(channelnames[val].toString().trim());
+			 }
+			 
+		 }
+		 
+		 Toast.makeText(RiderGetRidelist.this, channelnames[0].toString().trim(), Toast.LENGTH_LONG).show();
+		 
+		 
+	 }
+	 
+	 
+	 
+	 //adding checked rides to arraylist
+	 public void checkbuttonid(View v)
+	 {
+		 
+		 if(ridelistdetails.size()!=0)
+	        {
+	        	for(int k=0;k<ridelistdetails.size();k++)
+	        	{
+	        		if(v.getId()==k)
+	        		{
+	        			System.out.println(v.getId()+"QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
+	        			String checkrecords[]=ridelistdetails.get(k).toString().trim().split("KRL");
+	        			for(int j=0;j<checkrecords.length;j++)
+						{
+							if(k==0 && j==0)
+							{
+								list.add(checkrecords[1]+"CHECKBOX"+checkrecords[2]+"CHECKBOX"+checkrecords[3]+"CHECKBOX"+checkrecords[4]+"::");
+								//checkboxesclicked=checkboxesclicked+checkrecords[1]+"CHECKBOX"+checkrecords[2]+"CHECKBOX"+checkrecords[3]+"CHECKBOX"+checkrecords[4]+"CHECKBOX"+"checked"+"::";
+								break;
+							}
+							else
+							{
+								list.add(checkrecords[0]+"CHECKBOX"+checkrecords[1]+"CHECKBOX"+checkrecords[2]+"CHECKBOX"+checkrecords[3]+"::");
+								//checkboxesclicked=checkboxesclicked+checkrecords[0]+"CHECKBOX"+checkrecords[1]+"CHECKBOX"+checkrecords[2]+"CHECKBOX"+checkrecords[3]+"CHECKBOX"+"checked"+"::";
+								break;
+							}
+							
+						}
+	        			
+	        		}
+	        	}
+	        	
+	        	
+	        }
+		 
+		
 		 
 	 }
 	 
@@ -217,18 +358,9 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 			
 		}
 	 
-	 public static Bitmap retriveImagefromstring(String data)
-	 {
-		 Bitmap bm = null; 
-		 try {
-			byte[] b=data.getBytes(data);
-			bm = BitmapFactory.decodeByteArray(b, 0, b.length); 
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 return bm;
-	 }
+	 
+	 
+	 //method to restrict back button
 	 public boolean onKeyDown(int keyCode, KeyEvent event) 
 		{
 			if(keyCode == KeyEvent.KEYCODE_BACK)

@@ -1,11 +1,14 @@
 package com.saventech.karpool;
 
+import java.util.ArrayList;
+
 import android.content.SharedPreferences;
 
 public class Session 
 {
 	private String username;
 	private String password;
+	private String Previouscheckbox;
 	
 	//private SharedPreferences mPreferences; 
 	 public boolean checkinfo(SharedPreferences mPreferences)
@@ -39,17 +42,17 @@ public class Session
 		 SharedPreferences.Editor editor=mPreferences.edit();
          editor.remove("UserName");
          editor.remove("PassWord");
-         editor.remove("ridersource");
+        /* editor.remove("ridersource");
          editor.remove("riderdestination");
-         editor.remove("ridersettime");
-         editor.remove("driversource");
+         editor.remove("ridersettime");*/
+         /*editor.remove("driversource");
          editor.remove("driverdestination");
          editor.remove("driversettime");
-         editor.remove("driverseats");
+         editor.remove("driverseats");*/
          editor.remove("checkboxesclicked");
          editor.commit();
 	 }
-	 public  boolean checkRideDetails(SharedPreferences mPreferences)
+	 /*public  boolean checkRideDetails(SharedPreferences mPreferences)
 	 {
 		 boolean rider_source = mPreferences.contains("ridersource");
 	        boolean rider_destination = mPreferences.contains("riderdestination");
@@ -59,16 +62,16 @@ public class Session
 	              return true;
 	        } 
 	    	return false;
-	 }
-	 public void saveRideDetails(SharedPreferences mPreferences,String source,String destination, String time)
+	 }*/
+	 /*public void saveRideDetails(SharedPreferences mPreferences,String source,String destination, String time)
 	 {
 		 SharedPreferences.Editor editor=mPreferences.edit();
          editor.putString("ridersource", source.toString().trim());
          editor.putString("riderdestination", destination.toString().trim());
          editor.putString("ridersettime", time.toString().trim());
          editor.commit();
-	 }
-	 public void saveDriverDetails(SharedPreferences mPreferences,String source,String destination, String time, String seats)
+	 }*/
+	/* public void saveDriverDetails(SharedPreferences mPreferences,String source,String destination, String time, String seats)
 	 {
 		 SharedPreferences.Editor editor=mPreferences.edit();
          editor.putString("driversource", source.toString().trim());
@@ -77,8 +80,8 @@ public class Session
          editor.putString("driverseats", seats.toString().trim());
          editor.commit();
 		 
-	 }
-	 public  boolean checkNewRouteDetails(SharedPreferences mPreferences)
+	 }*/
+	 /*public  boolean checkNewRouteDetails(SharedPreferences mPreferences)
 	 {
 		 boolean driver_source = mPreferences.contains("driversource");
 	        boolean driver_destination = mPreferences.contains("driverdestination");
@@ -90,7 +93,7 @@ public class Session
 	              return true;
 	        } 
 	    	return false;
-	 }
+	 }*/
 	 public boolean ischeckboxesclicked(SharedPreferences mPreferences)
 	 {
 		 boolean checkboxes_clicked=mPreferences.contains("checkboxesclicked");
@@ -102,15 +105,67 @@ public class Session
 	 }
 	 public String getCheckBoxesClicked(SharedPreferences mPreferences)
 	 {
-		 return mPreferences.getString("checkboxesclicked", "cc");
+		 Previouscheckbox=mPreferences.getString("checkboxesclicked", "cc");
+		 System.out.println("getcheckboxesclicked--------"+Previouscheckbox);
+		 return Previouscheckbox.toString().trim();
 	 }
 	 public void saveCheckBoxesClicked(SharedPreferences mPreferences,String checkboxes)
 	 {
+		 String checkdata="";
+		// System.out.println(checkboxes+"SEEEEEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSIIIIIIIIIIONNNNNNNNNNNNNN");
 		 SharedPreferences.Editor editor=mPreferences.edit();
-		 String previouscheckboxes=mPreferences.getString("checkboxesclicked","cd");
-         editor.putString("checkboxesclicked", checkboxes.toString().trim());
-         System.out.println(mPreferences.getString("checkboxesclicked","cd")+" ############################");
+		 /*String array[]=checkboxes.split("::");
+		 ArrayList<String>checked=new ArrayList<String>();
+		 ArrayList<String>unchecked=new ArrayList<String>();
+		 for( int j=0;j<array.length;j++)
+		 {
+			 String temp[]=array[j].split("CHECKBOX");
+			 if(temp[temp.length-1].equals("checked"))
+			 {
+				 String tempstr="";
+				 for(int k=0;k<temp.length-1;k++)
+				 {
+					 tempstr=tempstr+temp[k]+"CHECKBOX";
+				 }
+				 //tempstr=tempstr+"checked";
+				 checked.add(tempstr);
+			 }
+			 else if(temp[temp.length-1].equals("unchecked"))
+			 {
+				 String tempstr="";
+				 for(int k=0;k<temp.length-1;k++)
+				 {
+					 tempstr=tempstr+temp[k]+"CHECKBOX";
+				 }
+				 unchecked.add(tempstr);
+			 }
+			 
+		 }
+		 if(checked.size()==0 && unchecked.size()==0)
+		 {
+			 for( int j=0;j<array.length;j++)
+			 {
+			   checkdata=checkdata+array[j]+"::";
+			 }
+		 }
+		 else
+		 {
+			 for (Object data : unchecked) 
+			 {
+		            checked.remove(data);
+		    }
+			 for (Object data : checked) {
+		           checkdata=checkdata+data+"::";
+		    }
+		 }*/
+		 System.out.println(checkboxes+"SEEEEEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSIIIIIIIIIIONNNNNNNNNNNNNN");
+         editor.putString("checkboxesclicked", checkboxes);
          editor.commit();
+         System.out.println(mPreferences.getString("checkboxesclicked","cd")+" ############################");
+        
+         /*checked=null;
+         unchecked=null;*/
+        // return checkdata;
          
 	 }
 

@@ -81,7 +81,7 @@ public class Newroute extends Activity implements OnClickListener{
         ed.setEnabled(false);
         ed1.setEnabled(false);        
         newroute.setOnClickListener(this);    
-        if(session.checkNewRouteDetails(mPreferences))
+        /*if(session.checkNewRouteDetails(mPreferences))
 		{
         	ed.setText(mPreferences.getString("driversource","rs"));
         	ed1.setText(mPreferences.getString("driverdestination","rd"));
@@ -89,7 +89,7 @@ public class Newroute extends Activity implements OnClickListener{
         	seatid.setText(mPreferences.getString("driverseats","rt"));
         	
 			
-		}
+		}*/
     }
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 
@@ -212,10 +212,10 @@ public class Newroute extends Activity implements OnClickListener{
 			boolean driverregsubmitflag=validate.driverNewRouteDetails(ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
 			if(driverregsubmitflag)
 			{
-				if(!session.checkNewRouteDetails(mPreferences))
+				/*if(!session.checkNewRouteDetails(mPreferences))
 				{
 					session.saveDriverDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(),driverjourneyedittime.getText().toString().trim(), seatid.getText().toString().trim());
-				}
+				}*/
 				String check = controller.checkDriverridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
 				System.out.println("response for checkDriverridedetails: "+check);
 				if(check.trim().equals("true"))

@@ -78,14 +78,14 @@ public class RiderRoute extends Activity implements OnClickListener{
         change2.setOnClickListener(this);
         newroute=(Button)findViewById(R.id.ridergetridelist);
         newroute.setOnClickListener(this);
-        System.out.println(session.checkRideDetails(mPreferences)+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^898989");
+       /* System.out.println(session.checkRideDetails(mPreferences)+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^898989");
         if(session.checkRideDetails(mPreferences))
 		{
         	ed.setText(mPreferences.getString("ridersource","rs"));
         	ed1.setText(mPreferences.getString("riderdestination","rd"));
         	ridereditsettime.setText(mPreferences.getString("ridersettime","rt"));
 			
-		}
+		}*/
        
         
     }
@@ -231,24 +231,21 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 			{
 				String check = controller.checkRiderridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString());
 				System.out.println("response for checkDriverridedetails: "+check);
-				if(check.trim().equals("true"))
+				String response="";
+				if(!check.trim().equals("true"))
 				{
-					Toast.makeText(this, "You've already created ride with this details", Toast.LENGTH_LONG).show();
-					ed.setText("");
-					ed1.setText("");
-					ridereditsettime.setText("");
+					String res="";
+					System.out.println("ridergetridelist: before if condition");
+					res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+					System.out.println("Response from server : "+res);
+					Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
 				}
-				else
-				{
+				
 					checkridelistflag=controller.Getridelist();
 					if(checkridelistflag)
 					{
-						String res="";
-						System.out.println("ridergetridelist: before if condition");
-						res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
-						System.out.println("Response from server : "+res);
-						Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
-						String response="";
+						
+						
 						response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
 						System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
 						String str[]=response.toString().split("KPLL");
@@ -264,22 +261,22 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 							RiderJourneyDetails.ridelist=ridelistdata;
 							JourneyDetails.ridelist1=ridelistdata;
 							
-							
+							/*
 							if(!session.checkRideDetails(mPreferences))
 							{
 								session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
 							}
-							
+							*/
 							
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
 						}
 						else
 						{
-							if(!session.checkRideDetails(mPreferences))
+							/*if(!session.checkRideDetails(mPreferences))
 							{
 								session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
-							}
+							}*/
 							RiderJourneyDetails.ridelist=ridelistdata;
 							Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
@@ -302,7 +299,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 			            ParentActivity.switchTab(1);
 
 					}
-				}
+				
 				
 				
 			}
