@@ -24,9 +24,16 @@ public class SendRideRequest extends HttpServlet
 		DBInterface connect = DBInterface.getInstance();
 	  	if(connect.isConnectionOpen())
 	  	{
+	  		if(desiredsendrequests.toString().trim().length()!=0)
+	  		{
 				String ouput=connect.sendrequest(desiredsendrequests.toString().trim(),ridername.toString().trim());
 				
 				out.print(ouput.toString().trim());
+	  		}
+	  		else
+	  		{
+	  			out.print("Please select a ride to send request");
+	  		}
 				
 	    }
 	  	else
