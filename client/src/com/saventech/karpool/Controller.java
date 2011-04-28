@@ -450,6 +450,7 @@ public class Controller
     	    System.out.println("CheckRiderRidedetails:   "+res);
 			return res;
 			
+			
     	}
 		catch(Exception e) 
     	{
@@ -470,7 +471,7 @@ public class Controller
 		{
 			sendRequest=CustomHttpClient.executeHttpPost(url+"SendRideRequest", sendrequest);
 			String res=sendRequest.toString();
-			return res;		
+			return res;	
 			
 			
 		}
@@ -479,6 +480,30 @@ public class Controller
 			return null;
 		}
 		
+	}
+	
+	//injecting events code
+	public void injectEvents(ArrayList<String> eventlist)
+	{
+		String eventString="";
+		for( int i=0;i<eventlist.size();i++)
+		{
+			eventString=eventString+eventlist.get(i).toString().trim();
+		}
+		ArrayList<NameValuePair> events=new ArrayList<NameValuePair>();
+		events.add(new BasicNameValuePair("InjectedEvents",eventString.toString().trim()));
+		String injectEventResponse="";
+		try
+		{
+			injectEventResponse=CustomHttpClient.executeHttpPost(url+"InjectEvents", events);
+			String res=injectEventResponse.toString();
+		    Log.i("InjectEvents_Controller", res.toString().trim());				
+			
+		}
+		catch(Exception e)
+		{
+			Log.i("InjectEvents_Controller", "Exception in controller while injecting events");
+		}
 	}
 
 }

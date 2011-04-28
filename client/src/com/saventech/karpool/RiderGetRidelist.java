@@ -1,8 +1,13 @@
 package com.saventech.karpool;
 
-import java.io.UnsupportedEncodingException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import org.deacon.Deacon;
+import org.deacon.DeaconError;
+import org.deacon.DeaconObserver;
+import org.deacon.DeaconResponse;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,7 +36,7 @@ import android.widget.Toast;
  * Date: Mar 25, 2011
  * Description: It is responsible to display the ridelist to the rider based on the specified values
  */
-public class RiderGetRidelist extends Activity implements android.view.View.OnClickListener {
+public class RiderGetRidelist extends Activity implements android.view.View.OnClickListener, DeaconObserver {
 	private SharedPreferences mPreferences; 
 	
 	Session session;
@@ -42,20 +47,46 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	String getcheckboxesclicked="";
     String sendrequests[];
 	private boolean checkboxesflag=false;
-	private String unchecked="";
-	ArrayList<String> list=new ArrayList<String>();                   //Arraylist to store the  sent requests
+	private static  Deacon deacon;
+	ArrayList<String> list=new ArrayList<String>(); 
+	//Arraylist to store the  sent requests
+	
 
-	 public void onCreate(Bundle savedInstanceState) {
+	 @SuppressWarnings("static-access")
+	public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);	        
-
-	        drawUI();                             //drawUI methods draw UI of the RideGetRidelist screen
+	        
+	        
+	       
+	        drawUI();                              //drawUI methods draw UI of the RideGetRidelist screen
 	        checkboxesclicked="";
 	        getcheckboxesclicked="";
+	        try 
+	        {
+			   // System.out.println("context"+context);
+	        	String ip = getString(R.string.MeteorIP);
+	        	int port=Integer.parseInt(getString(R.string.SubscriberPort));
+	        	//System.out.println(ip+"ip add of meteorAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	        	this.deacon = new Deacon(ip.toString().trim(),port, this);
+	        	deacon.catchUpTimeOut(60);
+	        	deacon.register(this);
+	        	Log.i("RiderChannel",parseChannelName(mPreferences.getString("UserName","un").toString().trim()) );
+	        	deacon.joinChannel(parseChannelName(mPreferences.getString("UserName","un").toString().trim()), 0);
+	        	deacon.start();
+	 			
+	        } 
+	        catch (Exception e) 
+	        {
+	        	System.out.println("Problem while creating Deacon");
+	        	e.printStackTrace();
+	        }
 	        
 	}
 	 
 	 public void drawUI()
 	 {
+		 
+		 
 		 setContentView(R.layout.ridelist0);
 		 controller=new Controller();
 		
@@ -213,7 +244,8 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 }
 	 
 	 //removing ride from arraylist on uncheck check box
-	 public void multipletimepressedcheckboxes(View v)
+	 @SuppressWarnings("unused")
+	public void multipletimepressedcheckboxes(View v)
 	 {
 		 if(ridelistdetails.size()!=0)
 	        {
@@ -275,12 +307,33 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 
 	 
 	 //methods to remove duplicates in ride arraylist
-	 public static void removeDuplicates(ArrayList list) {
+	 @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void removeDuplicates(ArrayList list) {
          HashSet set = new HashSet(list);
          list.clear();
          list.addAll(set);
  }
 
+	 //parsing channel name
+	 public String parseChannelName(String chname)
+	 {
+		 String str1[]=chname.toString().trim().split("@");
+		 String str2[]=str1[1].toString().trim().split(".com");
+		 String channame=str1[0]+str2[0];
+		 //System.out.println("Parsed channel name^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
+		 return channame.toString().trim();
+	 }
+	 
+	 //Message making to send to  channel 
+	 public String makeMessage(String chname1,String chname2, int messageval)
+	 {
+		 String deaconmessage="";
+		 if(chname1.toString().trim().length()!=0 && chname2.toString().trim().length()!=0 )
+		 {
+		     deaconmessage="ADDMESSAGE "+chname1+" "+chname2.toString().trim()+"::"+messageval+"EVENT";
+		 }
+		 return deaconmessage;
+	 }
 	 
 	 //sending request when sendrequest button is pressed
 	 public void sendrequest(String getcheckboxesclicked)
@@ -290,21 +343,34 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 			 checkboxesclicked=checkboxesclicked+data.toString().trim();
 	    }
 		 //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
-		 System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+		// System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 		 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
 		 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim());
 		 checkboxesclicked="";
 		 String channelnames[]=messagedata.toString().trim().split(":");
-		 for(int val=0;val<channelnames.length;val++)
+		 ArrayList<String> events=new ArrayList<String>();
+		 if(channelnames[0].toString().trim().equals("Your request has been sent"))
 		 {
-			 if(channelnames.length>1 && (val!=0))
+			 for(int val=0;val<channelnames.length;val++)
 			 {
-				 System.out.println(channelnames[val].toString().trim());
+				 if(channelnames.length>1 && (val!=0) && (channelnames[0].toString().trim().equals("Your request has been sent")))
+				 {
+					 System.out.println(channelnames[val].toString().trim());
+					 String chname=parseChannelName(channelnames[val].toString().trim());
+					 String senderchname=parseChannelName(mPreferences.getString("UserName", "un").toString().trim());
+					 String event=makeMessage(chname,senderchname,1);
+					 events.add(event);
+					 
+					// controller.injectEvents(event);
+				 }
+				 
 			 }
-			 
+			 controller.injectEvents(events);
 		 }
+		
 		 
 		 Toast.makeText(RiderGetRidelist.this, channelnames[0].toString().trim(), Toast.LENGTH_LONG).show();
+		 
 		 
 		 
 	 }
@@ -312,7 +378,8 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 
 	 
 	 //adding checked rides to arraylist
-	 public void checkbuttonid(View v)
+	 @SuppressWarnings("unused")
+	public void checkbuttonid(View v)
 	 {
 		 
 		 if(ridelistdetails.size()!=0)
@@ -419,5 +486,34 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	    		
 	    		
 	    	}
+	        public static void stopdeacon()
+	        {
+	        	try
+	        	{
+	        		deacon.stop();
+	        		Log.i("RiderGetRidelist_StopDeacon", "Deacon stopped");
+	        	}
+	        	catch(Exception e)
+	        	{
+	        		Log.i("Exception_Stoping deacon", "Exception occured while stopping deacon");
+	        	}
+	        	
+	        }
+
+			public void onError(DeaconError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void onPush(DeaconResponse response) {
+				// TODO Auto-generated method stub
+				System.out.println("payload from meteor: "+ response.getPayload());
+				
+			}
+
+			public void onReconnect() {
+				// TODO Auto-generated method stub
+				
+			}
 	        
 	    }

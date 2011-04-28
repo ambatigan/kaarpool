@@ -61,6 +61,7 @@ public class Preferences extends ListActivity {
 			 mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
              session.removeSession(mPreferences);
              System.out.println("DATA REMOVED");
+             RiderGetRidelist.stopdeacon();
              finish();
              Intent intent = new Intent(getApplicationContext(), Login.class);
              startActivity(intent); 
