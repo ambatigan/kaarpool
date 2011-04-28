@@ -46,4 +46,6 @@
 		<item>Home</item>
 		<item>Work</item>
 	</string-array>
+	<string name="MeteorIP">198.162.18.174</string>
+	<string name="SubscriberPort">4670</string>
 </resources>
