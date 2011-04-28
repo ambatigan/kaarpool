@@ -28,12 +28,15 @@ public class JourneyDetails extends TabActivity {
 	String Regpwd="";
 	long transactionID = -1;
 	TabHost tabHost;
+	private String flag;
 	public static ArrayList<String> ridelist1 = new ArrayList<String>();
 
 	public void onCreate(Bundle savedInstanceState) {
 		
 		Log.i("JourneyDetails","You are now in Journeydetails table");
 	    super.onCreate(savedInstanceState);
+	    Intent intent1 = getIntent();
+	    flag = intent1.getStringExtra("flag");
 	    setContentView(R.layout.journeydetails);
 	    Intent newintent=  getIntent();
 	    
@@ -89,21 +92,35 @@ public class JourneyDetails extends TabActivity {
 	    Resources res = getResources(); // Resource object to get Drawables
 	    tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
-	    Intent intent;  // Reusable Intent for each tab
+	    Intent intent, intent2;  // Reusable Intent for each tab
 
 	    // Create an Intent to launch an Activity for the tab (to be reused)
 	    intent = new Intent().setClass(this, DriverJourneyDetails.class);
-
+	    
+	    if(flag.trim().equals("notification"))
+	    	intent.putExtra("check", "notifications");
+	    else
+	    	intent.putExtra("check", "notify");
+	    
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("Driver").setIndicator("DRIVER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
 	    tabHost.addTab(spec);
 	    tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.drawable.radialback);
 	    // Do the same for the other tabs
-	    intent = new Intent().setClass(this, RiderJourneyDetails.class);
-	    spec = tabHost.newTabSpec("rider").setIndicator("RIDER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
+	    intent2 = new Intent().setClass(this, RiderJourneyDetails.class);
+	    spec = tabHost.newTabSpec("rider").setIndicator("RIDER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent2);
 	    tabHost.addTab(spec);
-
-	    tabHost.setCurrentTab(1);
+	    if(flag.trim().equals("notification"))
+	    {
+	    	System.out.println("i am in notification");
+	    	tabHost.setCurrentTab(0);	    	
+	    }
+	    if(flag.trim().equals("notify"))
+	    {
+	    	System.out.println("i am in notify");
+	    	tabHost.setCurrentTab(1);
+	    }
+	    	
 	}
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event) 

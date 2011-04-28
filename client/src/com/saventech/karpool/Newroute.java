@@ -363,12 +363,11 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     	
     	//RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
         //ParentActivity.switchTab(2);
-    	Intent intent = new Intent(this, JourneyDetails.class);
+    	Intent intent = new Intent(Newroute.this, JourneyDetails.class);
+    	intent.putExtra("flag", "notification");
     	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
     	Notification notification = new Notification(icon,text,when);
     	
-    	//notification.defaults |= Notification.FLAG_AUTO_CANCEL;
-    	//notification.defaults |= Notification.DEFAULT_SOUND;
     	notification.flags = Notification.DEFAULT_SOUND | Notification.FLAG_AUTO_CANCEL;
     	
     	long[] vibrate = {0,100,200,300};
@@ -384,9 +383,6 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     	notification.setLatestEventInfo(this, contentTitle, contentText, contentIntent);
     	
     	notificationManager.notify(1001, notification);
-    	//RiderJourneyDetails ParentActivity = (RiderJourneyDetails)this.getParent();
-        //ParentActivity.switchTab(2);
-		
 	}
 
 	public void onReconnect() {

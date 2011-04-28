@@ -21,7 +21,8 @@ public class DriverJourneyDetails extends TabActivity {
 	TabHost tabHost;
 	private SharedPreferences mPreferences; 
 	Session session;
-	
+	TabActivity tabact;
+	private String flag1;
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
@@ -35,33 +36,43 @@ public class DriverJourneyDetails extends TabActivity {
 		
 		}
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
+		Intent intent1 = getIntent();
+		flag1 = intent1.getStringExtra("check");
         setContentView(R.layout.journeydetails);
         
         Resources res = getResources(); // Resource object to get Drawables
 	    tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
-	    Intent intent;  // Reusable Intent for each tab
+	    Intent intent, intent11, intent2;  // Reusable Intent for each tab
 
 	    // Create an Intent to launch an Activity for the tab (to be reused)
 	    intent = new Intent().setClass(this, Newroute.class);
-
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("newroute").setIndicator("New route",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
 	    tabHost.addTab(spec);
 	    
-	    intent = new Intent().setClass(this, CancelRoute.class);
+	    intent11 = new Intent().setClass(this, CancelRoute.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("cancelroute").setIndicator("Cancel route",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
+	    spec = tabHost.newTabSpec("cancelroute").setIndicator("Cancel route",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent11);
 	    tabHost.addTab(spec);
 	    
-	    intent = new Intent().setClass(this, Acknowledgement.class);
+	    intent2 = new Intent().setClass(this, Acknowledgement.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("acknowledgement").setIndicator("Acknowledgements",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
+	    spec = tabHost.newTabSpec("acknowledgement").setIndicator("Acknowledgements",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent2);
 	    tabHost.addTab(spec);
 	    
 	    tabHost.setCurrentTab(0);
+	    
+	    if(flag1.trim().equals("notifications"))
+	    {
+	    	tabHost.setCurrentTab(2);
+	    }
+	    if(flag1.trim().equals("notify"))
+	    {
+	    	tabHost.setCurrentTab(0);
+	    }
     }
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 

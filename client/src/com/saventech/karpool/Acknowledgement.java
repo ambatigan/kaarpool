@@ -9,18 +9,14 @@ package com.saventech.karpool;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class Acknowledgement extends Activity implements android.view.View.OnClickListener 
@@ -50,10 +46,10 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
         setContentView(R.layout.ridelist0);
         driveracknowledgement=(ImageButton)findViewById(R.id.sendrequest);
         driveracknowledgement.setVisibility(View.INVISIBLE);
-        LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
-        LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
+        //LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       
-        for (int i = 0; i < 4; i++) 
+        /*for (int i = 0; i < 4; i++) 
         {
             View customView = linflater.inflate(R.layout.ridelist,null);
             TextView route = (TextView) customView.findViewById(R.id.route);
@@ -83,7 +79,7 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
             check.setId(i);
             img.setId(i);
             l.addView(customView);
-        }
+        }*/
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
