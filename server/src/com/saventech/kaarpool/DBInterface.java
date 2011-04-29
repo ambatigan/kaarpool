@@ -753,8 +753,8 @@ public class DBInterface
 		{
 			ArrayList<String>list=new ArrayList<String>();
 			statement = connection.createStatement();
-			System.out.println(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid");
-			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and journey_details.userid=user_details.uid");
+			System.out.println(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username = \""+rid.toString()+"\" and user_details.modeid = 1");
+			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username != \""+rid.toString()+"\" and user_details.modeid = 1");
 			
 			while(resultSet.next())
 			{
