@@ -57,10 +57,11 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	Session session;
 	Validations validate;
 	
-	private Deacon deacon;
+	private static Deacon deacon;
 	PrintWriter outToServer;
 	
-    public void onCreate(Bundle savedInstanceState) {
+    @SuppressWarnings("static-access")
+	public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
         Log.i("DriverJourneyDetails_New route", "New route tab in DriverJourneyDetails");
@@ -242,7 +243,6 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		 String str1[]=chname.toString().trim().split("@");
 		 String str2[]=str1[1].toString().trim().split(".com");
 		 String channame=str1[0]+"-"+str2[0];
-		 //System.out.println("Parsed channel name^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
 		 return channame.toString().trim();
 	 }
 	public void onClick(final View view)
@@ -369,23 +369,21 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		payload = response.getPayload().trim();
 		String str1[]=payload.toString().trim().split("::");
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nmode: "+str1[2]);
-		//DriverJourneyDetails.drivermeteormsg.add(str1[0]+"::"+str1[1]);
-		//notificationAlarm(str1[0], str1[1]);
-		notificationAlarm();
+		String msg = msgParse(str1[1]);
+		DriverJourneyDetails.drivermeteormsg.add(str1[0]+"::"+msg);
+		notificationAlarm(str1[0], msg);
+		//notificationAlarm();
 	}
-
-	private void notificationAlarm() {
-		// TODO Auto-generated method stub
+	private void notificationAlarm(String name, String msg) {
+		
 		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
     	
     	int icon = R.drawable.ic_tab_artists_white;
-    	CharSequence text = "pick up request";
-    	CharSequence contentTitle = "Ride pickup request from Roshan";
-    	CharSequence contentText = "Request has been accepted. Please confirm pickup";
+    	CharSequence text = msg;
+    	CharSequence contentTitle = "  Kaarpool notification";
+    	CharSequence contentText = msg+" from "+name;
     	long when = System.currentTimeMillis();
-    	
-    	//RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
-        //ParentActivity.switchTab(2);
+
     	Intent intent = new Intent(Newroute.this, JourneyDetails.class);
     	intent.putExtra("receiver", "drivernotification");
     	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
@@ -408,8 +406,45 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     	notificationManager.notify(1001, notification);
 	}
 
+	public static void stopdeacon()
+    {
+    	try
+    	{
+    		deacon.stop();
+    		Log.i("RiderGetRidelist_StopDeacon", "Deacon stopped");
+    	}
+    	catch(Exception e)
+    	{
+    		Log.i("Exception_Stoping deacon", "Exception occured while stopping deacon");
+    	}
+    	
+    }
 	public void onReconnect() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public String msgParse(String msg)
+	{
+		if(msg.trim().equals("r1"))
+			return getString(R.string.r1);
+		if(msg.trim().equals("r2"))
+			return getString(R.string.r2);
+		if(msg.trim().equals("r3"))
+			return getString(R.string.r3);
+		if(msg.trim().equals("r4"))
+			return getString(R.string.r4);
+		if(msg.trim().equals("r5"))
+			return getString(R.string.r5);
+		if(msg.trim().equals("r6"))
+			return getString(R.string.r6);
+		if(msg.trim().equals("r7"))
+			return getString(R.string.r7);
+		if(msg.trim().equals("r8"))
+			return getString(R.string.r8);
+		if(msg.trim().equals("r9"))
+			return getString(R.string.r9);
+		return msg;
 		
 	}
 }

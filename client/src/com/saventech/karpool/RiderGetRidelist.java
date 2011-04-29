@@ -340,38 +340,45 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 //sending request when sendrequest button is pressed
 	 public void sendrequest(String getcheckboxesclicked)
 	 {
-		 removeDuplicates(list);
-		 for (Object data : list) {
-			 checkboxesclicked=checkboxesclicked+data.toString().trim();
-	    }
-		 //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
-		// System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-		 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
-		 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim());
-		 checkboxesclicked="";
-		 String channelnames[]=messagedata.toString().trim().split(":");
-		 ArrayList<String> events=new ArrayList<String>();
-		 if(channelnames[0].toString().trim().equals("Your request has been sent"))
+		 if(getcheckboxesclicked.toString().trim().length()!=0)
 		 {
-			 for(int val=0;val<channelnames.length;val++)
+			 removeDuplicates(list);
+			 for (Object data : list) {
+				 checkboxesclicked=checkboxesclicked+data.toString().trim();
+		    }
+			 //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
+			// System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+			 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
+			 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim());
+			 checkboxesclicked="";
+			 String channelnames[]=messagedata.toString().trim().split(":");
+			 ArrayList<String> events=new ArrayList<String>();
+			 if(channelnames[0].toString().trim().equals("Your request has been sent"))
 			 {
-				 if(channelnames.length>1 && (val!=0) && (channelnames[0].toString().trim().equals("Your request has been sent")))
+				 for(int val=0;val<channelnames.length;val++)
 				 {
-					 System.out.println(channelnames[val].toString().trim());
-					 String chname=parseChannelName(channelnames[val].toString().trim());
-					 String senderchname=parseChannelName(mPreferences.getString("UserName", "un").toString().trim());
-					 String event=makeMessage(chname,senderchname,1);
-					 events.add(event);
+					 if(channelnames.length>1 && (val!=0) && (channelnames[0].toString().trim().equals("Your request has been sent")))
+					 {
+						 System.out.println(channelnames[val].toString().trim());
+						 String chname=parseChannelName(channelnames[val].toString().trim());
+						 String senderchname=parseChannelName(mPreferences.getString("UserName", "un").toString().trim());
+						 String event=makeMessage(chname,senderchname,1);
+						 events.add(event);
+						 
+						// controller.injectEvents(event);
+					 }
 					 
-					// controller.injectEvents(event);
 				 }
-				 
+				 controller.injectEvents(events);
 			 }
-			 controller.injectEvents(events);
-		 }
 		
 		 
-		 Toast.makeText(RiderGetRidelist.this, channelnames[0].toString().trim(), Toast.LENGTH_LONG).show();
+		    Toast.makeText(RiderGetRidelist.this, channelnames[0].toString().trim(), Toast.LENGTH_LONG).show();
+		 }
+		 else
+		 {
+			 Toast.makeText(RiderGetRidelist.this, "Please select a ride to send request", Toast.LENGTH_LONG).show();
+		 }
 		 
 		 
 		 
@@ -510,17 +517,24 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 			public void onPush(DeaconResponse response) {
 				// TODO Auto-generated method stub
 				System.out.println("Rider payload from meteor: "+ response.getPayload());
-				notificationAlarm();
+				String payload;
+				System.out.println("payload from meteor: "+ response.getPayload());
+				payload = response.getPayload().trim();
+				String str1[]=payload.toString().trim().split("::");
+				System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nmode: "+str1[2]);
+				String msg = msgParse(str1[1]);
+				RiderJourneyDetails.ridermeteormsg.add(str1[0]+"::"+msg);
+				notificationAlarm(str1[0], msg);
 				
 			}
-			private void notificationAlarm() {
+			private void notificationAlarm(String name, String msg) {
 				// TODO Auto-generated method stub
 				NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 		    	
 		    	int icon = R.drawable.ic_tab_artists_white;
-		    	CharSequence text = "pick up request";
-		    	CharSequence contentTitle = "Ride pickup request from Roshan";
-		    	CharSequence contentText = "Request has been accepted. Please confirm pickup";
+		    	CharSequence text = msg;
+		    	CharSequence contentTitle = "  Kaarpool notification";
+		    	CharSequence contentText = msg+" from "+name;
 		    	long when = System.currentTimeMillis();
 		    	
 		    	//RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
@@ -549,6 +563,23 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 
 			public void onReconnect() {
 				// TODO Auto-generated method stub
+				
+			}
+			public String msgParse(String msg)
+			{
+				if(msg.trim().equals("d1"))
+					return getString(R.string.d1);
+				if(msg.trim().equals("d2"))
+					return getString(R.string.d2);
+				if(msg.trim().equals("d3"))
+					return getString(R.string.d3);
+				if(msg.trim().equals("d4"))
+					return getString(R.string.d4);
+				if(msg.trim().equals("d5"))
+					return getString(R.string.d5);
+				if(msg.trim().equals("d6"))
+					return getString(R.string.d6);
+				return msg;
 				
 			}
 	        

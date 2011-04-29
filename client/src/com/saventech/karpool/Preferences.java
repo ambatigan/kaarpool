@@ -1,5 +1,7 @@
 package com.saventech.karpool;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -76,11 +78,15 @@ public class Preferences extends ListActivity {
 			startActivity(register1);
 			break;
 		case 3:
-          
-			 mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+           
              session.removeSession(mPreferences);
+             DriverJourneyDetails.drivermeteormsg = new ArrayList<String>();
+             RiderJourneyDetails.ridermeteormsg = new ArrayList<String>();
+             RiderJourneyDetails.ridelist=new ArrayList<String>();
+             JourneyDetails.ridelist1=new ArrayList<String>();
              System.out.println("DATA REMOVED");
              RiderGetRidelist.stopdeacon();
+             Newroute.stopdeacon();
              finish();
              Intent intent = new Intent(getApplicationContext(), Login.class);             
              startActivity(intent); 

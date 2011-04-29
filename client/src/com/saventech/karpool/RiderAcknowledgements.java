@@ -1,20 +1,14 @@
 package com.saventech.karpool;
 
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
 /**
  * Project: Karpool
  * Package: com.saventech.karpool
@@ -22,10 +16,11 @@ import android.widget.Toast;
  * Date: Mar 25, 2011
  * It is responsible to display all request and responses messages
  */
-public class RiderAcknowledgements extends Activity implements OnClickListener {
+public class RiderAcknowledgements extends ListActivity implements OnClickListener {
 	
 	private SharedPreferences mPreferences; 
 	Session session;
+	ArrayAdapter<String> adapter;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Rideracknowledgements_activity", "Now you are in Rideracknowledgements activity");
@@ -39,11 +34,21 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		}
 		 session.storemode(mPreferences, "rider");
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
-        setContentView(R.layout.rider_acknowledgements);
-        Button bb =(Button)findViewById(R.id.OkButton);
-        bb.setOnClickListener(this);
-        Button bb1 = (Button)findViewById(R.id.notificationbutton);
-        bb1.setOnClickListener(this);
+        //setContentView(R.layout.rider_acknowledgements);
+        //Button bb =(Button)findViewById(R.id.OkButton);
+        //bb.setOnClickListener(this);
+        //Button bb1 = (Button)findViewById(R.id.notificationbutton);
+        //bb1.setOnClickListener(this);
+        
+        adapter=new ArrayAdapter<String>(this,
+        	    android.R.layout.simple_list_item_1,
+        	    RiderJourneyDetails.ridermeteormsg);
+        setListAdapter(adapter);
+        if(RiderJourneyDetails.ridermeteormsg.size()!=0)
+        {
+        	System.out.println("arraylist in acknowledgement: "+RiderJourneyDetails.ridermeteormsg.get(0).toString());        	
+            adapter.notifyDataSetChanged();
+        }
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
@@ -53,17 +58,21 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
     
-    private class OnReadyListener implements RatingDialog.ReadyListener {
+    /*private class OnReadyListener implements RatingDialog.ReadyListener {
         public void ready(String name) {
             Toast.makeText(RiderAcknowledgements.this, name, Toast.LENGTH_LONG).show();
         }
-    }
+    }*/
     /*
      * onClick will be performed when ever a specified button is pressed
      */
 
-	public void onClick(View v) {
+	/*public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
 		if(v==findViewById(R.id.OkButton))
@@ -108,5 +117,5 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
             ParentActivity.switchTab(2);
 		}
 		
-	}
+	}*/
 }

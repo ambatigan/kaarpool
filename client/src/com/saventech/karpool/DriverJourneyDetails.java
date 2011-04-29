@@ -7,6 +7,8 @@
 
 package com.saventech.karpool;
 
+import java.util.ArrayList;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +25,8 @@ public class DriverJourneyDetails extends TabActivity {
 	Session session;
 	TabActivity tabact;
 	private String flag1;
+	
+	static ArrayList<String> drivermeteormsg = new ArrayList<String>();
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);

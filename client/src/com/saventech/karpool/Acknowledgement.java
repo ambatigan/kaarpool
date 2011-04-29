@@ -6,9 +6,8 @@
  */
 
 package com.saventech.karpool;
-
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,15 +15,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class Acknowledgement extends Activity implements android.view.View.OnClickListener 
+public class Acknowledgement extends ListActivity implements android.view.View.OnClickListener 
 {
 	//
 	private SharedPreferences mPreferences; 
 	Session session;
-	private ImageButton driveracknowledgement;
+	
+	//DEFINING STRING ADAPTER WHICH WILL HANDLE DATA OF LISTVIEW
+	ArrayAdapter<String> adapter;
+	int count=0;
 	/**
 	 * This screen show the riders list for driver and driver can get notifications(accept/reject)
 	 * also in this screen.
@@ -44,43 +46,25 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         Log.i("DriverJourneyDetails_Acknowledgement","Acknowledgement tab in DriverJourneyDetails");
         session.storemode(mPreferences, "driver");
-        setContentView(R.layout.ridelist0);
-        driveracknowledgement=(ImageButton)findViewById(R.id.sendrequest);
-        driveracknowledgement.setVisibility(View.INVISIBLE);
-        //LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
-        //LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      
-        /*for (int i = 0; i < 4; i++) 
+        //setContentView(R.layout.ridelist0);
+        //driveracknowledgement=(ImageButton)findViewById(R.id.sendrequest);
+        //driveracknowledgement.setVisibility(View.INVISIBLE);
+        
+        adapter=new ArrayAdapter<String>(this,
+        	    android.R.layout.simple_list_item_1,
+        	    DriverJourneyDetails.drivermeteormsg);
+        setListAdapter(adapter);
+        if(DriverJourneyDetails.drivermeteormsg.size()!=0)
         {
-            View customView = linflater.inflate(R.layout.ridelist,null);
-            TextView route = (TextView) customView.findViewById(R.id.route);
-            TextView rate = (TextView) customView.findViewById(R.id.rate);
-            route.setText("   Route: IIIT to Secrateriate");
-            rate.setText("   Rate:");
-            ImageButton img=(ImageButton)customView.findViewById(R.id.image);
-            img.setOnClickListener(this);
-            CheckBox check=(CheckBox)customView.findViewById(R.id.ridelistcheckbox);
-            switch(i)
+        	System.out.println("arraylist in acknowledgement: "+DriverJourneyDetails.drivermeteormsg.get(0).toString());
+            /*for(int i=0; i<DriverJourneyDetails.drivermeteormsg.size();i++)
             {
-	            case 0:
-	            	img.setImageDrawable(getResources().getDrawable(R.drawable.image1));
-	            	break;
-	            case 1:
-	            	img.setImageDrawable(getResources().getDrawable(R.drawable.image2));
-	            	break;
-	            case 2:
-	            	img.setImageDrawable(getResources().getDrawable(R.drawable.image3));
-	            	break;
-	            case 3:
-	            	img.setImageDrawable(getResources().getDrawable(R.drawable.image4));
-	            	break;
-            }
-            route.setId(i);
-            rate.setId(i);
-            check.setId(i);
-            img.setId(i);
-            l.addView(customView);
-        }*/
+            	String str[] = DriverJourneyDetails.drivermeteormsg.get(i).toString().split("::");
+            }*/
+        	
+            adapter.notifyDataSetChanged();
+        }
+        
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{

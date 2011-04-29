@@ -24,7 +24,7 @@ public class Controller
 	int checksysid=0;
 
 
-	String url="http://122.183.102.229/kaarpool/";
+	String url="http://198.162.18.171:8080/kaarpool/";
 
 	/* Deafault  constructor for Controller
 	 * 
@@ -115,7 +115,7 @@ public class Controller
 		Log.i("Validatesysidregister_Controller", "Validating system id registration");
 		return false;
 	}
-	/*Getting ride list on the specified source and destination from the database 
+	/*Getting  ride list on the specified source and destination from the database 
 	 * sending to reqeusted activity
 	 */
 	public boolean Getridelist()
