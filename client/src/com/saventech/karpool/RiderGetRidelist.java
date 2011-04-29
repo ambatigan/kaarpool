@@ -11,12 +11,16 @@ import org.deacon.DeaconResponse;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -56,8 +60,6 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);	        
 	        
-	        
-	       
 	        drawUI();                              //drawUI methods draw UI of the RideGetRidelist screen
 	        checkboxesclicked="";
 	        getcheckboxesclicked="";
@@ -96,7 +98,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		        session=new Session();
 		        ridelistdetails=RiderJourneyDetails.ridelist;
 			    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
-			  
+			    session.storemode(mPreferences, "rider");
 				if(!session.checkinfo(mPreferences))                             //checking session existence
 				{
 					Intent intent=new Intent(RiderGetRidelist.this,Login.class);
@@ -319,8 +321,8 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 {
 		 String str1[]=chname.toString().trim().split("@");
 		 String str2[]=str1[1].toString().trim().split(".com");
-		 String channame=str1[0]+str2[0];
-		 //System.out.println("Parsed channel name^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
+		 String channame=str1[0]+"-"+str2[0];
+		 //System.out.println("Parsed channel name^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
 		 return channame.toString().trim();
 	 }
 	 
@@ -330,7 +332,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		 String deaconmessage="";
 		 if(chname1.toString().trim().length()!=0 && chname2.toString().trim().length()!=0 )
 		 {
-		     deaconmessage="ADDMESSAGE "+chname1+" "+chname2.toString().trim()+"::"+messageval+"EVENT";
+		     deaconmessage="ADDMESSAGE "+chname1+" "+chname2.toString().trim()+"::"+messageval+"::rider"+"EVENT";
 		 }
 		 return deaconmessage;
 	 }
@@ -507,8 +509,42 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 
 			public void onPush(DeaconResponse response) {
 				// TODO Auto-generated method stub
-				System.out.println("payload from meteor: "+ response.getPayload());
+				System.out.println("Rider payload from meteor: "+ response.getPayload());
+				notificationAlarm();
 				
+			}
+			private void notificationAlarm() {
+				// TODO Auto-generated method stub
+				NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		    	
+		    	int icon = R.drawable.ic_tab_artists_white;
+		    	CharSequence text = "pick up request";
+		    	CharSequence contentTitle = "Ride pickup request from Roshan";
+		    	CharSequence contentText = "Request has been accepted. Please confirm pickup";
+		    	long when = System.currentTimeMillis();
+		    	
+		    	//RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+		        //ParentActivity.switchTab(2);
+		    	Intent intent = new Intent(RiderGetRidelist.this, JourneyDetails.class);
+		    	intent.putExtra("receiver", "ridernotification");
+		    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		    	Notification notification = new Notification(icon,text,when);
+		    	
+		    	notification.flags = Notification.DEFAULT_SOUND | Notification.FLAG_AUTO_CANCEL;
+		    	
+		    	long[] vibrate = {0,100,200,300};
+		    	notification.vibrate = vibrate;
+		    	
+		    	notification.ledARGB = Color.RED;
+		    	notification.ledOffMS = 300;
+		    	notification.ledOnMS = 300;
+		    	
+		    	notification.defaults |= Notification.DEFAULT_LIGHTS;
+		    	//notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+		    	
+		    	notification.setLatestEventInfo(this, contentTitle, contentText, contentIntent);
+		    	
+		    	notificationManager.notify(1001, notification);
 			}
 
 			public void onReconnect() {

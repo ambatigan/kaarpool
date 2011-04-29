@@ -58,7 +58,7 @@ public class RiderRoute extends Activity implements OnClickListener{
 			startActivity(intent);
 		
 		}
-		
+		 session.storemode(mPreferences, "rider");
 		riderroutevalidate=new Validations();
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.riderjourney);
@@ -217,6 +217,19 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		// Display the dialog
 		mDateTimeDialog.show();
 	}
+    
+    
+    public void removePreviousSharedPreferences()
+    {
+    	if(mPreferences.contains("checkboxesclicked"))
+		{
+			 System.out.println("RiderRoute"+session.getCheckBoxesClicked(mPreferences));
+			 SharedPreferences.Editor editor=mPreferences.edit();
+			 editor.putString("checkboxesclicked","");
+			 editor.commit();
+			 System.out.println("RiderRoute"+session.getCheckBoxesClicked(mPreferences));
+		}
+    }
     /*
      * this function will be performed when ever a button is pressed
      */
@@ -225,7 +238,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		
 		if(view==findViewById(R.id.ridergetridelist))
 		{
-			
+			removePreviousSharedPreferences();
 			boolean validateridelistflag=riderroutevalidate.rideGetRidelist(ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
 			if(validateridelistflag)
 			{
@@ -268,6 +281,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 							}
 							*/
 							
+							//removePreviousSharedPreferences();
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
 						}
@@ -277,7 +291,9 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 							{
 								session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
 							}*/
+							//removePreviousSharedPreferences();
 							RiderJourneyDetails.ridelist=ridelistdata;
+							JourneyDetails.ridelist1=ridelistdata;
 							Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
@@ -291,9 +307,10 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 					}
 					else
 					{
-
+                      
 						RiderJourneyDetails.ridelist=null;
-
+						System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+						//removePreviousSharedPreferences();
 						Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 			            ParentActivity.switchTab(1);

@@ -37,6 +37,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 			startActivity(intent);
 		
 		}
+		 session.storemode(mPreferences, "rider");
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.rider_acknowledgements);
         Button bb =(Button)findViewById(R.id.OkButton);

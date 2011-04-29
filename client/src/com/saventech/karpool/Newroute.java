@@ -64,36 +64,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     	
         super.onCreate(savedInstanceState);
         Log.i("DriverJourneyDetails_New route", "New route tab in DriverJourneyDetails");
-        session=new Session();
-        validate=new Validations();
-	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
-		if(!session.checkinfo(mPreferences))
-		{
-			Intent intent=new Intent(Newroute.this,Login.class);
-			startActivity(intent);
-		
-		}
-		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
-        setContentView(R.layout.drivernewroute);
-        controller=new Controller();
-        Button change1 = (Button) findViewById(R.id.change1);
-        change1.setOnClickListener(this);
-        
-        /** We need to set up a click listener on the change2 button */
-        Button change2 = (Button) findViewById(R.id.change2);
-        change2.setOnClickListener(this);
-        
-        newroute=(Button)findViewById(R.id.drivernewrouteregsubmit);
-        driverjourneysettime=(Button)findViewById(R.id.driverjourneysettime);
-        driverjourneysettime.setOnClickListener(this);
-        driverjourneyedittime=(EditText)findViewById(R.id.driverjourneyedittime);
-        driverjourneyedittime.setEnabled(false);
-        ed = (EditText)findViewById(R.id.sourceid);
-        ed1 = (EditText)findViewById(R.id.destinationid);
-        seatid = (EditText)findViewById(R.id.seatid);
-        ed.setEnabled(false);
-        ed1.setEnabled(false);        
-        newroute.setOnClickListener(this);    
+        drawUI();
         /*if(session.checkNewRouteDetails(mPreferences))
 		{
         	ed.setText(mPreferences.getString("driversource","rs"));
@@ -117,6 +88,48 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
         	e.printStackTrace();
         }
     }
+    
+    public void drawUI()
+    {
+    	 session=new Session();
+         validate=new Validations();
+ 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+ 		if(!session.checkinfo(mPreferences))
+ 		{
+ 			Intent intent=new Intent(Newroute.this,Login.class);
+ 			startActivity(intent);
+ 		
+ 		}
+ 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
+         setContentView(R.layout.drivernewroute);
+         controller=new Controller();
+         session.storemode(mPreferences, "driver");
+         Button change1 = (Button) findViewById(R.id.change1);
+         change1.setOnClickListener(this);
+         
+         /** We need to set up a click listener on the change2 button */
+         Button change2 = (Button) findViewById(R.id.change2);
+         change2.setOnClickListener(this);
+         
+         newroute=(Button)findViewById(R.id.drivernewrouteregsubmit);
+         driverjourneysettime=(Button)findViewById(R.id.driverjourneysettime);
+         driverjourneysettime.setOnClickListener(this);
+         driverjourneyedittime=(EditText)findViewById(R.id.driverjourneyedittime);
+         driverjourneyedittime.setEnabled(false);
+         ed = (EditText)findViewById(R.id.sourceid);
+         ed1 = (EditText)findViewById(R.id.destinationid);
+         seatid = (EditText)findViewById(R.id.seatid);
+         ed.setEnabled(false);
+         ed1.setEnabled(false);        
+         newroute.setOnClickListener(this);    
+    }
+    @Override
+	public void onResume() {
+		super.onResume();
+		drawUI();
+		
+		
+	}
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
@@ -347,7 +360,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 
 	public void onPush(DeaconResponse response) {
 		// TODO Auto-generated method stub
-		System.out.println("payload from meteor: "+ response.getPayload());
+		System.out.println("Driver payload from meteor: "+ response.getPayload());
 		notificationAlarm();
 	}
 
@@ -364,7 +377,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     	//RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
         //ParentActivity.switchTab(2);
     	Intent intent = new Intent(Newroute.this, JourneyDetails.class);
-    	intent.putExtra("flag", "notification");
+    	intent.putExtra("receiver", "drivernotification");
     	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
     	Notification notification = new Notification(icon,text,when);
     	

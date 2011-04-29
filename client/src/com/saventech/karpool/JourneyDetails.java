@@ -29,6 +29,7 @@ public class JourneyDetails extends TabActivity {
 	long transactionID = -1;
 	TabHost tabHost;
 	private String flag;
+	private String rider;
 	public static ArrayList<String> ridelist1 = new ArrayList<String>();
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,8 @@ public class JourneyDetails extends TabActivity {
 		Log.i("JourneyDetails","You are now in Journeydetails table");
 	    super.onCreate(savedInstanceState);
 	    Intent intent1 = getIntent();
-	    flag = intent1.getStringExtra("flag");
+	    flag = intent1.getStringExtra("receiver");
+	    System.out.println("Journey details $$$$$$"+flag);
 	    setContentView(R.layout.journeydetails);
 	    Intent newintent=  getIntent();
 	    
@@ -97,10 +99,15 @@ public class JourneyDetails extends TabActivity {
 	    // Create an Intent to launch an Activity for the tab (to be reused)
 	    intent = new Intent().setClass(this, DriverJourneyDetails.class);
 	    
-	    if(flag.trim().equals("notification"))
+	    if(flag.trim().equals("drivernotification"))
 	    	intent.putExtra("check", "notifications");
+	    else if(flag.trim().equals("preferencesdrivernotification"))
+	    	intent.putExtra("check", "drivernotify");
+	    /*else if(flag.trim().equals("preferencesridernotification"))
+	    	intent.putExtra("check", "ridernotify");*/
 	    else
-	    	intent.putExtra("check", "notify");
+	    	intent.putExtra("check", "error");
+	    
 	    
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("Driver").setIndicator("DRIVER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
@@ -108,12 +115,30 @@ public class JourneyDetails extends TabActivity {
 	    tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.drawable.radialback);
 	    // Do the same for the other tabs
 	    intent2 = new Intent().setClass(this, RiderJourneyDetails.class);
+	    
+	    if(flag.trim().equals("ridernotification"))
+	    	intent2.putExtra("check", "notifications");
+	    else if(flag.trim().equals("preferencesridernotification"))
+	    	intent2.putExtra("check", "ridernotify");
+	    /*else if(flag.trim().equals("preferencesdrivernotification"))
+	    	intent.putExtra("check", "drivernotify");*/
+	    else
+	    	intent2.putExtra("check", "error");
+	   
+	    
 	    spec = tabHost.newTabSpec("rider").setIndicator("RIDER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent2);
 	    tabHost.addTab(spec);
-	    if(flag.trim().equals("notification"))
+	    
+	    
+	    if(flag.trim().equals("drivernotification")||flag.trim().equals("preferencesdrivernotification"))
 	    {
 	    	System.out.println("i am in notification");
 	    	tabHost.setCurrentTab(0);	    	
+	    }
+	    if(flag.trim().equals("ridernotification")||flag.trim().equals("preferencesridernotification"))
+	    {
+	    	System.out.println("i am in notification");
+	    	tabHost.setCurrentTab(1);	    	
 	    }
 	    if(flag.trim().equals("notify"))
 	    {

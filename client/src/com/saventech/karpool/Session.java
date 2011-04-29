@@ -80,5 +80,17 @@ public class Session
          System.out.println(mPreferences.getString("checkboxesclicked","cd")+" ############################");
 
 	 }
+	 public void storemode(SharedPreferences mPreferences,String mode)
+	 {
+         SharedPreferences.Editor editor=mPreferences.edit();
+		 
+		 System.out.println(mode+" :In session");
+         editor.putString("Mode",mode.toString().trim());
+         editor.commit();
+	 }
+	 public String getMode(SharedPreferences mPreferences)
+	 {
+		 return mPreferences.getString("Mode", "md");
+	 }
 
 }

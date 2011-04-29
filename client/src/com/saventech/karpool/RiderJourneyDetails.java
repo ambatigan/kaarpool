@@ -23,9 +23,13 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	TabHost tabHost;
 	private SharedPreferences mPreferences; 
 	Session session;
+	private String flag1;
 	public static ArrayList<String> ridelist = new ArrayList<String>();
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent1 = getIntent();
+		flag1 = intent1.getStringExtra("check");
+		System.out.println("Riderjourneydetails  ==="+flag1);
         setContentView(R.layout.journeydetails);
         
        
@@ -63,9 +67,18 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("acknowledgement").setIndicator("Acknowledgements",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
 	    tabHost.addTab(spec);
+    	tabHost.setCurrentTab(0);
+
+	    //tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(false);
 	    
-	    //tabHost.setCurrentTab(0);
-	    tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(false);
+	    if(flag1.trim().equals("notifications"))
+	    {
+	    	tabHost.setCurrentTab(2);
+	    }
+	    if(flag1.trim().equals("notify")||flag1.trim().equals("ridernotify"))
+	    {
+	    	tabHost.setCurrentTab(0);
+	    }
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
@@ -86,6 +99,6 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 		Log.i("RiderJourneyDetails_switchTab", "enable ridelist tab ");
 	
 		tabHost.setCurrentTab(tab);
-		tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(true);
+		//tabHost.getTabWidget().getChildTabViewAt(1).setEnabled(true);
 	}
 }

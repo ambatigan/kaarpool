@@ -14,12 +14,20 @@ public class Preferences extends ListActivity {
 	String username1="";
 	 private SharedPreferences mPreferences; 
 	 Session session;
+	 private String modevalue="";
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
     super.onCreate(savedInstanceState);
     session=new Session();
-
+    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+	if(!session.checkinfo(mPreferences))
+	{
+		Intent intent=new Intent(Preferences.this,Login.class);
+		startActivity(intent);
+	
+	}
+	modevalue=session.getMode(mPreferences);
     String[] pref = getResources().getStringArray(R.array.pref_array);
     setListAdapter(new ArrayAdapter<String>(this,
             R.layout.preferences, R.id.prefer, pref));
@@ -33,6 +41,17 @@ public class Preferences extends ListActivity {
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			Intent intent=new Intent(Preferences.this,JourneyDetails.class);
+			System.out.println("Preferences ==="+modevalue);
+			if(modevalue.toString().trim().equals("driver"))
+            {
+           	 intent.putExtra("receiver", "preferences"+modevalue.toString().trim()+"notification");
+           	 
+            }
+            if(modevalue.toString().trim().equals("rider"))
+            {
+           	 intent.putExtra("receiver", "preferences"+modevalue.toString().trim()+"notification");
+           	 
+            }
 			startActivity(intent);
 			//return true;
 		}
@@ -63,7 +82,7 @@ public class Preferences extends ListActivity {
              System.out.println("DATA REMOVED");
              RiderGetRidelist.stopdeacon();
              finish();
-             Intent intent = new Intent(getApplicationContext(), Login.class);
+             Intent intent = new Intent(getApplicationContext(), Login.class);             
              startActivity(intent); 
              removeDialog(0);
            break;

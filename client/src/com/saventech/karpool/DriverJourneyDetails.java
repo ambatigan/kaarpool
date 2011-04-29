@@ -38,6 +38,7 @@ public class DriverJourneyDetails extends TabActivity {
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
 		Intent intent1 = getIntent();
 		flag1 = intent1.getStringExtra("check");
+		System.out.println("DriverJourneyDetails ======"+flag1);
         setContentView(R.layout.journeydetails);
         
         Resources res = getResources(); // Resource object to get Drawables
@@ -69,10 +70,11 @@ public class DriverJourneyDetails extends TabActivity {
 	    {
 	    	tabHost.setCurrentTab(2);
 	    }
-	    if(flag1.trim().equals("notify"))
+	    if(flag1.trim().equals("notify")||flag1.trim().equals("drivernotify"))
 	    {
 	    	tabHost.setCurrentTab(0);
 	    }
+	    
     }
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 

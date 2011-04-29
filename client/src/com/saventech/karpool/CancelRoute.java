@@ -64,6 +64,7 @@ public class CancelRoute extends Activity implements OnClickListener
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         Log.i("DriverJourneyDetails_Cancel route", "Cancel route tab in DriverJourneyDetails");
         controller=new Controller();
+        session.storemode(mPreferences, "driver");
         cancelinfo = controller.getCancelroutedetails(session.getUsername(mPreferences));
         System.out.println("cancel information: "+cancelinfo);
         

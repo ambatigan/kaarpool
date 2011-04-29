@@ -43,6 +43,7 @@ public class Acknowledgement extends Activity implements android.view.View.OnCli
 		}
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         Log.i("DriverJourneyDetails_Acknowledgement","Acknowledgement tab in DriverJourneyDetails");
+        session.storemode(mPreferences, "driver");
         setContentView(R.layout.ridelist0);
         driveracknowledgement=(ImageButton)findViewById(R.id.sendrequest);
         driveracknowledgement.setVisibility(View.INVISIBLE);

@@ -93,7 +93,7 @@ public class Login extends  MenuOptions implements OnClickListener{
 				Intent intent=new Intent(Login.this,JourneyDetails.class);
 				intent.putExtra("RegisterUsername", "loginid");
 				intent.putExtra("RegisterPassword", "loginpwd");
-				intent.putExtra("flag", "notify");
+				intent.putExtra("receiver", "notify");
 				startActivity(intent);
     	    	Log.i("Login_Controller", "Login values are authenticated");
     	    	

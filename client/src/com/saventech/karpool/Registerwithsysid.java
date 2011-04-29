@@ -378,7 +378,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 					 Intent intent=new Intent(Registerwithsysid.this,JourneyDetails.class);
 					 intent.putExtra("RegisterUsername", sysuserid.getText().toString()+systemid);
 					 intent.putExtra("RegisterPassword", sysuserpwd.getText().toString());
-					 intent.putExtra("flag", "notify");
+					 intent.putExtra("receiver", "notify");
 			         startActivity(intent);
 	             }
 		     else
