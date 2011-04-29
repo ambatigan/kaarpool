@@ -29,7 +29,6 @@ public class JourneyDetails extends TabActivity {
 	long transactionID = -1;
 	TabHost tabHost;
 	private String flag;
-	private String rider;
 	public static ArrayList<String> ridelist1 = new ArrayList<String>();
 
 	public void onCreate(Bundle savedInstanceState) {

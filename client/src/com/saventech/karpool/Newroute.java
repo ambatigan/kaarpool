@@ -65,20 +65,14 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
         super.onCreate(savedInstanceState);
         Log.i("DriverJourneyDetails_New route", "New route tab in DriverJourneyDetails");
         drawUI();
-        /*if(session.checkNewRouteDetails(mPreferences))
-		{
-        	ed.setText(mPreferences.getString("driversource","rs"));
-        	ed1.setText(mPreferences.getString("driverdestination","rd"));
-        	driverjourneyedittime.setText(mPreferences.getString("driversettime","rt"));
-        	seatid.setText(mPreferences.getString("driverseats","rt"));
-        	
-			
-		}*/
-        
+               
         //Meteor connectivity
+        
         try 
         {
-        	this.deacon = new Deacon("198.162.18.171",4670, this);
+        	String ip = getString(R.string.MeteorIP);
+        	int port=Integer.parseInt(getString(R.string.SubscriberPort));
+        	this.deacon = new Deacon(ip.toString().trim(),port, this);
         	deacon.catchUpTimeOut(60);
         	deacon.register(this);
         } 
@@ -242,6 +236,15 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		// Display the dialog
 		mDateTimeDialog.show();
 	}
+    
+    public String parseChannelName(String chname)
+	 {
+		 String str1[]=chname.toString().trim().split("@");
+		 String str2[]=str1[1].toString().trim().split(".com");
+		 String channame=str1[0]+"-"+str2[0];
+		 //System.out.println("Parsed channel name^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
+		 return channame.toString().trim();
+	 }
 	public void onClick(final View view)
 	{		
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
@@ -277,7 +280,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 			            ParentActivity.switchTab(2);
 					}
 					System.out.println("vvvvvvvvusername: "+ session.getUsername(mPreferences));
-					deacon.joinChannel(session.getUsername(mPreferences), 0);
+					deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);				
 				}
 				
 			}
@@ -361,6 +364,13 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	public void onPush(DeaconResponse response) {
 		// TODO Auto-generated method stub
 		System.out.println("Driver payload from meteor: "+ response.getPayload());
+		String payload;
+		System.out.println("payload from meteor: "+ response.getPayload());
+		payload = response.getPayload().trim();
+		String str1[]=payload.toString().trim().split("::");
+		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nmode: "+str1[2]);
+		//DriverJourneyDetails.drivermeteormsg.add(str1[0]+"::"+str1[1]);
+		//notificationAlarm(str1[0], str1[1]);
 		notificationAlarm();
 	}
 
