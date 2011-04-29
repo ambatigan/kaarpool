@@ -340,12 +340,13 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 //sending request when sendrequest button is pressed
 	 public void sendrequest(String getcheckboxesclicked)
 	 {
-		 if(getcheckboxesclicked.toString().trim().length()!=0)
-		 {
+		 
 			 removeDuplicates(list);
 			 for (Object data : list) {
 				 checkboxesclicked=checkboxesclicked+data.toString().trim();
 		    }
+			 if(checkboxesclicked.toString().trim().length()!=0)
+			 {
 			 //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
 			// System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 			 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
