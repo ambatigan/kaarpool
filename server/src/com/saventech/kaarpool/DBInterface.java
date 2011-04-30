@@ -1077,7 +1077,7 @@ public class DBInterface
 					else
 					{
 						insertedvalues++;
-						newdrivername=newdrivername+temp[2].toString().trim()+":";
+						newdrivername=newdrivername+temp[2].toString().trim()+"-"+rid.toString().trim()+":";
 						System.out.println(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\","+1+",\"running\")");
 						statement.executeUpdate(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\","+1+",\"running\")");
 					}
