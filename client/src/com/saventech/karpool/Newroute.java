@@ -84,6 +84,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
         }
     }
     
+    
     public void drawUI()
     {
     	 session=new Session();

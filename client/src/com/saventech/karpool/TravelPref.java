@@ -60,6 +60,8 @@ public class TravelPref extends Activity implements OnClickListener
 	String username="";
 	private SharedPreferences mPreferences;
 	int selectPos=0;
+	String imagedata="";
+	Bitmap decodedByte;
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
@@ -95,9 +97,9 @@ public class TravelPref extends Activity implements OnClickListener
 	
 	controller = new Controller();
     String totalString = controller.getTravelBasedPref(username);
-    System.out.print(totalString +"totalStringtotalStringtotalStringtotalString");
+    //System.out.print(totalString +"totalStringtotalStringtotalStringtotalString");
    
-    System.out.print(totalString+"rohsna");
+   // System.out.print(totalString+"rohsna");
     String[] fields = totalString.split("::");
     System.out.print(fields.length+"rohsna");
     if(!totalString.equals("") &&fields.length>1)
@@ -128,12 +130,12 @@ public class TravelPref extends Activity implements OnClickListener
     	}
     	
     	int i = adapter.getPosition(fields[6]);
-    	System.out.println(i+"selectPos");
+    	//System.out.println(i+"selectPos");
     	spinner.setSelection(i);
     	
-    	String imagebyte = fields[7];
-        byte[] decodedString = Base64.decode(imagebyte, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    	imagedata = fields[7];
+        byte[] decodedString = Base64.decode(imagedata, Base64.DEFAULT);
+        decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         travelprefimage.setImageBitmap(decodedByte);
         
         
@@ -225,7 +227,7 @@ public class TravelPref extends Activity implements OnClickListener
                }
            });
            AlertDialog alert = builder.create();
-           //display dialog box
+          
            alert.show();
 		   break;
 	   case R.id.travelprefback:
@@ -234,19 +236,34 @@ public class TravelPref extends Activity implements OnClickListener
 		   break;
 	   case R.id.travelprefsave:
 		   Log.i("TravelPref_save", "Travel preference values are storing");
+		   String carImage="";
 		   
 		   Toast.makeText(TravelPref.this, "Saving travel preferences ", Toast.LENGTH_LONG).show();
-		   String imagedata=uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.car2));
-		   System.out.println(imagedata);
+		   System.out.println(selectedImagePath+"selectedImagePath");
+		   System.out.println(decodedByte);
+		  // System.out.println(decodedByte.getHeight()+"decodedByte.toString().length()");
+		  // System.out.println(decodedByte.getRowBytes()+"decodedByte.getRowBytes()");
+		   if(!imagedata.equals(""))
+		   {
+			   imagedata=uploadimage.bitmapcode(selectedImagePath, decodedByte);
+			   System.out.println(imagedata);  
+		   }
+		   else
+		   {
+			   imagedata=uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.car2));
+		   }
+			   
+		 
+		  
 		   String userTravelPref=getUserAnswer();
-		   System.out.println(userTravelPref+" userTravelPref");
-		   System.out.println(seats+"  seats");
+		   //System.out.println(userTravelPref+" userTravelPref");
+		  // System.out.println(seats+"  seats");
 		   controller.saveTravelPref(userTravelPref,seats,imagedata,username);
 		   Intent save = new Intent(TravelPref.this,Preferences.class);
 		   startActivity(save);
 	   }
 		// TODO Auto-generated method stub
-		
+	
 	}
 	/**
 	 * Gets the user answer.
@@ -306,7 +323,7 @@ public class TravelPref extends Activity implements OnClickListener
 			handicap1 = null;
 		}
 		total=ladies1+":"+gents1+":"+music1+":"+smoke1+":"+children1+":"+handicap1;
-		Log.i("TravelPref_save",total+"  travel prefv");
+		//Log.i("TravelPref_save",total+"  travel prefv");
 		return total;
 	}
     

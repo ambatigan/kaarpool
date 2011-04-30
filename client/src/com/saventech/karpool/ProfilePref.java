@@ -35,6 +35,8 @@ public class ProfilePref extends  Activity implements OnClickListener {
     EditText userMobile;
     EditText userAdd ;
     EditText userId;
+    String imagedata="";
+    Bitmap decodedByte;
     private SharedPreferences mPreferences; 
 	Session session;
 	@Override
@@ -75,9 +77,9 @@ public class ProfilePref extends  Activity implements OnClickListener {
        
         //----------------- for decoding the string to image ------------------
         
-        String imagebyte = fields[4];
-        byte[] decodedString = Base64.decode(imagebyte, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        imagedata = fields[4];
+        byte[] decodedString = Base64.decode(imagedata, Base64.DEFAULT);
+        decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         userImage.setImageBitmap(decodedByte);
         
         Button bb =(Button)findViewById(R.id.change);
@@ -171,10 +173,19 @@ public class ProfilePref extends  Activity implements OnClickListener {
 			 }*/
 			 if(mobileflag && passwordflag )
 			 {
-				 String ima = uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
-					controller.saveProfilePref(userId.getText().toString(),userPwd.getText().toString(),userMobile.getText().toString(),userAdd.getText().toString(),ima);
-		            Intent savepropref = new Intent(ProfilePref.this, Preferences.class);
-					startActivity(savepropref);
+				 if(!imagedata.equals(""))
+				   {
+					   imagedata=uploadimage.bitmapcode(selectedImagePath, decodedByte);
+					   System.out.println(imagedata);  
+				   }
+				   else
+				   {
+					   imagedata=uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
+				   }
+				//String ima = uploadimage.bitmapcode(selectedImagePath, BitmapFactory.decodeResource(getResources(), R.drawable.default1));
+				controller.saveProfilePref(userId.getText().toString(),userPwd.getText().toString(),userMobile.getText().toString(),userAdd.getText().toString(),imagedata);
+		        Intent savepropref = new Intent(ProfilePref.this, Preferences.class);
+				startActivity(savepropref);
 			 }
 			 else
 			 {
