@@ -24,8 +24,8 @@ public class Controller
 	int checksysid=0;
 
 
-	//String url="http://198.162.18.171:8080/kaarpool/";
-	String url="http://122.183.102.229/kaarpool/";
+	//String url="http://198.162.18.174:8080/kaarpool/";
+	 String url="http://122.183.102.229/kaarpool/";
 
 	/* Deafault  constructor for Controller
 	 * 
@@ -484,7 +484,7 @@ public class Controller
 	}
 	
 	//injecting events code
-	public void injectEvents(ArrayList<String> eventlist)
+	public String injectEvents(ArrayList<String> eventlist)
 	{
 		String eventString="";
 		for( int i=0;i<eventlist.size();i++)
@@ -498,13 +498,16 @@ public class Controller
 		{
 			injectEventResponse=CustomHttpClient.executeHttpPost(url+"InjectEvents", events);
 			String res=injectEventResponse.toString();
-		    Log.i("InjectEvents_Controller", res.toString().trim());				
+			 Log.i("InjectEvents_Controller", res.toString().trim());
+			return res.toString();
+		   				
 			
 		}
 		catch(Exception e)
 		{
 			Log.i("InjectEvents_Controller", "Exception in controller while injecting events");
 		}
+		return "failed to send";
 	}
 
 }

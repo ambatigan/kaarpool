@@ -46,21 +46,20 @@
 		<item>Home</item>
 		<item>Work</item>
 	</string-array>
-	<string name="MeteorIP">122.183.102.230</string>
+	<string name="MeteorIP">198.162.18.174</string>
 	<string name="SubscriberPort">4670</string>
 	<string name="r1">Rider request</string>
-	<string name="r2">Rider accept</string>
-	<string name="r3">Rider reject</string>
-	<string name="r4">Rider confirmation</string>
-	<string name="r5">Rider confirmation reject</string>
-	<string name="r6">Rider pickup confirmation</string>
-	<string name="r7">Rider pickup reject</string>
-	<string name="r8">Rider drop confirmation</string>
+	<string name="r2">Rider confirmation</string>
+	<string name="r3">Rider confirmation reject</string>
+	<string name="r4">Rider pickup confirmation</string>
+	<string name="r5">Rider pickup reject</string>
+	<string name="r6">Rider drop confirmation</string>
 	<string name="d1">Driver accept</string>
 	<string name="d2">Driver reject</string>
 	<string name="d3">Driver confirmation</string>
 	<string name="d4">Driver confirmation reject</string>
 	<string name="d5">Driver pickup request</string>
 	<string name="d6">Driver drop request</string>
-	<string name="r9">Rider re-request</string>
+	<string name="r7">Rider re-request</string>
+
 </resources>

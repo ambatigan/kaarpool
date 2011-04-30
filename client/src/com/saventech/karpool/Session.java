@@ -51,6 +51,7 @@ public class Session
          editor.remove("driverseats");*/
          editor.remove("checkboxesclicked");
          editor.commit();
+         System.out.println(mPreferences.getString("checkboxesclicked","dd")+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 	 }
 	
 	 public boolean ischeckboxesclicked(SharedPreferences mPreferences)

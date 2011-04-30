@@ -440,10 +440,6 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 			return getString(R.string.r6);
 		if(msg.trim().equals("r7"))
 			return getString(R.string.r7);
-		if(msg.trim().equals("r8"))
-			return getString(R.string.r8);
-		if(msg.trim().equals("r9"))
-			return getString(R.string.r9);
 		return msg;
 		
 	}

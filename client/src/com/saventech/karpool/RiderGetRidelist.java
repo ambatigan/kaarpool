@@ -327,12 +327,12 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 }
 	 
 	 //Message making to send to  channel 
-	 public String makeMessage(String chname1,String chname2, int messageval)
+	 public String makeMessage(String chname1,String chname2, String messageval,String ridid)
 	 {
 		 String deaconmessage="";
 		 if(chname1.toString().trim().length()!=0 && chname2.toString().trim().length()!=0 )
 		 {
-		     deaconmessage="ADDMESSAGE "+chname1+" "+chname2.toString().trim()+"::"+messageval+"::rider"+"EVENT";
+		     deaconmessage="ADDMESSAGE "+chname1+" "+chname2.toString().trim()+"::"+messageval+"::"+ridid+"EVENT";
 		 }
 		 return deaconmessage;
 	 }
@@ -352,6 +352,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 			 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
 			 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim());
 			 checkboxesclicked="";
+			 System.out.println(messagedata+"ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
 			 String channelnames[]=messagedata.toString().trim().split(":");
 			 ArrayList<String> events=new ArrayList<String>();
 			 if(channelnames[0].toString().trim().equals("Your request has been sent"))
@@ -361,9 +362,10 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 					 if(channelnames.length>1 && (val!=0) && (channelnames[0].toString().trim().equals("Your request has been sent")))
 					 {
 						 System.out.println(channelnames[val].toString().trim());
-						 String chname=parseChannelName(channelnames[val].toString().trim());
+						 String splitoutput[]=channelnames[val].toString().trim().split("-");
+						 String chname=parseChannelName(splitoutput[0].toString().trim());
 						 String senderchname=parseChannelName(mPreferences.getString("UserName", "un").toString().trim());
-						 String event=makeMessage(chname,senderchname,1);
+						 String event=makeMessage(chname,senderchname,"r1",splitoutput[1]);
 						 events.add(event);
 						 
 						// controller.injectEvents(event);
@@ -524,7 +526,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 				String str1[]=payload.toString().trim().split("::");
 				System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nmode: "+str1[2]);
 				String msg = msgParse(str1[1]);
-				RiderJourneyDetails.ridermeteormsg.add(str1[0]+"::"+msg);
+				RiderJourneyDetails.ridermeteormsg.add(msg+" FROM "+str1[0]);
 				notificationAlarm(str1[0], msg);
 				
 			}
