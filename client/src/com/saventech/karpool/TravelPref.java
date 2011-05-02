@@ -236,7 +236,7 @@ public class TravelPref extends Activity implements OnClickListener
 		   break;
 	   case R.id.travelprefsave:
 		   Log.i("TravelPref_save", "Travel preference values are storing");
-		   String carImage="";
+		   //String carImage="";
 		   
 		   Toast.makeText(TravelPref.this, "Saving travel preferences ", Toast.LENGTH_LONG).show();
 		   System.out.println(selectedImagePath+"selectedImagePath");
