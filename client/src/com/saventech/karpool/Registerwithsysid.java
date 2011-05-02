@@ -375,11 +375,18 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		    	       }
 		    	 
 		    	      System.out.println("response from tomcat6 is: "+response);
-					 Intent intent=new Intent(Registerwithsysid.this,JourneyDetails.class);
-					 intent.putExtra("RegisterUsername", sysuserid.getText().toString()+systemid);
-					 intent.putExtra("RegisterPassword", sysuserpwd.getText().toString());
-					 intent.putExtra("receiver", "notify");
-			         startActivity(intent);
+		    	      if(response.toString().trim().equals("Success"))
+		    	      {
+						 Intent intent=new Intent(Registerwithsysid.this,JourneyDetails.class);
+						 intent.putExtra("RegisterUsername", sysuserid.getText().toString()+systemid);
+						 intent.putExtra("RegisterPassword", sysuserpwd.getText().toString());
+						 intent.putExtra("receiver", "notify");
+				         startActivity(intent);
+		    	      }
+		    	      else
+		    	      {
+		    	    	  Toast.makeText(Registerwithsysid.this, "Sorry server not up", Toast.LENGTH_LONG).show();
+		    	      }
 	             }
 		     else
 		     {

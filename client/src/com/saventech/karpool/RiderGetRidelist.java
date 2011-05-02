@@ -73,6 +73,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	        	deacon.catchUpTimeOut(60);
 	        	deacon.register(this);
 	        	Log.i("RiderChannel",parseChannelName(mPreferences.getString("UserName","un").toString().trim()) );
+	        	deacon.leaveChannel(parseChannelName(mPreferences.getString("UserName","un").toString().trim()));
 	        	deacon.joinChannel(parseChannelName(mPreferences.getString("UserName","un").toString().trim()), 0);
 	        	deacon.start();
 	 			

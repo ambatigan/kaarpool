@@ -174,7 +174,8 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		 }
 		 else
 		 {
-			 System.out.println("No message injected");
+			 System.out.println("No message injected");	
+			 
 		 }
 		 //System.out.println("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
     }
