@@ -59,7 +59,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	
 	private static Deacon deacon;
 	PrintWriter outToServer;
-	
+	static String channelname;
     @SuppressWarnings("static-access")
 	public void onCreate(Bundle savedInstanceState) {
     	
@@ -281,6 +281,8 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 			            ParentActivity.switchTab(2);
 					}
 					System.out.println("vvvvvvvvusername: "+ session.getUsername(mPreferences));
+					//channelname = parseChannelName(session.getUsername(mPreferences));
+					deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
 					deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);				
 				}
 				
@@ -371,7 +373,8 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		String str1[]=payload.toString().trim().split("::");
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nmode: "+str1[2]);
 		String msg = msgParse(str1[1]);
-		DriverJourneyDetails.drivermeteormsg.add(str1[0]+"::"+msg);
+		System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0]);
 		notificationAlarm(str1[0], msg);
 		//notificationAlarm();
 	}
@@ -411,6 +414,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     {
     	try
     	{
+    		//deacon.leaveChannel(channelname);
     		deacon.stop();
     		Log.i("RiderGetRidelist_StopDeacon", "Deacon stopped");
     	}
