@@ -1071,15 +1071,15 @@ public class DBInterface
 					if(resultSet.next())
 					{
 						updatedvalues++;
-						System.out.println(resourceBundle.getString("update_msgs")+ 1+" where rid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
-						statement.executeUpdate(resourceBundle.getString("update_msgs")+ 1+" where rdid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+						System.out.println(resourceBundle.getString("update_msgs")+"r1\""+" where rid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+						statement.executeUpdate(resourceBundle.getString("update_msgs")+"r1\""+" where rdid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
 					}
 					else
 					{
 						insertedvalues++;
 						newdrivername=newdrivername+temp[2].toString().trim()+"-"+rid.toString().trim()+":";
-						System.out.println(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\","+1+",\"running\")");
-						statement.executeUpdate(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\","+1+",\"running\")");
+						System.out.println(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\",\"r1\",\"running\")");
+						statement.executeUpdate(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\",\"r1\",\"running\")");
 					}
 					//System.out.println(rid+"      RIDSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 				}

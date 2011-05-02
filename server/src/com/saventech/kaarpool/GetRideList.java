@@ -19,6 +19,7 @@ public class GetRideList extends HttpServlet
 	Logger log = Logger.getLogger(LoginServlet.class);
   //  @Override
    
+	@SuppressWarnings("rawtypes")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         PrintWriter out=response.getWriter();
