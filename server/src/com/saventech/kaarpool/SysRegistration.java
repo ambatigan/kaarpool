@@ -54,6 +54,8 @@ public class SysRegistration extends HttpServlet {
  		       connect.registration(username, mobile, address,gender,dateFormat.format(theDate),image);
  		       connect.karpooldetails(username, pwd," 1");
  		       connect.update_userdetails(username);
+ 		       out.print("Success");
+ 		       System.out.println("sysRegistration sucess");
  		      }
  		      catch(Exception e)
  		      {
@@ -66,7 +68,7 @@ public class SysRegistration extends HttpServlet {
 			out.print("Please check the db connection");
 		}
 
- 	  out.print("values stored in db");
+ 	 // out.print("values stored in db");
        
         
     }
