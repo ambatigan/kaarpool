@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class TravelPref extends Activity implements OnClickListener
@@ -52,6 +53,9 @@ public class TravelPref extends Activity implements OnClickListener
 	
 	/** The handicap. */
 	CheckBox  handicap;
+	
+	TextView txtseats;
+	TextView txtcarimage;
 
 	Controller controller=null; 
 	UploadandCompressImage uploadimage=null;
@@ -62,6 +66,7 @@ public class TravelPref extends Activity implements OnClickListener
 	int selectPos=0;
 	String imagedata="";
 	Bitmap decodedByte;
+	private String modevalue="";
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
@@ -78,6 +83,7 @@ public class TravelPref extends Activity implements OnClickListener
 		startActivity(intent);
 	}
     username = session.getUsername(mPreferences);
+    modevalue=session.getMode(mPreferences);
     System.out.println(username+"username");
     controller=new Controller();   
 	ladies = (CheckBox ) findViewById(R.id.ladies);
@@ -87,6 +93,8 @@ public class TravelPref extends Activity implements OnClickListener
 	smoke = (CheckBox ) findViewById(R.id.smoke);
 	children = (CheckBox ) findViewById(R.id.child);
 	spinner = (Spinner) findViewById(R.id.travelprefspinner);
+	txtseats=(TextView)findViewById(R.id.travelpreftxtviewseats);
+	txtcarimage=(TextView)findViewById(R.id.travelpreftxtviewcarimage);
 	 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 	            this, R.array.seats, android.R.layout.simple_spinner_item);
 	 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -144,6 +152,15 @@ public class TravelPref extends Activity implements OnClickListener
 	
     
     travelprefimageupload=(Button)findViewById(R.id.travelpref_imageupload);
+    if(modevalue.toString().trim().equals("rider"))
+    {
+    	travelprefimageupload.setVisibility(View.GONE);
+    	travelprefimage.setVisibility(View.GONE);
+    	spinner.setVisibility(View.GONE);
+    	txtseats.setVisibility(View.GONE);
+    	txtcarimage.setVisibility(View.GONE);
+    	
+    }
     travelprefsave=(Button)findViewById(R.id.travelprefsave);
     travelprefback=(Button)findViewById(R.id.travelprefback);
     travelprefsave.setOnClickListener(this);

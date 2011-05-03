@@ -40,6 +40,8 @@ public class JourneyDetails extends TabActivity {
 	    System.out.println("Journey details $$$$$$"+flag);
 	    setContentView(R.layout.journeydetails);
 	    Intent newintent=  getIntent();
+	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+	    session=new Session();
 	    
 	    
 	    try
@@ -47,12 +49,10 @@ public class JourneyDetails extends TabActivity {
 	    	Regusername=newintent.getStringExtra("RegisterUsername");
 	   	  
 	 	    Regpwd=newintent.getStringExtra("RegisterPassword");
-	 	 
-	 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 	 	   
 	 	    if(Regusername.toString().equals("loginid") && Regpwd.toString().equals("loginpwd"))
 	 	    {
-	 	    	session=new Session();
+	 	    	
 	 		    Log.i("JourneyDetails", "Session checking");
 	 			if(!session.checkinfo(mPreferences))
 	 			{
@@ -65,6 +65,8 @@ public class JourneyDetails extends TabActivity {
 	 	    }
 	 	    else
 	 	    {
+	 	    	Log.i("JourneyDetails", "Stroing user details");
+	 	    	System.out.println("User name and password......"+Regusername+" \t"+Regpwd);
 	 	    	SharedPreferences.Editor editor=mPreferences.edit();
 	 	    	
 	             editor.putString("UserName", Regusername);
@@ -72,6 +74,8 @@ public class JourneyDetails extends TabActivity {
 	             editor.putString("PassWord", Regpwd);
 	            
 	             editor.commit();  
+	             System.out.println();
+	             
 
 	 		    
 	 	    }
@@ -79,7 +83,7 @@ public class JourneyDetails extends TabActivity {
 	    }
 	    catch(Exception e)
 	    {
-	    	session=new Session();
+	    	
  		    Log.i("JourneyDetails", "Session checkingNotifications");
  			if(!session.checkinfo(mPreferences))
  			{

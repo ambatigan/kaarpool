@@ -6,6 +6,7 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -238,6 +239,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		
 		if(view==findViewById(R.id.ridergetridelist))
 		{
+			ProgressDialog progressdialog = ProgressDialog.show(RiderRoute.this.getParent(), "","Getting ride list...", true);
 			removePreviousSharedPreferences();
 			boolean validateridelistflag=riderroutevalidate.rideGetRidelist(ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
 			if(validateridelistflag)
@@ -281,6 +283,8 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 							}
 							*/
 							
+							progressdialog.dismiss();
+							
 							//removePreviousSharedPreferences();
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
@@ -294,6 +298,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 							//removePreviousSharedPreferences();
 							RiderJourneyDetails.ridelist=ridelistdata;
 							JourneyDetails.ridelist1=ridelistdata;
+							progressdialog.dismiss();
 							Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
@@ -310,6 +315,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
                       
 						RiderJourneyDetails.ridelist=null;
 						System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+						progressdialog.dismiss();
 						//removePreviousSharedPreferences();
 						Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
@@ -325,7 +331,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 				Toast.makeText(RiderRoute.this, "Please make sure all details are filled", Toast.LENGTH_LONG ).show();
 			}
 			
-			
+			progressdialog.dismiss();
 		}
 		
 		if (view == findViewById(R.id.riderjourneychangesource)) 

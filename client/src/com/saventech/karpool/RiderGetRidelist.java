@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -341,7 +342,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 //sending request when sendrequest button is pressed
 	 public void sendrequest(String getcheckboxesclicked)
 	 {
-		 
+		 ProgressDialog progressdialog = ProgressDialog.show(RiderGetRidelist.this.getParent(), "","Sending ride request...", true);
 			 removeDuplicates(list);
 			 for (Object data : list) {
 				 checkboxesclicked=checkboxesclicked+data.toString().trim();
@@ -350,6 +351,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 			 {
 			 //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
 			// System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+			String injectmessage="";
 			 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
 			 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim());
 			 checkboxesclicked="";
@@ -373,16 +375,24 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 					 }
 					 
 				 }
-				 controller.injectEvents(events);
+				 injectmessage=controller.injectEvents(events);
 			 }
 		
-		 
-		    Toast.makeText(RiderGetRidelist.this, channelnames[0].toString().trim(), Toast.LENGTH_LONG).show();
+		    if(injectmessage.toString().trim().equals("successfully injected"))
+		    {
+		        Toast.makeText(RiderGetRidelist.this, channelnames[0].toString().trim(), Toast.LENGTH_LONG).show();
+		    }
+		    else
+		    {
+		    	//HAVE TO DO MODIFICATIONS
+		    	Toast.makeText(RiderGetRidelist.this, "Problem occured when sending request or \n Already request has been sent to this user", Toast.LENGTH_LONG).show();
+		    }
 		 }
 		 else
 		 {
 			 Toast.makeText(RiderGetRidelist.this, "Please select a ride to send request", Toast.LENGTH_LONG).show();
 		 }
+			 progressdialog.dismiss();
 		 
 		 
 		 

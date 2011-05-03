@@ -1,5 +1,6 @@
 package com.saventech.karpool;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -96,8 +97,9 @@ public class Login extends  MenuOptions implements OnClickListener{
 		case R.id.loginbutton:
 			if(username.length() != 0 && pword.length() != 0)
 			{
+			ProgressDialog progressdialog = ProgressDialog.show(Login.this, "","Authenticating your details...", true);
 			String authenticate =controller.Authenticate_login(username, pword);     //authenticate userid and password
-			System.out.println(authenticate+"authenticateauthenticate");
+			System.out.println(authenticate+"authenticateauthenticate ");
 			if(authenticate.toString().trim().equals("YES"))
     	    {
 				mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
@@ -111,7 +113,7 @@ public class Login extends  MenuOptions implements OnClickListener{
 	                Log.i("Login_Session", "User credentials are ok");
 				}
 				Log.i("Login_onClick", "It is redirecting to Journeydetails");
-
+				progressdialog.dismiss();
 				Intent intent=new Intent(Login.this,JourneyDetails.class);
 				intent.putExtra("RegisterUsername", "loginid");
 				intent.putExtra("RegisterPassword", "loginpwd");
@@ -123,6 +125,7 @@ public class Login extends  MenuOptions implements OnClickListener{
     	    else if(authenticate.toString().trim().equals("NOT_Exist"))
     	    {
     	    	System.out.println(authenticate.toString());
+    	    	progressdialog.dismiss();
     	    	//TextView warn = (TextView)findViewById(R.id.loginwarn);
 		    	//warn.setText("User with this user name doesnot exist");
 		    	Toast.makeText(Login.this,"User with this user name doesnot exist", Toast.LENGTH_LONG).show();
@@ -132,11 +135,13 @@ public class Login extends  MenuOptions implements OnClickListener{
     	    else if(authenticate.toString().trim().equals("Please_check_the_connection"))
     	    {
     	    	System.out.println(authenticate.toString());
+    	    	progressdialog.dismiss();
     	    	//warn.setText("Please check the connection");
     	    	Toast.makeText(Login.this,"Please check the server connection", Toast.LENGTH_LONG).show();
     	    	Log.i("Login_Controller", "No connection to the server");
     	    	
     	    }
+			progressdialog.dismiss();
 			
 		}
 			else
@@ -144,6 +149,7 @@ public class Login extends  MenuOptions implements OnClickListener{
 				Toast.makeText(Login.this,"Please enter username/password", Toast.LENGTH_LONG).show();
 		    	Log.i("Login_Controller", "No connection to the server");
 			}
+			 
 		}
 		
 		
