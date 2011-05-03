@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,8 @@ public class Login extends  MenuOptions implements OnClickListener{
 	Session session;
 	String pword = null;
 	TextView warn;
-	Controller controller=null;     
+	Controller controller=null;
+	private String systemid="@kaarpool.com";
 
 	private SharedPreferences mPreferences; 
 	
@@ -45,10 +47,30 @@ public class Login extends  MenuOptions implements OnClickListener{
         session.removeSession(mPreferences);
         controller=new Controller();                //initializing controller object
         userid = (EditText)findViewById(R.id.useridlogintxt);
+        userid.setOnFocusChangeListener(new OnFocusChangeListener() 
+        {
+
+	        	public void onFocusChange(View v, boolean hasFocus) 
+	        	{
+	        		focus(v);
+	        	    
+	        	}
+         });
         pwd = (EditText)findViewById(R.id.pwdlogintxt);
         findViewById(R.id.loginbutton).setOnClickListener(this);
         warn = (TextView)findViewById(R.id.loginwarn);
-}
+    }
+    public void focus(View v)
+    {
+    	Log.i("Registerwithsysid_availableusers", "Checking for available users");
+	     if(userid.getText().toString().length()!=0)
+	     {
+	    	 if(userid.getText().toString().contains(systemid))
+	    		 userid.setText(userid.getText().toString());
+	    	 else
+	    		 userid.setText(userid.getText().toString()+systemid);
+	     }
+    }
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
