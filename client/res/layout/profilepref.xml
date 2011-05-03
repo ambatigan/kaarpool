@@ -14,7 +14,7 @@ android:layout_marginTop="10px"
 android:text="Profile Preferences"
 android:textSize="18sp"
 android:textStyle="bold"
-android:textColor="#ffccccff"
+android:textColor="@color/titletextcolor"
 android:layout_gravity="center_horizontal"
 >
 </TextView>

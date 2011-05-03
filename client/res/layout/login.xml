@@ -18,7 +18,7 @@ android:layout_marginRight="10px"
 android:text="Login"
 android:textSize="18sp"
 android:textStyle="bold"
-android:textColor="#ff00cc99"
+android:textColor="@color/titletextcolor"
 android:layout_gravity="center_horizontal"
 >
 </TextView>
@@ -45,7 +45,7 @@ android:layout_height="wrap_content"
 android:text="User Id:"
 android:textStyle="bold"
 android:layout_gravity="center_horizontal"
-android:textColor="#ff330000"
+android:textColor="@color/textcolor"
 
 >
 </TextView>
@@ -71,7 +71,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 
 android:text="Password:"
-android:textColor="#ff330000"
+android:textColor="@color/textcolor"
 android:textStyle="bold"
 android:layout_gravity="center_horizontal"
 >
@@ -104,7 +104,7 @@ android:id="@+id/loginwarn"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="                  "
-android:textColor="#f60d0d"
+android:textColor="@color/textcolor"
 >
 </TextView>
 </TableRow>

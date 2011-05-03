@@ -17,7 +17,7 @@ android:orientation="horizontal"
 android:id="@+id/sendrequest"
 android:src="@drawable/send_request_icon"
 android:text="Send Request"
-android:layout_width="fill_parent"
+android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_weight="2" />
 </LinearLayout>
