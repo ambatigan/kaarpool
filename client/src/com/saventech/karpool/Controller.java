@@ -25,8 +25,8 @@ public class Controller
 
 
 
-	//String url="http://198.162.18.174:8080/kaarpool/";
-	 String url="http://122.183.102.229/kaarpool/";
+	//String url="http://198.162.18.156:8080/kaarpool/";
+	  String url="http://122.183.102.229/kaarpool/";
 
 
 	/* Deafault  constructor for Controller

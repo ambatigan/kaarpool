@@ -165,7 +165,7 @@ public class JourneyDetails extends TabActivity {
 	private static final int INSTRUCTIONS = Menu.FIRST+2 ;
 	private static final int PREFERENCES = Menu.FIRST+3 ;
 	private static final int MORE = Menu.FIRST+4;
-	
+	private static final int SIGNOUT = Menu.FIRST+5;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
@@ -174,6 +174,7 @@ public class JourneyDetails extends TabActivity {
 		menu.add(0, INSTRUCTIONS, 0, "INSTRUCTIONS");
 		menu.add(0, PREFERENCES, 0, "PREFERENCES");	
 		menu.add(0, MORE, 0, "MORE");	
+		menu.add(0, SIGNOUT, 0, "SIGNOUT");	
 		return true;
 	}
 	
@@ -196,6 +197,9 @@ public class JourneyDetails extends TabActivity {
 			return true;
 		case MORE:
 			more();
+			return true;
+		case SIGNOUT:
+			signOut();
 			return true;
 		}
 		return false;
@@ -222,6 +226,21 @@ public class JourneyDetails extends TabActivity {
 	}
 	public void switchTabSpecial(int tab){
 		tabHost.setCurrentTab(tab);
+	}
+	public void signOut()
+	{
+		 session.removeSession(mPreferences);
+         DriverJourneyDetails.drivermeteormsg = new ArrayList<String>();
+         RiderJourneyDetails.ridermeteormsg = new ArrayList<String>();
+         RiderJourneyDetails.ridelist=new ArrayList<String>();
+         JourneyDetails.ridelist1=new ArrayList<String>();
+         System.out.println("DATA REMOVED");
+         RiderGetRidelist.stopdeacon();
+         Newroute.stopdeacon();
+         finish();
+         Intent intent = new Intent(getApplicationContext(), Login.class);             
+         startActivity(intent); 
+         removeDialog(0);
 	}
 	
 }

@@ -3,20 +3,20 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<TextView
-    	android:id="@+id/prefer"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:textStyle="bold"
-    	android:textColor="@color/textcolor"
-    	
-    	/>
- 
+    android:background="@drawable/radialback">
+<!--<TextView-->
+<!--    	android:id="@+id/prefer"-->
+<!--    	android:layout_width="wrap_content"-->
+<!--    	android:layout_height="fill_parent"-->
+<!--    	android:textStyle="bold"-->
+<!--    	android:textColor="@color/textcolor"	-->
+<!--    	/>-->
+<!-- -->
 <ListView
-        android:id="@+id/mylistview"
+        android:id="@android:id/list" 
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
+    	android:focusable="true"
     	
 ></ListView>
 
