@@ -15,7 +15,7 @@
     
      <string-array name="travelpref_array">
         <item>Only Ladies</item>
-        <item>Only Gens</item>
+        <item>Only Gents</item>
         <item>Smoke</item>
         <item>Music</item>
         <item>Children</item>
