@@ -237,13 +237,14 @@ public class JourneyDetails extends TabActivity {
 	}
 	public void signOut()
 	{
-		rflag = 0;
-		dflag = 0;
+		
 		 session.removeSession(mPreferences);
          DriverJourneyDetails.drivermeteormsg = new ArrayList<String>();
          RiderJourneyDetails.ridermeteormsg = new ArrayList<String>();
          RiderJourneyDetails.ridelist=new ArrayList<String>();
          JourneyDetails.ridelist1=new ArrayList<String>();
+         JourneyDetails.dflag=0;
+         JourneyDetails.rflag=0;
          System.out.println("DATA REMOVED");
          RiderGetRidelist.stopdeacon();
          Newroute.stopdeacon();
