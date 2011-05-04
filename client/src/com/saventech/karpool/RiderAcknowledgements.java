@@ -37,7 +37,6 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 	String popupmessage1="";
 	String popupmessage2="";
 	String popupmessage3="";
-	ArrayList<String> riderackmeteormsg;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Rideracknowledgements_activity", "Now you are in Rideracknowledgements activity");
@@ -50,22 +49,6 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		
 		}
 		controller=new Controller();
-		riderackmeteormsg=new ArrayList<String>();
-		if(RiderJourneyDetails.ridermeteormsg.size()!=0)
-		{
-			for(int i=0;i<RiderJourneyDetails.ridermeteormsg.size();i++)
-			{
-				System.out.println(RiderJourneyDetails.ridermeteormsg.get(i).toString().trim());
-				String displaymessage="";
-				//Getting a fromat to display in rider acknowledgement screen
-				String originalmessage[]=RiderJourneyDetails.ridermeteormsg.get(i).toString().trim().split("FROM");
-				displaymessage=originalmessage[0].toString().trim()+" FROM "+getUserId(originalmessage[1]);
-				riderackmeteormsg.add(displaymessage);
-				
-			}
-			
-			
-		}
 		 session.storemode(mPreferences, "rider");
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.rider_acknowledgements);
@@ -76,7 +59,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
         //bb1.setOnClickListener(this);
         listview=(ListView)findViewById(android.R.id.list);
         System.out.println("ddddddddddddddddddddddddd1");
-        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 ,  riderackmeteormsg);
+        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 ,  RiderJourneyDetails.ridermeteormsg);
         System.out.println("ddddddddddddddddddddddddd2");
         listview.setAdapter(adapter);
        //lv1.setTextFilterEnabled(true);
@@ -86,7 +69,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
         /*setListAdapter(adapter);*/
         if(RiderJourneyDetails.ridermeteormsg.size()!=0)
         {
-        	System.out.println("arraylist in acknowledgement: "+riderackmeteormsg.get(0).toString());        	
+        	System.out.println("arraylist in acknowledgement: "+RiderJourneyDetails.ridermeteormsg.get(0).toString());        	
             ((BaseAdapter) adapter).notifyDataSetChanged();
         }
         listview.setOnItemClickListener(new OnItemClickListener() {
@@ -171,22 +154,16 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
     		
     	
     }
-    public String getUserId(String str)
-    {
-    	String username[]=str.toString().trim().split("-");
-    	return username[0]+"@"+username[1];
-    }
     public String getRid(String message)
     {
     	String splitoutput[]=message.toString().trim().split("::");
     	System.out.println("RID"+splitoutput[splitoutput.length-1]);
     	return splitoutput[splitoutput.length-1].toString().trim();
     }
-    public void sendResponseMessage(String message,String dname,String respon)
+    public void sendResponseMessage(String message,String drivername,String respon)
     {
     	String res=getResponseId(respon);
 		 String rid=getRid(message);
-		 String drivername=parseChannelName(dname.toString().trim());
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
 		 ArrayList<String>even=new ArrayList<String>();
 		 even.add("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
@@ -204,12 +181,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
     }
     public void removeMessage(String message,String drivername,String respon)
     {
-    	String removemessage="";
-    	String string[]=message.split("FROM");
-    	removemessage=string[0].toString().trim()+" FROM "+parseChannelName(string[1].toString().trim());
-    	riderackmeteormsg.remove(message);
-    	RiderJourneyDetails.ridermeteormsg.remove(removemessage);
-    	System.out.println("Rideracknowledgement .........."+removemessage+"  "+RiderJourneyDetails.ridermeteormsg.size());
+    	RiderJourneyDetails.ridermeteormsg.remove(message);
 		 ((BaseAdapter) adapter).notifyDataSetChanged();
 		 
 		// controller.sendMessage("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString());
@@ -218,7 +190,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 	 {
 		 String str1[]=chname.toString().trim().split("@");
 		 String str2[]=str1[1].toString().trim().split(".com");
-		 String channame=str1[0].toString().trim()+"-"+str2[0].toString().trim();
+		 String channame=str1[0]+"-"+str2[0];
 		 //System.out.println("Parsed channel name^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
 		 return channame.toString().trim();
 	 }
