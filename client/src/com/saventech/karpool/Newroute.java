@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,11 +57,12 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	private SharedPreferences mPreferences; 
 	Session session;
 	Validations validate;
+	private String ip = "";
+	private int port;
 	
 	private static Deacon deacon;
 	PrintWriter outToServer;
 	static String channelname;
-    @SuppressWarnings("static-access")
 	public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
@@ -71,11 +73,9 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
         
         try 
         {
-        	String ip = getString(R.string.MeteorIP);
-        	int port=Integer.parseInt(getString(R.string.SubscriberPort));
-        	this.deacon = new Deacon(ip.toString().trim(),port, this);
-        	deacon.catchUpTimeOut(60);
-        	deacon.register(this);
+        	ip = getString(R.string.MeteorIP);
+        	port=Integer.parseInt(getString(R.string.SubscriberPort));
+        	
         } 
         catch (Exception e) 
         {
@@ -246,17 +246,19 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		 String channame=str1[0]+"-"+str2[0];
 		 return channame.toString().trim();
 	 }
+	@SuppressWarnings("static-access")
 	public void onClick(final View view)
 	{		
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
+			ProgressDialog dialog = new ProgressDialog(this.getParent());
+            dialog.setMessage("Authentication user details...");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(true);
+            dialog.show();
 			boolean driverregsubmitflag=validate.driverNewRouteDetails(ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
 			if(driverregsubmitflag)
 			{
-				/*if(!session.checkNewRouteDetails(mPreferences))
-				{
-					session.saveDriverDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(),driverjourneyedittime.getText().toString().trim(), seatid.getText().toString().trim());
-				}*/
 				String check = controller.checkDriverridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
 				System.out.println("response for checkDriverridedetails: "+check);
 				if(check.trim().equals("true"))
@@ -266,6 +268,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 					ed1.setText("");
 					driverjourneyedittime.setText("");
 					seatid.setText("");
+					dialog.dismiss();
 				}
 				else
 				{
@@ -276,31 +279,47 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 					checknewrouteflag=controller.Getridelist();
 					if(checknewrouteflag)
 					{
-						//Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+						Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
 						DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
 			            ParentActivity.switchTab(2);
+			            dialog.dismiss();
 					}
 					System.out.println("vvvvvvvvusername: "+ session.getUsername(mPreferences));
 					//channelname = parseChannelName(session.getUsername(mPreferences));
-					deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
-					deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);				
+					if(JourneyDetails.dflag==0)
+					{
+						try {
+							this.deacon = new Deacon(ip.toString().trim(),port, this);
+						if(!deacon.isRunning())
+						{
+							
+								
+				        		deacon.catchUpTimeOut(60);
+				            	deacon.register(this);
+								//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
+								deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
+								deacon.start();
+								
+							
+						}
+						JourneyDetails.dflag=1;
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+					
 				}
 				
 			}
 			else
 			{
 				Toast.makeText(Newroute.this, "Please make sure all fields are filled", Toast.LENGTH_LONG).show();
-			}
-			try {
-				deacon.start();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				dialog.dismiss();
 			}
 			//outToServer.println("ADDMESSAGE "+session.getUsername(mPreferences)+" "+str1);
 			Log.i("Newroute_onClick", "Meteor subscriber channel created with username");
-			
-			
 		}
 		
 		if (view == findViewById(R.id.change1)) 

@@ -239,7 +239,11 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		
 		if(view==findViewById(R.id.ridergetridelist))
 		{
-			ProgressDialog progressdialog = ProgressDialog.show(RiderRoute.this.getParent(), "","Getting ride list...", true);
+			ProgressDialog progressdialog = new ProgressDialog(this.getParent());
+            progressdialog.setMessage("Authentication user details...");
+            progressdialog.setIndeterminate(true);
+            progressdialog.setCancelable(true);
+            progressdialog.show();
 			removePreviousSharedPreferences();
 			boolean validateridelistflag=riderroutevalidate.rideGetRidelist(ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
 			if(validateridelistflag)
@@ -275,19 +279,10 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 						   }
 							RiderJourneyDetails.ridelist=ridelistdata;
 							JourneyDetails.ridelist1=ridelistdata;
-							
-							/*
-							if(!session.checkRideDetails(mPreferences))
-							{
-								session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
-							}
-							*/
-							
-							progressdialog.dismiss();
-							
-							//removePreviousSharedPreferences();
+
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
+				            progressdialog.dismiss();
 						}
 						else
 						{
@@ -298,10 +293,10 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 							//removePreviousSharedPreferences();
 							RiderJourneyDetails.ridelist=ridelistdata;
 							JourneyDetails.ridelist1=ridelistdata;
-							progressdialog.dismiss();
 							Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
+				            progressdialog.dismiss();
 						}
 						
 						
@@ -315,12 +310,11 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
                       
 						RiderJourneyDetails.ridelist=null;
 						System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
-						progressdialog.dismiss();
-						//removePreviousSharedPreferences();
+						
 						Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 			            ParentActivity.switchTab(1);
-
+			            progressdialog.dismiss();
 					}
 				
 				
@@ -329,9 +323,10 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 			else
 			{
 				Toast.makeText(RiderRoute.this, "Please make sure all details are filled", Toast.LENGTH_LONG ).show();
+				progressdialog.dismiss();
 			}
 			
-			progressdialog.dismiss();
+			
 		}
 		
 		if (view == findViewById(R.id.riderjourneychangesource)) 

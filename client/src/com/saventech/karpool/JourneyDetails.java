@@ -29,8 +29,9 @@ public class JourneyDetails extends TabActivity {
 	long transactionID = -1;
 	TabHost tabHost;
 	private String flag;
+	public static int dflag=0;
+	public static int rflag=0;
 	public static ArrayList<String> ridelist1 = new ArrayList<String>();
-
 	public void onCreate(Bundle savedInstanceState) {
 		
 		Log.i("JourneyDetails","You are now in Journeydetails table");
@@ -120,7 +121,10 @@ public class JourneyDetails extends TabActivity {
 	    intent2 = new Intent().setClass(this, RiderJourneyDetails.class);
 	    
 	    if(flag.trim().equals("ridernotification"))
+	    {
+	    	System.out.println("journey details: ridernotificationnnnnnnnnnnnnnnn");
 	    	intent2.putExtra("check", "notifications");
+	    }
 	    else if(flag.trim().equals("preferencesridernotification"))
 	    	intent2.putExtra("check", "ridernotify");
 	    /*else if(flag.trim().equals("preferencesdrivernotification"))
@@ -233,6 +237,8 @@ public class JourneyDetails extends TabActivity {
 	}
 	public void signOut()
 	{
+		rflag = 0;
+		dflag = 0;
 		 session.removeSession(mPreferences);
          DriverJourneyDetails.drivermeteormsg = new ArrayList<String>();
          RiderJourneyDetails.ridermeteormsg = new ArrayList<String>();

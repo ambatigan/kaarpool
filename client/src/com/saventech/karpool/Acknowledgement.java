@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,7 +60,11 @@ public class Acknowledgement extends Activity implements OnClickListener
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         Log.i("DriverJourneyDetails_Acknowledgement","Acknowledgement tab in DriverJourneyDetails");
         session.storemode(mPreferences, "driver");
+        ProgressDialog dialog = new ProgressDialog(this.getParent());
+        dialog.setMessage("Authentication user details...");
+        dialog.dismiss();
         setContentView(R.layout.driver_acknowledgements);
+        dialog.dismiss();
         System.out.println("ddddddddddddddddddddddddd");
 
         listview=(ListView)findViewById(android.R.id.list);
@@ -189,11 +194,13 @@ public class Acknowledgement extends Activity implements OnClickListener
     }
     public void sendResponseMessage(String message,String drivername,String respon)
     {
+    	System.out.println("message: "+message);
     	String res=getResponseId(respon);
-		 String rid=getRid(message);
+		 //String rid=getRid(message);
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
 		 ArrayList<String>even=new ArrayList<String>();
-		 even.add("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
+		 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+"three"+"EVENT");
+		 even.add("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+"three"+"EVENT");
 		 String val=controller.injectEvents(even);
 		 if(val.trim().equals("successfully injected"))
 		 {

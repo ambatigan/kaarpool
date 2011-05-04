@@ -55,9 +55,9 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	private static  Deacon deacon;
 	ArrayList<String> list=new ArrayList<String>(); 
 	//Arraylist to store the  sent requests
-	
+	private String ip = "";
+	private int port;
 
-	 @SuppressWarnings("static-access")
 	public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);	        
 	        
@@ -67,16 +67,12 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	        try 
 	        {
 			   // System.out.println("context"+context);
-	        	String ip = getString(R.string.MeteorIP);
-	        	int port=Integer.parseInt(getString(R.string.SubscriberPort));
+	        	ip = getString(R.string.MeteorIP);
+	        	port=Integer.parseInt(getString(R.string.SubscriberPort));
 	        	//System.out.println(ip+"ip add of meteorAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-	        	this.deacon = new Deacon(ip.toString().trim(),port, this);
-	        	deacon.catchUpTimeOut(60);
-	        	deacon.register(this);
+	        	
 	        	Log.i("RiderChannel",parseChannelName(mPreferences.getString("UserName","un").toString().trim()) );
-	        	deacon.leaveChannel(parseChannelName(mPreferences.getString("UserName","un").toString().trim()));
-	        	deacon.joinChannel(parseChannelName(mPreferences.getString("UserName","un").toString().trim()), 0);
-	        	deacon.start();
+	        	
 	 			
 	        } 
 	        catch (Exception e) 
@@ -340,8 +336,32 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 }
 	 
 	 //sending request when sendrequest button is pressed
-	 public void sendrequest(String getcheckboxesclicked)
+	 @SuppressWarnings("static-access")
+	public void sendrequest(String getcheckboxesclicked)
 	 {
+		 if(JourneyDetails.rflag==0)
+		 {
+			 try {
+				 this.deacon = new Deacon(ip.toString().trim(),port, this);
+				 if(!deacon.isRunning())
+					{
+						
+							
+							
+			        		deacon.catchUpTimeOut(60);
+			            	deacon.register(this);
+							//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
+							deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
+							deacon.start();
+						
+					}
+				 JourneyDetails.rflag=1;
+				 } catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		 }
+		 
 		 ProgressDialog progressdialog = ProgressDialog.show(RiderGetRidelist.this.getParent(), "","Sending ride request...", true);
 			 removeDuplicates(list);
 			 for (Object data : list) {
@@ -375,8 +395,9 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 					 }
 					 
 				 }
-				 injectmessage=controller.injectEvents(events);
+				 injectmessage=controller.injectEvents(events); 
 			 }
+			 
 		
 		    if(injectmessage.toString().trim().equals("successfully injected"))
 		    {
@@ -392,6 +413,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		 {
 			 Toast.makeText(RiderGetRidelist.this, "Please select a ride to send request", Toast.LENGTH_LONG).show();
 		 }
+			 
 			 progressdialog.dismiss();
 		 
 		 
