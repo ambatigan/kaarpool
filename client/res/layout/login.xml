@@ -7,26 +7,12 @@ android:orientation="vertical"
 xmlns:android="http://schemas.android.com/apk/res/android"
 android:background="@drawable/radialback"
 >
-<TextView
-android:id="@+id/widget115"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_marginTop="20px"
-android:layout_marginBottom="10px"
-android:layout_marginLeft="10px"
-android:layout_marginRight="10px"
-android:text="Login"
-android:textSize="18sp"
-android:textStyle="bold"
-android:textColor="@color/titletextcolor"
-android:layout_gravity="center_horizontal"
->
-</TextView>
+
 <TableLayout
 android:id="@+id/widget137"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:layout_marginTop="30px"
+android:layout_marginTop="120px"
 android:orientation="vertical"
 android:layout_gravity="center_horizontal"
 >
@@ -41,12 +27,10 @@ android:layout_gravity="center_horizontal"
 android:id="@+id/username"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-
-android:text="User Id:"
+android:text="User Id   :"
 android:textStyle="bold"
-android:layout_gravity="center_horizontal"
-android:textColor="@color/textcolor"
-
+android:gravity="left"
+android:layout_gravity="center_vertical"
 >
 </TextView>
 <EditText
@@ -69,11 +53,10 @@ android:layout_gravity="center_horizontal"
 android:id="@+id/pwd"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-
 android:text="Password:"
-android:textColor="@color/textcolor"
 android:textStyle="bold"
-android:layout_gravity="center_horizontal"
+android:gravity="left"
+android:layout_gravity="center_vertical"
 >
 </TextView>
 <EditText
@@ -128,7 +111,7 @@ android:text="                  "
 android:id="@+id/loginbutton"
 android:layout_width="80px"
 android:layout_height="50px"
-android:text="Login"
+android:text=" Submit "
 android:layout_gravity="center_horizontal"
 >
 </Button>
