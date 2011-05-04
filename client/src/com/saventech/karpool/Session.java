@@ -29,6 +29,37 @@ public class Session
 		// System.out.println(username);
 		 return username;
 	 }
+	 public boolean checkCookies(SharedPreferences mPreferences,String name, String password)
+	 {
+		 boolean flag=false;
+		 boolean username_set = mPreferences.contains("UName");
+	        boolean password_set = mPreferences.contains("UPassWord");
+	        if ( username_set || password_set ) {
+	              flag=true;
+	        } 
+	    if(flag)
+	    {
+	    	if((mPreferences.getString("UName", "un").toString().trim().equals(name.toString().trim())) && (mPreferences.getString("UPassword", "up").toString().trim().equals(password.toString().trim())) )
+	    	{
+	    		System.out.println("Session:  Password matches");
+	    		return flag;
+	    	}
+	    	else
+	    	{
+	    		System.out.println("Session: No password matches");
+	    	}
+	    }
+	    return false;
+		 
+	 }
+	 public String getCookiesUname(SharedPreferences mPreferences)
+	 {
+		 return mPreferences.getString("UName", "un").toString().trim();
+	 }
+	 public String getCookiesUpassword(SharedPreferences mPreferences)
+	 {
+		 return mPreferences.getString("UPassword", "up").toString().trim();
+	 }
 	 public String getPassword(SharedPreferences mPreferences)
 	 {
 		 
