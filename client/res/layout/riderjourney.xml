@@ -48,7 +48,7 @@ android:textStyle="bold"
 		android:id="@+id/riderjourneychangesource"
 		android:layout_width="80px"
 		android:layout_height="40px"
-		android:text="change"
+		android:text="Enter"
 		android:textStyle="bold"
 		>
 </Button>
@@ -85,7 +85,7 @@ android:textColor="@color/textcolor"
 		android:id="@+id/riderjourneychangedestination"
 		android:layout_width="80px"
 		android:layout_height="40px"
-		android:text="change"
+		android:text="Enter"
 		android:textStyle="bold">
 		</Button>
 </LinearLayout> 
@@ -122,7 +122,7 @@ android:textColor="@color/textcolor"
 		android:id="@+id/riderjourneysettime"
 		android:layout_width="100px"
 		android:layout_height="40px"
-		android:text="set time"
+		android:text="Enter time"
 		android:textStyle="bold">
 		</Button>
 </LinearLayout> 
