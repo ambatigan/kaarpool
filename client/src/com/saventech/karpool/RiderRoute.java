@@ -72,6 +72,7 @@ public class RiderRoute extends Activity implements OnClickListener{
         ridereditsettime=(EditText)findViewById(R.id.riderjourneyedittime);
         ed1 = (EditText)findViewById(R.id.riderjourneydestination);
         ed = (EditText)findViewById(R.id.riderjourneysource);
+        
         ed1.setEnabled(false);
         ed.setEnabled(false);
         ridereditsettime.setEnabled(false);
@@ -239,91 +240,101 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		
 		if(view==findViewById(R.id.ridergetridelist))
 		{
-			ProgressDialog progressdialog = new ProgressDialog(this.getParent());
-            progressdialog.setMessage("Authentication user details...");
-            progressdialog.setIndeterminate(true);
-            progressdialog.setCancelable(true);
-            progressdialog.show();
-			removePreviousSharedPreferences();
-			boolean validateridelistflag=riderroutevalidate.rideGetRidelist(ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
-			if(validateridelistflag)
-			{
-				String check = controller.checkRiderridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString());
-				System.out.println("response for checkDriverridedetails: "+check);
-				String response="";
-				if(!check.trim().equals("true"))
-				{
-					String res="";
-					System.out.println("ridergetridelist: before if condition");
-					res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
-					System.out.println("Response from server : "+res);
-					Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
-				}
-				
-					checkridelistflag=controller.Getridelist();
-					if(checkridelistflag)
-					{
-						
-						
-						response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
-						System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
-						String str[]=response.toString().split("KPLL");
-						ArrayList<String>ridelistdata=new ArrayList<String>();
-						if(str.length>1)
-					    {  
-							
-							for(int k=0;k<str.length-1;k++)
-						   {
-								System.out.println(str[k]+"   mmm");
-							    ridelistdata.add(str[k].toString());
-						   }
-							RiderJourneyDetails.ridelist=ridelistdata;
-							JourneyDetails.ridelist1=ridelistdata;
 
+			if(ed.getText().toString().trim().equals(ed1.getText().toString().trim()))
+			{
+				Toast.makeText(RiderRoute.this, "Source and Destination should be varied", Toast.LENGTH_LONG).show();
+			}
+			else
+			{
+				
+			
+				ProgressDialog progressdialog = new ProgressDialog(this.getParent());
+	            progressdialog.setMessage("Authentication user details...");
+	            progressdialog.setIndeterminate(true);
+	            progressdialog.setCancelable(true);
+	            progressdialog.show();
+				removePreviousSharedPreferences();
+				boolean validateridelistflag=riderroutevalidate.rideGetRidelist(ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
+				if(validateridelistflag)
+				{
+					String check = controller.checkRiderridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString());
+					System.out.println("response for checkDriverridedetails: "+check);
+					String response="";
+					if(!check.trim().equals("true"))
+					{
+						String res="";
+						System.out.println("ridergetridelist: before if condition");
+						res = controller.riderNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+						System.out.println("Response from server : "+res);
+						Log.i("RiderRoute_onClick", "Rider pressed on getride list button in RiderRoute");
+					}
+					
+						checkridelistflag=controller.Getridelist();
+						if(checkridelistflag)
+						{
+							
+							
+							response = controller.riderGetRideList(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), ridereditsettime.getText().toString(), mode);
+							System.out.println("Response from server : "+response+"------------------------------------------------------------------------");
+							String str[]=response.toString().split("KPLL");
+							ArrayList<String>ridelistdata=new ArrayList<String>();
+							if(str.length>1)
+						    {  
+								
+								for(int k=0;k<str.length-1;k++)
+							   {
+									System.out.println(str[k]+"   mmm");
+								    ridelistdata.add(str[k].toString());
+							   }
+								RiderJourneyDetails.ridelist=ridelistdata;
+								JourneyDetails.ridelist1=ridelistdata;
+	
+								RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+					            ParentActivity.switchTab(1);
+					            progressdialog.dismiss();
+							}
+							else
+							{
+								/*if(!session.checkRideDetails(mPreferences))
+								{
+									session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
+								}*/
+								//removePreviousSharedPreferences();
+								RiderJourneyDetails.ridelist=ridelistdata;
+								JourneyDetails.ridelist1=ridelistdata;
+								Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
+								RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+					            ParentActivity.switchTab(1);
+					            progressdialog.dismiss();
+							}
+							
+							
+	
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
-				            progressdialog.dismiss();
+				            //finish();
 						}
 						else
 						{
-							/*if(!session.checkRideDetails(mPreferences))
-							{
-								session.saveRideDetails(mPreferences, ed.getText().toString().trim(), ed1.getText().toString().trim(), ridereditsettime.getText().toString().trim());
-							}*/
-							//removePreviousSharedPreferences();
-							RiderJourneyDetails.ridelist=ridelistdata;
-							JourneyDetails.ridelist1=ridelistdata;
+	                      
+							RiderJourneyDetails.ridelist=null;
+							System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+							
 							Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
 							RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
 				            ParentActivity.switchTab(1);
 				            progressdialog.dismiss();
 						}
-						
-						
-
-						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
-			            ParentActivity.switchTab(1);
-			            //finish();
-					}
-					else
-					{
-                      
-						RiderJourneyDetails.ridelist=null;
-						System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
-						
-						Toast.makeText(RiderRoute.this, "No Match found at this point of time", Toast.LENGTH_LONG).show();
-						RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
-			            ParentActivity.switchTab(1);
-			            progressdialog.dismiss();
-					}
-				
-				
-				
-			}
-			else
-			{
-				Toast.makeText(RiderRoute.this, "Please make sure all details are filled", Toast.LENGTH_LONG ).show();
-				progressdialog.dismiss();
+					
+					
+					
+				}
+				else
+				{
+					Toast.makeText(RiderRoute.this, "Please make sure all details are filled", Toast.LENGTH_LONG ).show();
+					progressdialog.dismiss();
+				}
 			}
 			
 			

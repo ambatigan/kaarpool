@@ -252,74 +252,81 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	{		
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
-			ProgressDialog dialog = new ProgressDialog(this.getParent());
-            dialog.setMessage("Authentication user details...");
-            dialog.setIndeterminate(true);
-            dialog.setCancelable(true);
-            dialog.show();
-			boolean driverregsubmitflag=validate.driverNewRouteDetails(ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
-			if(driverregsubmitflag)
+			if(ed.getText().toString().trim().equals(ed1.getText().toString().trim()))
 			{
-				String check = controller.checkDriverridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
-				System.out.println("response for checkDriverridedetails: "+check);
-				if(check.trim().equals("true"))
-				{
-					Toast.makeText(this, "You've already created ride with this details", Toast.LENGTH_LONG).show();
-					ed.setText("");
-					ed1.setText("");
-					driverjourneyedittime.setText("");
-					seatid.setText("");
-					dialog.dismiss();
-				}
-				else
-				{
-					Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
-					String response="";
-					String str = rn.getText().toString();
-					if(!str.equals(""))
-						response = controller.driverNewroute(session.getUsername(mPreferences), rn.getText().toString(), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
-					else
-						response = controller.driverNewroute(session.getUsername(mPreferences), "Route", ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
-					System.out.println("Response from server : "+response);
-					checknewrouteflag=controller.Getridelist();
-					if(checknewrouteflag)
-					{
-						Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
-						DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
-			            ParentActivity.switchTab(2);
-			            dialog.dismiss();
-					}
-					System.out.println("vvvvvvvvusername: "+ session.getUsername(mPreferences));
-					//channelname = parseChannelName(session.getUsername(mPreferences));
-
-					if(JourneyDetails.dflag==0)
-					{
-						try {
-							this.deacon = new Deacon(ip.toString().trim(),port, this);
-						if(!deacon.isRunning())
-						{
-				        		deacon.catchUpTimeOut(60);
-				            	deacon.register(this);
-								//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
-								deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
-								deacon.start();
-								
-							
-						}
-						JourneyDetails.dflag=1;
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-
-				}
-				
+				Toast.makeText(Newroute.this, "Source and Destination should be varied", Toast.LENGTH_LONG).show();
 			}
 			else
 			{
-				Toast.makeText(Newroute.this, "Please make sure all fields are filled", Toast.LENGTH_LONG).show();
-				dialog.dismiss();
+				ProgressDialog dialog = new ProgressDialog(this.getParent());
+	            dialog.setMessage("Authentication user details...");
+	            dialog.setIndeterminate(true);
+	            dialog.setCancelable(true);
+	            dialog.show();
+				boolean driverregsubmitflag=validate.driverNewRouteDetails(ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
+				if(driverregsubmitflag)
+				{
+					String check = controller.checkDriverridedetails(session.getUsername(mPreferences),ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString());
+					System.out.println("response for checkDriverridedetails: "+check);
+					if(check.trim().equals("true"))
+					{
+						Toast.makeText(this, "You've already created ride with this details", Toast.LENGTH_LONG).show();
+						ed.setText("");
+						ed1.setText("");
+						driverjourneyedittime.setText("");
+						seatid.setText("");
+						dialog.dismiss();
+					}
+					else
+					{
+						Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
+						String response="";
+						String str = rn.getText().toString();
+						if(!str.equals(""))
+							response = controller.driverNewroute(session.getUsername(mPreferences), rn.getText().toString(), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
+						else
+							response = controller.driverNewroute(session.getUsername(mPreferences), "Route", ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
+						System.out.println("Response from server : "+response);
+						checknewrouteflag=controller.Getridelist();
+						if(checknewrouteflag)
+						{
+							Toast.makeText(this, "New route is created", Toast.LENGTH_LONG).show();
+							DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
+				            ParentActivity.switchTab(2);
+				            dialog.dismiss();
+						}
+						System.out.println("vvvvvvvvusername: "+ session.getUsername(mPreferences));
+						//channelname = parseChannelName(session.getUsername(mPreferences));
+	
+						if(JourneyDetails.dflag==0)
+						{
+							try {
+								this.deacon = new Deacon(ip.toString().trim(),port, this);
+							if(!deacon.isRunning())
+							{
+					        		deacon.catchUpTimeOut(60);
+					            	deacon.register(this);
+									//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
+									deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
+									deacon.start();
+									
+								
+							}
+							JourneyDetails.dflag=1;
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+	
+					}
+					
+				}
+				else
+				{
+					Toast.makeText(Newroute.this, "Please make sure all fields are filled", Toast.LENGTH_LONG).show();
+					dialog.dismiss();
+				}
 			}
 			//outToServer.println("ADDMESSAGE "+session.getUsername(mPreferences)+" "+str1);
 		}

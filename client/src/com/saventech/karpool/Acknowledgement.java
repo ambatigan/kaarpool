@@ -69,7 +69,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 
         listview=(ListView)findViewById(android.R.id.list);
         System.out.println("ddddddddddddddddddddddddd1");
-        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 ,  DriverJourneyDetails.drivermeteormsg);
+        adapter=new ArrayAdapter<String>(this,R.layout.rows,R.id.text ,  DriverJourneyDetails.drivermeteormsg);
         System.out.println("ddddddddddddddddddddddddd2");
         
         if(DriverJourneyDetails.drivermeteormsg.size()!=0)

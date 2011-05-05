@@ -385,7 +385,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		    	      }
 		    	      else
 		    	      {
-		    	    	  Toast.makeText(Registerwithsysid.this, "Sorry server not up", Toast.LENGTH_LONG).show();
+		    	    	  Toast.makeText(Registerwithsysid.this, "Data base server may not up", Toast.LENGTH_LONG).show();
 		    	      }
 	             }
 		     else

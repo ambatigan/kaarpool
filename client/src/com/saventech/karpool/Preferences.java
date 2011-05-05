@@ -93,12 +93,13 @@ public class Preferences extends Activity implements OnItemClickListener {
     				startActivity(register1);
     				break;
     			case 3:
-    	           
     	             session.removeSession(mPreferences);
     	             DriverJourneyDetails.drivermeteormsg = new ArrayList<String>();
     	             RiderJourneyDetails.ridermeteormsg = new ArrayList<String>();
     	             RiderJourneyDetails.ridelist=new ArrayList<String>();
     	             JourneyDetails.ridelist1=new ArrayList<String>();
+    	             JourneyDetails.dflag=0;
+    	             JourneyDetails.rflag=0;
     	             System.out.println("DATA REMOVED");
     	             RiderGetRidelist.stopdeacon();
     	             Newroute.stopdeacon();

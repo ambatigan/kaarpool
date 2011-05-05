@@ -59,7 +59,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
         //bb1.setOnClickListener(this);
         listview=(ListView)findViewById(android.R.id.list);
         System.out.println("ddddddddddddddddddddddddd1");
-        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1 ,  RiderJourneyDetails.ridermeteormsg);
+        adapter=new ArrayAdapter<String>(this,R.layout.rows,R.id.text ,  RiderJourneyDetails.ridermeteormsg);
         System.out.println("ddddddddddddddddddddddddd2");
         listview.setAdapter(adapter);
        //lv1.setTextFilterEnabled(true);
