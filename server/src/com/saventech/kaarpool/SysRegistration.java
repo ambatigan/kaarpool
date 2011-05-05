@@ -26,6 +26,7 @@ public class SysRegistration extends HttpServlet {
         PrintWriter out=response.getWriter();
         String username,pwd,address,mobile,gender;
 		String dob, image;
+		boolean regsucess,kaarpoolsucess,userdetailssucess;
         username=request.getParameter("sysregid");
         pwd=request.getParameter("sysregpwd");
         dob=request.getParameter("sysregdob");
@@ -51,10 +52,13 @@ public class SysRegistration extends HttpServlet {
  			{
  		      try
  		      {
- 		       connect.registration(username, mobile, address,gender,dateFormat.format(theDate),image);
- 		       connect.karpooldetails(username, pwd," 1");
- 		       connect.update_userdetails(username);
- 		       out.print("Success");
+ 		    	 regsucess=connect.registration(username, mobile, address,gender,dateFormat.format(theDate),image);
+ 		    	kaarpoolsucess=connect.karpooldetails(username, pwd," 1");
+ 		    	userdetailssucess=connect.update_userdetails(username);
+ 		    	if(regsucess && kaarpoolsucess && userdetailssucess)
+ 		    	{
+ 		           out.print("Success");
+ 		    	}
  		       System.out.println("sysRegistration sucess");
  		      }
  		      catch(Exception e)

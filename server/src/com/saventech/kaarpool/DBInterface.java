@@ -12,6 +12,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
  
@@ -149,7 +152,7 @@ public class DBInterface
 				log.info("Unable to store the user info. SQLException"+ex.getStackTrace());
 			}
 	}
-	public void registration(String uname, String mobile,String address ,String gender, String dob, String image )
+	public boolean registration(String uname, String mobile,String address ,String gender, String dob, String image )
 	{
 	   try
 		{
@@ -158,14 +161,18 @@ public class DBInterface
 			System.out.println(resourceBundle.getString("regQuery")+uname+"\""+","+"\""+mobile+"\""+","+"\""+address+"\""+","+"\""+gender+"\""+","+"\""+dob+"\""+","+"\""+image+"\""+")");
 			statement.executeUpdate(resourceBundle.getString("regQuery")+uname+"\""+","+"\""+mobile+"\""+","+"\""+address+"\""+","+"\""+gender+"\""+","+"\""+dob+"\""+","+"\""+image+"\""+")");
 			log.info("Inserted personal_details successfully");
+			return true;
+			
 		}
-			catch (final SQLException ex)
-			{
-				log.fatal("Unable to insert the user's personal info. SQLException"+ex.getStackTrace());
-				ex.printStackTrace();
-			}
+		catch (final SQLException ex)
+		{
+			log.fatal("Unable to insert the user's personal info. SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+			
+		}
+		return false;
 	}
-	public void karpooldetails(String uname, String pwd, String session)
+	public boolean karpooldetails(String uname, String pwd, String session)
 	{
 	   try
 		{
@@ -173,12 +180,15 @@ public class DBInterface
 			// result of executing SQL query
 			statement.executeUpdate(resourceBundle.getString("insert_karpoolDetails") +uname+"\""+","+"\""+pwd+"\""+","+"\""+session+"\""+")");
 			log.info("Updated kaarpoolnetwork_details");
+			return true;
 		}
-			catch (final SQLException ex)
-			{
-				log.fatal("Unable to retrieve password. SQLException"+ex.getStackTrace());
-				ex.printStackTrace();
-			}
+		catch (final SQLException ex)
+		{
+			log.fatal("Unable to retrieve password. SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+			
+		}
+		return false;
 	}
 	
 	public String getPwd(String uname)
@@ -386,9 +396,9 @@ public class DBInterface
 		// retrieves result as "1" if there's an update and "0" if not
 		return kid;
 	}
-	public int update_userdetails(String username)
+	public boolean update_userdetails(String username)
 	{
-		int update_userdetails=0;
+		
 		try
 		{
 			// DB statement
@@ -401,6 +411,7 @@ public class DBInterface
 			statement.executeUpdate(resourceBundle.getString("update_userdetails")+ resultSet.getBigDecimal(2)+","+resultSet.getBigDecimal(1)+")");
 			log.info("retrieved userids");
 			log.info("update_userdetails");
+			return true;
 			
 			//statement.executeUpdate("update  user_details set preid= "+"(select max(prefid) from preferences) where user_details.prdid= "+resultSet2.getBigDecimal(1));
 			//log.info("update  store_travelPref"+r);
@@ -411,7 +422,7 @@ public class DBInterface
 			log.fatal("Unable to update userdetails . SQLException");
 		}
 
-		return update_userdetails;
+		return false;
 	}
 	public int store_travelPref(String travelPref, String seats, String image, String username)
 	{
@@ -755,7 +766,7 @@ public class DBInterface
 			ArrayList<String>list=new ArrayList<String>();
 			statement = connection.createStatement();
 			System.out.println(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username != \""+rid.toString()+"\" and user_details.modeid = 1");
-			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username != \""+rid.toString()+"\" and user_details.modeid = 1");
+			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username != \""+rid.toString()+"\" and user_details.modeid = 1");
 			
 			while(resultSet.next())
 			{
@@ -769,39 +780,59 @@ public class DBInterface
 				{
 					System.out.println(rid.toString()+"-----------------"+resultSet.getString("username"));
 					
-					if(resultSet.getString("jsource").toString().trim().equals(rsource) && resultSet.getString("jdestination").toString().trim().equals(rdestination) && resultSet.getString("stime").toString().trim().equals(rstime) )
+					if(resultSet.getString("jsource").toString().trim().equals(rsource) && resultSet.getString("jdestination").toString().trim().equals(rdestination))
 					{
-						if(rid.toString().trim().toLowerCase().equals(resultSet.getString("username").toString().trim()))
-						{
-							System.out.println("ride created with same username");
-						}
-						else
-						{
-							count++;
-							String str="";
-							System.out.println(rid.toString()+"-----------------"+resultSet.getString("username"));
-							str=str+resultSet.getString("jsource")+"KRL";
-							str=str+resultSet.getString("jdestination")+"KRL";
-							str=str+resultSet.getString("username")+"KRL";
-							str=str+resultSet.getString("stime")+"KRL";
-							//str=str+resultSet.getString("address")+"KRL";
-							str=str+resultSet.getString("gender")+"KRL";
-							str=str+resultSet.getString("mobile")+"KRL";
-		//					str=str+resultSet.getString("jid")+"KPL";
-		//					str=str+resultSet.getString("userid")+"KPL";
-		//					str=str+resultSet.getString("locid")+"KPL";
-		//					str=str+resultSet.getString("prdid")+"KPL";
-		//					str=str+resultSet.getString("accid")+"KPL";
-		//					str=str+resultSet.getString("netid")+"KPL";
-		//					str=str+resultSet.getString("modeid")+"KPL";
-		//					str=str+resultSet.getString("preid")+"KPL";
-		//					str=str+resultSet.getString("pid")+"KPL";
-		//					str=str+resultSet.getString("dob")+"KPL";
-		//					str=str+resultSet.getString("mobile")+"KPL";
-						    str=str+resultSet.getString("image")+"KPLL";
+						DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm a");
+						java.util.Date d;
+						java.util.Date d1;
+						try {
+							d=dateFormat.parse(resultSet.getString("stime"));
+							d1=dateFormat.parse(rstime.toString());
 							
-							System.out.println(resultSet.getString("image"));
-							  list.add(str);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							log.fatal("Date Format Exception"+e.getStackTrace());
+							return null;
+						}
+						long dmil=d.getTime()-d1.getTime();	
+						System.out.println(dmil+" Minutes");
+						
+						if(dmil/(60*1000)>=10)
+						{
+							System.out.println(dmil+" Minutes");
+								if(rid.toString().trim().toLowerCase().equals(resultSet.getString("username").toString().trim()))
+								{
+									System.out.println("ride created with same username");
+								}
+								else
+								{
+									count++;
+									String str="";
+									System.out.println(rid.toString()+"-----------------"+resultSet.getString("username"));
+									str=str+resultSet.getString("jsource")+"KRL";
+									str=str+resultSet.getString("jdestination")+"KRL";
+									str=str+resultSet.getString("username")+"KRL";
+									str=str+resultSet.getString("stime")+"KRL";
+									//str=str+resultSet.getString("address")+"KRL";
+									str=str+resultSet.getString("gender")+"KRL";
+									str=str+resultSet.getString("mobile")+"KRL";
+				//					str=str+resultSet.getString("jid")+"KPL";
+				//					str=str+resultSet.getString("userid")+"KPL";
+				//					str=str+resultSet.getString("locid")+"KPL";
+				//					str=str+resultSet.getString("prdid")+"KPL";
+				//					str=str+resultSet.getString("accid")+"KPL";
+				//					str=str+resultSet.getString("netid")+"KPL";
+				//					str=str+resultSet.getString("modeid")+"KPL";
+				//					str=str+resultSet.getString("preid")+"KPL";
+				//					str=str+resultSet.getString("pid")+"KPL";
+				//					str=str+resultSet.getString("dob")+"KPL";
+				//					str=str+resultSet.getString("mobile")+"KPL";
+								    str=str+resultSet.getString("image")+"KPLL";
+									
+									System.out.println(resultSet.getString("image"));
+									  list.add(str);
+								}
 						}
 					}
 					  
