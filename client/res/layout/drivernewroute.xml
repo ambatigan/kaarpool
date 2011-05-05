@@ -17,6 +17,36 @@ android:stretchColumns="2"
 android:layout_gravity="center_horizontal"
 >
 <TableRow
+android:id="@+id/widget186"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+>
+<TextView
+android:id="@+id/widget185"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Route Name:"
+android:textStyle="bold"
+android:textColor="@color/textcolor"
+>
+</TextView>
+ <LinearLayout
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">   
+    	
+	    <EditText
+	    android:id="@+id/routenameid"
+		android:layout_width="150px"
+		android:layout_height="40px"
+		android:layout_marginLeft="10px"
+		android:textSize="16sp"
+		android:hint="route name">
+		</EditText>
+</LinearLayout> 
+</TableRow>
+<TableRow
 android:id="@+id/widget187"
 android:layout_width="fill_parent"
 android:layout_height="wrap_content"
@@ -26,7 +56,7 @@ android:orientation="horizontal"
 android:id="@+id/widget188"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Source:"
+android:text="Source*:"
 android:textStyle="bold"
 android:textColor="@color/textcolor"
 >
@@ -63,7 +93,7 @@ android:orientation="horizontal"
 android:id="@+id/widget188"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Destination:"
+android:text="Destination*:"
 android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
@@ -99,7 +129,7 @@ android:orientation="horizontal"
 android:id="@+id/widget188"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Seats: "
+android:text="Seats*: "
 android:textColor="@color/textcolor"
 android:textStyle="bold"
 >
@@ -128,7 +158,7 @@ android:orientation="horizontal"
 android:id="@+id/widget188"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Start time:"
+android:text="Start time*:"
 android:textColor="@color/textcolor"
 android:textStyle="bold"
 >

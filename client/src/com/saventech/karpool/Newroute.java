@@ -51,6 +51,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	private boolean checknewrouteflag;
 	private Button driverjourneysettime;
 	private EditText driverjourneyedittime;
+	private EditText rn;
 	private EditText ed;
 	private EditText ed1;
 	private EditText seatid;
@@ -75,12 +76,6 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
         {
         	ip = getString(R.string.MeteorIP);
         	port=Integer.parseInt(getString(R.string.SubscriberPort));
-        	
-        	deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
-			deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
-			deacon.start();
-			Log.i("Newroute_onClick", "Meteor subscriber channel created with username");
-			
         } 
         catch (Exception e) 
         {
@@ -117,6 +112,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
          driverjourneysettime.setOnClickListener(this);
          driverjourneyedittime=(EditText)findViewById(R.id.driverjourneyedittime);
          driverjourneyedittime.setEnabled(false);
+         rn =(EditText)findViewById(R.id.routenameid);
          ed = (EditText)findViewById(R.id.sourceid);
          ed1 = (EditText)findViewById(R.id.destinationid);
          seatid = (EditText)findViewById(R.id.seatid);
@@ -279,7 +275,11 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 				{
 					Log.i("Newroute_onClick", "Getridelist button pressed for riderslist for driver");
 					String response="";
-					response = controller.driverNewroute(session.getUsername(mPreferences), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
+					String str = rn.getText().toString();
+					if(!str.equals(""))
+						response = controller.driverNewroute(session.getUsername(mPreferences), rn.getText().toString(), ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
+					else
+						response = controller.driverNewroute(session.getUsername(mPreferences), "Route", ed.getText().toString(), ed1.getText().toString(), seatid.getText().toString(), driverjourneyedittime.getText().toString(), mode);
 					System.out.println("Response from server : "+response);
 					checknewrouteflag=controller.Getridelist();
 					if(checknewrouteflag)
@@ -298,8 +298,6 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 							this.deacon = new Deacon(ip.toString().trim(),port, this);
 						if(!deacon.isRunning())
 						{
-							
-								
 				        		deacon.catchUpTimeOut(60);
 				            	deacon.register(this);
 								//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));

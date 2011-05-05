@@ -136,17 +136,17 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
     public String getResponseId(String res)
     {
     	
-    		if(res.toString().trim().equals("Rider confirmation"))
+    		if(res.toString().trim().equals(getString(R.string.r2)))
     			return "r2";
-    		else if(res.toString().trim().equals("Rider confirmation reject"))
+    		else if(res.toString().trim().equals(getString(R.string.r3)))
     			return "r3";
-    		else if(res.toString().trim().equals("Rider pickup confirmation"))
+    		else if(res.toString().trim().equals(getString(R.string.r4)))
     			return "r4";
-    		else if(res.toString().trim().equals("Rider pickup reject"))
+    		else if(res.toString().trim().equals(getString(R.string.r5)))
     			return "r5";
-    		else if(res.toString().trim().equals("Rider drop confirmation"))
+    		else if(res.toString().trim().equals(getString(R.string.r6)))
     			return "r6";
-    		else if(res.toString().trim().equals("Rider re-request"))
+    		else if(res.toString().trim().equals(getString(R.string.r7)))
     			return "r7";
     		else
     			return "empty";

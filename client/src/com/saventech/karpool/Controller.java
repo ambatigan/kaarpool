@@ -25,7 +25,7 @@ public class Controller
 
 //
 
-	   // String url="http://198.162.18.156:8080/kaarpool/";
+	   //String url="http://198.162.18.171:8080/kaarpool/";
 
 	  String url="http://122.183.102.229/kaarpool/";
 
@@ -132,11 +132,12 @@ public class Controller
 	 * Takes new route details from driver and send to server to store in database
 	 * 
 	 */
-	public String driverNewroute(String regid, String driversrc, String driverdest, String seats, String starttime, String mode)
+	public String driverNewroute(String regid, String routename, String driversrc, String driverdest, String seats, String starttime, String mode)
 	{
 		String response1 = null;
 		ArrayList<NameValuePair> newrouteparms = new ArrayList<NameValuePair>();
 		newrouteparms.add(new BasicNameValuePair("regid", regid.toString().trim()));
+		newrouteparms.add(new BasicNameValuePair("routename", routename.toString().trim()));
 		newrouteparms.add(new BasicNameValuePair("driversrc", driversrc.toString().trim()));
 		newrouteparms.add(new BasicNameValuePair("driverdest", driverdest.toString().trim()));
 		newrouteparms.add(new BasicNameValuePair("seats", seats.toString().trim()));

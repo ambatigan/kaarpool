@@ -168,17 +168,17 @@ public class Acknowledgement extends Activity implements OnClickListener
     public String getResponseId(String res)
     {
     	
-    		if(res.toString().trim().equals("Driver accept"))
+    		if(res.toString().trim().equals(getString(R.string.d1)))
     			return "d1";
-    		else if(res.toString().trim().equals("Driver reject"))
+    		else if(res.toString().trim().equals(getString(R.string.d2)))
     			return "d2";
-    		else if(res.toString().trim().equals("Driver confirmation"))
+    		else if(res.toString().trim().equals(getString(R.string.d3)))
     			return "d3";
-    		else if(res.toString().trim().equals("Driver confirmation reject"))
+    		else if(res.toString().trim().equals(getString(R.string.d4)))
     			return "d4";
-    		else if(res.toString().trim().equals("Driver pickup request"))
+    		else if(res.toString().trim().equals(getString(R.string.d5)))
     			return "d5";
-    		else if(res.toString().trim().equals("Driver drop request"))
+    		else if(res.toString().trim().equals(getString(R.string.d6)))
     			return "d6";
     		else
     			return "empty";
