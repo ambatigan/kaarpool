@@ -25,15 +25,13 @@ public class InjecttoMeteor
 			}
 			clientSocket.close();
 			outToServer.close();
-			
+			return "successfully injected";
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 			log.info("Exception occur while injecting events");
 			return "Exception occur while injecting evetns";
 		}
-		
-		return "successfully injected";
 	}
 	
 }
