@@ -650,7 +650,7 @@ public class DBInterface
 		return result;
 	}
 	
-	public void journeydetails(String uname, String src, String dest, String stime, String usermode, String seats)
+	public void journeydetails(String uname, String routename, String src, String dest, String stime, String usermode, String seats)
 	{
 	   try
 		{
@@ -667,7 +667,8 @@ public class DBInterface
 			resultSet = null;
 			resultSet = statement.executeQuery(resourceBundle.getString("getjid"));
 			resultSet.next();
-			statement.executeUpdate(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+"\""+seats+"\""+")");
+			System.out.println(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+"\""+seats+"\""+","+"\""+routename+"\""+")");
+			statement.executeUpdate(resourceBundle.getString("insertride")+resultSet.getBigDecimal(1)+","+"\""+seats+"\""+","+"\""+routename+"\""+")");
 			log.info("stored driver ride details");
 			
 			//updating user_details by inserting user mode id 			
@@ -988,7 +989,7 @@ public class DBInterface
 			System.out.println(resourceBundle.getString("uidforridedetails")+username+"\"");
 			resultSet=statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
 			resultSet.next();
-			System.out.println(resourceBundle.getString("checkDriverdetails")+resultSet.getBigDecimal(1)+")");
+			System.out.println("checkDriverdetails: "+resourceBundle.getString("checkDriverdetails")+resultSet.getBigDecimal(1)+")");
 			rs = statement.executeQuery(resourceBundle.getString("checkDriverdetails")+resultSet.getBigDecimal(1));
 			while(rs.next())
 			{
