@@ -23,9 +23,10 @@ public class Controller
 	String regpwd;
 	int checksysid=0;
 
+//
 
+	   // String url="http://198.162.18.156:8080/kaarpool/";
 
-	  // String url="http://198.162.18.22/kaarpool/";
 	  String url="http://122.183.102.229/kaarpool/";
 
 
@@ -34,11 +35,11 @@ public class Controller
 	 */
 	public Controller()
 	{
-		
+	//	
 	}
 	/*Authenticate User id and password 
 	 * 
-//	 */
+//	*/
 	public String Authenticate_login(String id, String pwd)
 	{
 		//Trim id and password

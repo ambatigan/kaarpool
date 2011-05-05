@@ -18,7 +18,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 public class JourneyDetails extends TabActivity {
 	
@@ -29,28 +31,42 @@ public class JourneyDetails extends TabActivity {
 	long transactionID = -1;
 	TabHost tabHost;
 	private String flag;
+
 	public static int dflag=0;
 	public static int rflag=0;
+
 	public static ArrayList<String> ridelist1 = new ArrayList<String>();
 	public void onCreate(Bundle savedInstanceState) {
 		
 		Log.i("JourneyDetails","You are now in Journeydetails table");
 	    super.onCreate(savedInstanceState);
+	    requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+	    setContentView(R.layout.journeydetails);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
+        
+        final TextView leftText = (TextView) findViewById(R.id.left_text);
+        final TextView rightText = (TextView) findViewById(R.id.right_text);
+
+        leftText.setText("kaarpool");
+        
+        //tv.setText("kaarpool");
 	    Intent intent1 = getIntent();
 	    flag = intent1.getStringExtra("receiver");
 	    System.out.println("Journey details $$$$$$"+flag);
 	    setContentView(R.layout.journeydetails);
 	    Intent newintent=  getIntent();
+
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 	    session=new Session();
-	    
+
 	    
 	    try
 	    {
 	    	Regusername=newintent.getStringExtra("RegisterUsername");
 	   	  
 	 	    Regpwd=newintent.getStringExtra("RegisterPassword");
-	 	   
+	 	    
+	 	    
 	 	    if(Regusername.toString().equals("loginid") && Regpwd.toString().equals("loginpwd"))
 	 	    {
 	 	    	
@@ -80,7 +96,7 @@ public class JourneyDetails extends TabActivity {
 
 	 		    
 	 	    }
-	    	
+	 	   
 	    }
 	    catch(Exception e)
 	    {
@@ -94,7 +110,10 @@ public class JourneyDetails extends TabActivity {
  			
  			}
 	    }
-	   
+	    String username = session.getUsername(mPreferences);
+	    String name[]= username.split("@");
+	    rightText.setText(name[0]);
+	    
 	    Resources res = getResources(); // Resource object to get Drawables
 	    tabHost = getTabHost();  // The activity TabHost
 	    TabHost.TabSpec spec;  // Reusable TabSpec for each tab
@@ -182,7 +201,7 @@ public class JourneyDetails extends TabActivity {
 		menu.add(0, INSTRUCTIONS, 0, "INSTRUCTIONS");
 		menu.add(0, PREFERENCES, 0, "PREFERENCES");	
 		menu.add(0, MORE, 0, "MORE");	
-		menu.add(0, SIGNOUT, 0, "SIGNOUT");	
+		menu.add(0, SIGNOUT, 0, "SIGN OUT");	
 		return true;
 	}
 	

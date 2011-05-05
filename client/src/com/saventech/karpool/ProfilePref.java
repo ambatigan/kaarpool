@@ -14,10 +14,12 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProfilePref extends  Activity implements OnClickListener {
@@ -42,6 +44,14 @@ public class ProfilePref extends  Activity implements OnClickListener {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        setContentView(R.layout.profilepref);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
+        
+        final TextView leftText = (TextView) findViewById(R.id.left_text);
+        final TextView rightText = (TextView) findViewById(R.id.right_text);
+
+        leftText.setText("kaarpool");
         
         session=new Session();
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
@@ -51,8 +61,11 @@ public class ProfilePref extends  Activity implements OnClickListener {
 			startActivity(intent);
 		
 		}
-        setContentView(R.layout.profilepref);
+       
         username = session.getUsername(mPreferences);
+        String name[]= username.split("@");
+        rightText.setText(name[0]);
+        
         Log.i("ProfilePref",username+ "  in sessions");
         controller=new Controller(); 
         validate=new Validations();

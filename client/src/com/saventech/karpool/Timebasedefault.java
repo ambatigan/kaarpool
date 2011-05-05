@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
@@ -30,6 +32,15 @@ public class Timebasedefault extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        setContentView(R.layout.timebasedefault);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
+        
+        final TextView leftText = (TextView) findViewById(R.id.left_text);
+        final TextView rightText = (TextView) findViewById(R.id.right_text);
+
+        leftText.setText("kaarpool");
+        
         session = new Session();
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
 	    
@@ -39,11 +50,16 @@ public class Timebasedefault extends Activity implements OnClickListener{
 			startActivity(intent);
 		}
         username = session.getUsername(mPreferences);
+        String name[]= username.split("@");
+	    rightText.setText(name[0]);
+        
         System.out.println(username+"username");
         controller = new Controller();
         String totalString = controller.getTimeBasedPref(username);
 //        
-        setContentView(R.layout.timebasedefault);
+       
+        
+        
         findViewById(R.id.timeback).setOnClickListener(this);
         findViewById(R.id.timesave).setOnClickListener(this);
         Spinner spinner = (Spinner) findViewById(R.id.timebasedspinner);

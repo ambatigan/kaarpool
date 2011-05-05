@@ -76,6 +76,11 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
         	ip = getString(R.string.MeteorIP);
         	port=Integer.parseInt(getString(R.string.SubscriberPort));
         	
+        	deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
+			deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
+			deacon.start();
+			Log.i("Newroute_onClick", "Meteor subscriber channel created with username");
+			
         } 
         catch (Exception e) 
         {
@@ -286,6 +291,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 					}
 					System.out.println("vvvvvvvvusername: "+ session.getUsername(mPreferences));
 					//channelname = parseChannelName(session.getUsername(mPreferences));
+
 					if(JourneyDetails.dflag==0)
 					{
 						try {
@@ -308,8 +314,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 							e.printStackTrace();
 						}
 					}
-					
-					
+
 				}
 				
 			}
@@ -319,7 +324,6 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 				dialog.dismiss();
 			}
 			//outToServer.println("ADDMESSAGE "+session.getUsername(mPreferences)+" "+str1);
-			Log.i("Newroute_onClick", "Meteor subscriber channel created with username");
 		}
 		
 		if (view == findViewById(R.id.change1)) 

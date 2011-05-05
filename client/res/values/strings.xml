@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">Karpool</string>
+    <string name="app_name">Kaarpool</string>
     <string name="OpenId_Click">OpenId_Click</string>
 	<string name="SysId_Click">SysId_Click</string>
 	

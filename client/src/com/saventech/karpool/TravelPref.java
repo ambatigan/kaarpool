@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -71,7 +72,15 @@ public class TravelPref extends Activity implements OnClickListener
     protected void onCreate(Bundle savedInstanceState) 
     {
     super.onCreate(savedInstanceState);
+    requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     setContentView(R.layout.travelpref);
+    getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
+    
+    final TextView leftText = (TextView) findViewById(R.id.left_text);
+    final TextView rightText = (TextView) findViewById(R.id.right_text);
+
+    leftText.setText("kaarpool");
+   
     
     session = new Session();
     uploadimage=new UploadandCompressImage();
@@ -83,6 +92,10 @@ public class TravelPref extends Activity implements OnClickListener
 		startActivity(intent);
 	}
     username = session.getUsername(mPreferences);
+    
+    String name[]= username.split("@");
+    rightText.setText(name[0]);
+    
     modevalue=session.getMode(mPreferences);
     System.out.println(username+"username");
     controller=new Controller();   

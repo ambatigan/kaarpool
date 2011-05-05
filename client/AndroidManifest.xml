@@ -47,7 +47,8 @@
                   android:label="@string/app_name">
             
         </activity>
-        <activity android:name=".RiderJourneyDetails"
+
+    <activity android:name=".RiderJourneyDetails"
                   android:label="@string/app_name">
         </activity>
         <activity android:name=".RiderGetRidelist"

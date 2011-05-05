@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-android:id="@+id/widget28"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
-android:orientation="vertical"
-xmlns:android="http://schemas.android.com/apk/res/android"
->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     android:background="@drawable/radialback">
 
-<TextView
-android:id="@+id/ride"
-android:layout_width="220px"
-android:layout_height="50px"
-android:text="TextView"
-android:textColor="@color/textcolor"
-android:textStyle="bold"
-
->
-</TextView>
+	<ListView
+		android:id="@+id/myListView"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"/>
+	
 </LinearLayout>
 
