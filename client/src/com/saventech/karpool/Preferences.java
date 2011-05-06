@@ -101,7 +101,7 @@ public class Preferences extends Activity implements OnItemClickListener {
     	             JourneyDetails.dflag=0;
     	             JourneyDetails.rflag=0;
     	             System.out.println("DATA REMOVED");
-    	             RiderGetRidelist.stopdeacon();
+    	             RiderRoute.stopdeacon();
     	             Newroute.stopdeacon();
     	             finish();
     	             Intent intent = new Intent(getApplicationContext(), Login.class);             

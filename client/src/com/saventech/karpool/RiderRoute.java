@@ -3,13 +3,23 @@ package com.saventech.karpool;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.deacon.Deacon;
+import org.deacon.DeaconError;
+import org.deacon.DeaconObserver;
+import org.deacon.DeaconResponse;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,7 +38,7 @@ import android.widget.Toast;
  * Date: Mar 25, 2011
  * Description: It is responsible to take ride data from the rider
  */
-public class RiderRoute extends Activity implements OnClickListener{
+public class RiderRoute extends Activity implements OnClickListener,DeaconObserver{
 
 	private String value="";
 	private String datetime="";
@@ -44,10 +54,23 @@ public class RiderRoute extends Activity implements OnClickListener{
 	private SharedPreferences mPreferences; 
 	Session session;
 	Validations riderroutevalidate;
+	
+	// deacon data
+	private String ip = "";
+	private int port;
+	private static String riderusername="";
+	private static  Deacon deacon;
 
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //drawUI();
+        
+       
+        
+    }
+	public void drawUI()
+	{
         controller=new Controller();                       //initializing controller object
         
         Log.i("Riderroute_Activity", "Now you are in riderroute activity");
@@ -80,6 +103,54 @@ public class RiderRoute extends Activity implements OnClickListener{
         change2.setOnClickListener(this);
         newroute=(Button)findViewById(R.id.ridergetridelist);
         newroute.setOnClickListener(this);
+        
+        
+        try 
+        {
+		   // System.out.println("context"+context);
+        	riderusername=parseChannelName(session.getUsername(mPreferences));
+        	ip = getString(R.string.MeteorIP);
+        	port=Integer.parseInt(getString(R.string.SubscriberPort));
+        	System.out.println("Rider "+JourneyDetails.rflag+"   rflag value"+JourneyDetails.dflag+"  dflag value");
+        	if(JourneyDetails.dflag!=0)
+        	{
+        		Newroute.stopdeacon();
+        		//deacon.leaveChannel(parseChann elName(session.getUsername(mPreferences)));
+        		JourneyDetails.dflag=0;
+        		System.out.println("Driver channel leaveddddddddddddddd");
+        	}
+        	if(JourneyDetails.rflag==0)
+   		    {
+        		System.out.println("Rider Routeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+   			 try {
+   				 this.deacon = new Deacon(ip.toString().trim(),port, this);
+   				 if(!deacon.isRunning())
+   					{
+   			        		deacon.catchUpTimeOut(60);
+   			            	deacon.register(this);
+   			            	
+   							//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
+   							deacon.joinChannel("r"+parseChannelName(session.getUsername(mPreferences)), 0);
+   							deacon.start();
+   						
+   					}
+   				 JourneyDetails.rflag=1;
+   				 } catch (Exception e) {
+   						// TODO Auto-generated catch block
+   						e.printStackTrace();
+   					}
+   		 }
+        	//System.out.println(ip+"ip add of meteorAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        	
+        	Log.i("RiderChannel",parseChannelName(mPreferences.getString("UserName","un").toString().trim()) );
+        	
+ 			
+        } 
+        catch (Exception e) 
+        {
+        	System.out.println("Problem while creating Deacon");
+        	e.printStackTrace();
+        }
        /* System.out.println(session.checkRideDetails(mPreferences)+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^898989");
         if(session.checkRideDetails(mPreferences))
 		{
@@ -88,9 +159,27 @@ public class RiderRoute extends Activity implements OnClickListener{
         	ridereditsettime.setText(mPreferences.getString("ridersettime","rt"));
 			
 		}*/
-       
-        
-    }
+		
+	}
+	
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		drawUI();
+		
+		
+	}
+	
+	public String parseChannelName(String chname)
+	 {
+		 String str1[]=chname.toString().trim().split("@");
+		 String str2[]=str1[1].toString().trim().split(".com");
+		 String channame=str1[0]+"-"+str2[0];
+		 //System.out.println("Parsed channel name^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
+		 return channame.toString().trim();
+	 }
+	 
 	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -394,4 +483,104 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
         	showDateTimeDialog();
         }
     }
+
+	public void onError(DeaconError arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onPush(DeaconResponse response) {
+		// TODO Auto-generated method stub
+		System.out.println("Rider payload from meteor: "+ response.getPayload());
+		String payload;
+		System.out.println("payload from meteor: "+ response.getPayload());
+		payload = response.getPayload().trim();
+		String str1[]=payload.toString().trim().split("::");
+		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nmode: "+str1[2]);
+		String msg = msgParse(str1[1]);
+		RiderJourneyDetails.ridermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);
+		
+	}
+	private void notificationAlarm(String name, String msg) {
+		// TODO Auto-generated method stub
+		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+    	
+    	int icon = R.drawable.ic_tab_artists_white;
+    	CharSequence text = msg;
+    	CharSequence contentTitle = "  Kaarpool notification";
+    	CharSequence contentText = msg+" from "+name;
+    	long when = System.currentTimeMillis();
+    	
+    	//RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();
+        //ParentActivity.switchTab(2);
+    	Intent intent = new Intent(RiderRoute.this, JourneyDetails.class);
+    	intent.putExtra("receiver", "ridernotification");
+    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+    	Notification notification = new Notification(icon,text,when);
+    	
+    	notification.flags = Notification.DEFAULT_SOUND | Notification.FLAG_AUTO_CANCEL;
+    	
+    	long[] vibrate = {0,100,200,300};
+    	notification.vibrate = vibrate;
+    	
+    	notification.ledARGB = Color.RED;
+    	notification.ledOffMS = 300;
+    	notification.ledOnMS = 300;
+    	
+    	notification.defaults |= Notification.DEFAULT_LIGHTS;
+    	//notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+    	
+    	notification.setLatestEventInfo(this, contentTitle, contentText, contentIntent);
+    	
+    	notificationManager.notify(1001, notification);
+	}
+
+	public void onReconnect() {
+		// TODO Auto-generated method stub
+		
+	}
+	public String msgParse(String msg)
+	{
+		if(msg.trim().equals("d1"))
+			return getString(R.string.d1);
+		if(msg.trim().equals("d2"))
+			return getString(R.string.d2);
+		if(msg.trim().equals("d3"))
+			return getString(R.string.d3);
+		if(msg.trim().equals("d4"))
+			return getString(R.string.d4);
+		if(msg.trim().equals("d5"))
+			return getString(R.string.d5);
+		if(msg.trim().equals("d6"))
+			return getString(R.string.d6);
+		return msg;
+		
+	}
+	 public static void stopdeacon()
+     {
+     	
+     	try
+     	{
+     		System.out.println(riderusername+ "    Rider name  ");
+     		deacon.leaveChannel("r"+riderusername);
+     		deacon.stop();
+     		Log.i("RiderGetRidelist_StopDeacon", "Deacon stopped");
+     	}
+     	catch(Exception e)
+     	{
+     		Log.i("Exception_Stoping deacon", "Exception occured while stopping deacon");
+     	}
+     	
+     }
+	 
+	 /*public String makeMessage(String chname1,String chname2, String messageval,String ridid)
+	 {
+		 String deaconmessage="";
+		 if(chname1.toString().trim().length()!=0 && chname2.toString().trim().length()!=0 )
+		 {
+		     deaconmessage="ADDMESSAGE "+chname1+" "+chname2.toString().trim()+"::"+messageval+"::"+ridid+"EVENT";
+		 }
+		 return deaconmessage;
+	 }*/
 }

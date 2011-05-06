@@ -60,6 +60,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	Validations validate;
 	private String ip = "";
 	private int port;
+	private static String driverusername="";
 	
 	private static Deacon deacon;
 	PrintWriter outToServer;
@@ -68,20 +69,11 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     	
         super.onCreate(savedInstanceState);
         Log.i("DriverJourneyDetails_New route", "New route tab in DriverJourneyDetails");
-        drawUI();
+       // drawUI();
                
         //Meteor connectivity
         
-        try 
-        {
-        	ip = getString(R.string.MeteorIP);
-        	port=Integer.parseInt(getString(R.string.SubscriberPort));
-        } 
-        catch (Exception e) 
-        {
-        	System.out.println("Problem while creating Deacon");
-        	e.printStackTrace();
-        }
+        
     }
     
     
@@ -118,7 +110,51 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
          seatid = (EditText)findViewById(R.id.seatid);
          ed.setEnabled(false);
          ed1.setEnabled(false);        
-         newroute.setOnClickListener(this);    
+         newroute.setOnClickListener(this);
+         
+         
+         try 
+         {
+         	ip = getString(R.string.MeteorIP);
+         	port=Integer.parseInt(getString(R.string.SubscriberPort));
+         	driverusername=parseChannelName(session.getUsername(mPreferences));
+         	System.out.println("Driver   "+JourneyDetails.dflag+"   dflag value"+JourneyDetails.rflag+"  rflag");
+         	if(JourneyDetails.rflag!=0)
+        	{
+        		System.out.println("Rider channel  Closeddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+        		//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)) );
+        		RiderRoute.stopdeacon();
+        		JourneyDetails.rflag=0;
+        	}
+         	if(JourneyDetails.dflag==0)
+ 			{
+         		
+ 			   try {
+ 					this.deacon = new Deacon(ip.toString().trim(),port, this);
+ 					System.out.println("Driver decons is created");
+	 				if(!deacon.isRunning())
+	 				{
+	 		        		deacon.catchUpTimeOut(60);
+	 		            	deacon.register(this);
+	 		            	System.out.println("Driver channel is running");
+	 						//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
+	 						deacon.joinChannel("d"+parseChannelName(session.getUsername(mPreferences)), 0);
+	 						deacon.start();
+	 						
+	 					
+	 				}
+	 				JourneyDetails.dflag=1;
+	 				} catch (Exception e) {
+	 					// TODO Auto-generated catch block
+	 					e.printStackTrace();
+	 				}
+ 			}
+         } 
+         catch (Exception e) 
+         {
+         	System.out.println("Problem while creating Deacon");
+         	e.printStackTrace();
+         }
     }
     @Override
 	public void onResume() {
@@ -298,26 +334,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 						System.out.println("vvvvvvvvusername: "+ session.getUsername(mPreferences));
 						//channelname = parseChannelName(session.getUsername(mPreferences));
 	
-						if(JourneyDetails.dflag==0)
-						{
-							try {
-								this.deacon = new Deacon(ip.toString().trim(),port, this);
-							if(!deacon.isRunning())
-							{
-					        		deacon.catchUpTimeOut(60);
-					            	deacon.register(this);
-									//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
-									deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
-									deacon.start();
-									
-								
-							}
-							JourneyDetails.dflag=1;
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
+						
 	
 					}
 					
@@ -402,8 +419,8 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nmode: "+str1[2]);
 		String msg = msgParse(str1[1]);
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
-		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0]);
-		notificationAlarm(str1[0], msg);
+		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);
 		//notificationAlarm();
 	}
 	private void notificationAlarm(String name, String msg) {
@@ -442,7 +459,9 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     {
     	try
     	{
+    		System.out.println(driverusername+ "    Rider name  ");
     		//deacon.leaveChannel(channelname);
+    		deacon.leaveChannel("d"+driverusername);
     		deacon.stop();
     		Log.i("RiderGetRidelist_StopDeacon", "Deacon stopped");
     	}

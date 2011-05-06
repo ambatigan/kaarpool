@@ -41,7 +41,7 @@ import android.widget.Toast;
  * Date: Mar 25, 2011
  * Description: It is responsible to display the ridelist to the rider based on the specified values
  */
-public class RiderGetRidelist extends Activity implements android.view.View.OnClickListener, DeaconObserver {
+public class RiderGetRidelist extends Activity implements android.view.View.OnClickListener {
 	private SharedPreferences mPreferences; 
 	
 	Session session;
@@ -52,11 +52,12 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	String getcheckboxesclicked="";
     String sendrequests[];
 	private boolean checkboxesflag=false;
-	private static  Deacon deacon;
+	//private static  Deacon deacon;
 	ArrayList<String> list=new ArrayList<String>(); 
 	//Arraylist to store the  sent requests
-	private String ip = "";
+	/*private String ip = "";
 	private int port;
+	private static String riderusername="";*/
 
 	public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);	        
@@ -64,22 +65,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	        drawUI();                              //drawUI methods draw UI of the RideGetRidelist screen
 	        checkboxesclicked="";
 	        getcheckboxesclicked="";
-	        try 
-	        {
-			   // System.out.println("context"+context);
-	        	ip = getString(R.string.MeteorIP);
-	        	port=Integer.parseInt(getString(R.string.SubscriberPort));
-	        	//System.out.println(ip+"ip add of meteorAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-	        	
-	        	Log.i("RiderChannel",parseChannelName(mPreferences.getString("UserName","un").toString().trim()) );
-	        	
-	 			
-	        } 
-	        catch (Exception e) 
-	        {
-	        	System.out.println("Problem while creating Deacon");
-	        	e.printStackTrace();
-	        }
+	        
 	        
 	}
 	 
@@ -126,6 +112,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 					 editor.putString("checkboxesclicked", checkboxesclicked);
 					 editor.commit();
 				}
+				
 				System.out.println(session.getUsername(mPreferences)+"-----"+session.getPassword(mPreferences)+ridelistdetails.size()+"  *****************");
 				sendrequest=(ImageButton)findViewById(R.id.sendrequest);
 				
@@ -240,6 +227,57 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		            }
 		        });
 		        
+		        
+		        
+		        
+		       /* try 
+		        {
+				   // System.out.println("context"+context);
+		        	riderusername=parseChannelName(session.getUsername(mPreferences));
+		        	ip = getString(R.string.MeteorIP);
+		        	port=Integer.parseInt(getString(R.string.SubscriberPort));
+		        	System.out.println(JourneyDetails.rflag+"   dflag value");
+		        	if(JourneyDetails.rflag==0)
+		   		 {
+		   			 try {
+		   				 this.deacon = new Deacon(ip.toString().trim(),port, this);
+		   				 if(!deacon.isRunning())
+		   					{
+		   						
+		   							
+		   							
+		   			        		deacon.catchUpTimeOut(60);
+		   			            	deacon.register(this);
+		   			            	if(JourneyDetails.dflag!=0)
+		   			            	{
+		   			            		Newroute.stopdeacon();
+		   			            		//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
+		   			            		JourneyDetails.dflag=0;
+		   			            		System.out.println("Driver channel leaveddddddddddddddd");
+		   			            	}
+		   							//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
+		   							deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
+		   							deacon.start();
+		   						
+		   					}
+		   				 JourneyDetails.rflag=1;
+		   				 } catch (Exception e) {
+		   						// TODO Auto-generated catch block
+		   						e.printStackTrace();
+		   					}
+		   		 }
+		        	//System.out.println(ip+"ip add of meteorAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		        	
+		        	Log.i("RiderChannel",parseChannelName(mPreferences.getString("UserName","un").toString().trim()) );
+		        	
+		 			
+		        } 
+		        catch (Exception e) 
+		        {
+		        	System.out.println("Problem while creating Deacon");
+		        	e.printStackTrace();
+		        }*/
+		        
 		 
 	 }
 	 
@@ -330,7 +368,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		 String deaconmessage="";
 		 if(chname1.toString().trim().length()!=0 && chname2.toString().trim().length()!=0 )
 		 {
-		     deaconmessage="ADDMESSAGE "+chname1+" "+chname2.toString().trim()+"::"+messageval+"::"+ridid+"EVENT";
+		     deaconmessage="ADDMESSAGE "+"d"+chname1+" "+"r"+chname2.toString().trim()+"::"+messageval+"::"+ridid+"EVENT";
 		 }
 		 return deaconmessage;
 	 }
@@ -339,28 +377,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 @SuppressWarnings("static-access")
 	public void sendrequest(String getcheckboxesclicked)
 	 {
-		 if(JourneyDetails.rflag==0)
-		 {
-			 try {
-				 this.deacon = new Deacon(ip.toString().trim(),port, this);
-				 if(!deacon.isRunning())
-					{
-						
-							
-							
-			        		deacon.catchUpTimeOut(60);
-			            	deacon.register(this);
-							//deacon.leaveChannel(parseChannelName(session.getUsername(mPreferences)));
-							deacon.joinChannel(parseChannelName(session.getUsername(mPreferences)), 0);
-							deacon.start();
-						
-					}
-				 JourneyDetails.rflag=1;
-				 } catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		 }
+		 
 		 
 		 ProgressDialog progressdialog = ProgressDialog.show(RiderGetRidelist.this.getParent(), "","Sending ride request...", true);
 			 removeDuplicates(list);
@@ -531,10 +548,12 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	    		
 	    		
 	    	}
-	        public static void stopdeacon()
+	       /* public static void stopdeacon()
 	        {
+	        	
 	        	try
 	        	{
+	        		deacon.leaveChannel(riderusername);
 	        		deacon.stop();
 	        		Log.i("RiderGetRidelist_StopDeacon", "Deacon stopped");
 	        	}
@@ -543,9 +562,9 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	        		Log.i("Exception_Stoping deacon", "Exception occured while stopping deacon");
 	        	}
 	        	
-	        }
+	        }*/
 
-			public void onError(DeaconError arg0) {
+			/*public void onError(DeaconError arg0) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -617,6 +636,6 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 					return getString(R.string.d6);
 				return msg;
 				
-			}
+			}*/
 	        
 	    }
