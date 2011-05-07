@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -143,6 +145,16 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	        }
 	    }
 	 
+	 public boolean onKeyDown(int keyCode, KeyEvent event) 
+		{
+			if(keyCode == KeyEvent.KEYCODE_BACK)
+			{
+				Intent intent=new Intent(Registerwithsysid.this,Register.class);
+				startActivity(intent);
+				//return true;
+			}
+			return super.onKeyDown(keyCode, event);
+		}
 	 
 	 //Getting image path from gallery
 	 
@@ -307,7 +319,11 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		{
 		
 		case R.id.sysregsubmit:
-			
+			ProgressDialog dialog1 = new ProgressDialog(this);
+            dialog1.setMessage("Please wait while loading....");
+            dialog1.setIndeterminate(true);
+            dialog1.setCancelable(true);
+            dialog1.show();
 			 //flags for validation of different edit texts
 			 checksyspwdflag=false;
 			 checksysaddressflag=false;
@@ -324,12 +340,14 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     if(!checksyspwdflag)
 		     {
 		    	 validatestring="-> Type the correct password(length>=5)\n";
+		    	 dialog1.dismiss();
 		     }		     
 		     // validating address
 		     checksysaddressflag=mobilevalidate.addressValidation(sysuseraddress.getText().toString().trim());
 		     if(!checksysaddressflag)
 		     {
 		    	 validatestring=validatestring+"-> Address length should be one to two hundred\n";
+		    	 dialog1.dismiss();
 		     }
 		     
 		     // validating userid's
@@ -337,6 +355,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     if(!checksysidflag)
 		     {
 		    	 validatestring=validatestring+"-> Pls select available users only(length<=8) \n";
+		    	 dialog1.dismiss();
 		     }
 		     
 		     //--------validating gender buttons starts--------------
@@ -346,6 +365,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     {
 		    	 System.out.println(checksysmaleflag+"------------------"+checksysmaleflag+"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		    	 validatestring=validatestring+"-> Pls select your gender\n";
+		    	 dialog1.dismiss();
 		     }
 		     
 		     //-----------validating gender buttons ends------------------
@@ -354,6 +374,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		     if(!checksysmobileflag)
 				{
 					validatestring=validatestring+"-> Pls enter correct mobile number(start with zero and follows by 10 digits) \n";
+					dialog1.dismiss();
 				}
 		     
 		     //-----------validating mobile number ends---------------
@@ -386,6 +407,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		    	      else
 		    	      {
 		    	    	  Toast.makeText(Registerwithsysid.this, "Data base server may not up", Toast.LENGTH_LONG).show();
+		    	    	  dialog1.dismiss();
 		    	      }
 	             }
 		     else
