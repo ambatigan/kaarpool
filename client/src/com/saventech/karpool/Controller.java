@@ -25,7 +25,7 @@ public class Controller
 
 //
 
-	  // String url="http://198.162.18.174:8080/kaarpool/";
+	  //String url="http://198.162.18.174:8080/kaarpool/";
 
 	  String url="http://122.183.102.229/kaarpool/";
 
@@ -35,11 +35,11 @@ public class Controller
 	 */
 	public Controller()
 	{
-	//	
+		
 	}
 	/*Authenticate User id and password 
 	 * 
-//	*/
+	*/
 	public String Authenticate_login(String id, String pwd)
 	{
 		//Trim id and password
@@ -51,7 +51,7 @@ public class Controller
 	    String response ="";
 	    String res="";
 	    
-		//checking login credentials
+		//checking login  credentials
 		try
 		{
 			System.out.println(url+"LoginServlet");
@@ -463,7 +463,7 @@ public class Controller
     		return null;
     	}		
 	}
-	public String sendRiderequest(String checkboxesclicked,String ridername)
+	public String sendRiderequest(String checkboxesclicked,String ridername,String data)
 	{
 		
 		
@@ -471,6 +471,7 @@ public class Controller
 		ArrayList<NameValuePair> sendrequest=new ArrayList<NameValuePair>();
 		sendrequest.add(new BasicNameValuePair("checkboxesclicked",checkboxesclicked.toString().trim()));
 		sendrequest.add(new BasicNameValuePair("senderridename",ridername.toString().trim()));
+		sendrequest.add(new BasicNameValuePair("data",data.toString().trim()));
 		String sendRequest="";
 		try
 		{
@@ -512,6 +513,33 @@ public class Controller
 			Log.i("InjectEvents_Controller", "Exception in controller while injecting events");
 		}
 		return "failed to send";
+	}
+	
+	//Injecting communication events
+	public String injectAcknowledgeEvents(ArrayList<String> eventacklist)
+	{
+		String eventString="";
+		for( int i=0;i<eventacklist.size();i++)
+		{
+			eventString=eventString+eventacklist.get(i).toString().trim();
+		}
+		ArrayList<NameValuePair> events=new ArrayList<NameValuePair>();
+		events.add(new BasicNameValuePair("InjectedAckEvents",eventString.toString().trim()));
+		String injectAckEventResponse="";
+		try
+		{
+			injectAckEventResponse=CustomHttpClient.executeHttpPost(url+"InjectAcknowledgementEvents", events);
+			String res=injectAckEventResponse.toString();
+			 Log.i("InjectEvents_Controller", res.toString().trim());
+			return res.toString();
+		
+		}
+		catch(Exception e)
+		{
+			Log.i("InjectAckEvents_Controller", "Exception in controller while injecting Acknowledgement events");
+		}
+		return "failed to send";
+		
 	}
 	
 

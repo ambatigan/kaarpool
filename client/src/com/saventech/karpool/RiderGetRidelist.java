@@ -373,7 +373,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		 return deaconmessage;
 	 }
 	 
-	 //sending request when sendrequest button is pressed
+	 // sending request when sendrequest button is pressed
 	 @SuppressWarnings("static-access")
 	public void sendrequest(String getcheckboxesclicked)
 	 {
@@ -388,10 +388,9 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 			 {
 			 //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
 			// System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-			String injectmessage="";
+			 String injectmessage="";
 			 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
-			 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim());
-			 checkboxesclicked="";
+			 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim(),"meteor");
 			 System.out.println(messagedata+"ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
 			 String channelnames[]=messagedata.toString().trim().split(":");
 			 ArrayList<String> events=new ArrayList<String>();
@@ -418,12 +417,22 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		
 		    if(injectmessage.toString().trim().equals("successfully injected"))
 		    {
-		        Toast.makeText(RiderGetRidelist.this, channelnames[0].toString().trim(), Toast.LENGTH_LONG).show();
+		    	String mesg=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim(),"update");
+		    	checkboxesclicked="";
+		    	String cnames[]=mesg.toString().trim().split(":");
+		        Toast.makeText(RiderGetRidelist.this, cnames[0].toString().trim(), Toast.LENGTH_LONG).show();
 		    }
 		    else
 		    {
 		    	//HAVE TO DO MODIFICATIONS
-		    	Toast.makeText(RiderGetRidelist.this, "Problem occured when sending request or \n Already request has been sent to this user", Toast.LENGTH_LONG).show();
+		    	if(channelnames[0].toString().trim().equals("Already you sent requests to this users"))
+		    	{
+		    		Toast.makeText(RiderGetRidelist.this, "Already you sent requests to this users", Toast.LENGTH_LONG).show();	
+		    	}
+		    	else
+		    	{
+		    	      Toast.makeText(RiderGetRidelist.this, "Problem occure in sending request try again", Toast.LENGTH_LONG).show();
+		    	}
 		    }
 		 }
 		 else

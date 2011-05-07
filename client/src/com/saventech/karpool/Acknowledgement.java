@@ -201,9 +201,9 @@ public class Acknowledgement extends Activity implements OnClickListener
 		 ArrayList<String>even=new ArrayList<String>();
 
 		 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+"three"+"EVENT");
-		 even.add("ADDMESSAGE "+"r"+drivername+" "+"d"+channelname+"::"+res+"::"+"three"+"EVENT");
+		 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+"three"+"EVENT");
 
-		 String val=controller.injectEvents(even);
+		 String val=controller.injectAcknowledgeEvents(even);
 		 if(val.trim().equals("successfully injected"))
 		 {
 			 System.out.println(val.toString().trim());

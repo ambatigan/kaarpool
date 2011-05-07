@@ -166,8 +166,8 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		 String rid=getRid(message);
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
 		 ArrayList<String>even=new ArrayList<String>();
-		 even.add("ADDMESSAGE "+"d"+drivername+" "+"r"+channelname+"::"+res+"::"+rid.toString()+"EVENT");
-		 String val=controller.injectEvents(even);
+		 even.add("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rid.toString()+"EVENT");
+		 String val=controller.injectAcknowledgeEvents(even);
 		 if(val.equals("successfully injected"))
 		 {
 			 System.out.println(val.toString().trim());
