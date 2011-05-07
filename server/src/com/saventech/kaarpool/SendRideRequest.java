@@ -19,6 +19,7 @@ public class SendRideRequest extends HttpServlet
 		PrintWriter out=response.getWriter();
 		String desiredsendrequests=request.getParameter("checkboxesclicked");
 		String ridername=request.getParameter("senderridename");
+		String data=request.getParameter("data");
 		System.out.println(desiredsendrequests.toString()+"        KKKKKKKKKKKKKKKKKKKKKK");
 		//String sendrequest[]=desiredsendrequests.toString().trim().split("::");
 		DBInterface connect = DBInterface.getInstance();
@@ -26,7 +27,7 @@ public class SendRideRequest extends HttpServlet
 	  	{
 	  		if(desiredsendrequests.toString().trim().length()!=0)
 	  		{
-				String ouput=connect.sendrequest(desiredsendrequests.toString().trim(),ridername.toString().trim());
+				String ouput=connect.sendrequest(desiredsendrequests.toString().trim(),ridername.toString().trim(),data.toString().trim());
 				
 				out.print(ouput.toString().trim());
 	  		}

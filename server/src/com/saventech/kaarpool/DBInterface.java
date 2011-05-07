@@ -1079,7 +1079,7 @@ public class DBInterface
 	 * updating the msg_updates table when request was sent
 	 */
 	
-	public String sendrequest(String desiredsendrequests,String ridername)
+	public String sendrequest(String desiredsendrequests,String ridername,String data)
 	{
 		int insertedvalues=0;
 		int updatedvalues=0;
@@ -1103,15 +1103,29 @@ public class DBInterface
 					if(resultSet.next())
 					{
 						updatedvalues++;
-						System.out.println(resourceBundle.getString("update_msgs")+"r1\""+" where rid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
-						statement.executeUpdate(resourceBundle.getString("update_msgs")+"r1\""+" where rdid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+						if(data.toString().trim().equals("meteor"))         //checking for sending request to meteor
+						{
+						
+						}
+						else                          //update database
+						{
+							System.out.println(resourceBundle.getString("update_msgs")+"r1\""+" where rid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+"r1\""+" where rdid=\""+rid+"\" and ridername=\""+ridername.toString().trim()+"\"");
+						}
 					}
 					else
 					{
 						insertedvalues++;
 						newdrivername=newdrivername+temp[2].toString().trim()+"-"+rid.toString().trim()+":";
-						System.out.println(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\",\"r1\",\"running\")");
-						statement.executeUpdate(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\",\"r1\",\"running\")");
+						if(data.toString().trim().equals("meteor"))          //checking to send request to meteor
+						{
+						
+						}
+						else                           //update database
+						{
+							System.out.println(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\",\"r1\",\"running\")");
+							statement.executeUpdate(resourceBundle.getString("insert_msgs")+"\""+rid+"\",\""+ridername.toString().trim()+"\",\""+temp[2]+"\",\"r1\",\"running\")");
+						}
 					}
 					//System.out.println(rid+"      RIDSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 				}
@@ -1144,6 +1158,9 @@ public class DBInterface
 			return "Sql exception";
 		}
 	}
+	
+	
+	
 	public String injectingEvents(String events) throws IOException
 	{
 		String MeteorIP=resourceBundle.getString("meteorip").toString().trim();
@@ -1151,6 +1168,77 @@ public class DBInterface
 		InjecttoMeteor injectMeteor=new InjecttoMeteor();
 		String response=injectMeteor.injecttoMeteor(events, MeteorIP, MeteorPort);
 		return response.toString().trim();
+	}
+	//updating database for acknowledgement screens
+	
+	public String updateAcknowledgementEvents(String chanelname1, String message)
+	{
+		
+		String messagesplit[]=message.toString().trim().split("::");
+			try
+			{
+				System.out.println(messagesplit.length+"dddddddddddddddddddddddddddddddddddddddddddddd");
+				if(messagesplit.length>=3)
+				{
+				    String dname="";
+				    String rname="";
+					if(chanelname1.toString().trim().charAt(0)=='d')
+					{
+						System.out.println(messagesplit.length+"dddddddddddddddddddddddddddddddddddddddddddddd");
+						dname=parseChannelname(chanelname1.toString().trim());;
+						rname=parseChannelname(messagesplit[0].toString().trim());
+						
+						
+						if(messagesplit[1].toString().trim().equals("r3")||messagesplit[1].toString().trim().equals("r5"))
+						{
+							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
+						}
+						else
+						{
+							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
+						}
+						
+						//statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
+						//statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
+					}
+					else if(chanelname1.toString().trim().charAt(0)=='r')
+					{
+						System.out.println(messagesplit.length+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+						rname=parseChannelname(chanelname1.toString().trim());;
+						dname=parseChannelname(messagesplit[0].toString().trim());
+						System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
+						
+						if(messagesplit[1].toString().trim().equals("d2")||messagesplit[1].toString().trim().equals("d4"))
+						{
+							
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
+						}
+						else
+						{
+							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
+						}
+						
+					}
+				}
+					
+				return "Successfully updated";
+			}
+			catch(Exception e)
+			{
+				log.fatal("ControllerSQLException while updating acknowledgement events"+e.getStackTrace());
+				return "Exception occred while updating database";
+			}
+		
+		
+	}
+	public String parseChannelname(String str)
+	{
+		String chanel=str.substring(1, str.length());
+		String channel[]=chanel.split("-");
+		return channel[0].toString().trim()+"@"+channel[1].toString().trim()+".com";
 	}
 
 }
