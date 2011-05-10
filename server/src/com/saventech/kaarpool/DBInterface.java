@@ -1189,17 +1189,41 @@ public class DBInterface
 						rname=parseChannelname(messagesplit[0].toString().trim());
 						
 						
-						if(messagesplit[1].toString().trim().equals("r3")||messagesplit[1].toString().trim().equals("r5"))
+						if(messagesplit[1].toString().trim().equals("r3")||messagesplit[1].toString().trim().equals("r5")||messagesplit[1].toString().trim().equals("r6"))
 						{
-							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
-							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
+							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
 						}
 						else
 						{
-							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
-							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
+							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
 						}
-						
+						if(messagesplit[1].toString().trim().equals("r4"))
+						{
+							System.out.println(resourceBundle.getString("select_userid")+rname+"\"");
+							resultSet=statement.executeQuery(resourceBundle.getString("select_userid")+rname+"\"");
+							//System.out.println("ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd8");
+							if(resultSet.next())
+							{
+								String uid=resultSet.getBigDecimal("uid").toString().trim();
+								System.out.println(resourceBundle.getString("select_usermode")+messagesplit[2].toString().trim()+" and usrid="+resultSet.getBigDecimal("uid"));
+								resultSet1=statement.executeQuery(resourceBundle.getString("select_usermode")+messagesplit[2].toString().trim()+" and usrid="+resultSet.getBigDecimal("uid"));
+								System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+								System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+								if(resultSet1.next())
+								{
+									//System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjooo");
+								}
+								else
+								{
+									//System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkk"+uid);
+									System.out.println(resourceBundle.getString("insertridemembers1")+messagesplit[2].toString().trim()+","+uid+",\"rider\")");
+									statement.executeUpdate(resourceBundle.getString("insertridemembers1")+messagesplit[2].toString().trim()+","+uid+",\"rider\")");
+								}
+							}
+							
+						}
 						//statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
 						//statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
 					}
@@ -1208,26 +1232,27 @@ public class DBInterface
 						System.out.println(messagesplit.length+"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 						rname=parseChannelname(chanelname1.toString().trim());;
 						dname=parseChannelname(messagesplit[0].toString().trim());
-						System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
+						System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
 						
 						if(messagesplit[1].toString().trim().equals("d2")||messagesplit[1].toString().trim().equals("d4"))
 						{
 							
-							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\"");
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
 						}
 						else
 						{
-							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
-							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\"");
+							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
+							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
 						}
 						
 					}
 				}
-					
+				//resultSet.close();
 				return "Successfully updated";
 			}
 			catch(Exception e)
 			{
+				
 				log.fatal("ControllerSQLException while updating acknowledgement events"+e.getStackTrace());
 				return "Exception occred while updating database";
 			}
@@ -1239,6 +1264,44 @@ public class DBInterface
 		String chanel=str.substring(1, str.length());
 		String channel[]=chanel.split("-");
 		return channel[0].toString().trim()+"@"+channel[1].toString().trim()+".com";
+	}
+	public String rideHistory(String name,String role)
+	{
+		String history="";
+		try{
+			if(role.toString().trim().equals("rider"))
+			{
+				System.out.println(resourceBundle.getString("ride_history")+" ridername=\""+name+"\"))");
+				resultSet=statement.executeQuery(resourceBundle.getString("ride_history")+" ridername=\""+name+"\"))");
+				while(resultSet.next())
+				{
+					history=history+resultSet.getString("jsource")+":::";
+					history=history+resultSet.getString("jdestination")+":::";
+					history=history+resultSet.getString("stime")+"EVENT";
+				}
+			}
+			if(role.toString().trim().equals("driver"))
+			{
+				System.out.println(resourceBundle.getString("ride_history")+" drivername=\""+name+"\"))");
+				resultSet=statement.executeQuery(resourceBundle.getString("ride_history")+" drivername=\""+name+"\"))");
+				while(resultSet.next())
+				{
+					history=history+resultSet.getString("jsource")+":::";
+					history=history+resultSet.getString("jdestination")+":::";
+					history=history+resultSet.getString("stime")+"EVENT";
+				}
+				
+			}
+			return history;
+			
+		}
+		catch(Exception e)
+		{
+			log.fatal("SQL exception while getting ride history"+e.getStackTrace());
+			return "Exception in history";
+		}
+		
+		
 	}
 
 }

@@ -21,6 +21,7 @@ public class InjecttoMeteor
 		
 			for(int i=0;i<eventlist.length;i++)
 			{
+				System.out.println(eventlist[i].toString().trim()+" InjecttoMeteor  "+eventlist.length);
 			    outToServer.println(eventlist[i].toString().trim());
 			}
 			clientSocket.close();
