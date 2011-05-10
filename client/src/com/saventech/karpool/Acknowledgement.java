@@ -41,6 +41,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 	String popupmessage2="";
 	String popupmessage3="";
 	Controller controller;
+	private String globalrideidmessage="";
 	/**
 	 * This screen show the riders list for driver and driver can get notifications(accept/reject)
 	 * also in this screen.
@@ -136,11 +137,26 @@ public class Acknowledgement extends Activity implements OnClickListener
   			public void onClick(DialogInterface dialog, int whichButton) {
   				//value = input.getText().toString().trim();
   				removeMessage(message);
+  				DriverJourneyDetails.driverrideid.remove(getRideId(message));
   				Toast.makeText(getApplicationContext(),msg3.toString().trim(),Toast.LENGTH_SHORT).show();
 
   			}
   		});
     	adb.show();
+    }
+    public String getRideId(String message)
+    {
+    	for (Object data : DriverJourneyDetails.driverrideid) 
+    	{
+			 String messagecontains=(String)data.toString().trim();
+			 System.out.println(message.toString().trim()+" ******************* "+data.toString().trim());
+			 if(messagecontains.toString().trim().contains(message.toString().trim()))
+			 {
+				 System.out.println("*********************** "+messagecontains.toString().trim());
+				 return messagecontains.toString().trim();
+			 }
+	    }
+    	return "No String Found";
     }
     public void setAlertbox(final String msg1,final String msg2,final String ridername,String displaymessage,final String message)
     {
@@ -192,17 +208,25 @@ public class Acknowledgement extends Activity implements OnClickListener
     	System.out.println("RID"+splitoutput[splitoutput.length-1]);
     	return splitoutput[splitoutput.length-1].toString().trim();
     }
+    public String parseRideIdfromMessage(String message)
+    {
+    	String split[]=message.split("::");
+    	return split[split.length-1].toString().trim();
+    }
     public void sendResponseMessage(String message,String drivername,String respon)
     {
     	System.out.println("message: "+message);
+    	String rideidmessage=getRideId(message.toString());
+    	String rideid=parseRideIdfromMessage(rideidmessage.toString());
+    	System.out.println(rideidmessage+" *************888 "+rideid);
     	String res=getResponseId(respon);
 		 //String rid=getRid(message);
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
 		 ArrayList<String>even=new ArrayList<String>();
-
-		 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+"three"+"EVENT");
-		 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+"three"+"EVENT");
-
+   
+		 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"EVENT");
+		 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+rideid+"EVENT");
+		 DriverJourneyDetails.driverrideid.remove(getRideId(message));
 		 String val=controller.injectAcknowledgeEvents(even);
 		 if(val.trim().equals("successfully injected"))
 		 {

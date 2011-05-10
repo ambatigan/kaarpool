@@ -1,22 +1,26 @@
 package com.saventech.karpool;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class More extends Activity {
 	ListView listview;
 	private SharedPreferences mPreferences; 
 	Session session; 
+	String modevalue="";
+	Controller controller;
+	static ArrayList<String> ridehistory=new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
@@ -31,8 +35,10 @@ public class More extends Activity {
 
     leftText.setText("kaarpool");
     mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+    controller=new Controller();
     session=new Session();
     String username = session.getUsername(mPreferences);
+    modevalue=session.getMode(mPreferences);
     String name[]= username.split("@");
     rightText.setText(name[0]);
     
@@ -49,8 +55,36 @@ public class More extends Activity {
 				switch(position)
 				{
 				case 0:
-					Intent login = new Intent(More.this, RideHistory.class);
-					startActivity(login);
+					String his="";
+					Intent intent = new Intent(More.this, RideHistory.class);
+					if(modevalue.toString().trim().equals("driver"))
+		            {
+						//System.out.println(modevalue+" MMMMMMMMMMMMMMMMMMOOOOOOOOOORRRRRRRRRREEEEEEEEEEEEEEEEEEEd");
+		           	   	his=controller.rideHistory(session.getUsername(mPreferences).toString().trim(), modevalue.toString().trim()) ;          	 
+		            }
+		            if(modevalue.toString().trim().equals("rider"))
+		            {
+		            	//System.out.println(modevalue+" MMMMMMMMMMMMMMMMMMOOOOOOOOOORRRRRRRRRREEEEEEEEEEEEEEEEEEEr");
+		            	his=controller.rideHistory(session.getUsername(mPreferences).toString().trim(), modevalue.toString().trim()) ;   
+		            }
+		            if(his.contains(":::"))
+		            {
+		            	ridehistory.add("Source Destination Time");
+		            	String historysplit[]=his.toString().trim().split("EVENT");
+		            	//System.out.println(historysplit.length+"MMMMMMMMMMMMMOOOOOOOOOORRRRRRRRRREEEEEEEEEEEEEEEEEEEEEE");
+		            	for(int i=0;i<historysplit.length;i++)
+		            	{
+		            		String getdata[]=historysplit[i].split(":::");
+		            		String adddata="";
+		            		for(int j=0;j<getdata.length;j++)
+		            		{
+		            			adddata=adddata+getdata[j].toString().trim()+" ";
+		            		}
+		            		ridehistory.add(adddata.toString().trim());
+		            	}
+		            }
+					
+					startActivity(intent);
 					break;
 				case 1:
 		            Intent trackroute = new Intent(More.this, TrackRoute.class);

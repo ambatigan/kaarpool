@@ -162,11 +162,16 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
     }
     public void sendResponseMessage(String message,String drivername,String respon)
     {
-    	String res=getResponseId(respon);
+    	 String res=getResponseId(respon);
 		 String rid=getRid(message);
+		 String rideidmessage=getRideId(message.toString());
+	     String rideid=parseRideIdfromMessage(rideidmessage.toString());
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
 		 ArrayList<String>even=new ArrayList<String>();
-		 even.add("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rid.toString()+"EVENT");
+		 System.out.println("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rideid.toString()+"EVENT");
+		 even.add("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rideid.toString()+"EVENT");
+		 RiderJourneyDetails.riderrideid.remove(getRideId(message));
+		 
 		 String val=controller.injectAcknowledgeEvents(even);
 		 if(val.equals("successfully injected"))
 		 {
@@ -178,6 +183,26 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 			 
 		 }
 		 //System.out.println("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
+    }
+    
+    public String parseRideIdfromMessage(String message)
+    {
+    	String split[]=message.split("::");
+    	return split[split.length-1].toString().trim();
+    }
+    public String getRideId(String message)
+    {
+    	for (Object data : RiderJourneyDetails.riderrideid) 
+    	{
+			 String messagecontains=(String)data.toString().trim();
+			 System.out.println(message.toString().trim()+" ******************* "+data.toString().trim());
+			 if(messagecontains.toString().trim().contains(message.toString().trim()))
+			 {
+				 System.out.println("*********************** "+messagecontains.toString().trim());
+				 return messagecontains.toString().trim();
+			 }
+	    }
+    	return "No String Found";
     }
     public void removeMessage(String message,String drivername,String respon)
     {
@@ -211,6 +236,12 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
   			public void onClick(DialogInterface dialog, int whichButton) {
   				//value = input.getText().toString().trim();
   				removeMessage(message,drivername,msg3.toString().trim());
+  				if(msg3.toString().trim().equals(getString(R.string.r6)))
+  				{
+    		         sendResponseMessage(message,drivername,msg3.toString().trim());
+    		
+  				}
+  				RiderJourneyDetails.riderrideid.remove(getRideId(message));
   				//sendResponseMessage(message,drivername,msg3.toString().trim());
   				Toast.makeText(getApplicationContext(),msg3.toString().trim(),Toast.LENGTH_SHORT).show();
   				

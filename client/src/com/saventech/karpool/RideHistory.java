@@ -1,11 +1,15 @@
 package com.saventech.karpool;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -41,9 +45,9 @@ public class RideHistory extends Activity implements OnItemClickListener {
     
     myListView = (ListView) findViewById(R.id.myListView);
     
-    String[] rideHistory = getResources().getStringArray(R.array.data_array);
+   // String[] rideHistory = getResources().getStringArray(R.array.data_array);
     
-    myListView.setAdapter(new ArrayAdapter(this,R.layout.rows,R.id.text, rideHistory));
+    myListView.setAdapter(new ArrayAdapter(this,R.layout.rows,R.id.text, More.ridehistory));
 //    setListAdapter(new ArrayAdapter<String>(this,
 //            R.layout.ridehistory,R.id.ride, rideHistory));
 //    getListView().setBackgroundResource(R.drawable.radialback);
@@ -119,7 +123,19 @@ public class RideHistory extends Activity implements OnItemClickListener {
 		// TODO Auto-generated method stub
 		
 	}
+	public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			More.ridehistory=new ArrayList<String>();
+			//return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }
+
+
+
     
 //    protected void onListItemClick(ListView l, View v, int position, long id) {
 //    	super.onListItemClick(l, v, position, id);

@@ -25,7 +25,7 @@ public class Controller
 
 //
 
-	  //String url="http://198.162.18.174:8080/kaarpool/";
+	 // String url="http://198.162.18.174:8080/kaarpool/";
 
 	  String url="http://122.183.102.229/kaarpool/";
 
@@ -488,7 +488,7 @@ public class Controller
 		
 	}
 	
-	//injecting events code
+	// injecting events code
 	public String injectEvents(ArrayList<String> eventlist)
 	{
 		String eventString="";
@@ -539,6 +539,29 @@ public class Controller
 			Log.i("InjectAckEvents_Controller", "Exception in controller while injecting Acknowledgement events");
 		}
 		return "failed to send";
+		
+	}
+	
+	public String rideHistory(String name,String role)
+	{
+		ArrayList<NameValuePair> history=new ArrayList<NameValuePair>();
+		history.add(new BasicNameValuePair("name",name.toString().trim()));
+		history.add(new BasicNameValuePair("role",role.toString().trim()));
+		String rideHistoryResponse="";
+		try
+		{
+			rideHistoryResponse=CustomHttpClient.executeHttpPost(url+"RideHistory", history);
+			String res=rideHistoryResponse.toString();
+		    Log.i("Getting_RideHistory", res.toString().trim());
+			return res.toString();
+		
+		}
+		catch(Exception e)
+		{
+			Log.i("GetRideHistory_Controller", "Exception in controller while getting ride history");
+		}
+		return "failed to get Ride History";
+		
 		
 	}
 	
