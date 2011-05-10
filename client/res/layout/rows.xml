@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:id="@+id/widget70"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
 <TextView	
-    xmlns:android="http://schemas.android.com/apk/res/android"
   	android:id="@+id/text"
   	android:layout_height="wrap_content"
   	android:gravity="center_vertical"
   	android:layout_width="wrap_content"
   	android:textSize="20sp"
+  	android:paddingLeft="6dip"
   	android:textColor="@color/textcolor"
   	android:minHeight="?android:attr/listPreferredItemHeight"
 />
-
+</LinearLayout>
