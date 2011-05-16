@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-android:id="@+id/widget70"
+android:id="@+id/mainlayout"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:orientation="vertical"
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:background="@drawable/map">
+>
+<TextView
+android:id="@+id/widget29"
+android:layout_width="180px"
+android:layout_height="25px"
+android:textStyle="bold"
+android:text="ADDRESS"
+>
+</TextView>
+<TextView
+android:id="@+id/trackrouteadd"
+android:layout_width="fill_parent"
+android:layout_height="35px"
+android:text=""
+>
+</TextView>
+<TextView
+android:id="@+id/widget31"
+android:layout_width="180px"
+android:layout_height="25px"
+android:textStyle="bold"
+android:text="DISTANCE"
+>
+</TextView>
+<TextView
+android:id="@+id/trackroutedst"
+android:layout_width="fill_parent"
+android:layout_height="25px"
+android:text=""
+>
+</TextView>
+<TextView
+android:id="@+id/widget33"
+android:layout_width="180px"
+android:layout_height="25px"
+android:textStyle="bold"
+android:text="MAPVIEW"
+>
+</TextView>
+<com.google.android.maps.MapView
+                 android:id="@+id/mapview"
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent"
+                 android:apiKey="0YV8sVd0bO1edNyQqb-fiY6GISEv09i0FN6aE9w"
+                 />
 
-
- </LinearLayout>
+</LinearLayout>
