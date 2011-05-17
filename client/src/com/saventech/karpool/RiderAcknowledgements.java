@@ -224,6 +224,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		 ArrayList<String>even=new ArrayList<String>();
 		 System.out.println("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rideid.toString()+"::"+time.toString().trim()+"EVENT");
 		 even.add("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rideid.toString()+"::"+time.toString().trim()+"EVENT TNEVE");
+		 RiderJourneyDetails.riderrideid.remove(message1.toString().trim());
 		 if(res.toString().trim().equals("r2"))
 		 {
 			 
@@ -274,17 +275,15 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 								 }
 								 for( Iterator< String > it = RiderJourneyDetails.justriderequests.iterator(); it.hasNext() ; )
                                  {
-
 							            String str = it.next();
-
-							            if( str.contains(rideid1.toString().trim() ) )
-
+							            String temprideids[]=str.toString().trim().split("::");
+							            String temprideid=temprideids[2].toString().trim();
+							            System.out.println(temprideid+"=========================rideid"+rideid1);
+							            if( temprideid.toString().trim().equals(rideid1.toString().trim()))
 							            {
-
 							                it.remove();
 
 							            }
-
 							      }
 								 
 							 }
@@ -348,17 +347,15 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 								 for( Iterator< String > it = RiderJourneyDetails.justriderequests.iterator(); it.hasNext() ; )
                                  {
 
-							            String str = it.next();
-
-							            if( str.contains(rideid1.toString().trim() ) )
-
+									    String str = it.next();
+									    String temprideids[]=str.toString().trim().split("::");
+							            String temprideid=temprideids[2].toString().trim();
+							            System.out.println(temprideid+"=========================rideid"+rideid1);
+							            if( temprideid.toString().trim().equals(rideid1.toString().trim()))
 							            {
-							            	System.out.println(str+"   Rideracknowledgementssssssssssssss");
-
 							                it.remove();
 
 							            }
-
 							        }
 								 
 							 }
@@ -385,7 +382,8 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 					 {
 						 String dname=getDriverNameFromMessage(data1.toString().trim());
 						// System.out.println(dname+"0000000000000000");
-					     String rideid2=parseRideIdfromMessage(data1.toString().trim());
+						 String temprideids[]=data1.toString().trim().split("::");
+				         String rideid2=temprideids[2].toString().trim();
 						 channelname=parseChannelName(session.getUsername(mPreferences));
 					     time=getTimeFromMessage(data1.toString().trim());
 					     even.add("ADDMESSAGE EVENT"+dname+" EVENT"+"r"+channelname+"::"+"r8"+"::"+rideid2.toString()+"::"+time.toString().trim()+"EVENT TNEVE");
@@ -397,10 +395,9 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 				 } 
 			 }
 		 }
-		 if(restnumber==0)
-		 {
-		   RiderJourneyDetails.riderrideid.remove(message1.toString().trim());
-		 }
+		
+		
+		
 		 
 		 val=controller.injectAcknowledgeEvents(even);
 		 if(val.equals("successfully injected"))
@@ -413,6 +410,31 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 			 
 		 }
 		 //System.out.println("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
+    }
+    
+    // Removes the sending fixed ride messages usernames
+    public void remvoejustrideids(String message)
+    {
+    	if(RiderJourneyDetails.justriderequests.size()!=0)
+		 {
+			 for( Iterator< String > it2 = RiderJourneyDetails.justriderequests.iterator(); it2.hasNext() ; )
+			 {
+				    String str = it2.next();
+				    System.out.println(str+"-------------------1");
+		            String temprideids[]=str.toString().trim().split("::");
+		            String temprideid=temprideids[2].toString().trim();
+		            System.out.println(str+"-------------------2 "+message+" "+temprideid);
+				    String rideidds[]=message.toString().trim().split("::");
+				    String rideidd=rideidds[1].toString().trim();
+				    System.out.println(str+"-------------------3");
+		            System.out.println(temprideid+"=========================rideid"+rideidd);
+		            if( temprideid.toString().trim().equals(rideidd.toString().trim()))
+		            {
+		                it2.remove();
+
+		            }
+			 }
+		 }
     }
     
     public String parseRideIdfromMessage(String message)
@@ -446,7 +468,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		 String str1[]=chname.toString().trim().split("@");
 		 String str2[]=str1[1].toString().trim().split(".com");
 		 String channame=str1[0]+"-"+str2[0];
-		 //System.out.println("Parsed channel name^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
+		 //System.out.println("Parsed channel name ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+channame);
 		 return channame.toString().trim();
 	 }
     public String getDriverNameFromMessage(String Message)
@@ -492,6 +514,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
     		
   				}
   				RiderJourneyDetails.riderrideid.remove(message1.toString().trim());
+  				remvoejustrideids(message1);
   				//sendResponseMessage(message,drivername,msg3.toString().trim());
   				Toast.makeText(getApplicationContext(),msg3.toString().trim(),Toast.LENGTH_SHORT).show();
   				
