@@ -783,24 +783,93 @@ public class DBInterface
 					if(resultSet.getString("jsource").toString().trim().equals(rsource) && resultSet.getString("jdestination").toString().trim().equals(rdestination))
 					{
 						DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm a");
+						String ridertime[];
+						String drivertime[];
+						String ddate="";
+						String rdate="";
 						java.util.Date d;
 						java.util.Date d1;
-						try {
-							d=dateFormat.parse(resultSet.getString("stime"));
-							d1=dateFormat.parse(rstime.toString());
-							
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							log.fatal("Date Format Exception"+e.getStackTrace());
-							return null;
-						}
-						long dmil=d.getTime()-d1.getTime();	
-						System.out.println(dmil+" Minutes");
-						
-						if(dmil/(60*1000)>=10)
+						int amvalue=0;
+					    int pmvalue=0;
+						if(rstime.toString().trim().contains("AM"))
 						{
-							System.out.println(dmil+" Minutes");
+							ridertime=rstime.toString().trim().split("AM");
+							String timesplit[]=ridertime[0].toString().trim().split(" ");
+							rdate=timesplit[0].toString().trim();
+							if(resultSet.getString("stime").toString().trim().contains("AM"))
+							{
+								String getridelisttime[]=resultSet.getString("stime").toString().trim().split("AM");
+								String getridelistdatesplit[]=getridelisttime[0].toString().trim().split(" ");
+								String getridelistdate=getridelistdatesplit[0].toString().trim();
+								System.out.println(getridelistdate.toString().trim()+" ============================AM");
+								if(rdate.toString().trim().equals(getridelistdate.toString().trim()))
+								{
+									try {
+										d=dateFormat.parse(resultSet.getString("stime"));
+										d1=dateFormat.parse(rstime.toString());
+										
+									} catch (ParseException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+										log.fatal("Date Format Exception"+e.getStackTrace());
+										return null;
+									}
+									long dmil=d.getTime()-d1.getTime();	
+									System.out.println(dmil+" Minutes");
+									if(dmil/(60*1000)>=0 && dmil/(60*1000)<=5)
+									{
+										amvalue=1;
+									}
+								}
+								
+							}
+							
+							
+							
+						}
+						if(rstime.toString().trim().contains("PM"))
+						{
+							ridertime=rstime.toString().trim().split("PM");
+							String timesplit[]=ridertime[0].toString().trim().split(" ");
+							rdate=timesplit[0].toString().trim();
+							if(resultSet.getString("stime").toString().trim().contains("PM"))
+							{
+								String getridelisttime[]=resultSet.getString("stime").toString().trim().split("PM");
+								String getridelistdatesplit[]=getridelisttime[0].toString().trim().split(" ");
+								String getridelistdate=getridelistdatesplit[0].toString().trim();
+								System.out.println(getridelistdate.toString().trim()+" ============================PM");
+								if(rdate.toString().trim().equals(getridelistdate.toString().trim()))
+								{
+									try {
+										d=dateFormat.parse(resultSet.getString("stime"));
+										d1=dateFormat.parse(rstime.toString());
+										
+									} catch (ParseException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+										log.fatal("Date Format Exception"+e.getStackTrace());
+										return null;
+									}
+									long dmil=d.getTime()-d1.getTime();	
+									System.out.println(dmil+" Minutes");
+									if(dmil/(60*1000)>=0 && dmil/(60*1000)<=5)
+									{
+										pmvalue=1;
+									}
+								}
+								
+							}
+							
+							
+						}
+						
+						
+						
+						
+						
+						if(amvalue!=0||pmvalue!=0)
+						{
+							//System.out.println(dmil+" Minutes");
 								if(rid.toString().trim().toLowerCase().equals(resultSet.getString("username").toString().trim()))
 								{
 									System.out.println("ride created with same username");
@@ -1116,7 +1185,14 @@ public class DBInterface
 					else
 					{
 						insertedvalues++;
-						newdrivername=newdrivername+temp[2].toString().trim()+"-"+rid.toString().trim()+":";
+						System.out.println(resourceBundle.getString("get_source")+rid.toString().trim()+"\"");
+						resultSet=statement.executeQuery(resourceBundle.getString("get_source")+rid.toString().trim()+"\"");
+						if(resultSet.next())
+						{
+							System.out.println("stime is "+resultSet.getString("stime"));
+							newdrivername=newdrivername+temp[2].toString().trim()+"-"+rid.toString().trim()+"-"+resultSet.getString("stime").toString().trim()+"###";
+							System.out.println(newdrivername+"   lllllllllllllllllll");
+						}
 						if(data.toString().trim().equals("meteor"))          //checking to send request to meteor
 						{
 						
@@ -1136,7 +1212,7 @@ public class DBInterface
 			}
 			if(insertedvalues>0)
 			{
-				return "Your request has been sent:"+newdrivername;
+				return "Your request has been sent###"+newdrivername;
 			}
 			else
 			{
