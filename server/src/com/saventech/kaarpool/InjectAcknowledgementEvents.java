@@ -28,12 +28,17 @@ public class InjectAcknowledgementEvents extends HttpServlet
         	   if(connect.isConnectionOpen())
         	   {
         		   System.out.println(events);
-        		   String ackevents[]=events.toString().trim().split("EVENT");
-        		   events=ackevents[0]+" "+ackevents[1].toString().trim()+" "+ackevents[2].toString().trim()+"EVENT";
-        		   status=connect.injectingEvents(events);
-        		   if(status.toString().trim().equals("successfully injected"))
+        		   String ackevents1[]=events.toString().trim().split("TNEVE");
+        		   for(int j=0;j<ackevents1.length;j++)
         		   {
-        			   status=connect.updateAcknowledgementEvents(ackevents[1].toString().trim(),ackevents[2].toString().trim() );
+        			   String ackevents[]=ackevents1[j].toString().trim().split("EVENT");
+	        		   events=ackevents[0]+" "+ackevents[1].toString().trim()+" "+ackevents[2].toString().trim()+"EVENT";
+	        		   System.out.println(events+"  InjectAcknowledgementsssssssssssss");
+	        		   status=connect.injectingEvents(events);
+	        		   if(status.toString().trim().equals("successfully injected"))
+	        		   {
+	        			   status=connect.updateAcknowledgementEvents(ackevents[1].toString().trim(),ackevents[2].toString().trim() );
+	        		   }
         		   }
         		   System.out.println(events);
         	   }
