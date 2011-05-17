@@ -54,6 +54,7 @@
 	<string name="r4">Ride pickup confirmation</string>
 	<string name="r5">Ride pickup reject</string>
 	<string name="r6">Ride drop confirmation</string>
+	<string name="r8">Ride fixed with another driver</string>
 	<string name="d1">Ride accept</string>
 	<string name="d2">Ride reject</string>
 	<string name="d3">Ride confirmation</string>
