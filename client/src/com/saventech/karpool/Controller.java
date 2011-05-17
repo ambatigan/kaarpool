@@ -1,6 +1,12 @@
 package com.saventech.karpool;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.SimpleTimeZone;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -12,7 +18,7 @@ import android.util.Log;
  * Package: com.saventech.karpool
  * File: Controller.java
  * Date: Mar 25, 2011
- * Description:It is responsible for Connectivity and sending request to server and getting response and sending data  to requested services
+ * Description:It  is responsible for Connectivity and sending request to server and getting response and sending data  to requested services
  * 
  */
 public class Controller 
@@ -23,14 +29,14 @@ public class Controller
 	String regpwd;
 	int checksysid=0;
 
-//
 
-	 // String url="http://198.162.18.174:8080/kaarpool/";
+
+	  //String url="http://198.162.18.174:8080/kaarpool/";
 
 	  String url="http://122.183.102.229/kaarpool/";
 
 
-	/* Deafault  constructor for Controller
+	/*  Deafault  constructor for Controller
 	 * 
 	 */
 	public Controller()
@@ -449,7 +455,7 @@ public class Controller
 		String checkRidedetails = "";
 		try 
     	{
-			Log.i("getCancelroutedetails_Controller", "Get cancel route details");
+			Log.i("getCancelroutedetails_Controller", "Get cancel route  details");
 			checkRidedetails = CustomHttpClient.executeHttpPost(url+"CheckRiderRidedetails", checkdetails);
     	    String res=checkRidedetails.toString();
     	    System.out.println("CheckRiderRidedetails:   "+res);
@@ -564,6 +570,7 @@ public class Controller
 		
 		
 	}
+	
 	
 
 

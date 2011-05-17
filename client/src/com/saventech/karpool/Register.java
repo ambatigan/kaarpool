@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 
@@ -43,6 +44,17 @@ public class Register extends  MenuOptions  implements android.view.View.OnClick
 		
 		
 	}
+	 public boolean onKeyDown(int keyCode, KeyEvent event) 
+		{
+			if(keyCode == KeyEvent.KEYCODE_BACK)
+			{
+				Intent intent=new Intent(Register.this,MainActivity.class);
+				startActivity(intent);
+				//return true;
+			}
+			return super.onKeyDown(keyCode, event);
+		}
+	 
 	
 	 
 }

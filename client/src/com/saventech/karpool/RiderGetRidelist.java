@@ -363,12 +363,12 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 }
 	 
 	 //Message making to send to  channel 
-	 public String makeMessage(String chname1,String chname2, String messageval,String ridid)
+	 public String makeMessage(String chname1,String chname2, String messageval,String ridid,String time)
 	 {
 		 String deaconmessage="";
 		 if(chname1.toString().trim().length()!=0 && chname2.toString().trim().length()!=0 )
 		 {
-		     deaconmessage="ADDMESSAGE "+"d"+chname1+" "+"r"+chname2.toString().trim()+"::"+messageval+"::"+ridid+"EVENT";
+		     deaconmessage="ADDMESSAGE "+"d"+chname1+" "+"r"+chname2.toString().trim()+"::"+messageval+"::"+ridid+"::"+time.toString().trim()+"EVENT";
 		 }
 		 return deaconmessage;
 	 }
@@ -386,14 +386,18 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		    }
 			 if(checkboxesclicked.toString().trim().length()!=0)
 			 {
-			 //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
-			// System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+			  //checkboxesclicked=checkboxesclicked+getcheckboxesclicked.toString().trim();
+			 // System.out.println(checkboxesclicked+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 			 String injectmessage="";
 			 session.saveCheckBoxesClicked(mPreferences, checkboxesclicked);
 			 String messagedata=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim(),"meteor");
 			 System.out.println(messagedata+"ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
-			 String channelnames[]=messagedata.toString().trim().split(":");
+			 String channelnames[]=messagedata.toString().trim().split("###");
 			 ArrayList<String> events=new ArrayList<String>();
+			 for(int m=0;m<channelnames.length;m++)
+			 {
+				 System.out.println(channelnames[m].toString().trim()+"\n");
+			 }
 			 if(channelnames[0].toString().trim().equals("Your request has been sent"))
 			 {
 				 for(int val=0;val<channelnames.length;val++)
@@ -404,7 +408,8 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 						 String splitoutput[]=channelnames[val].toString().trim().split("-");
 						 String chname=parseChannelName(splitoutput[0].toString().trim());
 						 String senderchname=parseChannelName(mPreferences.getString("UserName", "un").toString().trim());
-						 String event=makeMessage(chname,senderchname,"r1",splitoutput[1]);
+						 String event=makeMessage(chname,senderchname,"r1",splitoutput[1].toString().trim(),splitoutput[2].toString().trim());
+						 RiderJourneyDetails.justriderequests.add(event);
 						 events.add(event);
 						 
 						// controller.injectEvents(event);
@@ -419,7 +424,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		    {
 		    	String mesg=controller.sendRiderequest(checkboxesclicked,mPreferences.getString("UserName", "un").toString().trim(),"update");
 		    	checkboxesclicked="";
-		    	String cnames[]=mesg.toString().trim().split(":");
+		    	String cnames[]=mesg.toString().trim().split("###");
 		        Toast.makeText(RiderGetRidelist.this, cnames[0].toString().trim(), Toast.LENGTH_LONG).show();
 		    }
 		    else

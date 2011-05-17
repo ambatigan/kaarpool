@@ -1,7 +1,12 @@
 package com.saventech.karpool;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import org.deacon.Deacon;
 import org.deacon.DeaconError;
@@ -54,6 +59,7 @@ public class RiderRoute extends Activity implements OnClickListener,DeaconObserv
 	private SharedPreferences mPreferences; 
 	Session session;
 	Validations riderroutevalidate;
+	
 	
 	// deacon data
 	private String ip = "";
@@ -159,7 +165,40 @@ public class RiderRoute extends Activity implements OnClickListener,DeaconObserv
         	ridereditsettime.setText(mPreferences.getString("ridersettime","rt"));
 			
 		}*/
+        
+       
+        /*final Calendar c = Calendar.getInstance();
+        currenttimestr=currenttimestr+c.get(Calendar.YEAR)+"/";
+        currenttimestr=currenttimestr+(c.get(Calendar.MONTH)+1)+"/";
+        currenttimestr=currenttimestr+c.get(Calendar.DAY_OF_MONTH)+" ";
+        int h=c.get(Calendar.HOUR);
+         //System.out.println(h+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"+c.get(Calendar.HOUR_OF_DAY));
+        if(h>12)
+        {
+        	h=h-12;
+        }
+        currenttimestr=currenttimestr+h+":";
+        currenttimestr=currenttimestr+c.get(Calendar.MINUTE)+" ";
+        currenttimestr=currenttimestr+(c.get(Calendar.AM_PM)== Calendar.AM ? "AM" : "PM");*/
 		
+	}
+	public String getMobiletime()
+	{
+		String currenttimestr="";
+		final Calendar c = Calendar.getInstance();
+        currenttimestr=currenttimestr+c.get(Calendar.YEAR)+"/";
+        currenttimestr=currenttimestr+(c.get(Calendar.MONTH)+1)+"/";
+        currenttimestr=currenttimestr+c.get(Calendar.DAY_OF_MONTH)+" ";
+        int h=c.get(Calendar.HOUR);
+         //System.out.println(h+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"+c.get(Calendar.HOUR_OF_DAY));
+        if(h>12)
+        {
+        	h=h-12;
+        }
+        currenttimestr=currenttimestr+h+":";
+        currenttimestr=currenttimestr+c.get(Calendar.MINUTE)+" ";
+        currenttimestr=currenttimestr+(c.get(Calendar.AM_PM)== Calendar.AM ? "AM" : "PM");
+        return currenttimestr.toString().trim();
 	}
 	
 	
@@ -321,6 +360,35 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 			 System.out.println("RiderRoute"+session.getCheckBoxesClicked(mPreferences));
 		}
     }
+    public boolean checkMobiletime(String rideSeekingTime)
+    {
+    	
+    	Calendar today=Calendar.getInstance();
+		System.out.println(today.getTimeInMillis()+"kkkkkkkkkkkkkkkkkk"+today.getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd h:mm a");
+		  Date d = null;
+		  try {
+			   d = formatter.parse(rideSeekingTime.toString().trim());//catch exception
+			  // System.out.println(d.getHours()+"  hhhhhhhhhhhhhh");
+			   Calendar thatDay = Calendar.getInstance();
+			   thatDay.setTime(d);
+			   //System.out.println(thatDay.getTimeInMillis()+"  lllllllllllllllllllll"+d+" "+rideSeekingTime.toString().trim());
+			   long dmil=thatDay.getTimeInMillis()-today.getTimeInMillis();	
+			   System.out.println(dmil+" Minutes");
+			   if( dmil/(60*1000)<=15)
+			   {
+					return true;
+			   }
+		  } catch (ParseException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		   Log.i("RiderRoute_checkMobiletime", "Exception occure while validating time in rider rotue");
+		   return false;
+		  } 
+		  
+	    return false;
+    }
+   
     /*
      * this function will be performed when ever a button is pressed
      */
@@ -329,10 +397,17 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		
 		if(view==findViewById(R.id.ridergetridelist))
 		{
-
+			//currentmobiletime=getMobiletime();
+			// String currentmobiletime=getMobiletime();
+			 
+			//System.out.println(ridereditsettime.getText().toString().trim()+"------------"+currentmobiletime.toString().trim());
 			if(ed.getText().toString().trim().equals(ed1.getText().toString().trim()))
 			{
 				Toast.makeText(RiderRoute.this, "Source and Destination should be varied", Toast.LENGTH_LONG).show();
+			}
+			else if(checkMobiletime(ridereditsettime.getText().toString().trim()))
+			{
+				Toast.makeText(RiderRoute.this, "Invalid time", Toast.LENGTH_LONG).show();
 			}
 			else
 			{
@@ -499,7 +574,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nrideid: "+str1[2]);
 		String msg = msgParse(str1[1]);
 		RiderJourneyDetails.ridermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
-		RiderJourneyDetails.riderrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim());
+		RiderJourneyDetails.riderrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim()+"::"+str1[3].toString().trim());
 		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);
 		
 	}

@@ -420,7 +420,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		String msg = msgParse(str1[1]);
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
 		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
-		DriverJourneyDetails.driverrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim());
+		DriverJourneyDetails.driverrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim()+"::"+str1[3].toString().trim());
 		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);
 		//notificationAlarm();
 	}
@@ -493,6 +493,8 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 			return getString(R.string.r6);
 		if(msg.trim().equals("r7"))
 			return getString(R.string.r7);
+		if(msg.trim().equals("r8"))
+			return getString(R.string.r8);
 		return msg;
 		
 	}

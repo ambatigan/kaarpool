@@ -84,6 +84,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 			public void onItemClick(AdapterView<?> a, View v, int position,	long id) {
 
 				String message=(String) listview.getItemAtPosition(position);
+				String message1=DriverJourneyDetails.driverrideid.get(position).toString().trim();
 				//Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
 				String messagepopups[]=message.split("FROM");
 				String ridername=messagepopups[messagepopups.length-1].toString().trim();
@@ -91,13 +92,14 @@ public class Acknowledgement extends Activity implements OnClickListener
 				{
 					popupmessage1=getString(R.string.d1);
 					popupmessage2=getString(R.string.d2);
-					setAlertbox(popupmessage1,popupmessage2,ridername,getString(R.string.r1),message);
+					setAlertbox(popupmessage1,popupmessage2,ridername,getString(R.string.r1),message,message1);
 				}
-				else if(messagepopups[0].toString().trim().equals(getString(R.string.r3))||messagepopups[0].toString().trim().equals(getString(R.string.r2)))
+				else if(messagepopups[0].toString().trim().equals(getString(R.string.r3))||messagepopups[0].toString().trim().equals(getString(R.string.r2))||messagepopups[0].toString().trim().equals(getString(R.string.r8)))
 				{
 					popupmessage3="OK";
-					setAlertbox1(popupmessage3,ridername,messagepopups[0].toString().trim(),message);
+					setAlertbox1(popupmessage3,ridername,messagepopups[0].toString().trim(),message,message1);
 				}
+				
 				/*else if(messagepopups[0].toString().trim().equals(getString(R.string.d5)))
 				{
 					popupmessage1=getString(R.string.r4);
@@ -127,12 +129,25 @@ public class Acknowledgement extends Activity implements OnClickListener
     	String drivername[]=dname.toString().trim().split("-");
     	return drivername[0].toString().trim();
     }
-    public void setAlertbox1(final String msg3,String ridername,String displaymessage,final String message)
+    public void setAlertbox1(final String msg3,String ridername,String displaymessage,final String message,String message1)
     {
+    	/*if(displaymessage.toString().trim().equals(getString(R.string.r8)))
+    	{
+	    	for (Object data : DriverJourneyDetails.driverrideid) 
+	    	{
+	    	   if(parseTimeFromMessage(data.toString().trim()).toString().trim().equals(parseTimeFromMessage(message1.toString().trim())))
+	    	   {
+	    		   int position=DriverJourneyDetails.driverrideid.indexOf(data);
+	    		   System.out.println(DriverJourneyDetails.drivermeteormsg.remove(position)+"  REMOVED MESSAGE IS");
+	    		  ((BaseAdapter) adapter).notifyDataSetChanged();
+	    		  System.out.println(DriverJourneyDetails.driverrideid.remove(data)+" REMOVED MESSAGE1 IS");
+	    	   }
+	    	}
+    	}*/
     	AlertDialog.Builder adb=new AlertDialog.Builder(Acknowledgement.this.getParent());
     	
-    	adb.setTitle("Message");
-    	adb.setMessage(displaymessage.toString().trim());
+    	adb.setTitle(displaymessage.toString().trim());
+    	adb.setMessage("Ridername  : "+getEntireRiderName(ridername)+"\nTime      : "+parseTimeFromMessage(message1));
     	adb.setPositiveButton(msg3.toString().trim(), new DialogInterface.OnClickListener() {
   			public void onClick(DialogInterface dialog, int whichButton) {
   				//value = input.getText().toString().trim();
@@ -144,13 +159,14 @@ public class Acknowledgement extends Activity implements OnClickListener
   		});
     	adb.show();
     }
+    //not necessary
     public String getRideId(String message)
     {
     	for (Object data : DriverJourneyDetails.driverrideid) 
     	{
 			 String messagecontains=(String)data.toString().trim();
 			 System.out.println(message.toString().trim()+" ******************* "+data.toString().trim());
-			 if(messagecontains.toString().trim().contains(message.toString().trim()))
+			 if(messagecontains.toString().trim().equals(message.toString().trim()))
 			 {
 				 System.out.println("*********************** "+messagecontains.toString().trim());
 				 return messagecontains.toString().trim();
@@ -158,24 +174,24 @@ public class Acknowledgement extends Activity implements OnClickListener
 	    }
     	return "No String Found";
     }
-    public void setAlertbox(final String msg1,final String msg2,final String ridername,String displaymessage,final String message)
+    public void setAlertbox(final String msg1,final String msg2,final String ridername,String displaymessage,final String message,final String message1)
     {
     	AlertDialog.Builder adb=new AlertDialog.Builder(Acknowledgement.this.getParent());
     	
-  	  	adb.setTitle("Message");
-  	  	adb.setMessage(displaymessage.toString().trim());
+    	adb.setTitle(displaymessage.toString().trim());
+    	adb.setMessage("Ridername  : "+getEntireRiderName(ridername)+"\nTime      : "+parseTimeFromMessage(message1));
   	  	adb.setPositiveButton(msg1.toString().trim(), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				//value = input.getText().toString().trim();
 				Toast.makeText(getApplicationContext(),msg1.toString().trim(),Toast.LENGTH_SHORT).show();
 				removeMessage(message);
-				sendResponseMessage(message,ridername,msg1.toString().trim());
+				sendResponseMessage(message,ridername,msg1.toString().trim(),message1.toString().trim());
 			}
 		});
 		adb.setNegativeButton(msg2.toString().trim(), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						removeMessage(message);
-						sendResponseMessage(message,ridername,msg2.toString().trim());
+						sendResponseMessage(message,ridername,msg2.toString().trim(),message1.toString().trim());
 						Toast.makeText(getApplicationContext(),msg2.toString().trim(),Toast.LENGTH_SHORT).show();
 					}
 				});
@@ -211,22 +227,28 @@ public class Acknowledgement extends Activity implements OnClickListener
     public String parseRideIdfromMessage(String message)
     {
     	String split[]=message.split("::");
-    	return split[split.length-1].toString().trim();
+    	return split[1].toString().trim();
     }
-    public void sendResponseMessage(String message,String drivername,String respon)
+    public String parseTimeFromMessage(String msg)
+    {
+    	String split[]=msg.toString().trim().split("::");
+    	return split[2].toString().trim();
+    }
+    public void sendResponseMessage(String message,String drivername,String respon,String message1)
     {
     	System.out.println("message: "+message);
-    	String rideidmessage=getRideId(message.toString());
-    	String rideid=parseRideIdfromMessage(rideidmessage.toString());
+    	String rideidmessage=getRideId(message1.toString().trim());
+    	String rideid=parseRideIdfromMessage(rideidmessage.toString().trim());
+    	String time=parseTimeFromMessage(message1.toString().trim());
     	System.out.println(rideidmessage+" *************888 "+rideid);
     	String res=getResponseId(respon);
 		 //String rid=getRid(message);
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
 		 ArrayList<String>even=new ArrayList<String>();
    
-		 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"EVENT");
-		 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+rideid+"EVENT");
-		 DriverJourneyDetails.driverrideid.remove(getRideId(message));
+		 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"::"+time+"EVENT");
+		 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+rideid+"::"+time.toString().trim()+"EVENT TNEVE");
+		 DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
 		 String val=controller.injectAcknowledgeEvents(even);
 		 if(val.trim().equals("successfully injected"))
 		 {
@@ -237,6 +259,14 @@ public class Acknowledgement extends Activity implements OnClickListener
 			 System.out.println("No message injected");
 		 }
 		 //System.out.println("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
+    }
+    public String getEntireRiderName(String name)
+    {
+   
+    	String drivername[]=name.toString().trim().split("-");
+    	return drivername[0].toString().trim()+"@"+drivername[1]+".com";
+    	
+    	
     }
     public String parseChannelName(String chname)
 	{
