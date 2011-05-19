@@ -12,6 +12,9 @@
         <item>Time Based Default Preferences</item>
         <item>Sign out</item>
     </string-array>
+    <string name="more">MORE</string> 
+	 <string name="preferences">PREFERENCES</string> 
+	 <string name="signout">SIGN OUT</string>
     
      <string-array name="travelpref_array">
         <item>Only Ladies</item>
@@ -24,6 +27,10 @@
         <item>Ride History</item>
         <item>Track route</item>
         <item>Force Acknowledge</item>
+        <item>About</item>
+        <item>Contact us</item>
+        <item>Instructions</item>
+        <item>Sign out</item>
     </string-array>
     
     <string-array name="data_array">
