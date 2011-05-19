@@ -268,6 +268,8 @@ public class JourneyDetails extends TabActivity {
          RiderJourneyDetails.justriderequests=new ArrayList<String>();
          JourneyDetails.dflag=0;
          JourneyDetails.rflag=0;
+         JourneyDetails.DRIVER_NOTIFICATION=0;
+         JourneyDetails.RIDER_NOTIFICATION=0;
          System.out.println("DATA REMOVED");
          RiderRoute.stopdeacon();
          Newroute.stopdeacon();
