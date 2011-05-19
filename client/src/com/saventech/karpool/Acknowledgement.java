@@ -7,6 +7,7 @@
 
 package com.saventech.karpool;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -79,12 +80,17 @@ public class Acknowledgement extends Activity implements OnClickListener
         	System.out.println("arraylist in acknowledgement: "+DriverJourneyDetails.drivermeteormsg.get(0).toString());        	
             ((BaseAdapter) adapter).notifyDataSetChanged();
         }
+        removeRideFixedConfirmations();
         listview.setOnItemClickListener(new OnItemClickListener() {
         	
 			public void onItemClick(AdapterView<?> a, View v, int position,	long id) {
 
 				String message=(String) listview.getItemAtPosition(position);
-				String message1=DriverJourneyDetails.driverrideid.get(position).toString().trim();
+				String message1="";
+				if(DriverJourneyDetails.driverrideid.size()!=0)
+				{
+				    message1=DriverJourneyDetails.driverrideid.get(position).toString().trim();
+				}
 				//Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
 				String messagepopups[]=message.split("FROM");
 				String ridername=messagepopups[messagepopups.length-1].toString().trim();
@@ -119,6 +125,59 @@ public class Acknowledgement extends Activity implements OnClickListener
         	});
         
     }
+    public void  removeRideFixedConfirmations()
+    {
+    	ArrayList<String>chname_rideid=new ArrayList<String>();
+    	
+    	for (Object data : DriverJourneyDetails.driverrideid) 
+    	{
+			 String messagecontains=(String)data.toString().trim();
+			 String splitmessage[]=messagecontains.split("::");
+			 String msgs[]=splitmessage[0].toString().trim().split("FROM");
+			 System.out.println(msgs[0]+"     9999999999999999999999999999999999999999999999999999999999999999999999999999999999");
+			 if(msgs[0].toString().trim().equals(getString(R.string.r8)))
+			 {
+				 System.out.println(msgs[1].toString().trim()+"::"+splitmessage[1].toString().trim()+"     000000000000000000000000000000000000");
+				 chname_rideid.add(msgs[1].toString().trim()+"::"+splitmessage[1].toString().trim());
+			 }
+			 
+	    }
+    	for(int i=0;i<chname_rideid.size();i++)
+    	{
+    		String name_rideid=chname_rideid.get(i);
+    		String name_rideids[]=name_rideid.toString().trim().split("::");
+    		 for( Iterator< String > it2 = DriverJourneyDetails.driverrideid.iterator(); it2.hasNext() ; )
+			 {
+    			 String msg=it2.next();
+    			 String checkmsg[]=msg.toString().trim().split("::");
+    			 if(checkmsg[1].toString().trim().equals(name_rideids[1].toString().trim()))
+    			 {
+    				 
+    				 String checkchanelname[]=checkmsg[0].toString().trim().split("FROM");
+    				 if(checkchanelname[0].toString().trim().equals(getString(R.string.r8)))
+    				 {
+	    				 
+    				 }
+    				 else
+    				 {
+    					 if(checkchanelname[1].toString().trim().equals(name_rideids[0].toString().trim()))
+	    				 {
+	    					 int position=DriverJourneyDetails.driverrideid.indexOf(msg);
+	    					 System.out.println(position+"=======000000=========="+DriverJourneyDetails.drivermeteormsg.size());
+	    					 if((DriverJourneyDetails.drivermeteormsg.size()!=0) && (DriverJourneyDetails.driverrideid.size()>=position))
+	    					 {
+	    						 DriverJourneyDetails.drivermeteormsg.remove(position);
+	    						 ((BaseAdapter) adapter).notifyDataSetChanged();
+	    						 
+	    					 }
+	    					 it2.remove();
+	    				 }
+    				 }
+    			 }
+			 }
+    	}
+    	
+    }
     public void removeMessage(String message)
     {
     	DriverJourneyDetails.drivermeteormsg.remove(message);
@@ -129,7 +188,7 @@ public class Acknowledgement extends Activity implements OnClickListener
     	String drivername[]=dname.toString().trim().split("-");
     	return drivername[0].toString().trim();
     }
-    public void setAlertbox1(final String msg3,String ridername,String displaymessage,final String message,String message1)
+    public void setAlertbox1(final String msg3,String ridername,String displaymessage,final String message,final String message1)
     {
     	/*if(displaymessage.toString().trim().equals(getString(R.string.r8)))
     	{
@@ -152,7 +211,7 @@ public class Acknowledgement extends Activity implements OnClickListener
   			public void onClick(DialogInterface dialog, int whichButton) {
   				//value = input.getText().toString().trim();
   				removeMessage(message);
-  				DriverJourneyDetails.driverrideid.remove(getRideId(message));
+  				DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
   				Toast.makeText(getApplicationContext(),msg3.toString().trim(),Toast.LENGTH_SHORT).show();
 
   			}
@@ -168,7 +227,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 			 System.out.println(message.toString().trim()+" ******************* "+data.toString().trim());
 			 if(messagecontains.toString().trim().equals(message.toString().trim()))
 			 {
-				 System.out.println("*********************** "+messagecontains.toString().trim());
+				 System.out.println(" *********************** "+messagecontains.toString().trim());
 				 return messagecontains.toString().trim();
 			 }
 	    }

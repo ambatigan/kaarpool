@@ -46,6 +46,7 @@ import android.widget.Toast;
 public class RiderRoute extends Activity implements OnClickListener,DeaconObserver{
 
 	private String value="";
+	private int RIDER_MODE=2;
 	private String datetime="";
 	private Button newroute;
 	private String mode="rider";
@@ -127,11 +128,17 @@ public class RiderRoute extends Activity implements OnClickListener,DeaconObserv
         	}
         	if(JourneyDetails.rflag==0)
    		    {
+        		 String changemoderesponse=controller.modeChange(session.getUsername(mPreferences).toString().trim(), RIDER_MODE);
+				    if(changemoderesponse.toString().trim().equals("Success"))
+				    {
+				    	System.out.println("Rideroute: Mode has been changed");
+				    }
         		System.out.println("Rider Routeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
    			 try {
    				 this.deacon = new Deacon(ip.toString().trim(),port, this);
    				 if(!deacon.isRunning())
    					{
+	   					   
    			        		deacon.catchUpTimeOut(60);
    			            	deacon.register(this);
    			            	
@@ -401,7 +408,11 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 			// String currentmobiletime=getMobiletime();
 			 
 			//System.out.println(ridereditsettime.getText().toString().trim()+"------------"+currentmobiletime.toString().trim());
-			if(ed.getText().toString().trim().equals(ed1.getText().toString().trim()))
+			if(ed.getText().toString().trim().length()==0 || ed1.getText().toString().trim().length()==0 || ridereditsettime.getText().toString().trim().length()==0 )
+			{
+				Toast.makeText(RiderRoute.this, "Please make sure all details are filled", Toast.LENGTH_LONG ).show();
+			}
+		    else if(ed.getText().toString().trim().equals(ed1.getText().toString().trim()))
 			{
 				Toast.makeText(RiderRoute.this, "Source and Destination should be varied", Toast.LENGTH_LONG).show();
 			}

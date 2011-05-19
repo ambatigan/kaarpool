@@ -3,6 +3,8 @@ package com.saventech.karpool;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -94,12 +96,58 @@ public class More extends Activity {
 		            Intent register1 = new Intent(More.this, ForceAcknowledge.class);
 					startActivity(register1);
 					break;
+				case 3:
+					showInfo("About","Is under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under construction");
+					break;
+				case 4:
+					showInfo("Contact Us","Is under construction");
+					break;
+				case 5:
+					showInfo("Instructions","Is under construction");
+					break;
+				case 6:
+					 session.removeSession(mPreferences);
+	   	             DriverJourneyDetails.drivermeteormsg = new ArrayList<String>();
+	   	             RiderJourneyDetails.ridermeteormsg = new ArrayList<String>();
+	   	             RiderJourneyDetails.ridelist=new ArrayList<String>();
+	   	             RiderJourneyDetails.riderrideid=new ArrayList<String>();
+	   	             DriverJourneyDetails.driverrideid=new ArrayList<String>();
+	   	             JourneyDetails.ridelist1=new ArrayList<String>();
+	   	             RiderJourneyDetails.justriderequests=new ArrayList<String>();
+	   	             JourneyDetails.dflag=0;
+	   	             JourneyDetails.rflag=0;
+	   	             
+	   	             System.out.println("DATA REMOVED");
+	   	             RiderRoute.stopdeacon();
+	   	             Newroute.stopdeacon();
+	   	             finish();
+	   	             Intent loginintent = new Intent(More.this, Login.class);             
+	   	             startActivity(loginintent); 
+	   	             removeDialog(0);
+					break;
 					
 				}
     }});
 	 }
+    
+    
+    public void showInfo(String a, String b)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(a)
+			   .setMessage(b)
+		       .setCancelable(false)
+		       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
     }
     
+
 //    protected void onListItemClick(ListView l, View v, int position, long id) {
 //    	super.onListItemClick(l, v, position, id);
 //    	

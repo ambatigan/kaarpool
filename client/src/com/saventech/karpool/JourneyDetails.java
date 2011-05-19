@@ -196,12 +196,9 @@ public class JourneyDetails extends TabActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
-		menu.add(0, ABOUT, 0, "ABOUT");	
-		menu.add(0, CONTACT_US, 0, "CONTACT_US");	
-		menu.add(0, INSTRUCTIONS, 0, "INSTRUCTIONS");
-		menu.add(0, PREFERENCES, 0, "PREFERENCES");	
-		menu.add(0, MORE, 0, "MORE");	
-		menu.add(0, SIGNOUT, 0, "SIGN OUT");	
+		menu.add(0, PREFERENCES, 0, getText(R.string.preferences)).setIcon(R.drawable.preferences);	
+		menu.add(0, MORE, 0,getText(R.string.more)).setIcon(R.drawable.more);;	
+		menu.add(0, SIGNOUT, 0, getText(R.string.signout)).setIcon(R.drawable.signout1);;	
 		return true;
 	}
 	

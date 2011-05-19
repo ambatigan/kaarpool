@@ -136,7 +136,7 @@ public class TrackRoute extends MapActivity {
 					address.setText("No address found");
 				else
 					address.setText(city);
-				Toast.makeText(getBaseContext(),"Address: "+city,Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getBaseContext(),"Address: "+city,Toast.LENGTH_SHORT).show();
 			}
 			catch (IOException e) 
 			{ 

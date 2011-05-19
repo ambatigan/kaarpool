@@ -570,6 +570,27 @@ public class Controller
 		
 		
 	}
+	public String modeChange(String name, int mode)
+	{
+		ArrayList<NameValuePair> changemode=new ArrayList<NameValuePair>();
+		changemode.add(new BasicNameValuePair("username",name.toString().trim()));
+		changemode.add(new BasicNameValuePair("mode",Integer.toString(mode)));
+		String changeModeValue="";
+		try
+		{
+			changeModeValue=CustomHttpClient.executeHttpPost(url+"ChangeMode", changemode);
+			String res=changeModeValue.toString();
+		    Log.i("Getting_RideHistory", res.toString().trim());
+			return res.toString();
+		
+		}
+		catch(Exception e)
+		{
+			Log.i("ChangeMode_Controller", "Exception in while changing the mode");
+		}
+		
+		return "Failed to change the mode";
+	}
 	
 	
 

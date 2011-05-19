@@ -44,6 +44,7 @@ import com.saventech.karpool.DateTimePicker;
 public class Newroute extends Activity implements OnClickListener, DeaconObserver{
 	
 	private String value="";
+	private int DRIVER_MODE=1;
 	private String datetime="";
 	private String mode="driver";
 	private Button newroute;
@@ -119,6 +120,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
          	port=Integer.parseInt(getString(R.string.SubscriberPort));
          	driverusername=parseChannelName(session.getUsername(mPreferences));
          	System.out.println("Driver   "+JourneyDetails.dflag+"   dflag value"+JourneyDetails.rflag+"  rflag");
+         	
          	if(JourneyDetails.rflag!=0)
         	{
         		System.out.println("Rider channel  Closeddddddddddddddddddddddddddddddddddddddddddddddddddddd");
@@ -128,12 +130,17 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
         	}
          	if(JourneyDetails.dflag==0)
  			{
-         		
+         		String changemoderesponse=controller.modeChange(session.getUsername(mPreferences).toString().trim(), DRIVER_MODE);
+				    if(changemoderesponse.toString().trim().equals("Success"))
+				    {
+				    	System.out.println("Newroute: Mode has been changed");
+				    }
  			   try {
  					this.deacon = new Deacon(ip.toString().trim(),port, this);
  					System.out.println("Driver decons is created");
 	 				if(!deacon.isRunning())
 	 				{
+	 					    
 	 		        		deacon.catchUpTimeOut(60);
 	 		            	deacon.register(this);
 	 		            	System.out.println("Driver channel is running");
