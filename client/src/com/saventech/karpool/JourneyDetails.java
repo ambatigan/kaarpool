@@ -25,6 +25,8 @@ import android.widget.TextView;
 public class JourneyDetails extends TabActivity {
 	
 	private SharedPreferences mPreferences; 
+    static int DRIVER_NOTIFICATION=0;
+	static int RIDER_NOTIFICATION=0;
 	Session session;
 	String Regusername="";
 	String Regpwd="";

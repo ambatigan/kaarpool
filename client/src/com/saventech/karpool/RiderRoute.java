@@ -594,9 +594,10 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
     	
     	int icon = R.drawable.ic_tab_artists_white;
-    	CharSequence text = msg;
+    	JourneyDetails.RIDER_NOTIFICATION++;
+    	CharSequence text =msg;//JourneyDetails.RIDER_NOTIFICATION+" unread(Kaarpool)";
     	CharSequence contentTitle = "  Kaarpool notification";
-    	CharSequence contentText = msg+" from "+name;
+    	CharSequence contentText = JourneyDetails.RIDER_NOTIFICATION+" unread(Kaarpool)";//msg+" from "+name;
     	long when = System.currentTimeMillis();
     	
     	//RiderJourneyDetails ParentActivity = (RiderJourneyDetails) this.getParent();

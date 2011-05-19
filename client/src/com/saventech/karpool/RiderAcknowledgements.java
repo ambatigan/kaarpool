@@ -224,7 +224,11 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		 ArrayList<String>even=new ArrayList<String>();
 		 System.out.println("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rideid.toString()+"::"+time.toString().trim()+"EVENT");
 		 even.add("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rideid.toString()+"::"+time.toString().trim()+"EVENT TNEVE");
-		 RiderJourneyDetails.riderrideid.remove(message1.toString().trim());
+		 if(RiderJourneyDetails.riderrideid.size()!=0)
+		 {
+			 RiderJourneyDetails.riderrideid.remove(message1.toString().trim());
+		 }
+		
 		 if(res.toString().trim().equals("r2"))
 		 {
 			 
@@ -266,6 +270,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 									 {
 										 int position=RiderJourneyDetails.riderrideid.indexOf(data);
 										 RiderJourneyDetails.ridermeteormsg.remove(position);
+										 JourneyDetails.RIDER_NOTIFICATION--;
 										// restnumber=1;
 										 ((BaseAdapter) adapter).notifyDataSetChanged();
 									 }
@@ -327,6 +332,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 									 int position=RiderJourneyDetails.riderrideid.indexOf(data);
 									 if(RiderJourneyDetails.ridermeteormsg.size()!=0)
 									 {
+										 JourneyDetails.RIDER_NOTIFICATION--;
 										// RiderJourneyDetails.ridermeteormsg.remove(position);
 										 System.out.println( RiderJourneyDetails.ridermeteormsg.remove(position)+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjss");
 										 ((BaseAdapter) adapter).notifyDataSetChanged();
@@ -458,8 +464,12 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
     }
     public void removeMessage(String message,String drivername,String respon)
     {
-    	RiderJourneyDetails.ridermeteormsg.remove(message);
-		 ((BaseAdapter) adapter).notifyDataSetChanged();
+    	if(RiderJourneyDetails.ridermeteormsg.size()!=0)
+    	{
+    		 JourneyDetails.RIDER_NOTIFICATION--;
+	    	RiderJourneyDetails.ridermeteormsg.remove(message);
+			 ((BaseAdapter) adapter).notifyDataSetChanged();
+    	}
 		 
 		// controller.sendMessage("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString());
     }
@@ -513,7 +523,10 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
     		         sendResponseMessage(message,drivername,msg3.toString().trim(),message1.toString().trim());
     		
   				}
-  				RiderJourneyDetails.riderrideid.remove(message1.toString().trim());
+  				if(RiderJourneyDetails.riderrideid.size()!=0)
+  				{
+  				  RiderJourneyDetails.riderrideid.remove(message1.toString().trim());
+  				}
   				remvoejustrideids(message1);
   				//sendResponseMessage(message,drivername,msg3.toString().trim());
   				Toast.makeText(getApplicationContext(),msg3.toString().trim(),Toast.LENGTH_SHORT).show();

@@ -17,6 +17,7 @@ public class Karpool extends  Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.welcome);
         Thread registerThread = new Thread() {
             @Override
@@ -42,6 +43,8 @@ public class Karpool extends  Activity {
       
 
     }
+   
+
     
 //    public boolean onKeyDown(int keyCode, KeyEvent event) 
 //	{

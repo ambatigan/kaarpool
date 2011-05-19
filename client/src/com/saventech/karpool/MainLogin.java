@@ -33,11 +33,11 @@ public class MainLogin extends  MenuOptions implements OnClickListener{
 		{
 			Intent intent=new Intent(MainLogin.this,MainActivity.class);
 			startActivity(intent);
+			//android.os.Process.killProcess(android.os.Process.myPid());
 			//return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId())

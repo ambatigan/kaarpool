@@ -125,6 +125,12 @@ public class Acknowledgement extends Activity implements OnClickListener
         	});
         
     }
+    
+    /*
+     *  first get the fixed ride message ride ids and channelnames then removes all messages except fixed ride message based on ride id and 
+     *  channelname.
+     */
+    
     public void  removeRideFixedConfirmations()
     {
     	ArrayList<String>chname_rideid=new ArrayList<String>();
@@ -166,6 +172,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 	    					 System.out.println(position+"=======000000=========="+DriverJourneyDetails.drivermeteormsg.size());
 	    					 if((DriverJourneyDetails.drivermeteormsg.size()!=0) && (DriverJourneyDetails.driverrideid.size()>=position))
 	    					 {
+	    						 JourneyDetails.DRIVER_NOTIFICATION--;
 	    						 DriverJourneyDetails.drivermeteormsg.remove(position);
 	    						 ((BaseAdapter) adapter).notifyDataSetChanged();
 	    						 
@@ -180,8 +187,13 @@ public class Acknowledgement extends Activity implements OnClickListener
     }
     public void removeMessage(String message)
     {
-    	DriverJourneyDetails.drivermeteormsg.remove(message);
-		 ((BaseAdapter) adapter).notifyDataSetChanged();
+    	if(DriverJourneyDetails.drivermeteormsg.size()!=0)
+    	{
+    		JourneyDetails.DRIVER_NOTIFICATION--;
+    		DriverJourneyDetails.drivermeteormsg.remove(message);
+   		    ((BaseAdapter) adapter).notifyDataSetChanged();
+    	}
+    	
     }
     public String getDrivername(String dname)
     {
@@ -203,6 +215,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 	    	   }
 	    	}
     	}*/
+    	
     	AlertDialog.Builder adb=new AlertDialog.Builder(Acknowledgement.this.getParent());
     	
     	adb.setTitle(displaymessage.toString().trim());
@@ -211,7 +224,11 @@ public class Acknowledgement extends Activity implements OnClickListener
   			public void onClick(DialogInterface dialog, int whichButton) {
   				//value = input.getText().toString().trim();
   				removeMessage(message);
-  				DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
+  				if(DriverJourneyDetails.driverrideid.size()!=0)
+  				{
+  					DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
+  				}
+  				
   				Toast.makeText(getApplicationContext(),msg3.toString().trim(),Toast.LENGTH_SHORT).show();
 
   			}
@@ -307,7 +324,10 @@ public class Acknowledgement extends Activity implements OnClickListener
    
 		 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"::"+time+"EVENT");
 		 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+rideid+"::"+time.toString().trim()+"EVENT TNEVE");
-		 DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
+		 if(DriverJourneyDetails.driverrideid.size()!=0)
+		 {
+			 DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
+		 }
 		 String val=controller.injectAcknowledgeEvents(even);
 		 if(val.trim().equals("successfully injected"))
 		 {
@@ -339,6 +359,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 	{
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
+			
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

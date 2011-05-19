@@ -175,6 +175,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	{
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
+			
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -434,11 +435,11 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	private void notificationAlarm(String name, String msg) {
 		
 		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-    	
+		JourneyDetails.DRIVER_NOTIFICATION=JourneyDetails.DRIVER_NOTIFICATION=1;
     	int icon = R.drawable.ic_tab_artists_white;
     	CharSequence text = msg;
     	CharSequence contentTitle = "  Kaarpool notification";
-    	CharSequence contentText = msg+" from "+name;
+    	CharSequence contentText = JourneyDetails.DRIVER_NOTIFICATION+" unread(Kaarpool)" ;//msg+" from "+name;
     	long when = System.currentTimeMillis();
 
     	Intent intent = new Intent(Newroute.this, JourneyDetails.class);

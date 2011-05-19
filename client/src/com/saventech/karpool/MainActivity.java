@@ -38,11 +38,13 @@ public class MainActivity extends  MenuOptions implements OnClickListener{
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			//finish();
+
 			Intent setIntent = new Intent(Intent.ACTION_MAIN);
 		    setIntent.addCategory(Intent.CATEGORY_HOME);
 		    //setIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		   // setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		    startActivity(setIntent); 
+			//android.os.Process.killProcess(android.os.Process.myPid());
 		    //finish();
 			return true;
 		}

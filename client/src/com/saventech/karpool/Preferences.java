@@ -93,6 +93,7 @@ public class Preferences extends Activity implements OnItemClickListener {
     				startActivity(register1);
     				break;
     			case 3:
+    				 
     	             session.removeSession(mPreferences);
     	             DriverJourneyDetails.drivermeteormsg = new ArrayList<String>();
     	             RiderJourneyDetails.ridermeteormsg = new ArrayList<String>();
@@ -108,7 +109,7 @@ public class Preferences extends Activity implements OnItemClickListener {
     	             RiderRoute.stopdeacon();
     	             Newroute.stopdeacon();
     	             finish();
-    	             Intent intent = new Intent(getApplicationContext(), Login.class);             
+    	             Intent intent = new Intent(getApplicationContext(), Login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);             
     	             startActivity(intent); 
     	             removeDialog(0);
     	           break;
