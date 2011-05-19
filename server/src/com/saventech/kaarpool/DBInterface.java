@@ -1379,5 +1379,19 @@ public class DBInterface
 		
 		
 	}
+	public String changeMode(String name, String mode)
+	{
+		try
+		{
+			System.out.println(resourceBundle.getString("update_mode")+Integer.parseInt(mode)+" where user_details.prdid=personal_details.pid and personal_details.username =\""+name+"\"");
+			statement.executeUpdate(resourceBundle.getString("update_mode")+Integer.parseInt(mode)+" where user_details.prdid=personal_details.pid and personal_details.username =\""+name+"\"");
+			return "Success";
+		}
+		catch(Exception e)
+		{
+			log.fatal("SQL exception while changing the mode"+e.getStackTrace());
+			return "Exception in changing mode";
+		}
+	}
 
 }
