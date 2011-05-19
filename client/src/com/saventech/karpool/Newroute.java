@@ -8,7 +8,10 @@
 package com.saventech.karpool;
 
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.deacon.Deacon;
 import org.deacon.DeaconError;
@@ -171,6 +174,35 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		
 	}
     
+    public boolean checkMobiletime(String rideSeekingTime)
+    {
+    	
+    	Calendar today=Calendar.getInstance();
+		System.out.println(today.getTimeInMillis()+"kkkkkkkkkkkkkkkkkk"+today.getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd h:mm a");
+		  Date d = null;
+		  try {
+			   d = formatter.parse(rideSeekingTime.toString().trim());//catch exception
+			  // System.out.println(d.getHours()+"  hhhhhhhhhhhhhh");
+			   Calendar thatDay = Calendar.getInstance();
+			   thatDay.setTime(d);
+			   //System.out.println(thatDay.getTimeInMillis()+"  lllllllllllllllllllll"+d+" "+rideSeekingTime.toString().trim());
+			   long dmil=thatDay.getTimeInMillis()-today.getTimeInMillis();	
+			   System.out.println(dmil+" Minutes");
+			   if( dmil/(60*1000)<=15)
+			   {
+					return true;
+			   }
+		  } catch (ParseException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		   Log.i("RiderRoute_checkMobiletime", "Exception occure while validating time in rider rotue");
+		   return false;
+		  } 
+		  
+	    return false;
+    }
+    
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
 		if(keyCode == KeyEvent.KEYCODE_BACK)
@@ -296,9 +328,17 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	{		
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
 		{
-			if(ed.getText().toString().trim().equals(ed1.getText().toString().trim()))
+			if(ed.getText().toString().trim().length()==0 || ed1.getText().toString().trim().length()==0 || driverjourneyedittime.getText().toString().trim().length()==0 )
+			{
+				Toast.makeText(Newroute.this, "Please make sure all details are filled", Toast.LENGTH_LONG ).show();
+			}
+			else if(ed.getText().toString().trim().equals(ed1.getText().toString().trim()))
 			{
 				Toast.makeText(Newroute.this, "Source and Destination should be varied", Toast.LENGTH_LONG).show();
+			}
+			else if(checkMobiletime(driverjourneyedittime.getText().toString().trim()))
+			{
+				Toast.makeText(Newroute.this, "Invalid time", Toast.LENGTH_LONG).show();
 			}
 			else
 			{
