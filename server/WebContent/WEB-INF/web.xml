@@ -272,6 +272,18 @@
 		<servlet-name>InjectAcknowledgementEvents</servlet-name>
 		<url-pattern>/InjectAcknowledgementEvents</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ChangeMode</display-name>
+		<servlet-name>ChangeMode</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.ChangeMode</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangeMode</servlet-name>
+		<url-pattern>/ChangeMode</url-pattern>
+	</servlet-mapping>
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
