@@ -36,7 +36,8 @@ public class JourneyDetails extends TabActivity {
 
 	public static int dflag=0;
 	public static int rflag=0;
-
+	public static boolean check = false;
+	
 	public static ArrayList<String> ridelist1 = new ArrayList<String>();
 	public void onCreate(Bundle savedInstanceState) {
 		
@@ -233,6 +234,7 @@ public class JourneyDetails extends TabActivity {
 	public void more()
 	{
 		Intent in = new Intent(this, More.class);
+		in.putExtra("check", JourneyDetails.check);
 		Log.i("JourneyDetails_more", "More menu option has been selected");
 		startActivity(in);
 		

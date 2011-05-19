@@ -400,7 +400,15 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 					 }
 				 } 
 			 }
+			 JourneyDetails.check = checkTime_GPS(drivername, time);
+			 if(JourneyDetails.check)
+			 {
+				 System.out.println("below 30 mins");
+			 }
+			 else
+				 System.out.println("greater than 30 mins");
 		 }
+		 
 		
 		
 		
@@ -417,6 +425,40 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		 }
 		 //System.out.println("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
     }
+    
+    public boolean checkTime_GPS(String drivername, String ridetime) 
+    {
+		// TODO Auto-generated method stub
+    	System.out.println("I am in checkTime_GPS");
+        //String ridername = session.getUsername(mPreferences);
+        Calendar today=Calendar.getInstance();
+		System.out.println(today.getTimeInMillis()+"kkkkkkkkkkkkkkkkkk"+today.getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd h:mm a");
+		Date d = null;
+		try 
+		{
+			   d = formatter.parse(ridetime.toString().trim());//catch exception
+			  // System.out.println(d.getHours()+"  hhhhhhhhhhhhhh");
+			   Calendar thatDay = Calendar.getInstance();
+			   thatDay.setTime(d);
+			   //System.out.println(thatDay.getTimeInMillis()+"  lllllllllllllllllllll"+d+" "+rideSeekingTime.toString().trim());
+			   long dmil=thatDay.getTimeInMillis()-today.getTimeInMillis();	
+			   System.out.println(dmil+" Minutes");
+			   if( dmil/(60*1000)<=30)
+			   {
+				   return true;
+			   }
+		} catch (ParseException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		   Log.i("RiderRoute_checkMobiletime", "Exception occure while validating time in rider rotue");
+		   return false;
+		}
+		return false;
+        //String response = controller.getCurrentRideTime(drivername, ridername, cur_time);
+        //System.out.println("Get ride time response: "+response);
+		
+	}
     
     // Removes the sending fixed ride messages usernames
     public void remvoejustrideids(String message)
