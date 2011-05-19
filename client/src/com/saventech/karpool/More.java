@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +24,8 @@ public class More extends Activity {
 	Session session; 
 	String modevalue="";
 	Controller controller;
+	ListAdapter adapter;
+	
 	static ArrayList<String> ridehistory=new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) 
@@ -30,6 +34,8 @@ public class More extends Activity {
     
     requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     setContentView(R.layout.more);
+    Intent intent = getIntent();
+    intent.getBooleanExtra("check", JourneyDetails.check);
     getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
     
     final TextView leftText = (TextView) findViewById(R.id.left_text);
@@ -46,10 +52,9 @@ public class More extends Activity {
     
     String[] more = getResources().getStringArray(R.array.more_array);
 
-    
 	listview = (ListView)findViewById(R.id.myListView);
-	listview.setAdapter(new ArrayAdapter(this,R.layout.rows,R.id.text, more));
-	
+	adapter=new MyAdapter(this,R.layout.rows,R.id.text,more);
+	listview.setAdapter(adapter);
 	listview.setOnItemClickListener(new OnItemClickListener() {
 	    	
 			public void onItemClick(AdapterView<?> a, View v, int position,	long id) {
@@ -129,8 +134,29 @@ public class More extends Activity {
 				}
     }});
 	 }
-    
-    
+    class MyAdapter extends ArrayAdapter<String> {
+
+        public MyAdapter(Context context, int resource, int textViewResourceId,
+				String[] objects) {
+			super(context, resource, textViewResourceId, objects);
+		}
+
+		public boolean areAllItemsEnabled() {
+            return true;
+        }
+
+        public boolean isEnabled(int position) {
+        	if(JourneyDetails.check)
+        	{
+        		return true;
+        	}
+        	else if(position == 1)
+        		return false;
+        	else
+        		return true;
+        	
+        }
+    }
     public void showInfo(String a, String b)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -145,7 +171,8 @@ public class More extends Activity {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-    }
+
+}
     
 
 //    protected void onListItemClick(ListView l, View v, int position, long id) {

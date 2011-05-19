@@ -9,6 +9,11 @@ package com.saventech.karpool;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -42,7 +48,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 	String popupmessage2="";
 	String popupmessage3="";
 	Controller controller;
-	private String globalrideidmessage="";
+	//private String globalrideidmessage="";
 	/**
 	 * This screen show the riders list for driver and driver can get notifications(accept/reject)
 	 * also in this screen.
@@ -52,6 +58,16 @@ public class Acknowledgement extends Activity implements OnClickListener
         super.onCreate(savedInstanceState);
         controller = new Controller();
         session=new Session();
+        
+        /*Calendar cal = Calendar.getInstance();
+		long date = cal.getTimeInMillis();
+		System.out.println("Date: "+date);*/
+        
+        Date d = new Date();
+        CharSequence s  = DateFormat.format("yyyy/MM/dd h:mm a", d.getTime());
+        String str = (String) s;
+        System.out.println("Time: "+str);
+        
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
 		if(!session.checkinfo(mPreferences))
 		{
@@ -91,6 +107,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 				{
 				    message1=DriverJourneyDetails.driverrideid.get(position).toString().trim();
 				}
+				System.out.println("message1 in Driver acknowledgement: "+message1);
 				//Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
 				String messagepopups[]=message.split("FROM");
 				String ridername=messagepopups[messagepopups.length-1].toString().trim();
@@ -102,8 +119,19 @@ public class Acknowledgement extends Activity implements OnClickListener
 				}
 				else if(messagepopups[0].toString().trim().equals(getString(R.string.r3))||messagepopups[0].toString().trim().equals(getString(R.string.r2))||messagepopups[0].toString().trim().equals(getString(R.string.r8)))
 				{
+					System.out.println("i am in message popups: if condition ");
 					popupmessage3="OK";
 					setAlertbox1(popupmessage3,ridername,messagepopups[0].toString().trim(),message,message1);
+					if(messagepopups[0].toString().trim().equals(getString(R.string.r2)))
+					{
+						JourneyDetails.check = checkTime_GPS(ridername, parseTimeFromMessage(message1).trim());
+						if(JourneyDetails.check)
+						{
+							System.out.println("below 30 mins");
+						}
+						else
+							System.out.println("greater than 30 mins");
+					}
 				}
 				
 				/*else if(messagepopups[0].toString().trim().equals(getString(R.string.d5)))
@@ -125,12 +153,44 @@ public class Acknowledgement extends Activity implements OnClickListener
         	});
         
     }
+    public boolean checkTime_GPS(String ridername, String ridetime) 
+    {
+    	System.out.println("I am in checkTime_GPS");
+        ridername = getEntireRiderName(ridername);
+        //String drivername = session.getUsername(mPreferences);
+        Calendar today=Calendar.getInstance();
+		System.out.println(today.getTimeInMillis()+"kkkkkkkkkkkkkkkkkk"+today.getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd h:mm a");
+		Date d = null;
+		try 
+		{
+			   d = formatter.parse(ridetime.toString().trim());//catch exception
+			  // System.out.println(d.getHours()+"  hhhhhhhhhhhhhh");
+			   Calendar thatDay = Calendar.getInstance();
+			   thatDay.setTime(d);
+			   //System.out.println(thatDay.getTimeInMillis()+"  lllllllllllllllllllll"+d+" "+rideSeekingTime.toString().trim());
+			   long dmil=thatDay.getTimeInMillis()-today.getTimeInMillis();	
+			   System.out.println(dmil+" Minutes");
+			   if( dmil/(60*1000)<=30)
+			   {
+				   return true;
+			   }
+		} catch (ParseException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		   Log.i("RiderRoute_checkMobiletime", "Exception occure while validating time in rider rotue");
+		   return false;
+		}
+		return false;
+        //String response = controller.getCurrentRideTime(drivername, ridername, cur_time);
+        //System.out.println("Get ride time response: "+response);
+		
+	}
     
     /*
      *  first get the fixed ride message ride ids and channelnames then removes all messages except fixed ride message based on ride id and 
      *  channelname.
      */
-    
     public void  removeRideFixedConfirmations()
     {
     	ArrayList<String>chname_rideid=new ArrayList<String>();
