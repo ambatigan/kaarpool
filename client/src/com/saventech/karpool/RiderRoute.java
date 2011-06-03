@@ -593,7 +593,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		// TODO Auto-generated method stub
 		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
     	
-    	int icon = R.drawable.ic_tab_artists_white;
+    	int icon = R.drawable.icon;
     	JourneyDetails.RIDER_NOTIFICATION++;
     	CharSequence text =msg;//JourneyDetails.RIDER_NOTIFICATION+" unread(Kaarpool)";
     	CharSequence contentTitle = "  Kaarpool notification";

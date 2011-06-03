@@ -476,7 +476,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		
 		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 		JourneyDetails.DRIVER_NOTIFICATION++;
-    	int icon = R.drawable.ic_tab_artists_white;
+    	int icon = R.drawable.icon;
     	CharSequence text = msg;
     	CharSequence contentTitle = "  Kaarpool notification";
     	CharSequence contentText = JourneyDetails.DRIVER_NOTIFICATION+" unread(Kaarpool)" ;//msg+" from "+name;
