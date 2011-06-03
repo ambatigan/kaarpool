@@ -13,6 +13,7 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -50,7 +51,8 @@ public class JourneyDetails extends TabActivity {
         final TextView leftText = (TextView) findViewById(R.id.left_text);
         final TextView rightText = (TextView) findViewById(R.id.right_text);
 
-        leftText.setText("kaarpool");
+        leftText.setText("Kaarpool");
+        leftText.setTypeface(null, Typeface.BOLD);
         
         //tv.setText("kaarpool");
 	    Intent intent1 = getIntent();

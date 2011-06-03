@@ -2,7 +2,7 @@
 <ScrollView android:id="@+id/ScrollView01"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="fill_parent" android:layout_width="fill_parent"
-  android:background="@drawable/radialback"      >
+  android:background="@drawable/theme"      >
 <LinearLayout
 android:id="@+id/widget70"
 android:layout_width="fill_parent"
@@ -18,7 +18,7 @@ android:layout_marginTop="10px"
 android:text="Registration"
 android:textSize="18sp"
 android:textStyle="bold"
-android:textColor="#ffccccff"
+android:textColor="@color/titletextcolor"
 android:layout_gravity="center_horizontal"
 >
 </TextView>
@@ -137,7 +137,7 @@ android:textSize="16sp"
 <ImageButton android:id="@+id/pickDate"
         android:layout_width="20px"
 android:layout_height="40px"
-        android:src="@drawable/calendar"/>
+        android:src="@drawable/calender"/>
 </TableRow>
 <TableRow
 android:id="@+id/widget196"
@@ -258,6 +258,7 @@ android:textStyle="bold"
 		android:layout_height="50px"
 		android:text="Upload"
 		android:textStyle="bold"
+		
 		>
 </Button>
     
@@ -284,8 +285,9 @@ android:id="@+id/sysregsubmit"
 android:layout_width="40px"
 android:layout_height="40px"
 android:text="Submit"
-android:textColor="@color/textcolor"
 android:textStyle="bold"
+android:layout_marginTop="5px"
+android:background="@drawable/greenbutton"
 >
 </Button>
 </TableRow>

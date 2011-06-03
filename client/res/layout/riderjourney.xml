@@ -145,11 +145,11 @@ android:text="  "
 <Button
 android:id="@+id/ridergetridelist"
 android:layout_width="50px"
-android:layout_height="50px"
+android:layout_height="40px"
 android:layout_marginLeft="10px"
 android:text="Get Ride List"
 android:textStyle="bold"
-android:textColor="@color/textcolor"
+android:background="@drawable/greenbutton"
 >
 </Button>
 </TableRow>

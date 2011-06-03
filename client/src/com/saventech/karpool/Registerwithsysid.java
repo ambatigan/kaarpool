@@ -149,7 +149,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 		{
 			if(keyCode == KeyEvent.KEYCODE_BACK)
 			{
-				Intent intent=new Intent(Registerwithsysid.this,Register.class);
+				Intent intent=new Intent(Registerwithsysid.this,MainActivity.class);
 				startActivity(intent);
 				//return true;
 			}

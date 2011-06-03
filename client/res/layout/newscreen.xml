@@ -5,7 +5,7 @@ android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:orientation="vertical"
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:background="@drawable/radialback"
+android:background="@drawable/theme"
 >
 <TextView android:typeface="sans" 
 android:layout_marginRight="10px" 

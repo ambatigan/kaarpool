@@ -24,7 +24,7 @@ public class Karpool extends  Activity {
             public void run() {
                try {
                   int waited = 0;
-                  while (waited < 3000) {
+                  while (waited < 8000) {
                      sleep(50);
                      waited += 100;
                   }

@@ -1,6 +1,10 @@
 package com.saventech.karpool;
 
+import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
@@ -21,11 +26,15 @@ public class Timebasedefault extends Activity implements OnClickListener{
 	EditText source ;
 	EditText destination;
 	EditText timings ;
+	private int mhour;
+	private int mminute;
+
 	EditText weekdays;
 	String location="";
 	Controller controller ;
 	Session session;
 	String username="";
+	static final int TIME_DIALOG_ID = 1;
 	private SharedPreferences mPreferences;
 	
     /** Called when the activity is first created. */
@@ -49,6 +58,7 @@ public class Timebasedefault extends Activity implements OnClickListener{
 			Intent intent=new Intent(Timebasedefault.this,Login.class);
 			startActivity(intent);
 		}
+		
         username = session.getUsername(mPreferences);
         String name[]= username.split("@");
 	    rightText.setText(name[0]);
@@ -62,6 +72,15 @@ public class Timebasedefault extends Activity implements OnClickListener{
         
         findViewById(R.id.timeback).setOnClickListener(this);
         findViewById(R.id.timesave).setOnClickListener(this);
+        findViewById(R.id.timebaseddefaultchangetime).setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                showDialog(TIME_DIALOG_ID);
+            }
+
+        });
+
         Spinner spinner = (Spinner) findViewById(R.id.timebasedspinner);
         // spinner.setText(fields[4]);
          ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -71,10 +90,16 @@ public class Timebasedefault extends Activity implements OnClickListener{
         source=(EditText)findViewById(R.id.timebasedsource);
         destination=(EditText)findViewById(R.id.timebasedestination);
         timings=(EditText)findViewById(R.id.timebasedtiming);
+        timings.setEnabled(false);
         weekdays=(EditText)findViewById(R.id.weekdays);
         System.out.println();
         System.out.println(totalString+"totalStringtotalStringtotalStringtotalStringtotalString");
         
+        final Calendar c = Calendar.getInstance();
+        mhour = c.get(Calendar.HOUR_OF_DAY);
+        mminute = c.get(Calendar.MINUTE);
+        updatetime();
+
         String[] fields = totalString.split("::");
         if(!totalString.equals("") &&fields.length>1)
         {
@@ -97,7 +122,7 @@ public class Timebasedefault extends Activity implements OnClickListener{
         	int i = adapter.getPosition(fields[3]);
         	System.out.println(i+"selectPos");
         	spinner.setSelection(i);
-        	    }
+        	}
         spinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
 }
 
@@ -118,6 +143,66 @@ public class Timebasedefault extends Activity implements OnClickListener{
 			
 		}
 	}
+    
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+        case TIME_DIALOG_ID:
+        	//return new TimePickerDialog(this,mTimeSetListener, 0, 0, false);
+            return new TimePickerDialog(this,mTimeSetListener, mhour, mminute, false);
+
+        }
+        return null;
+    }
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
+        new TimePickerDialog.OnTimeSetListener() {
+			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+				// TODO Auto-generated method stub
+				mhour = hourOfDay;
+                mminute = minute;
+                updatetime();
+				
+			}
+
+
+        };
+
+    public void updatetime()
+    {
+    	if(mhour>=12)
+    	{
+    		mhour=mhour-12;
+    		timings.setText(
+                    new StringBuilder()
+                            .append(pad(mhour)).append(":")
+                            .append(pad(mminute)).append(" PM")); 
+    	}
+    	else
+    	{
+    		timings.setText(
+                    new StringBuilder()
+                            .append(pad(mhour)).append(":")
+                            .append(pad(mminute)).append(" AM")); 
+    	}
+    	
+    }
+
+    private static String pad(int c) {
+               /* if (c >= 10)
+                {
+                	if(c>12)
+                	{
+                		c=c-12;
+                	}*/
+                	
+                	return String.valueOf(c);
+               // }
+                /*else
+                {
+                    return "0" + String.valueOf(c);
+                }*/
+    }
+
+
 
     public void onClick(View V) 
 	{
@@ -133,15 +218,15 @@ public class Timebasedefault extends Activity implements OnClickListener{
 			 {
 				 if((!source.getText().toString().equals(destination.getText().toString())))
 				{
-			String res =controller.saveTimeBasedPref(weekdays.getText().toString(),source.getText().toString(), destination.getText().toString(), timings.getText().toString(),location,username);
-			System.out.println(res+"response   kkkkkkkkkkkkk");
-			Intent timebased = new Intent(Timebasedefault.this, Preferences.class);
-			startActivity(timebased);
+					String res =controller.saveTimeBasedPref(weekdays.getText().toString(),source.getText().toString(), destination.getText().toString(), timings.getText().toString(),location,username);
+					System.out.println(res+"response   kkkkkkkkkkkkk");
+					Intent timebased = new Intent(Timebasedefault.this, Preferences.class);
+					startActivity(timebased);
 				}
 				 else
 				 {
 					 Toast.makeText(Timebasedefault.this,"Please check source and destination", Toast.LENGTH_LONG).show();
-			    	    Log.i("Timebasedefault", "Please check source and destination"); 
+			    	 Log.i("Timebasedefault", "Please check source and destination"); 
 				 }
 			 }
 			 else

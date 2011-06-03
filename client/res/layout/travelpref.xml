@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/radialback">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/theme">
 <LinearLayout
 android:id="@+id/widget318"
 android:layout_width="fill_parent"
@@ -237,17 +237,21 @@ android:textStyle="bold"
 <Button
 android:id="@+id/travelprefsave"
 android:layout_width="wrap_content"
-android:layout_height="wrap_content"
+android:layout_height="40px"
 android:text="  Save  "
 android:textStyle="bold"
+android:background="@drawable/greenbutton"
+android:layout_margin="5px"
 >
 </Button>
 <Button
 android:id="@+id/travelprefback"
 android:layout_width="wrap_content"
-android:layout_height="wrap_content"
+android:layout_height="40px"
 android:text="  Back  "
 android:textStyle="bold"
+android:background="@drawable/yellowbutton"
+android:layout_margin="5px"
 >
 </Button>
 </TableRow>
