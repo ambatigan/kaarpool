@@ -47,6 +47,7 @@ public class DBInterface
 
 	/** The statement. */
 	Statement statement = null;
+	Statement stmt=null;
 
 	/** The log. */
 	Logger log = Logger.getLogger(DBInterface.class);
@@ -107,6 +108,8 @@ public class DBInterface
 			Class.forName(driverName).newInstance();
 			// connection to the server
 			connection = DriverManager.getConnection(url + dbName, username, password);
+			statement = connection.createStatement();
+			stmt=connection.createStatement();
 			System.out.println("Connection to MySQL db is established");
 			log.info("Connection to MySQL db is established");
 
@@ -143,7 +146,8 @@ public class DBInterface
 	{
 	   try
 		{
-			statement = connection.createStatement();
+			/*statement = connection.createStatement();
+			stmt=connection.createStatement();*/
 			statement.executeUpdate("insert into info values("+"\""+uname+"\""+","+"\""+pwd+"\""+")");
 		
 		}
@@ -1344,6 +1348,7 @@ public class DBInterface
 	public String rideHistory(String name,String role)
 	{
 		String history="";
+		String usernames="";
 		try{
 			if(role.toString().trim().equals("rider"))
 			{
@@ -1351,9 +1356,18 @@ public class DBInterface
 				resultSet=statement.executeQuery(resourceBundle.getString("ride_history")+" ridername=\""+name+"\"))");
 				while(resultSet.next())
 				{
+					System.out.println(resourceBundle.getString("select_usernames")+resultSet.getString("userid")+"\""+";;;;;;;;;;;;;;;;;;;;;;;;;;");
+					resultSet1=stmt.executeQuery(resourceBundle.getString("select_usernames")+resultSet.getString("userid")+"\"");
+					System.out.println("lllllllllllllllllllllllllllllllll");
+					if(resultSet1.next())
+					{
+						System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkk");
+						usernames=resultSet1.getString("username");
+					}
 					history=history+resultSet.getString("jsource")+":::";
 					history=history+resultSet.getString("jdestination")+":::";
-					history=history+resultSet.getString("stime")+"EVENT";
+					history=history+resultSet.getString("stime")+":::";
+					history=history+usernames+"EVENT";
 				}
 			}
 			if(role.toString().trim().equals("driver"))
@@ -1362,9 +1376,15 @@ public class DBInterface
 				resultSet=statement.executeQuery(resourceBundle.getString("ride_history")+" drivername=\""+name+"\"))");
 				while(resultSet.next())
 				{
+					resultSet1=stmt.executeQuery(resourceBundle.getString("select_usernames")+resultSet.getString("userid")+"\")");
+					if(resultSet1.next())
+					{
+						usernames=resultSet1.getString("username");
+					}
 					history=history+resultSet.getString("jsource")+":::";
 					history=history+resultSet.getString("jdestination")+":::";
-					history=history+resultSet.getString("stime")+"EVENT";
+					history=history+resultSet.getString("stime")+":::";
+					history=history+usernames+"EVENT";
 				}
 				
 			}
@@ -1373,6 +1393,7 @@ public class DBInterface
 		}
 		catch(Exception e)
 		{
+			
 			log.fatal("SQL exception while getting ride history"+e.getStackTrace());
 			return "Exception in history";
 		}
