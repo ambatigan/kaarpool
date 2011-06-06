@@ -7,6 +7,7 @@ package com.saventech.karpool;
  * Date: Apr 05, 2011
  */
 import java.util.Calendar;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,9 +16,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -42,7 +45,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	private String value="";
 	private String selectedImagePath="";
 	ImageButton checksystemavailability;
-	private ImageButton mPickDate;
+	private ImageView mPickDate;
 	private Button sysimageupload;
 	private ImageView imageview;
     private int mYear;
@@ -106,7 +109,7 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	        
 	        //checksystemavailability=(ImageButton)findViewById(R.id.checksysidavailability);
 	        
-	        mPickDate = (ImageButton) findViewById(R.id.pickDate);
+	        mPickDate = (ImageView) findViewById(R.id.pickData);
 	        sysimageupload=(Button)findViewById(R.id.sysuploadimage);
 	        sysimageupload.setOnClickListener(this);
 	        imageview=(ImageView)findViewById(R.id.sysimage);
@@ -114,10 +117,13 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	        // add a click listener to the button
 	        mPickDate.setOnClickListener(new View.OnClickListener() {
 	            public void onClick(View v) {
+	            	intimateUser(v);
 	                showDialog(DATE_DIALOG_ID);
+	                
+	              
 	            }
 	        });
-
+            
 	        // get the current date
 	        final Calendar c = Calendar.getInstance();
 	        mYear = c.get(Calendar.YEAR);
@@ -132,6 +138,14 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 
 	    }
 	 
+	 public void intimateUser(View v)
+	 {
+		 int color;
+		   // Random rnd = new Random(); 
+		    //color = Color.argb(255, rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)); 
+		 color = Color.argb(255,242,222,15); 
+		    mPickDate.setBackgroundColor(color);
+	 }
 	 
 	 //----Gallery functions starts--------------
 	 public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -283,11 +297,17 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	                    .append(mMonth + 1).append("-")
 	                    .append(mDay).append("-")
 	                    .append(mYear).append(" "));
+	        int color;
+            color=Color.argb(0, 0, 0, 0);
+   		    mPickDate.setBackgroundColor(color);
+   		 
 	    }
 	 
 
 	 private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() 
 	 {
+		 
+		 
 			public void onDateSet(DatePicker view, int year, 
                     int monthOfYear, int dayOfMonth) {
 				 mYear = year;
@@ -299,15 +319,29 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 			}
          };
          
+        private  OnDismissListener mCancel = new DialogInterface.OnDismissListener() {
+             public void onDismiss(DialogInterface dialog) {
+            	 System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+                 //Log.v("LOG_CAT",attributes.selectedIndexes.get(0) + " " + attributes.selectedIndexes.get(1) + " " + attributes.selectedIndexes.get(2) + " " + attributes.selectedIndexes.get(3) + " " + attributes.selectedIndexes.get(5) + " ");
+         }
+
+     };
+
+     
+         
+         
          
          @Override
          protected Dialog onCreateDialog(int id) {
+        	 //System.out.println(id+"  kanthhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
              switch (id) {
              case DATE_DIALOG_ID:
+            	
                  return new DatePickerDialog(this,
                              mDateSetListener,
                              mYear, mMonth, mDay);
              }
+             
              return null;
          }
          

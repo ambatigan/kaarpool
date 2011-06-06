@@ -1,16 +1,18 @@
 package com.saventech.karpool;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainLogin extends  MenuOptions implements OnClickListener{
     /** Called when the activity is first created. */
-	private ImageButton kaarpoolbutton;
+	private ImageView kaarpoolbutton;
 	private ImageButton facebookbutton;
 	private ImageButton gmailbutton;
 	
@@ -19,7 +21,7 @@ public class MainLogin extends  MenuOptions implements OnClickListener{
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.loginwithdifferentids);
-        kaarpoolbutton=(ImageButton)findViewById(R.id.mainloginsysgen);
+        kaarpoolbutton=(ImageView)findViewById(R.id.mainloginsysgen);
         facebookbutton=(ImageButton)findViewById(R.id.facebook);
         gmailbutton=(ImageButton)findViewById(R.id.gmail);
         kaarpoolbutton.setOnClickListener(this);
@@ -43,6 +45,11 @@ public class MainLogin extends  MenuOptions implements OnClickListener{
 		switch(v.getId())
 		{
 		case R.id.mainloginsysgen:
+			int color;
+			   // Random rnd = new Random(); 
+			    //color = Color.argb(255, rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)); 
+			 color = Color.argb(255,242,222,15); 
+			 kaarpoolbutton.setBackgroundColor(color);
 			Intent intent=new Intent(MainLogin.this,Login.class);
 			startActivity(intent);
 			break;

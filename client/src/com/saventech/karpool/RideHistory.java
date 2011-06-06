@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -23,6 +24,7 @@ public class RideHistory extends Activity implements OnItemClickListener {
 	String value="";
 	private SharedPreferences mPreferences; 
 	Session session;
+  	TextView t ;
 	private ListView myListView;
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
@@ -46,78 +48,73 @@ public class RideHistory extends Activity implements OnItemClickListener {
     myListView = (ListView) findViewById(R.id.myListView);
     
    // String[] rideHistory = getResources().getStringArray(R.array.data_array);
+    if(More.ridehistory.size()==0)
+    {
+    	//system.out.println("commmingggggggggggggggggggggggggg");
+  
+    	t=(TextView)findViewById(R.id.Ridehistoryheading);
+    	t.setText("No rides were taken");
+    	
+    }
+    else
+    {
+    	t=(TextView)findViewById(R.id.Ridehistoryheading);
+    	t.setText("Soruce\t  Destination \t  Time");
+    	
+    }
     
     myListView.setAdapter(new ArrayAdapter(this,R.layout.rows,R.id.text, More.ridehistory));
 //    setListAdapter(new ArrayAdapter<String>(this,
 //            R.layout.ridehistory,R.id.ride, rideHistory));
 //    getListView().setBackgroundResource(R.drawable.radialback);
 //   
-//    getListView().setTextFilterEnabled(true);
+//     getListView().setTextFilterEnabled(true);
     
     myListView.setOnItemClickListener(new OnItemClickListener() {
     	public void onItemClick(AdapterView<?> a, View v, int position,	long id) {
     		
-			switch(position)
-			{
-//			case 1: 
-//				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//				builder.setMessage("Source: IIIT\nDestination: Secretariate\nDriver:Nagesh\nRider:Rajesh\nAmount:5 points")
-//				       .setCancelable(false)
-//				       
-//				       .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//				           public void onClick(DialogInterface dialog, int id) {
-//				        	   //RideHistory.this.finish();
-//				           }
-//				       });
-//				       
-//				AlertDialog alert = builder.create();
-//				alert.show();
-//				break;
-//			case 2:
-//				AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-//				builder1.setMessage("Source: IIIT\nDestination: Secretariate\nDriver:Nagesh\nRider:Rajesh\nAmount:5 points")
-//				       .setCancelable(false)
-//				       .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//				           public void onClick(DialogInterface dialog, int id) {
-//				        	   //RideHistory.this.finish();
-//				           }
-//				       });
-//				       
-//				AlertDialog alert1 = builder1.create();
-//				alert1.show();
-//				break;
-//			case 3:
-//	           AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-//				builder2.setMessage("Source: IIIT\nDestination: Secretariate\nDriver:Nagesh\nRider:Rajesh\nAmount:5 points")
-//			       .setCancelable(false)
-//			       .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//			           public void onClick(DialogInterface dialog, int id) {
-//			        	  // RideHistory.this.finish();
-//			           }
-//			       });
-//			       
-//				AlertDialog alert2 = builder2.create();
-//				alert2.show();
-//				break;
-//			case 4:
-//				
-//				AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
-//				builder3.setMessage("Source: IIIT\nDestination: Secretariate\nDriver:Nagesh\nRider:Rajesh\nAmount:5 points")
-//			       .setCancelable(false)
-//			       .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//			           public void onClick(DialogInterface dialog, int id) {
-//			        	  // RideHistory.this.finish();
-//			           }
-//			       });
-//			       
-//				AlertDialog alert3 = builder3.create();
-//				alert3.show();
-//				break;
-			}}
-    }	
-	    );
+    		String ridehistorymessage=(String) myListView.getItemAtPosition(position);
+    		String ridehistorydisplaydata="";
+    		for(int i=0;i<More.ridehistory1.size();i++)
+    		{
+    			String historysplit[]=More.ridehistory1.get(i).toString().trim().split(" ");
+    			String historysplit1[]=ridehistorymessage.toString().trim().split(" ");
+    			String historydata="";
+    			String historydata1="";
+    			for(int val=0;val<historysplit.length-1;val++)
+    			{
+    				historydata=historydata+historysplit[val].toString().trim();
+    			}
+    			for(int val=0;val<historysplit1.length;val++)
+    			{
+    				historydata1=historydata1+historysplit1[val].toString().trim();
+    			}
+    			
+    			System.out.println(historydata+"0000000000000000000000"+historydata1);
+    			if(historydata.toString().trim().equals(historydata1.toString().trim()))
+    			{
+    				ridehistorydisplaydata=ridehistorydisplaydata+More.ridehistory1.get(i).toString().trim();
+    				System.out.println(More.ridehistory1.get(i).toString().trim());
+    			}
+    		}
+    		displayRideHistory(ridehistorydisplaydata);
+    	}
+    	});
+    
     }
-   
+	public void displayRideHistory(String historymessage)
+	{
+		AlertDialog.Builder adb=new AlertDialog.Builder(RideHistory.this);
+		    	
+		    	adb.setTitle("History");
+		    	adb.setMessage(historymessage.toString().trim());
+		    	adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		  			public void onClick(DialogInterface dialog, int whichButton) {
+		  				//value = input.getText().toString().trim();
+		  			}
+		  		});
+		    	adb.show();
+	}
     
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub

@@ -551,7 +551,7 @@ public class Controller
 		String rideHistoryResponse="";
 		try
 		{
-			rideHistoryResponse=CustomHttpClient.executeHttpPost(url+"RideHistory", history);
+			 rideHistoryResponse=CustomHttpClient.executeHttpPost(url+"RideHistory", history);
 			String res=rideHistoryResponse.toString();
 		    Log.i("Getting_RideHistory", res.toString().trim());
 			return res.toString();

@@ -4,11 +4,20 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
      android:background="@drawable/theme">
-
+<TextView
+android:id="@+id/Ridehistoryheading"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textColor="@color/textcolor"
+android:text=" "
+android:textStyle="bold"
+android:layout_gravity="center_horizontal"
+></TextView>
 	<ListView
 		android:id="@+id/myListView"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"/>
+	
 	
 </LinearLayout>
 

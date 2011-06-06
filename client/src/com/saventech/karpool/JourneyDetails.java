@@ -268,6 +268,8 @@ public class JourneyDetails extends TabActivity {
          DriverJourneyDetails.driverrideid=new ArrayList<String>();
          JourneyDetails.ridelist1=new ArrayList<String>();
          RiderJourneyDetails.justriderequests=new ArrayList<String>();
+         More.ridehistory=new ArrayList<String>();
+         More.ridehistory1=new ArrayList<String>();
          JourneyDetails.dflag=0;
          JourneyDetails.rflag=0;
          JourneyDetails.DRIVER_NOTIFICATION=0;

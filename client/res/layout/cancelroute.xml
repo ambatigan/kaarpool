@@ -129,7 +129,7 @@ android:textColor="@color/textcolor"
 </TableRow>
 
 
-<TableRow
+<!--<TableRow
 android:id="@+id/widget198"
 android:layout_width="147px"
 android:layout_height="wrap_content"
@@ -142,18 +142,20 @@ android:layout_height="wrap_content"
 android:text="  "
 >
 </TextView>
+-->
+<!--</TableRow>
+--></TableLayout>
 <Button
 android:id="@+id/drivercancelroute"
-android:layout_width="50px"
+android:layout_width="wrap_content"
 android:layout_height="40px"
-android:layout_marginLeft="10px"
-android:text="Cancel Route"
+android:layout_margin="10px"
+android:text="   Cancel Route   "
 android:textStyle="bold"
+android:layout_gravity="center_horizontal"
 android:background="@drawable/greenbutton"
 
 >
 </Button>
-</TableRow>
-</TableLayout>
 </LinearLayout>
 </ScrollView>

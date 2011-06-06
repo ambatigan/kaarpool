@@ -134,11 +134,20 @@ android:textSize="16sp"
 
 
 </EditText>
-<ImageButton android:id="@+id/pickDate"
+<ImageView
+android:id="@+id/pickData"
+android:layout_width="20px"
+android:layout_height="40px"
+android:src="@drawable/calender"
+android:drawable="@drawable/imagecolor"
+ 
+>
+</ImageView>
+<!--<ImageButton android:id="@+id/pickDate"
         android:layout_width="20px"
 android:layout_height="40px"
         android:src="@drawable/calender"/>
-</TableRow>
+--></TableRow>
 <TableRow
 android:id="@+id/widget196"
 android:layout_width="148px"

@@ -27,6 +27,7 @@ public class More extends Activity {
 	ListAdapter adapter;
 	
 	static ArrayList<String> ridehistory=new ArrayList<String>();
+	static ArrayList<String> ridehistory1=new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
@@ -76,18 +77,23 @@ public class More extends Activity {
 		            }
 		            if(his.contains(":::"))
 		            {
-		            	ridehistory.add("Source Destination Time");
+		            	//ridehistory.add("Source Destination Time");
 		            	String historysplit[]=his.toString().trim().split("EVENT");
-		            	//System.out.println(historysplit.length+"MMMMMMMMMMMMMOOOOOOOOOORRRRRRRRRREEEEEEEEEEEEEEEEEEEEEE");
+		            	 //System.out.println(historysplit.length+"MMMMMMMMMMMMMOOOOOOOOOORRRRRRRRRREEEEEEEEEEEEEEEEEEEEEE");
 		            	for(int i=0;i<historysplit.length;i++)
 		            	{
 		            		String getdata[]=historysplit[i].split(":::");
 		            		String adddata="";
-		            		for(int j=0;j<getdata.length;j++)
+		            		for(int j=0;j<getdata.length-1;j++)
 		            		{
 		            			adddata=adddata+getdata[j].toString().trim()+" ";
 		            		}
+		            		
+		            		
 		            		ridehistory.add(adddata.toString().trim());
+		            		adddata=adddata+getdata[getdata.length-1].toString().trim()+" ";
+		            		System.out.println(adddata+"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+		            		ridehistory1.add(adddata.toString().trim());
 		            	}
 		            }
 					
@@ -119,6 +125,8 @@ public class More extends Activity {
 	   	             DriverJourneyDetails.driverrideid=new ArrayList<String>();
 	   	             JourneyDetails.ridelist1=new ArrayList<String>();
 	   	             RiderJourneyDetails.justriderequests=new ArrayList<String>();
+	   	             More.ridehistory=new ArrayList<String>();
+	   	             More.ridehistory1=new ArrayList<String>();
 	   	             JourneyDetails.dflag=0;
 	   	             JourneyDetails.rflag=0;
 	   	             JourneyDetails.DRIVER_NOTIFICATION=0;

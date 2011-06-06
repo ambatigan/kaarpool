@@ -74,7 +74,19 @@ android:textStyle="bold"
 android:textColor="@color/textcolor"
 >
 </TextView>
-<ImageButton
+<ImageView
+android:id="@+id/mainloginsysgen"
+android:layout_width="75px"
+android:layout_height="40px"
+android:scaleType="center"
+android:layout_gravity="center_horizontal"
+android:layout_marginLeft="10px"
+android:layout_marginRight="10px"
+android:src="@drawable/car2"
+ 
+>
+</ImageView>
+<!--<ImageButton
 android:id="@+id/mainloginsysgen"
 android:layout_width="75px"
 android:layout_height="40px"
@@ -85,4 +97,4 @@ android:layout_marginRight="10px"
 android:src="@drawable/car2">
 </ImageButton>
 
-</LinearLayout>
+--></LinearLayout>
