@@ -8,7 +8,10 @@
 package com.saventech.karpool;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,9 +20,15 @@ import java.util.Date;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -36,8 +45,12 @@ import android.widget.Toast;
 
 public class Acknowledgement extends Activity implements OnClickListener 
 {
+	public double lat;
+	public double lng;
+	public String rideid;
 	private SharedPreferences mPreferences; 
 	Session session;
+	private LocationManager locationManager;
 	
 	private ListView listview;
 	
@@ -102,6 +115,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 			public void onItemClick(AdapterView<?> a, View v, int position,	long id) {
 
 				String message=(String) listview.getItemAtPosition(position);
+				System.out.println("driver acknowldgement message: "+ message);
 				String message1="";
 				if(DriverJourneyDetails.driverrideid.size()!=0)
 				{
@@ -125,9 +139,14 @@ public class Acknowledgement extends Activity implements OnClickListener
 					if(messagepopups[0].toString().trim().equals(getString(R.string.r2)))
 					{
 						JourneyDetails.check = checkTime_GPS(ridername, parseTimeFromMessage(message1).trim());
+						rideid = getRideid(message1).trim();
 						if(JourneyDetails.check)
 						{
 							System.out.println("below 30 mins");
+							//storeCoordinates(rideid);
+							locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+					    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+					    	        0, new GeoUpdateHandler());
 						}
 						else
 							System.out.println("greater than 30 mins");
@@ -153,6 +172,13 @@ public class Acknowledgement extends Activity implements OnClickListener
         	});
         
     }
+    /*public void storeCoordinates(String rideid)
+    {
+    	System.out.println("i am in storecoordinates");
+    	locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+    	        0, new GeoUpdateHandler());
+    }*/
     public boolean checkTime_GPS(String ridername, String ridetime) 
     {
     	System.out.println("I am in checkTime_GPS");
@@ -160,11 +186,14 @@ public class Acknowledgement extends Activity implements OnClickListener
         //String drivername = session.getUsername(mPreferences);
         Calendar today=Calendar.getInstance();
 		System.out.println(today.getTimeInMillis()+"kkkkkkkkkkkkkkkkkk"+today.getTime());
+		String str = today.getTime().toString();
+		System.out.println("Time in String format: "+str);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd h:mm a");
 		Date d = null;
 		try 
 		{
 			   d = formatter.parse(ridetime.toString().trim());//catch exception
+			   
 			  // System.out.println(d.getHours()+"  hhhhhhhhhhhhhh");
 			   Calendar thatDay = Calendar.getInstance();
 			   thatDay.setTime(d);
@@ -370,6 +399,11 @@ public class Acknowledgement extends Activity implements OnClickListener
     	String split[]=msg.toString().trim().split("::");
     	return split[2].toString().trim();
     }
+    public String getRideid(String msg)
+    {
+    	String split[]=msg.toString().trim().split("::");
+    	return split[1].toString().trim();
+    }
     public void sendResponseMessage(String message,String drivername,String respon,String message1)
     {
     	System.out.println("message: "+message);
@@ -425,5 +459,31 @@ public class Acknowledgement extends Activity implements OnClickListener
 		return super.onKeyDown(keyCode, event);
 	}
 	public void onClick(View v) {		
+	}
+	
+	public class GeoUpdateHandler implements LocationListener {
+
+		public void onLocationChanged(Location location) {
+			lat = location.getLatitude();
+			lng = location.getLongitude();
+			
+			controller.storeCoordinates(session.getUsername(mPreferences), rideid, lat, lng);
+			System.out.println("Geo coordinates: latitude: "+lat+" longitude: "+lng);
+
+		}
+
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+		}
+
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 }

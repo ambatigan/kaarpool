@@ -25,12 +25,14 @@ public class DriverJourneyDetails extends TabActivity {
 	Session session;
 	TabActivity tabact;
 	private String flag1;
+	public static DriverJourneyDetails context1;
 	
 	static ArrayList<String> drivermeteormsg = new ArrayList<String>();
 	static ArrayList<String> driverrideid=new ArrayList<String>();
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
+        context1 = this;
         Log.i("DriverJourneyDetails", "DriverJourneyDetails screen");
         session=new Session();
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
@@ -57,10 +59,10 @@ public class DriverJourneyDetails extends TabActivity {
 	    spec = tabHost.newTabSpec("newroute").setIndicator("New route",res.getDrawable(R.drawable.tabmapsicon)).setContent(intent);
 	    tabHost.addTab(spec);
 	    
-	    intent11 = new Intent().setClass(this, CancelRoute.class);
+	    intent11 = new Intent().setClass(this, TabGroup1Activity.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("cancelroute").setIndicator("Cancel route",res.getDrawable(R.drawable.tabcancel)).setContent(intent11);
+	    spec = tabHost.newTabSpec("cancel route").setIndicator("Cancel/Edit route",res.getDrawable(R.drawable.tabcancel)).setContent(intent11);
 	    tabHost.addTab(spec);
 	    
 	    intent2 = new Intent().setClass(this, Acknowledgement.class);

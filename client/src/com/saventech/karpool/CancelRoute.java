@@ -9,26 +9,27 @@
 package com.saventech.karpool;
 
 import java.util.Calendar;
-import java.util.StringTokenizer;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class CancelRoute extends Activity implements OnClickListener 
+public class CancelRoute extends TabGroupActivity implements OnClickListener 
 {
 	private String value="";
 	private String datetime="";
@@ -37,17 +38,23 @@ public class CancelRoute extends Activity implements OnClickListener
 	private EditText destination;
 	private EditText starttime;
 	private Button change1;
+	private EditText rn;
 	private Button change2;
+	private Button cancel;
 	private Button routetime;
+	private EditText seatid;
 	private Button cancelroutebutton;
 	Controller controller;
 	private SharedPreferences mPreferences; 
 	Session session;
+	private String src, dest, time, route, seats;
+	public static Context context;
 	
     public void onCreate(Bundle savedInstanceState) 
     {
     	
         super.onCreate(savedInstanceState);
+        context = this.getParent();
         reloadCancelRoute();
         
     }
@@ -65,25 +72,53 @@ public class CancelRoute extends Activity implements OnClickListener
         Log.i("DriverJourneyDetails_Cancel route", "Cancel route tab in DriverJourneyDetails");
         controller=new Controller();
         session.storemode(mPreferences, "driver");
-        cancelinfo = controller.getCancelroutedetails(session.getUsername(mPreferences));
-        System.out.println("cancel information: "+cancelinfo);
+        //cancelinfo = controller.getCancelroutedetails(session.getUsername(mPreferences));
+        //System.out.println("cancel information: "+cancelinfo);
         
+        Intent intent11 = getIntent();
+        route = intent11.getStringExtra("route");
+        src = intent11.getStringExtra("source");
+        dest = intent11.getStringExtra("destination");
+        time = intent11.getStringExtra("time");
+        seats = intent11.getStringExtra("seats");
         setContentView(R.layout.cancelroute);
+        rn =(EditText)findViewById(R.id.routeid);
+        rn.setText(route);
         source=(EditText)findViewById(R.id.drivercancelroutesource);
+        source.setText(src);
         change1 = (Button)findViewById(R.id.drivercancelroutechange1);
         change1.setOnClickListener(this);
         destination=(EditText)findViewById(R.id.drivercancelroutedestination);
+        destination.setText(dest);
         change2 = (Button)findViewById(R.id.drivercancelroutechange2);
         change2.setOnClickListener(this);
         starttime=(EditText)findViewById(R.id.drivercancelroutestarttime);
-        routetime = (Button)findViewById(R.id.drivercancelroutetime);
+        starttime.setText(time);
+        seatid = (EditText)findViewById(R.id.sid);
+        seatid.setText(seats);
+        routetime = (Button)findViewById(R.id.editnewroute);
+        cancel = (Button)findViewById(R.id.editcancelroute);
         routetime.setOnClickListener(this);
         source.setEnabled(false);
         destination.setEnabled(false);
-        starttime.setEnabled(false);        
-        cancelroutebutton=(Button)findViewById(R.id.drivercancelroute);
-        cancelroutebutton.setOnClickListener(this);
-        if((cancelinfo.trim()).equals("nodata"))
+        starttime.setEnabled(false);
+        
+       /* OnTouchListener cancelListener = new OnTouchListener() {
+        	public boolean onTouch(View v, MotionEvent event) {
+        		 if (event.getAction()==MotionEvent.ACTION_UP){
+        			 Intent edit = new Intent(getParent(), RideDetailsDriver.class);
+        			 Window window = getLocalActivityManager().startActivity("rideactivity",
+        					 edit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        			 setContentView(window.getDecorView());
+             		return true;
+        		 }
+        		 return false;
+        	}
+        };*/
+        //cancelroutebutton=(Button)findViewById(R.id.drivercancelroute);
+        //cancelroutebutton.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        /*if((cancelinfo.trim()).equals("nodata"))
         {
         	Log.i("Cancel info", "No route is created by with this name");
         	Toast.makeText(this, "You didn't create any ride till now", Toast.LENGTH_LONG).show();
@@ -100,7 +135,7 @@ public class CancelRoute extends Activity implements OnClickListener
         	destination.setText(tokenizer.nextToken());
         	starttime.setText(tokenizer.nextToken());
         	cancelinfo=null;
-        }
+        }*/
     }
     public void onResume()
     {
@@ -111,7 +146,6 @@ public class CancelRoute extends Activity implements OnClickListener
 	{
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -121,14 +155,15 @@ public class CancelRoute extends Activity implements OnClickListener
     {
     	Log.i("Riderroute_changesource", "Changing the source of a ride");
     	
-    	final AlertDialog.Builder alert = new AlertDialog.Builder(this.getParent());
+    	final AlertDialog.Builder alert = new AlertDialog.Builder(DriverJourneyDetails.context1);
     	alert.setTitle("Source");
-		final EditText input = new EditText(this);
+		final EditText input = new EditText(DriverJourneyDetails.context1);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				value = input.getText().toString().trim();
 		    	source.setText(value);
+		    	System.out.println("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
 			}
 		});
 		alert.setNegativeButton("Cancel",
@@ -169,7 +204,7 @@ public class CancelRoute extends Activity implements OnClickListener
     
     public void showDateTimeDialog() {
 		// Create the dialog
-		final Dialog mDateTimeDialog = new Dialog(this.getParent());
+		final Dialog mDateTimeDialog = new Dialog(DriverJourneyDetails.context1);
 		// Inflate the root layout
 		final RelativeLayout mDateTimeDialogView = (RelativeLayout) getLayoutInflater().inflate(R.layout.date_time_dialog, null);
 		// Grab widget instance
@@ -180,7 +215,7 @@ public class CancelRoute extends Activity implements OnClickListener
 		// Update demo TextViews when the "OK" button is clicked 
 		((Button) mDateTimeDialogView.findViewById(R.id.SetDateTime)).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				datetime = mDateTimePicker.get(Calendar.YEAR) + "/" + (mDateTimePicker.get(Calendar.MONTH)+1) + "/"
+				datetime = mDateTimePicker.get(Calendar.YEAR) + " + (mDateTimePicker.get(Calendar.MONTH)+1) + "
 				+ mDateTimePicker.get(Calendar.DAY_OF_MONTH);
 				if (mDateTimePicker.is24HourView()) {
 					datetime += " "+mDateTimePicker.get(Calendar.HOUR_OF_DAY) + ":" + mDateTimePicker.get(Calendar.MINUTE);
@@ -245,7 +280,7 @@ public class CancelRoute extends Activity implements OnClickListener
 	public void onClick(final View view) 
 	{
 		
-		if (view == findViewById(R.id.drivercancelroute))
+		if (view == findViewById(R.id.editnewroute))
 		{
 			if(source.getText().toString()==null || destination.getText().toString()==null || starttime.getText().toString()==null)
 			{
@@ -282,7 +317,7 @@ public class CancelRoute extends Activity implements OnClickListener
 	        	}
 			}
 			
-		}
+		}//
 		if (view == findViewById(R.id.drivercancelroutechange1)) 
 		{
 			
@@ -290,7 +325,7 @@ public class CancelRoute extends Activity implements OnClickListener
             //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
-            AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
+            AlertDialog.Builder builder = new AlertDialog.Builder(DriverJourneyDetails.context1);
             //Set its title
             builder.setTitle("Choose Location");
             //Set the list items and assign with the click listener
@@ -336,7 +371,33 @@ public class CancelRoute extends Activity implements OnClickListener
         	System.out.println("if condition in driver cancel route");
         	showDateTimeDialog();
         }
+       if(view == findViewById(R.id.editcancelroute))
+        {
+        	System.out.println("checking for new screen");
+        	//setContentView(R.layout.sample);
+        	//Button b1 = (Button)findViewById(R.id.button);
+        	//DriverJourneyDetails ParentActivity = (DriverJourneyDetails) this.getParent();
+        	
+        	/*Intent edit = new Intent(this, RideDetailsDriver.class);
+			 Window window = getLocalActivityManager().startActivity("rideactivity",
+					 edit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+			 setContentView(window.getDecorView());*/
+        	Intent previewMessage = new Intent(getParent(), RideDetailsDriver.class);
+            TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+            parentActivity.startChildActivity("RideDetailsDriver", previewMessage);
+        	//DriverJourneyDetails parentActivity = (DriverJourneyDetails)this.getParent();
+        	//parentActivity.switchingTabActity(0);
+    		//StringBuffer urlString = new StringBuffer();
+        	//RideDetailsDriver parentActivity = (RideDetailsDriver)getParent();
+    		//parentActivity.replaceContentView("activity1", activity4Intent); 
+//        	b1.setOnClickListener(new Button.OnClickListener() { public void onClick (View v){ //System.out.println(uname+ "username11111");
+//        		
+//        	  
+//        	}});
+        	
+        	
+        	
+        }
 		
-	}
-    
+	} 
 }

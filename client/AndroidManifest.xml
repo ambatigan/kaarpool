@@ -19,6 +19,14 @@
                   android:label="@string/app_name">
             
         </activity>
+        <activity android:name=".RideDetailsDriver"
+                  android:label="@string/app_name">
+            
+        </activity>
+        <activity android:name=".TabGroup1Activity"
+                  android:label="@string/app_name">
+            
+        </activity>
         <activity android:name=".Registerwithopenid"
                   android:label="@string/app_name">
             

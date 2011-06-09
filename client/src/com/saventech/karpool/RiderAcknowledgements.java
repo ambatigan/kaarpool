@@ -7,11 +7,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
+import com.saventech.karpool.Acknowledgement.GeoUpdateHandler;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -33,6 +39,10 @@ import android.widget.Toast;
  */
 public class RiderAcknowledgements extends Activity implements OnClickListener {
 	
+	private LocationManager locationManager;
+	public double lat;
+	public double lng;
+	public static String rrideid;
 	private SharedPreferences mPreferences; 
 	Session session;
 	Controller controller;
@@ -215,6 +225,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		 String rid=getRid(message);
 		 String rideidmessage=getRideId(message1.toString().trim());
 	     String rideid=parseRideIdfromMessage(rideidmessage.toString());
+	     rrideid = rideid.trim();
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
 	     String time=parseTimeFromMessage(message1.toString().trim());
 	     System.out.println(rideidmessage+" **************888 "+rideid);
@@ -404,6 +415,9 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 			 if(JourneyDetails.check)
 			 {
 				 System.out.println("below 30 mins");
+				 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+			    	        0, new GeoUpdateHandler());
 			 }
 			 else
 				 System.out.println("greater than 30 mins");
@@ -673,4 +687,29 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		}
 		
 	}*/
+	public class GeoUpdateHandler implements LocationListener {
+
+		public void onLocationChanged(Location location) {
+			lat = location.getLatitude();
+			lng = location.getLongitude();
+			
+			controller.storeCoordinates(session.getUsername(mPreferences), rrideid, lat, lng);
+			System.out.println("Geo coordinates: latitude: "+lat+" longitude: "+lng);
+
+		}
+
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+		}
+
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
 }

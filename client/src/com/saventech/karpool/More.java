@@ -1,6 +1,7 @@
 package com.saventech.karpool;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,8 +25,9 @@ public class More extends Activity {
 	private SharedPreferences mPreferences; 
 	Session session; 
 	String modevalue="";
-	Controller controller;
+	public Controller controller;
 	ListAdapter adapter;
+	
 	
 	static ArrayList<String> ridehistory=new ArrayList<String>();
 	static ArrayList<String> ridehistory1=null;
@@ -104,6 +106,7 @@ public class More extends Activity {
 					break;
 				case 1:
 		            Intent trackroute = new Intent(More.this, TrackRoute.class);
+		            trackroute.putExtra("mode", modevalue);
 					startActivity(trackroute);
 					break;
 				case 2:
@@ -111,7 +114,7 @@ public class More extends Activity {
 					startActivity(register1);
 					break;
 				case 3:
-					showInfo("About","Is under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under constructionIs under construction");
+					showInfo("About","Is under construction");
 					break;
 				case 4:
 					showInfo("Contact Us","Is under construction");
@@ -148,17 +151,38 @@ public class More extends Activity {
 	 }
     class MyAdapter extends ArrayAdapter<String> {
 
+    	private int mYear;
+        private int mMonth;
+        private int mDay;
         public MyAdapter(Context context, int resource, int textViewResourceId,
 				String[] objects) {
 			super(context, resource, textViewResourceId, objects);
 		}
-
+        
 		public boolean areAllItemsEnabled() {
             return true;
         }
 
-        public boolean isEnabled(int position) {
-        	if(JourneyDetails.check)
+        public boolean isEnabled(int position) 
+        {
+        	final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+            String date = mYear+"/"+(mMonth+1)+"/"+mDay;//Month is 0 based so add 1
+            int h=c.get(Calendar.HOUR);
+            //System.out.println(h+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"+c.get(Calendar.HOUR_OF_DAY));
+            if(h>12)
+            {
+            	h=h-12;
+            }
+            String time=h+":";
+            time=time+c.get(Calendar.MINUTE)+" ";
+            time=time+(c.get(Calendar.AM_PM)== Calendar.AM ? "AM" : "PM");
+            
+        	String timecheck = controller.gpsCheckTime(session.getUsername(mPreferences),date, time);
+        	System.out.println("gps timecheck: "+timecheck);
+        	if(JourneyDetails.check || timecheck.trim().equals("true"))
         	{
         		return true;
         	}

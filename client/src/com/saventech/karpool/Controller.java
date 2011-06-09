@@ -26,7 +26,7 @@ public class Controller
 
 
 
-	//String url="http://198.162.18.174:8080/kaarpool/";
+	//String url="http://198.162.18.171:8080/kaarpool/";
 
 	String url="http://122.183.102.229/kaarpool/";
 
@@ -586,8 +586,97 @@ public class Controller
 		
 		return "Failed to change the mode";
 	}
+	public String storeCoordinates(String username, String rideid, double lat,
+			double lng) {
+		// TODO Auto-generated method stub
+		ArrayList<NameValuePair> storecoordinates=new ArrayList<NameValuePair>();
+		storecoordinates.add(new BasicNameValuePair("rideid",rideid.toString().trim()));
+		storecoordinates.add(new BasicNameValuePair("lat",Double.toString(lat)));
+		storecoordinates.add(new BasicNameValuePair("lng",Double.toString(lng)));
+		storecoordinates.add(new BasicNameValuePair("username", username.toString()));
+		
+		String changeModeValue="";
+		try
+		{
+			changeModeValue=CustomHttpClient.executeHttpPost(url+"StoreCoordinates", storecoordinates);
+			String res=changeModeValue.toString();
+		    Log.i("Getting_Coordinates", res.toString().trim());
+			return res.toString();
+		
+		}
+		catch(Exception e)
+		{
+			Log.i("storingCoordinates_Controller", "Exception in while storing the coordinates");
+		}
+		
+		return "Failed to store the coordinates";
+		
+		
+	}
 	
-	
-
-
+	public String trackrouteDrivername(String username, String rideid) {
+		// TODO Auto-generated method stub
+		System.out.println("trackrouteDrivername");
+		ArrayList<NameValuePair> trackdetails=new ArrayList<NameValuePair>();
+		trackdetails.add(new BasicNameValuePair("rideid",rideid.toString().trim()));
+		trackdetails.add(new BasicNameValuePair("username", username.toString()));
+		
+		String drivername="";
+		try
+		{
+			drivername=CustomHttpClient.executeHttpPost(url+"TrackDrivername", trackdetails);
+			String res=drivername.toString();
+		    Log.i("Getting_Drivername for tracking route: ", res.toString().trim());
+			return res.toString();
+		
+		}
+		catch(Exception e)
+		{
+			Log.i("trackrouteDrivername_Controller", "Exception in getting driver name");
+		}
+		
+		return "Failed to get driver name";	
+	}
+	public String gpsCheckTime(String username, String date, String time) {
+		System.out.println("gpeCheckTime");
+		ArrayList<NameValuePair> userdetails=new ArrayList<NameValuePair>();
+		userdetails.add(new BasicNameValuePair("username",username.toString().trim()));
+		userdetails.add(new BasicNameValuePair("date", date.toString().trim()));
+		userdetails.add(new BasicNameValuePair("time", time.toString().trim()));
+		
+		String gpscheck="";
+		try
+		{
+			gpscheck=CustomHttpClient.executeHttpPost(url+"GPSCheckTime", userdetails);
+			String res=gpscheck.toString();
+		    Log.i("Getting GPS timings to enable GPS: ", res.toString().trim());
+			return res.toString();
+		
+		}
+		catch(Exception e)
+		{
+			Log.i("gpsCheckTime_Controller", "Exception in getting gps timings");
+		}
+		
+		return "Failed to get timings";	
+	}
+	public void Canceldriverroute1(String username, String source, String destination, String time) 
+	{
+		System.out.println("canceldriverroute1");
+		ArrayList<NameValuePair> cancelparams = new ArrayList<NameValuePair>();
+		cancelparams.add(new BasicNameValuePair("username", username.toString().trim()));
+		cancelparams.add(new BasicNameValuePair("source", source.toString().trim()));
+		cancelparams.add(new BasicNameValuePair("destination", destination.toString().trim()));
+		cancelparams.add(new BasicNameValuePair("time", time.toString().trim()));
+		
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost(url+"DriverRidecancel", cancelparams);
+    	    String res=response.toString();
+    	    Log.i("Canceldriver_Controller", "Current route has been canceled");
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		Log.i("Controller","Got exception");
+    	}
+	}
 }
