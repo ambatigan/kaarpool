@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -65,7 +66,8 @@ public class TrackRoute extends MapActivity {
     final TextView leftText = (TextView) findViewById(R.id.left_text);
     final TextView rightText = (TextView) findViewById(R.id.right_text);
 
-    leftText.setText("kaarpool");
+    leftText.setText("Kaarpool");
+    leftText.setTypeface(null, Typeface.BOLD);
     
     session=new Session();
     mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 

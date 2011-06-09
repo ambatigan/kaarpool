@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -38,7 +39,8 @@ public class Preferences extends Activity implements OnItemClickListener {
         final TextView leftText = (TextView) findViewById(R.id.left_text);
         final TextView rightText = (TextView) findViewById(R.id.right_text);
 
-        leftText.setText("kaarpool");
+        leftText.setText("Kaarpool");
+        leftText.setTypeface(null, Typeface.BOLD);
         
         
         

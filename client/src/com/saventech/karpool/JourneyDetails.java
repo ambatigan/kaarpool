@@ -138,7 +138,8 @@ public class JourneyDetails extends TabActivity {
 	    
 	    
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("Driver").setIndicator("DRIVER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
+	    spec = tabHost.newTabSpec("Driver").setIndicator("DRIVER",res.getDrawable(R.drawable.tabdrivericon)).setContent(intent);
+	   
 	    tabHost.addTab(spec);
 	    tabHost.setBackgroundResource(R.drawable.radialback);//setBackgroundDrawable(R.drawable.radialback);
 	    // Do the same for the other tabs
@@ -157,7 +158,7 @@ public class JourneyDetails extends TabActivity {
 	    	intent2.putExtra("check", "error");
 	   
 	    
-	    spec = tabHost.newTabSpec("rider").setIndicator("RIDER",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent2);
+	    spec = tabHost.newTabSpec("rider").setIndicator("RIDER",res.getDrawable(R.drawable.tabcaricon)).setContent(intent2);
 	    tabHost.addTab(spec);
 	    
 	    

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -27,12 +28,12 @@ public class More extends Activity {
 	ListAdapter adapter;
 	
 	static ArrayList<String> ridehistory=new ArrayList<String>();
-	static ArrayList<String> ridehistory1=new ArrayList<String>();
+	static ArrayList<String> ridehistory1=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
     super.onCreate(savedInstanceState);
-    
+  
     requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     setContentView(R.layout.more);
     Intent intent = getIntent();
@@ -42,7 +43,8 @@ public class More extends Activity {
     final TextView leftText = (TextView) findViewById(R.id.left_text);
     final TextView rightText = (TextView) findViewById(R.id.right_text);
 
-    leftText.setText("kaarpool");
+    leftText.setText("Kaarpool");
+    leftText.setTypeface(null, Typeface.BOLD);
     mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
     controller=new Controller();
     session=new Session();
@@ -63,6 +65,7 @@ public class More extends Activity {
 				switch(position)
 				{
 				case 0:
+					ridehistory1=new ArrayList<String>();
 					String his="";
 					Intent intent = new Intent(More.this, RideHistory.class);
 					if(modevalue.toString().trim().equals("driver"))

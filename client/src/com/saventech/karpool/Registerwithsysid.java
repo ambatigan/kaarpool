@@ -21,12 +21,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
@@ -79,8 +81,12 @@ public class Registerwithsysid extends  MenuOptions implements OnClickListener
 	 public void onCreate(Bundle savedInstanceState) 
 	 {
 	        super.onCreate(savedInstanceState);
+	        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 	        setContentView(R.layout.sysidscreen);
-	        
+	        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
+	        final TextView leftText = (TextView) findViewById(R.id.left_text);
+	        leftText.setText("Kaarpool");
+	        leftText.setTypeface(null, Typeface.BOLD);
 	        controller=new Controller();
 	        mobilevalidate=new Validations();
 	        uploadimage=new UploadandCompressImage();

@@ -5,10 +5,12 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
@@ -40,8 +42,12 @@ public class Login extends  MenuOptions implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.login);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
+        final TextView leftText = (TextView) findViewById(R.id.left_text);
+        leftText.setText("Kaarpool");
+        leftText.setTypeface(null, Typeface.BOLD);
        
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
         
@@ -65,6 +71,7 @@ public class Login extends  MenuOptions implements OnClickListener{
          });
         pwd = (EditText)findViewById(R.id.pwdlogintxt);
         findViewById(R.id.loginbutton).setOnClickListener(this);
+       
         warn = (TextView)findViewById(R.id.loginwarn);
         if(session.checkCookies(mPreferences, session.getCookiesUname(mPreferences), session.getCookiesUpassword(mPreferences)))
         {

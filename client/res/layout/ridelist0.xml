@@ -13,12 +13,14 @@ android:layout_weight="2"
 android:layout_alignParentBottom="true"
 android:orientation="horizontal"
 >
-<ImageButton 
+<ImageView 
 android:id="@+id/sendrequest"
-android:src="@drawable/send_request_icon"
-android:text="Send Request"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
+android:text="Send Request"
+android:textStyle="bold"
+android:layout_margin="10px"
+android:src="@drawable/send_request_icon"
 android:layout_weight="2" />
 </LinearLayout>
 

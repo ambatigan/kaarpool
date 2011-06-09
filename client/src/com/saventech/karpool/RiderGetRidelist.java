@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +48,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	Session session;
 	Controller controller;
 	ArrayList<String> ridelistdetails=new ArrayList<String>();
-	private ImageButton sendrequest;
+	private ImageView sendrequest;
 	String checkboxesclicked="";
 	String getcheckboxesclicked="";
     String sendrequests[];
@@ -114,7 +115,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 				}
 				
 				System.out.println(session.getUsername(mPreferences)+"-----"+session.getPassword(mPreferences)+ridelistdetails.size()+"  *****************");
-				sendrequest=(ImageButton)findViewById(R.id.sendrequest);
+				sendrequest=(ImageView)findViewById(R.id.sendrequest);
 				
 				// making customised linear layout
 				LinearLayout l = (LinearLayout) findViewById(R.id.mylayout1);
@@ -220,6 +221,11 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		        sendrequest.setOnClickListener(new View.OnClickListener() {
 		            public void onClick(View v) 
 		            {
+		            	int color;
+						   // Random rnd = new Random(); 
+						    //color = Color.argb(255, rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)); 
+						 color = Color.argb(255,242,222,15); 
+						 sendrequest.setBackgroundColor(color);
 		            	Log.i("RiderGetRidelist_sendrequestbutton", "Pressed send request button");
 		            	
 		            	sendrequest(getcheckboxesclicked.toString().trim());
@@ -379,7 +385,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	 {
 		 
 		 
-		 ProgressDialog progressdialog = ProgressDialog.show(RiderGetRidelist.this.getParent(), "","Sending ride request...", true);
+		    ProgressDialog progressdialog = ProgressDialog.show(RiderGetRidelist.this.getParent(), "","Sending ride request...", true);
 			 removeDuplicates(list);
 			 for (Object data : list) {
 				 checkboxesclicked=checkboxesclicked+data.toString().trim();
@@ -444,6 +450,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		 {
 			 Toast.makeText(RiderGetRidelist.this, "Please select a ride to send request", Toast.LENGTH_LONG).show();
 		 }
+		
 			 
 			 progressdialog.dismiss();
 		 

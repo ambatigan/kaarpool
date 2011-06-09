@@ -153,7 +153,7 @@ android:layout_gravity="center_horizontal"
 android:text="   Get Ride List   "
 android:textStyle="bold"
 android:layout_margin="10px"
-android:background="@drawable/greenbutton"
+android:background="@drawable/yellowbutton1"
 >
 </Button>
 </LinearLayout>

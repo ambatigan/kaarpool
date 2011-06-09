@@ -252,19 +252,18 @@ android:textStyle="bold"
  <LinearLayout
     	android:orientation="horizontal"
     	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content">   
-    	
+    	android:layout_height="wrap_content">    	
     	 
 	    <ImageView android:src="@drawable/default1"
 	    android:id="@+id/sysimage" 
-	    android:layout_height="50px" 
+	    android:layout_height="42px" 
 	    android:layout_width="50px" 
 	    >
 	    </ImageView>
 	   <Button
 		android:id="@+id/sysuploadimage"
 		android:layout_width="80px"
-		android:layout_height="50px"
+		android:layout_height="45px"
 		android:text="Upload"
 		android:textStyle="bold"
 		
@@ -276,7 +275,7 @@ android:textStyle="bold"
 
 
 </TableRow>
-<TableRow
+<!--<TableRow
 android:id="@+id/widget198"
 android:layout_width="147px"
 android:layout_height="wrap_content"
@@ -289,17 +288,19 @@ android:layout_height="wrap_content"
 android:text="              "
 >
 </TextView>
+
+</TableRow>
+--></TableLayout>
 <Button
 android:id="@+id/sysregsubmit"
-android:layout_width="40px"
+android:layout_width="wrap_content"
 android:layout_height="40px"
-android:text="Submit"
+android:text="    Submit    "
 android:textStyle="bold"
 android:layout_marginTop="5px"
+android:layout_gravity="center_horizontal"
 android:background="@drawable/greenbutton"
 >
 </Button>
-</TableRow>
-</TableLayout>
 </LinearLayout>
 </ScrollView>

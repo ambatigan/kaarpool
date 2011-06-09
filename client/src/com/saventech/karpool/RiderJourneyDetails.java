@@ -56,19 +56,19 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	    intent = new Intent().setClass(this, RiderRoute.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("route").setIndicator("Route",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
+	    spec = tabHost.newTabSpec("route").setIndicator("Route",res.getDrawable(R.drawable.tabmapsicon)).setContent(intent);
 	    tabHost.addTab(spec);
 	    
 	    intent = new Intent().setClass(this, RiderGetRidelist.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("ridelist").setIndicator("Ridelist",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
+	    spec = tabHost.newTabSpec("ridelist").setIndicator("Ridelist",res.getDrawable(R.drawable.tabbulletlisticon)).setContent(intent);
 	    tabHost.addTab(spec);
 	    
 	    intent = new Intent().setClass(this, RiderAcknowledgements.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("acknowledgement").setIndicator("Acknowledgements",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
+	    spec = tabHost.newTabSpec("acknowledgement").setIndicator("Acknowledgements",res.getDrawable(R.drawable.tabackicon)).setContent(intent);
 	    tabHost.addTab(spec);
     	tabHost.setCurrentTab(0);
 

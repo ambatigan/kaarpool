@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -51,7 +52,8 @@ public class ProfilePref extends  Activity implements OnClickListener {
         final TextView leftText = (TextView) findViewById(R.id.left_text);
         final TextView rightText = (TextView) findViewById(R.id.right_text);
 
-        leftText.setText("kaarpool");
+        leftText.setText("Kaarpool");
+        leftText.setTypeface(null, Typeface.BOLD);
         
         session=new Session();
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 

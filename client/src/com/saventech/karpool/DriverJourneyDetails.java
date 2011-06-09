@@ -54,19 +54,19 @@ public class DriverJourneyDetails extends TabActivity {
 	    // Create an Intent to launch an Activity for the tab (to be reused)
 	    intent = new Intent().setClass(this, Newroute.class);
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("newroute").setIndicator("New route",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent);
+	    spec = tabHost.newTabSpec("newroute").setIndicator("New route",res.getDrawable(R.drawable.tabmapsicon)).setContent(intent);
 	    tabHost.addTab(spec);
 	    
 	    intent11 = new Intent().setClass(this, CancelRoute.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("cancelroute").setIndicator("Cancel route",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent11);
+	    spec = tabHost.newTabSpec("cancelroute").setIndicator("Cancel route",res.getDrawable(R.drawable.tabcancel)).setContent(intent11);
 	    tabHost.addTab(spec);
 	    
 	    intent2 = new Intent().setClass(this, Acknowledgement.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("acknowledgement").setIndicator("Acknowledgements",res.getDrawable(R.drawable.ic_tab_newroute)).setContent(intent2);
+	    spec = tabHost.newTabSpec("acknowledgement").setIndicator("Acknowledgements",res.getDrawable(R.drawable.tabackicon)).setContent(intent2);
 	    tabHost.addTab(spec);
 	    
 	    tabHost.setCurrentTab(0);

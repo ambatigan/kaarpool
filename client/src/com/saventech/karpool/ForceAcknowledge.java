@@ -2,6 +2,7 @@ package com.saventech.karpool;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.TextView;
@@ -20,7 +21,8 @@ public class ForceAcknowledge extends Activity {
         final TextView leftText = (TextView) findViewById(R.id.left_text);
         final TextView rightText = (TextView) findViewById(R.id.right_text);
 
-        leftText.setText("kaarpool");
+        leftText.setText("Kaarpool");
+        leftText.setTypeface(null, Typeface.BOLD);
         
         session=new Session();
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 

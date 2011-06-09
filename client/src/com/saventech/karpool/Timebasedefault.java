@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,7 +49,8 @@ public class Timebasedefault extends Activity implements OnClickListener{
         final TextView leftText = (TextView) findViewById(R.id.left_text);
         final TextView rightText = (TextView) findViewById(R.id.right_text);
 
-        leftText.setText("kaarpool");
+        leftText.setText("Kaarpool");
+        leftText.setTypeface(null, Typeface.BOLD);
         
         session = new Session();
 	    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
