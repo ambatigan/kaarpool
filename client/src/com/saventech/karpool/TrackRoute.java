@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.location.Address;
@@ -29,7 +30,6 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -44,53 +44,73 @@ public class TrackRoute extends MapActivity {
 	private TextView address;
 	private TextView distance;
 	private SharedPreferences mPreferences; 
-	
+	Controller controller;
+	RiderAcknowledgements rack;
 	private double fromLat;
 	private double fromLon;
 	private double toLat;
 	private double toLon;
 	private String timeToDestination;
 	private String distanceToDestination;
-	
+	public String usermode;
+	private String coordinates;
+	public String[] result;
 	 Session session;
-    @SuppressWarnings("unused")
+	 GeoPoint point=null;
+    @SuppressWarnings({ "static-access", "unused" })
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
-    super.onCreate(savedInstanceState);
-    
-    requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-    setContentView(R.layout.trackroute);
-    getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
-    
-    final TextView leftText = (TextView) findViewById(R.id.left_text);
-    final TextView rightText = (TextView) findViewById(R.id.right_text);
+    	super.onCreate(savedInstanceState);
+    	controller = new Controller();
+        rack = new RiderAcknowledgements();
+        Intent intent = getIntent();
+        usermode = intent.getStringExtra("mode");
+        
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        setContentView(R.layout.trackroute);
+        
+    	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.mytitle);
+        
+        final TextView leftText = (TextView) findViewById(R.id.left_text);
+        final TextView rightText = (TextView) findViewById(R.id.right_text);
 
-    leftText.setText("Kaarpool");
-    leftText.setTypeface(null, Typeface.BOLD);
-    
-    session=new Session();
-    mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
-    String username = session.getUsername(mPreferences);
-    String name[]= username.split("@");
-    rightText.setText(name[0]);
-   
-    address = (TextView)findViewById(R.id.trackrouteadd);
-	distance = (TextView)findViewById(R.id.trackroutedst);
-	// create a map view
-	LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mainlayout);
-	mapView = (MapView) findViewById(R.id.mapview);
-	mapView.setBuiltInZoomControls(true);
-	mapView.setStreetView(true);
-	mapController = mapView.getController();
-	mapController.setZoom(14); // Zoon 1 is world view
-	locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
-	        0, new GeoUpdateHandler());
-   }
+        leftText.setText("Kaarpool");
+        leftText.setTypeface(null, Typeface.BOLD);
+        session=new Session();
+        mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); 
+        String username = session.getUsername(mPreferences);
+        String name[]= username.split("@");
+        rightText.setText(name[0]);     
+       
+        address = (TextView)findViewById(R.id.trackrouteadd);
+    	distance = (TextView)findViewById(R.id.trackroutedst);
+    	System.out.println("Ride id: "+rack.rrideid+" user mode: "+usermode);
+    	// create a map view
+    	LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mainlayout);
+    	mapView = (MapView) findViewById(R.id.mapview);
+    	mapView.setBuiltInZoomControls(true);
+    	mapView.setStreetView(true);
+    	mapController = mapView.getController();
+    	mapController.setZoom(14); // Zoom 1 is world view
+    	if(usermode.trim().equals("rider"))
+    	{
+    		System.out.println("track route if condition: rider");
+    		coordinates = controller.trackrouteDrivername(username, rack.rrideid);
+    		System.out.println("driver coordinates: "+coordinates);
+    		result = coordinates.split("::");
+        	int lat = (int) (Float.parseFloat(result[0]) * 1E6);
+        	int lng = (int) (Float.parseFloat(result[1])* 1E6);
+        	point = new GeoPoint(lat, lng);
+        	mapController.animateTo(point);
+    	}
+    	locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+    	        0, new GeoUpdateHandler());
+    	
+    }
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -101,8 +121,8 @@ public class TrackRoute extends MapActivity {
 			int lng = (int) (location.getLongitude() * 1E6);
 			double lat1 = location.getLatitude();
 			double lng1 = location.getLongitude();
-			double lat2 = 17.445872;
-			double lng2 = 78.352625;
+			double lat2 = Double.parseDouble(result[0]);
+			double lng2 = Double.parseDouble(result[1]);
 			String add1 = lat1+","+lng1;
 			String add2 = lat2+","+lng2;
 			getDistancenTime(getUrl(add1,add2));
@@ -144,27 +164,27 @@ public class TrackRoute extends MapActivity {
 			{ 
 				e.printStackTrace(); 
 			}
+			if(usermode.trim().equals("driver"))
+			{
+				GeoPoint point = new GeoPoint(lat, lng);
+				mapController.animateTo(point); //	mapController.setCenter(point);
+			}
 			
-			GeoPoint point = new GeoPoint(lat, lng);
-			mapController.animateTo(point); //	mapController.setCenter(point);
 		}
 
 		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
+
 		}
 
 		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
-			
+	
 		}
 
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
 			
 		}
 	}
 	public void getDistancenTime(String url) {
-		// TODO Auto-generated method stub
 		String result = "";
 		InputStream is = null;
     	try
@@ -228,7 +248,6 @@ public class TrackRoute extends MapActivity {
 		} 
 		catch (JSONException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
