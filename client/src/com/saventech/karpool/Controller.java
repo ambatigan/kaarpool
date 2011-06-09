@@ -673,6 +673,7 @@ public class Controller
     	try {
     	    response = CustomHttpClient.executeHttpPost(url+"DriverRidecancel", cancelparams);
     	    String res=response.toString();
+    	    System.out.println("res from server in cancel route: "+res);
     	    Log.i("Canceldriver_Controller", "Current route has been canceled");
     	}catch(Exception e) {
     		e.printStackTrace();

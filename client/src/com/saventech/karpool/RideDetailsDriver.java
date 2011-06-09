@@ -136,12 +136,13 @@ public class RideDetailsDriver extends ActivityGroup implements OnItemClickListe
 					//Intent activity3Intent = new Intent(getApplicationContext(), CancelRoute.class);
 					Intent previewMessage = new Intent(getParent(), CancelRoute.class);
 		            TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+		            
+		            previewMessage.putExtra("route", route);
+		            previewMessage.putExtra("source", source);
+		            previewMessage.putExtra("destination", destination);
+		            previewMessage.putExtra("time", time);
+		            previewMessage.putExtra("seats", seats);
 		            parentActivity.startChildActivity("CancelRoute", previewMessage);
-//					activity3Intent.putExtra("route", route);
-//					activity3Intent.putExtra("source", source);
-//					activity3Intent.putExtra("destination", destination);
-//					activity3Intent.putExtra("time", time);
-//					activity3Intent.putExtra("seats", seats);
 //					replaceContentView("activity3", activity3Intent);
 					/*Window window = getLocalActivityManager().startActivity("rideactivity",
 							 activity3Intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));  

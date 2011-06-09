@@ -81,19 +81,25 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
         dest = intent11.getStringExtra("destination");
         time = intent11.getStringExtra("time");
         seats = intent11.getStringExtra("seats");
+        System.out.println("route: "+route+" src: "+src+" dest: "+dest+" time: "+time+" seats: "+seats);
         setContentView(R.layout.cancelroute);
+        System.out.println("a");
         rn =(EditText)findViewById(R.id.routeid);
         rn.setText(route);
+        System.out.println("b");
         source=(EditText)findViewById(R.id.drivercancelroutesource);
         source.setText(src);
+        System.out.println("c");
         change1 = (Button)findViewById(R.id.drivercancelroutechange1);
         change1.setOnClickListener(this);
         destination=(EditText)findViewById(R.id.drivercancelroutedestination);
         destination.setText(dest);
+        System.out.println("d");
         change2 = (Button)findViewById(R.id.drivercancelroutechange2);
         change2.setOnClickListener(this);
         starttime=(EditText)findViewById(R.id.drivercancelroutestarttime);
         starttime.setText(time);
+        cancelroutebutton = (Button)findViewById(R.id.drivercancelroutetime);
         seatid = (EditText)findViewById(R.id.sid);
         seatid.setText(seats);
         routetime = (Button)findViewById(R.id.editnewroute);
@@ -102,7 +108,7 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
         source.setEnabled(false);
         destination.setEnabled(false);
         starttime.setEnabled(false);
-        
+        System.out.println("e");
        /* OnTouchListener cancelListener = new OnTouchListener() {
         	public boolean onTouch(View v, MotionEvent event) {
         		 if (event.getAction()==MotionEvent.ACTION_UP){
@@ -118,6 +124,7 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
         //cancelroutebutton=(Button)findViewById(R.id.drivercancelroute);
         //cancelroutebutton.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        System.out.println("f");
         /*if((cancelinfo.trim()).equals("nodata"))
         {
         	Log.i("Cancel info", "No route is created by with this name");
@@ -141,6 +148,7 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
     {
     	super.onResume();
     	reloadCancelRoute();
+    	System.out.println("onresume");
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{

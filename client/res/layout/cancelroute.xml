@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
 <LinearLayout
 android:id="@+id/widget70"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:orientation="vertical"
 xmlns:android="http://schemas.android.com/apk/res/android"
+android:background="@drawable/theme"
 
 >
 <TableLayout
@@ -220,11 +220,11 @@ android:orientation="horizontal"
 <Button
 android:id="@+id/editnewroute"
 android:layout_width="70px"
-android:layout_height="50px"
+android:layout_height="40px"
 android:layout_marginLeft="10px"
 android:text="Save"
 android:textStyle="bold"
-android:textColor="@color/textcolor"
+android:background="@drawable/yellowbutton1"
 >
 </Button>
  <LinearLayout
@@ -235,15 +235,14 @@ android:textColor="@color/textcolor"
 	    <Button
 android:id="@+id/editcancelroute"
 android:layout_width="70px"
-android:layout_height="50px"
+android:layout_height="40px"
 android:layout_marginLeft="10px"
 android:text="Cancel"
 android:textStyle="bold"
-android:textColor="@color/textcolor"
+android:background="@drawable/yellowbutton1"
 >
 </Button>
 		</LinearLayout>
 </TableRow>
 </TableLayout>
 </LinearLayout>
-</ScrollView>

@@ -71,12 +71,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 	}
 	 
 	 public void drawUI()
-	 {
-		 
-		 
-		 setContentView(R.layout.ridelist0);
-		 controller=new Controller();
-		
+	 {		
 	        setContentView(R.layout.ridelist0);
 			 controller=new Controller();
 		        Log.i("Ridergetridelist_Activity","Entered in Ridergetridelist activity");
