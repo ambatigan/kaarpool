@@ -9,26 +9,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-public class GetRidedetails extends HttpServlet{
+public class StoreCoordinates extends HttpServlet{
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException 
     {
-		String canceldata = "";
-		System.out.println("Driver route details list servlet");
+		String res_msg = "";
+		System.out.println("StoreCoordinates servlet");
         PrintWriter out=response.getWriter();
-        String username;
-        username=request.getParameter("username");
-        System.out.println("username:"+username);
+        String rideid, lat, lng, username;
+        rideid=request.getParameter("rideid");
+        lat = request.getParameter("lat");
+        lng = request.getParameter("lng");
+        username = request.getParameter("username");
+        System.out.println("rideid: "+rideid+"Latitude: "+lat+"longitude: "+lng+" username: "+username);
         
         DBInterface connect = DBInterface.getInstance();
  	   	if(connect.isConnectionOpen())
  		{
- 	   		canceldata = connect.getTotalRidedetails(username);
- 	   		
+ 	   		res_msg = connect.storeCoordinates(rideid, lat, lng, username);
  		}
         
-        out.print(canceldata);
+        out.print(res_msg);
     }
 
 }

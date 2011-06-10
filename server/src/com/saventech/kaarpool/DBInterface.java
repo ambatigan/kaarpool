@@ -7,6 +7,7 @@
 package com.saventech.kaarpool;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,9 +17,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
  
 import org.apache.log4j.Logger;
+
 /**
  * The Class DBInterface.
  */
@@ -48,7 +52,8 @@ public class DBInterface
 	/** The statement. */
 	Statement statement = null;
 	Statement stmt=null;
-
+	
+	public BigDecimal journeyid=null;
 	/** The log. */
 	Logger log = Logger.getLogger(DBInterface.class);
 	
@@ -968,27 +973,27 @@ public class DBInterface
 	public boolean confirmRideDetails(String username, String csource, String cdestination, String ctime)
 	{
 		try {
-			boolean bool = false;
+			//boolean bool = false;
 			statement = connection.createStatement();
 			System.out.println(resourceBundle.getString("uidforridedetails")+username+"\"");
 			resultSet = statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
 			resultSet.next();
 			System.out.println("bbbbbbbbbbbbbb");
-			System.out.println(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
-			rs = statement.executeQuery(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+			System.out.println(resourceBundle.getString("totalridedetails1")+resultSet.getBigDecimal(1)+")");
+			rs = statement.executeQuery(resourceBundle.getString("totalridedetails1")+resultSet.getBigDecimal(1)+")");
 			
 			while(rs.next())
 			{
 				//System.out.println(csource+" "+rs.getString("jsource")+" "+cdestination+" "+rs.getString("jdestination")+" "+ctime+" "+rs.getString("stime"));
-				if(csource.trim().equals(rs.getString(1).trim()) && cdestination.trim().equals(rs.getString(2).trim()) && ctime.trim().equals(rs.getString(3).trim()))
+				if(csource.trim().equals(rs.getString(2).trim()) && cdestination.trim().equals(rs.getString(3).trim()) && ctime.trim().equals(rs.getString(4).trim()))
 				{
 					System.out.println("details are matched");
-					bool = true;
+					journeyid = rs.getBigDecimal(1);
+					System.out.println("journeyid in confirmridedetails: "+journeyid);
+					return true;
 				}
-				else
-					bool = false;
 			}
-			return bool;
+			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -1014,7 +1019,8 @@ public class DBInterface
 				System.out.println("getrow:"+s);
 				if(s>0)
 				{
-					statement.executeUpdate("delete from ride where jdid = "+resultSet.getBigDecimal(1));
+					System.out.println("delete from ride where jdid = "+journeyid);
+					statement.executeUpdate("delete from ride where jdid = "+journeyid);
 					System.out.println("after query execution");
 					rs = statement.executeQuery(str);
 					rs.next();
@@ -1022,7 +1028,8 @@ public class DBInterface
 					System.out.println("getrow1:"+s);
 					if(s1>0)
 					{
-						statement.executeUpdate("delete from journey_details where jid = "+rs.getBigDecimal(1));
+						System.out.println("delete from journey_details where jid = "+journeyid);
+						statement.executeUpdate("delete from journey_details where jid = "+journeyid);
 						return "driverridecancel completed";
 					}
 					else
@@ -1056,6 +1063,7 @@ public class DBInterface
 	{
 		
 		String str ="";
+		String st ="";
 		
 		try
 		{
@@ -1064,14 +1072,28 @@ public class DBInterface
 			resultSet=statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
 			resultSet.next();
 			System.out.println(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+
+			//rs = statement.executeQuery(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+			System.out.println(resourceBundle.getString("driverRidedetails")+username+"\"");
 			rs = statement.executeQuery(resourceBundle.getString("driverRidedetails")+username+"\"");
+
 			while(rs.next())
 			{
-				str += "source: "+rs.getString("jsource")+"\n"+"dest: "+rs.getString("jdestination")+"\n"+"start time: "+rs.getString("stime")+"\n";
-				System.out.println(str);
+				str += "@"+"Route: "+rs.getString("routename")+"\n"+"source: "+rs.getString("jsource")+"\n"+"dest: "+rs.getString("jdestination")+"\n";
+				/**
+				 * For displaying the route details to the user, using "," as a delimiter
+				 * between the fields
+				 */
+				st += "@"+rs.getString("routename")+","+rs.getString("jsource")+ ","+rs.getString("jdestination")+","+rs.getString("stime")+","+rs.getInt("seats")+","+rs.getBigDecimal("jdid");
+				System.out.println(str+"   getTotalRidedetails  "+st);
 			}
-			
-			return str;
+			/**
+			 * returning the two strings(First string is the concatenation of the label with the value and the second is just the values 
+			 * that are needed for displaying the user route details
+			 * 
+			 * The two strings starts with "@" symbol bcoz the strings starts with the space
+			 */
+			return str+"::"+st;
 			
 		}
 		catch (final SQLException ex)
@@ -1081,6 +1103,7 @@ public class DBInterface
 		}
 		return null;
 	}
+
 
 	public String checkDriverjourneydetails(String username, String src,
 			String dest, String seats, String time) {
@@ -1413,6 +1436,148 @@ public class DBInterface
 			log.fatal("SQL exception while changing the mode"+e.getStackTrace());
 			return "Exception in changing mode";
 		}
+	}
+
+	public String getCurrentRidetime(String drivername, String ridername,
+			String cur_time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String storeCoordinates(String rideid, String lat, String lng, String username) {
+		// TODO Auto-generated method stub
+		try
+		{
+			resultSet = statement.executeQuery(resourceBundle.getString("checkgeo")+rideid+" and "+" username = "+"\""+username+"\"");
+			if(resultSet.next())
+			{
+				//System.out.println("result set is null");
+				System.out.println("update current_location set latitude= "+Double.parseDouble(lat)+","+"longitude= "+Double.parseDouble(lng)+" where ridid= "+rideid+" and username="+"\""+username+"\"");
+				statement.executeUpdate("update current_location set latitude= "+Double.parseDouble(lat)+","+"longitude= "+Double.parseDouble(lng)+" where ridid= "+rideid+" and username="+"\""+username+"\"");
+			}
+			else
+			{
+				System.out.println(resourceBundle.getString("coordinates")+rideid+","+Double.parseDouble(lat)+","+Double.parseDouble(lng)+","+"\""+username+"\""+")");
+				statement.executeUpdate(resourceBundle.getString("coordinates")+rideid+","+Double.parseDouble(lat)+","+Double.parseDouble(lng)+","+"\""+username+"\""+")");
+			}
+			
+			return "Success";
+		}
+		catch(Exception e)
+		{
+			log.fatal("SQL exception while changing the mode"+e.getStackTrace());
+			return "Exception in storing geo coordinates";
+		}
+	}
+
+	public String traceUser(String username, String rideid) {
+		// TODO Auto-generated method stub
+		try
+		{
+			System.out.println(resourceBundle.getString("trackuser")+rideid.trim()+" and ridername="+"\""+username+"\"");
+			resultSet=statement.executeQuery(resourceBundle.getString("trackuser")+rideid.trim()+" and ridername="+"\""+username+"\"");
+			if(resultSet.next())
+			{
+				String drivername = resultSet.getString("drivername").toString().trim();
+				System.out.println(resourceBundle.getString("usercoordinates")+rideid.trim()+" and username="+"\""+drivername+"\"");
+				System.out.println("xxxxxxxxxxxxx");
+				resultSet1=stmt.executeQuery(resourceBundle.getString("usercoordinates")+rideid.trim()+" and username="+"\""+drivername+"\"");
+				if(resultSet1.next())
+				{
+					String geocoord = resultSet1.getDouble(1)+"::"+resultSet1.getDouble(2);
+					System.out.println("geo coordinates: "+geocoord);
+					return geocoord;
+				}
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			return "Exception in storing geo coordinates";
+		}
+	}
+
+	public String gpsTime(String username, String date, String time) {
+		try
+		{
+			System.out.println(resourceBundle.getString("gpstime")+username+"\""+") and stime RLIKE "+"\"^"+date+"\"");
+			resultSet=statement.executeQuery(resourceBundle.getString("gpstime")+username+"\""+") and stime RLIKE "+"\"^"+date+"\"");
+			while(resultSet.next())
+			{
+				String gpstime = resultSet.getString("stime").toString().trim();
+				System.out.println("Timings are: "+gpstime);
+				if(checkTime_GPS(gpstime))
+				{
+					return "true";
+				}
+				
+			}
+			return "false";
+		}
+		catch(Exception e)
+		{
+			return "Exception in getting gps time";
+		}
+	}
+	public boolean checkTime_GPS(String ridetime) 
+    {
+		// TODO Auto-generated method stub
+    	System.out.println("I am in checkTime_GPS");
+        //String ridername = session.getUsername(mPreferences);
+        Calendar today=Calendar.getInstance();
+		System.out.println(today.getTimeInMillis()+"kkkkkkkkkkkkkkkkkk"+today.getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd h:mm a");
+		Date d = null;
+		try 
+		{
+			   d = formatter.parse(ridetime.toString().trim());//catch exception
+			  // System.out.println(d.getHours()+"  hhhhhhhhhhhhhh");
+			   Calendar thatDay = Calendar.getInstance();
+			   thatDay.setTime(d);
+			   //System.out.println(thatDay.getTimeInMillis()+"  lllllllllllllllllllll"+d+" "+rideSeekingTime.toString().trim());
+			   long dmil=thatDay.getTimeInMillis()-today.getTimeInMillis();	
+			   System.out.println(dmil+" Minutes");
+			   if( dmil/(60*1000)<=30)
+			   {
+				   return true;
+			   }
+		} catch (ParseException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		   return false;
+		}
+		return false;
+        //String response = controller.getCurrentRideTime(drivername, ridername, cur_time);
+        //System.out.println("Get ride time response: "+response);
+		
+	}
+
+	public String saveDriverroute(String jid, String route, String source,
+			String destination, String seats, String time) {
+		try
+		{
+		   
+			statement = connection.createStatement();
+			System.out.println("update journey_details set jsource="+"\""+source+"\""+", jdestination = "+"\""+destination+"\""+", stime = "+"\""+time+"\""+" where jid = "+jid.trim());
+			statement.executeUpdate("update journey_details set jsource="+"\""+source+"\""+", jdestination = "+"\""+destination+"\""+", stime = "+"\""+time+"\""+" where jid = "+jid.trim());
+			
+			log.info("updated route details and Stored driver journeydetails");
+			
+			//Storing driver ride details by getting jid from journey details
+			resultSet = null;
+			System.out.println("update ride set seats="+Integer.parseInt(seats)+", routename = "+"\""+route+"\""+" where jid = "+jid.trim());
+			statement.executeUpdate("update ride set seats="+Integer.parseInt(seats)+", routename = "+"\""+route+"\""+" where jdid = "+jid.trim());
+			log.info("updated driver ride details");
+			return "successfully updated";
+			//updating user_details by inserting user mode id 			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+			return "updating exception";
+		}
+		
 	}
 
 }
