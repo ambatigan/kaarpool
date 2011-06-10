@@ -272,7 +272,7 @@
 		<servlet-name>InjectAcknowledgementEvents</servlet-name>
 		<url-pattern>/InjectAcknowledgementEvents</url-pattern>
 	</servlet-mapping>
-	<servlet>
+		<servlet>
 		<description>
 		</description>
 		<display-name>ChangeMode</display-name>
@@ -283,6 +283,67 @@
 	<servlet-mapping>
 		<servlet-name>ChangeMode</servlet-name>
 		<url-pattern>/ChangeMode</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>CurrentRideTime</display-name>
+		<servlet-name>CurrentRideTime</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.CurrentRideTime</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CurrentRideTime</servlet-name>
+		<url-pattern>/CurrentRideTime</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>StoreCoordinates</display-name>
+		<servlet-name>StoreCoordinates</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.StoreCoordinates</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StoreCoordinates</servlet-name>
+		<url-pattern>/StoreCoordinates</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>TrackDrivername</display-name>
+		<servlet-name>TrackDrivername</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.TrackDrivername</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TrackDrivername</servlet-name>
+		<url-pattern>/TrackDrivername</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<description>
+		</description>
+		<display-name>GPSCheckTime</display-name>
+		<servlet-name>GPSCheckTime</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.GPSCheckTime</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GPSCheckTime</servlet-name>
+		<url-pattern>/GPSCheckTime</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>RideCancel</display-name>
+		<servlet-name>RideCancel</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.RideCancel</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RideCancel</servlet-name>
+		<url-pattern>/RideCancel</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>
