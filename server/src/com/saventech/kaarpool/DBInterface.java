@@ -774,8 +774,8 @@ public class DBInterface
 		{
 			ArrayList<String>list=new ArrayList<String>();
 			statement = connection.createStatement();
-			System.out.println(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username != \""+rid.toString()+"\" and user_details.modeid = 1");
-			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username != \""+rid.toString()+"\" and user_details.modeid = 1");
+			System.out.println(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\""+" and stime=\""+rstime+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username != \""+rid.toString()+"\" and user_details.modeid = 1 and ride.seats >0");
+			resultSet=statement.executeQuery(resourceBundle.getString("ridelist")+rsource+"\""+" and jdestination="+"\""+rdestination+"\") and user_details.prdid=personal_details.pid and user_details.uid = journey_details.userid and journey_details.jid = ride.jdid and personal_details.username != \""+rid.toString()+"\" and user_details.modeid = 1 and ride.seats >0");
 			
 			while(resultSet.next())
 			{
@@ -1059,6 +1059,51 @@ public class DBInterface
 		}
 	}
 	
+	/*public String getTotalRidedetails(String username)
+	{
+		
+		String str ="";
+		String st ="";
+		
+		try
+		{
+			statement = connection.createStatement();
+			System.out.println(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet=statement.executeQuery(resourceBundle.getString("uidforridedetails")+username+"\"");
+			resultSet.next();
+			System.out.println(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+
+			//rs = statement.executeQuery(resourceBundle.getString("totalridedetails")+resultSet.getBigDecimal(1)+")");
+			System.out.println(resourceBundle.getString("driverRidedetails")+username+"\"");
+			rs = statement.executeQuery(resourceBundle.getString("driverRidedetails")+username+"\"");
+
+			while(rs.next())
+			{
+				str += "@"+"Route: "+rs.getString("routename")+"\n"+"source: "+rs.getString("jsource")+"\n"+"dest: "+rs.getString("jdestination")+"\n";
+				/**
+				 * For displaying the route details to the user, using "," as a delimiter
+				 * between the fields
+				 *
+				st += "@"+rs.getString("routename")+","+rs.getString("jsource")+ ","+rs.getString("jdestination")+","+rs.getString("stime")+","+rs.getInt("seats")+","+rs.getBigDecimal("jdid");
+				System.out.println(str+"   getTotalRidedetails  "+st);
+			}
+			/**
+			 * returning the two strings(First string is the concatenation of the label with the value and the second is just the values 
+			 * that are needed for displaying the user route details
+			 * 
+			 * The two strings starts with "@" symbol bcoz the strings starts with the space
+			 *
+			return str+"::"+st;
+			
+		}
+		catch (final SQLException ex)
+		{
+			log.fatal("SQLException"+ex.getStackTrace());
+			ex.printStackTrace();
+		}
+		return null;
+	}*/
+	
 	public String getTotalRidedetails(String username)
 	{
 		
@@ -1085,7 +1130,7 @@ public class DBInterface
 				 * between the fields
 				 */
 				st += "@"+rs.getString("routename")+","+rs.getString("jsource")+ ","+rs.getString("jdestination")+","+rs.getString("stime")+","+rs.getInt("seats")+","+rs.getBigDecimal("jdid");
-				System.out.println(str+"   getTotalRidedetails  "+st);
+				//System.out.println(st+ "           bagiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
 			}
 			/**
 			 * returning the two strings(First string is the concatenation of the label with the value and the second is just the values 
@@ -1435,6 +1480,57 @@ public class DBInterface
 		{
 			log.fatal("SQL exception while changing the mode"+e.getStackTrace());
 			return "Exception in changing mode";
+		}
+	}
+	public String updateSeats(String rideid, int seats)
+	{
+		try
+		{
+			System.out.println(resourceBundle.getString("update_setas_ride")+"+"+seats+" where rid="+rideid.toString().trim());
+			if(seats>0)
+			{
+				System.out.println(resourceBundle.getString("update_setas_ride")+"+"+seats+" where rid="+rideid.toString().trim());
+				statement.executeUpdate(resourceBundle.getString("update_setas_ride")+"+"+seats+" where rid="+rideid.toString().trim());
+			}
+			else
+			{
+				System.out.println(Integer.toString(+1)+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+				System.out.println(resourceBundle.getString("update_setas_ride")+seats+" where rid="+rideid.toString().trim());
+				statement.executeUpdate(resourceBundle.getString("update_setas_ride")+seats+" where rid="+rideid.toString().trim());
+			}
+			//System.out.println("9999999999999999999999999999999999999999999999999999999999999999999999");
+			return "success";
+		}
+		catch(Exception e)
+		{
+			log.fatal("SQL exception while updating seats"+e.getStackTrace());
+			return "Exception in updating seats in updateseats";
+		}
+	}
+	public String checkUpdateSeats(String rideid)
+	{
+		int numberofseats=0;
+		try
+		{
+			System.out.println(resourceBundle.getString("check_seatstoupdate")+rideid.toString().trim()+"checkupdateseatssssssssssssssssssssssssssssssssss");
+			resultSet=statement.executeQuery(resourceBundle.getString("check_seatstoupdate")+rideid.toString().trim());
+			if(resultSet.next())
+			{
+				numberofseats=resultSet.getInt("seats");
+			}
+			if(numberofseats>0)
+			{
+				return "UPDATE";
+			}
+			else
+			{
+				return "CANNOT UPDATE";
+			}
+		}
+		catch(Exception e)
+		{
+			log.fatal("SQL exception while updating seats"+e.getStackTrace());
+			return "Exception in updating seats in checkupdateseats";
 		}
 	}
 
