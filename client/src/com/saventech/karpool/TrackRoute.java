@@ -136,7 +136,7 @@ public class TrackRoute extends MapActivity {
 			try 
 			{ 
 				String city=""; 
-				List<Address> addresses= geocoder.getFromLocation(lat1, lng1, 1); 
+				List<Address> addresses= geocoder.getFromLocation(lat2, lng2, 1); 
 				if(addresses.size()>0) 
 				{ 
 					//city+=addresses.get(0).getSubAdminArea(); 

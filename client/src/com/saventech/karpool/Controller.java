@@ -185,19 +185,22 @@ public class Controller
 	/*
 	 * Cancel the current route
 	 */
-	public String Canceldriverroute(String username, String csource, String cdestination, String ctime)
+	public String saveDriverroute(String jid,String route, String csource, String cdestination, String seats, String ctime)
 	{
-		ArrayList<NameValuePair> cancelparams = new ArrayList<NameValuePair>();
-		cancelparams.add(new BasicNameValuePair("username", username.toString().trim()));
-		cancelparams.add(new BasicNameValuePair("csource", csource.toString().trim()));
-		cancelparams.add(new BasicNameValuePair("cdestination", cdestination.toString().trim()));
-		cancelparams.add(new BasicNameValuePair("ctime", ctime.toString().trim()));
+		ArrayList<NameValuePair> saveparams = new ArrayList<NameValuePair>();
+		saveparams.add(new BasicNameValuePair("jid", jid.toString().trim()));
+		saveparams.add(new BasicNameValuePair("route", route.toString().trim()));
+		saveparams.add(new BasicNameValuePair("csource", csource.toString().trim()));
+		saveparams.add(new BasicNameValuePair("cdestination", cdestination.toString().trim()));
+		saveparams.add(new BasicNameValuePair("seats", seats.toString().trim()));
+		saveparams.add(new BasicNameValuePair("ctime", ctime.toString().trim()));
 		
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost(url+"DriverRidecancel", cancelparams);
+    	    response = CustomHttpClient.executeHttpPost(url+"DriverRidecancel", saveparams);
     	    String res=response.toString();
-    	    Log.i("Canceldriver_Controller", "Current route has been canceled");
+    	    System.out.println("saveDriverroute response: "+res);
+    	    Log.i("saveDriverroute_Controller", "Current route has been saved");
     	    return res;
     	}catch(Exception e) {
     		e.printStackTrace();
@@ -671,7 +674,7 @@ public class Controller
 		
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost(url+"DriverRidecancel", cancelparams);
+    	    response = CustomHttpClient.executeHttpPost(url+"RideCancel", cancelparams);
     	    String res=response.toString();
     	    System.out.println("res from server in cancel route: "+res);
     	    Log.i("Canceldriver_Controller", "Current route has been canceled");

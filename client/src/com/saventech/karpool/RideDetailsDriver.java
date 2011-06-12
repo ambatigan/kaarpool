@@ -70,10 +70,10 @@ public class RideDetailsDriver extends ActivityGroup implements OnItemClickListe
 		    {
 		    	String temp[] = splitrecords[i].split(",");
 		    	System.out.println("temp length: "+temp.length);
-		    	System.out.println(" kddk"+temp[0]+"\t"+temp[1]+" to "+temp[2]+" with "+ temp[4]+" seats");
+		    	System.out.println(" kddk"+temp[0]+"\t"+temp[1]+" to "+temp[2]+" with "+ temp[4]+" seats jid: "+temp[5]);
 		    	//ridedetails.add(splitrecords[i].trim());
 		    	String temp1 = temp[0]+"\t\t"+temp[1]+" to "+temp[2];
-		    	populateList(temp1, temp[3], temp[4]);
+		    	populateList(temp1, temp[3], temp[4], temp[5]);
 		    }
 	    	if(data.length()==0)
 	    	{
@@ -99,13 +99,14 @@ public class RideDetailsDriver extends ActivityGroup implements OnItemClickListe
 					String temp1 = temp.get("route");
 					String temp2 = temp.get("time");
 					String temp3 = temp.get("seats");
+					String temp4 = temp.get("journeyid");
 					String[] temp12 = temp1.split("\t\t");
 					String[] temp121 = temp12[1].split(" to ");
 					System.out.println("route name: "+temp12[0].trim());
 					System.out.println("source and destination: "+temp121[0]+" "+temp121[1]);
-					System.out.println("seats: "+temp3);
-					setAlertbox("Edit Route","Cancel Route","Message", position, 
-							temp12[0].trim(), temp121[0].trim(), temp121[1].trim(), temp2.trim(), temp3.trim());
+					System.out.println("seats: "+temp3 +" and journeyid: "+temp4);
+					setAlertbox("Edit Route","Cancel Route","Message", position, temp12[0].trim(), 
+							temp121[0].trim(), temp121[1].trim(), temp2.trim(), temp3.trim(), temp4.trim());
 				}
 		    
 		    });
@@ -115,16 +116,17 @@ public class RideDetailsDriver extends ActivityGroup implements OnItemClickListe
     	super.onResume();
     	refreshRideDetailsDriver();
      }
-	 private void populateList(String route, String time, String seats) {
+	 private void populateList(String route, String time, String seats, String journeyid) {
 	    	HashMap<String,String> temp = new HashMap<String,String>();
 	    	temp.put("route",route);
 	    	temp.put("time", time);
 	    	temp.put("seats", seats);
+	    	temp.put("journeyid", journeyid);
 	    	ridedetails.add(temp);
 	 }
 	 
-	 public void setAlertbox(final String msg1,final String msg2,final String title, final int position,
-			 final String route, final String source, final String destination, final String time, final String seats)
+	 public void setAlertbox(final String msg1,final String msg2,final String title,final int position,final String route,
+			 final String source, final String destination, final String time, final String seats, final String jid)
 	    {
 	    	AlertDialog.Builder adb=new AlertDialog.Builder(DriverJourneyDetails.context1);
 	    	//AlertDialog adb = new AlertDialog(RideDetailsDriver.this.getParent());
@@ -142,6 +144,7 @@ public class RideDetailsDriver extends ActivityGroup implements OnItemClickListe
 		            previewMessage.putExtra("destination", destination);
 		            previewMessage.putExtra("time", time);
 		            previewMessage.putExtra("seats", seats);
+		            previewMessage.putExtra("journeyid", jid);
 		            parentActivity.startChildActivity("CancelRoute", previewMessage);
 //					replaceContentView("activity3", activity3Intent);
 					/*Window window = getLocalActivityManager().startActivity("rideactivity",
