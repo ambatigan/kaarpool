@@ -1676,4 +1676,25 @@ public class DBInterface
 		
 	}
 
+	public String GPSCoordiantes_Distance(String rideid, String ridername) {
+		try
+		{
+			System.out.println(resourceBundle.getString("usercoordinates")+rideid.trim()+" and username="+"\""+ridername+"\"");
+			System.out.println("yyyyyyyyyyyyyy");
+			resultSet1=stmt.executeQuery(resourceBundle.getString("usercoordinates")+rideid.trim()+" and username="+"\""+ridername+"\"");
+			if(resultSet1.next())
+			{
+				System.out.println("if condition after yyyyyyyyyyy");
+				String geocoord = resultSet1.getString(1)+"::"+resultSet1.getString(2);
+				System.out.println("geo coordinates: "+geocoord);
+				return geocoord;
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			return "Exception in getting geo coordinates";
+		}
+	}
+
 }
