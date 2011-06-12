@@ -26,7 +26,7 @@ public class Controller
 
 
 
-	//String url="http://198.162.18.174:8080/kaarpool/";
+	//String url="http://198.162.18.171:8080/kaarpool/";
 
 	String url="http://122.183.102.229/kaarpool/";
 
@@ -716,6 +716,24 @@ public class Controller
     		e.printStackTrace();
     		Log.i("Controller_checkToUpdateSeats","Got exception");
     		return "Exception in checktoupdateseats_controller";
+    	}
+	}
+	public String getGPSCoordinates(String rideid, String ridername) {
+		System.out.println("Getting GPS Coordinates");
+		ArrayList<NameValuePair> GPS = new ArrayList<NameValuePair>();
+		GPS.add(new BasicNameValuePair("rideid", rideid.toString().trim()));
+		GPS.add(new BasicNameValuePair("ridername", ridername.toString().trim()));
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost(url+"GPSDistance", GPS);
+    	    String res=response.toString();
+    	    System.out.println("res from server for getting gps coordinates: "+res);
+    	    Log.i("getGPSCoordinates_Controller", "getGPSCoordinates");
+    	    return res.toString().trim();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		Log.i("Controller_getGPSCoordinates","Got exception");
+    		return "Exception in getGPSCoordinates_controller";
     	}
 	}
 }

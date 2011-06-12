@@ -11,11 +11,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -45,6 +57,12 @@ import android.widget.Toast;
 
 public class Acknowledgement extends Activity implements OnClickListener 
 {
+	private double fromLat;
+	private double fromLon;
+	private double toLat;
+	private double toLon;
+	private String timeToDestination;
+	private int distanceToDestination;
 	public double lat;
 	public double lng;
 	public String rideid;
@@ -61,6 +79,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 	String popupmessage2="";
 	String popupmessage3="";
 	Controller controller;
+	private String gpsridername;
 	//private String globalrideidmessage="";
 	/**
 	 * This screen show the riders list for driver and driver can get notifications(accept/reject)
@@ -123,8 +142,9 @@ public class Acknowledgement extends Activity implements OnClickListener
 				}
 				System.out.println("message1 in Driver acknowledgement: "+message1);
 				//Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
-				String messagepopups[]=message.split("FROM");
+				String messagepopups[]=message.split("FROM");		
 				String ridername=messagepopups[messagepopups.length-1].toString().trim();
+				gpsridername = ridername;
 				if(messagepopups[0].toString().trim().equals(getString(R.string.r1)))
 				{
 					popupmessage1=getString(R.string.d1);
@@ -554,7 +574,20 @@ public class Acknowledgement extends Activity implements OnClickListener
 			
 			controller.storeCoordinates(session.getUsername(mPreferences), rideid, lat, lng);
 			System.out.println("Geo coordinates: latitude: "+lat+" longitude: "+lng);
-
+			
+			String rname = getEntireRiderName(gpsridername);
+			String coordinates = controller.getGPSCoordinates(rideid, rname);
+			String[] result = coordinates.split("::");
+			System.out.println(rname + "  coordinates : "+ coordinates);
+			
+			String add1 = lat+","+lng;
+			String add2 = result[0].trim()+","+result[1].trim();
+			int distance = Integer.parseInt(getDistancenTime(getUrl(add1,add2)));
+			System.out.println("Distance: "+distance);
+			if(distance <= 10000)
+			{
+				Toast.makeText(getApplicationContext(),"you are near to "+rname+" place! send pickup request ",Toast.LENGTH_SHORT).show();
+			}
 		}
 
 		public void onProviderDisabled(String provider) {
@@ -571,4 +604,86 @@ public class Acknowledgement extends Activity implements OnClickListener
 			
 		}
 	}
+	public String getDistancenTime(String url) {
+		String result = "";
+		InputStream is = null;
+    	try
+    	{
+    		HttpClient httpclient = new DefaultHttpClient();
+    		HttpPost httppost = new HttpPost(url);
+    		HttpResponse response = httpclient.execute(httppost);
+    		HttpEntity entity = response.getEntity();
+    		is = entity.getContent();
+    	} 
+    	catch(Exception e) 
+    	{
+    		Log.e("log_tag", "Error in http conection"+e.toString());
+    	}
+    	try 
+    	{
+    		BufferedReader reader = new BufferedReader(
+    		new InputStreamReader(is,"iso-8859-1"),8);
+    		StringBuilder sb = new StringBuilder();
+    		String line = null;
+    		while ( (line = reader.readLine() ) != null) {
+    		sb.append(line + "\n"); }
+    		is.close();
+    		result=sb.toString();
+
+    	}
+    	catch(Exception e)
+    	{
+    		Log.e("log_tag", "Error converting result "+e.toString());
+    	}
+		try 
+		{
+			JSONObject rootObj = new JSONObject(result); //rootObj ist jetzt ein dict
+			JSONArray routes = (JSONArray) rootObj.get("routes");
+			if(routes.length()<1)
+				return "ERROR no route there";
+			JSONObject firstRoute = routes.getJSONObject(0);
+			JSONArray legs = (JSONArray) firstRoute.get("legs");
+			if(legs.length()<1)
+				return "ERROR no legs there";
+			JSONObject firstLeg = legs.getJSONObject(0);
+			JSONObject durationObject = (JSONObject) firstLeg.get("duration");
+			JSONObject distanceObject = (JSONObject) firstLeg.get("distance");
+			JSONObject startaddObject = (JSONObject) firstLeg.get("start_location");
+			JSONObject endaddObject = (JSONObject) firstLeg.get("end_location");
+			String startadd = (String)firstLeg.get("start_address");
+			String endadd = (String)firstLeg.get("end_address");
+
+			timeToDestination = (String) durationObject.get("text");
+			distanceToDestination = (Integer) distanceObject.get("value");
+			fromLat = (Double) startaddObject.getDouble("lat");
+			fromLon = (Double) startaddObject.getDouble("lng");
+			
+			toLat = (Double) endaddObject.getDouble("lat");
+			toLon = (Double) endaddObject.getDouble("lng");
+			
+			System.out.println("start_Location: "+fromLat+","+fromLon+"\nend_location"+toLat+","+toLon);
+			System.out.println("start_address: "+startadd+"\nend_address: "+endadd);
+			
+			System.out.println("Time: "+timeToDestination+" "+"and Distance in meters: "+distanceToDestination);
+			return Integer.toString(distanceToDestination);
+			
+		} 
+		catch (JSONException e) 
+		{
+			e.printStackTrace();
+			return "Error while getting distance";
+		}
+		
+	}
+	public static String getUrl(String fromAdress, String toAdress) // connect to map web service
+    {
+	    StringBuffer urlString = new StringBuffer();
+	    urlString.append("http://maps.google.com/maps/api/directions/json?origin=");
+	    urlString.append(fromAdress.toString());
+	    urlString.append("&destination=");
+	    urlString.append(toAdress.toString());
+	    urlString.append("&sensor=false");
+	    System.out.println("url: "+urlString.toString());
+	    return urlString.toString();
+    }
 }
