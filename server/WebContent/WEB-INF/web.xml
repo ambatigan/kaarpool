@@ -369,8 +369,19 @@
 	<servlet-mapping>
 		<servlet-name>UpdateSeats</servlet-name>
 		<url-pattern>/UpdateSeats</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<description>
+		</description>
+		<display-name>GPSDistance</display-name>
+		<servlet-name>GPSDistance</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.GPSDistance</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GPSDistance</servlet-name>
+		<url-pattern>/GPSDistance</url-pattern>
 	</servlet-mapping>
-	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
