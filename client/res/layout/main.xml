@@ -38,8 +38,9 @@ android:layout_height="40px"
 android:text="Register"
 android:layout_centerHorizontal="true"
 android:layout_margin="5px"
+android:textStyle="bold"
 android:gravity="center_horizontal"
-android:background="@drawable/yellowbutton"
+android:background="@drawable/yellowbutton1"
 
 >
 </Button>
@@ -51,7 +52,8 @@ android:text="Login"
 android:gravity="center_horizontal"
 android:layout_centerHorizontal="true"
 android:layout_margin="5px"
-android:background="@drawable/greenbutton"
+android:textStyle="bold"
+android:background="@drawable/yellowbutton1"
 >
 </Button>
 </TableRow>

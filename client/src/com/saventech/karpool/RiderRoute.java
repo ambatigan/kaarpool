@@ -518,7 +518,7 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		if (view == findViewById(R.id.riderjourneychangesource)) 
 		{
 			
-			Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the source");
+			/*Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the source");
             //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
@@ -530,19 +530,19 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
                 // Click listener
                 public void onClick(DialogInterface dialog, int item) {
                     if(items[item]=="New Location")
-                    {
+                    {*/
                     	changeSource(view);                 	                    	
-                    }
+                    /*}
                 }
             });
             AlertDialog alert = builder.create();
             //display dialog box
-            alert.show();
+            alert.show();*/
         }
         /** check whether the change2 button has been clicked */
         if (view == findViewById(R.id.riderjourneychangedestination)) {
         	
-        	Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the source");
+        	/*Log.i("Riderroute_changesourcepopup", "Pop will be displayed to change the source");
             //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
@@ -554,14 +554,14 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
                 // Click listener
                 public void onClick(DialogInterface dialog, int item) {
                     if(items[item]=="New Location")
-                    {
+                    {*/
                     	changeDestination(view);                 	                    	
-                    }
+                    /*}
                 }
             });
             AlertDialog alert = builder.create();
             //display dialog box
-            alert.show();
+            alert.show();*/
         }
         if(view == findViewById(R.id.riderjourneysettime))
         {

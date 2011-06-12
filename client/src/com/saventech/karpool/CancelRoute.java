@@ -8,7 +8,10 @@
 
 package com.saventech.karpool;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -171,6 +174,36 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
 		alert.show();
     }
     
+    
+    public boolean checkMobiletime(String rideSeekingTime)
+    {
+    	
+    	Calendar today=Calendar.getInstance();
+		System.out.println(today.getTimeInMillis()+"kkkkkkkkkkkkkkkkkk"+today.getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd h:mm a");
+		  Date d = null;
+		  try {
+			   d = formatter.parse(rideSeekingTime.toString().trim());//catch exception
+			  // System.out.println(d.getHours()+"  hhhhhhhhhhhhhh");
+			   Calendar thatDay = Calendar.getInstance();
+			   thatDay.setTime(d);
+			   //System.out.println(thatDay.getTimeInMillis()+"  lllllllllllllllllllll"+d+" "+rideSeekingTime.toString().trim());
+			   long dmil=thatDay.getTimeInMillis()-today.getTimeInMillis();	
+			   System.out.println(dmil+" Minutes");
+			   if( dmil/(60*1000)<=15)
+			   {
+					return true;
+			   }
+		  } catch (ParseException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		   Log.i("RiderRoute_checkMobiletime", "Exception occure while validating time in rider rotue");
+		   return false;
+		  } 
+		  
+	    return false;
+    }
+    
     public void showDateTimeDialog() {
 		// Create the dialog
 		final Dialog mDateTimeDialog = new Dialog(DriverJourneyDetails.context1);
@@ -224,6 +257,20 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
 	}
 
 
+    public boolean checkSeatsIsInteger(String seatnumber)
+    {
+    
+       try {
+    	       int x = Integer.parseInt(seatnumber);
+    	       return false;
+    	   }
+    	   catch(NumberFormatException nFE) {
+    	       System.out.println("Cancel route: Not an Integer");
+    	       return true;
+    	     }
+
+
+    }
     
    /* public void getUserRidedetails()
     {
@@ -253,9 +300,22 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
 		
 		if (view == findViewById(R.id.editnewroute))
 		{
-			if(source.getText().toString()==null || destination.getText().toString()==null || starttime.getText().toString()==null || seatid.getText().toString()==null)
+			
+			if(source.getText().toString().trim().length()==0 || destination.getText().toString().trim().length()==0 || starttime.getText().toString().trim().length()==0 )
 			{
-				Toast.makeText(this, "please enter valid cancel details", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Please make sure all details are filled", Toast.LENGTH_LONG ).show();
+			}
+			else if(source.getText().toString().trim().equals(destination.getText().toString().trim()))
+			{
+				Toast.makeText(this, "Source and Destination should be varied", Toast.LENGTH_LONG).show();
+			}
+			else if(checkMobiletime(starttime.getText().toString().trim()))
+			{
+				Toast.makeText(this, "Invalid time", Toast.LENGTH_LONG).show();
+			}
+			else if(checkSeatsIsInteger(seatid.getText().toString().trim()))
+			{
+				Toast.makeText(this, "Seats should be  a number", Toast.LENGTH_LONG).show();
 			}
 			else
 			{
@@ -272,7 +332,7 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
 		if (view == findViewById(R.id.drivercancelroutechange1)) 
 		{
 			
-			Log.i("driver cancel route source", "Pop will be displayed to change the source");
+			/*Log.i("driver cancel route source", "Pop will be displayed to change the source");
             //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
@@ -284,19 +344,19 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
                 // Click listener
                 public void onClick(DialogInterface dialog, int item) {
                     if(items[item]=="New Location")
-                    {
+                    {*/
                     	changeSource(view);                 	                    	
-                    }
+                    /*}
                 }
             });
             AlertDialog alert = builder.create();
             //display dialog box
-            alert.show();
+            alert.show();*/
         }
         /** check whether the change2 button has been clicked */
         if (view == findViewById(R.id.drivercancelroutechange2)) {
         	
-        	Log.i("driver cancel route source", "Pop will be displayed to change the source");
+        	/*Log.i("driver cancel route source", "Pop will be displayed to change the source");
             //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
@@ -308,14 +368,14 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
                 // Click listener
                 public void onClick(DialogInterface dialog, int item) {
                     if(items[item]=="New Location")
-                    {
+                    {*/
                     	changeDestination(view);                 	                    	
-                    }
+                    /*}
                 }
             });
             AlertDialog alert = builder.create();
             //display dialog box
-            alert.show();
+            alert.show();*/
         }
         if(view == findViewById(R.id.drivercancelroutetime))
         {

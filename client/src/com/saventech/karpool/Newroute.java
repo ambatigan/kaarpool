@@ -74,7 +74,8 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
         super.onCreate(savedInstanceState);
         Log.i("DriverJourneyDetails_New route", "New route tab in DriverJourneyDetails");
        // drawUI();
-               
+        
+        
         //Meteor connectivity
         
         
@@ -202,6 +203,21 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		  
 	    return false;
     }
+    public boolean checkSeatsIsInteger(String seatnumber)
+    {
+    
+       try {
+    	       int x = Integer.parseInt(seatnumber);
+    	       return false;
+    	   }
+    	   catch(NumberFormatException nFE) {
+    	       System.out.println("Cancel route: Not an Integer");
+    	       return true;
+    	     }
+
+
+    }
+    
     
     public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
@@ -339,6 +355,10 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 			else if(checkMobiletime(driverjourneyedittime.getText().toString().trim()))
 			{
 				Toast.makeText(Newroute.this, "Invalid time", Toast.LENGTH_LONG).show();
+			}
+			else if(checkSeatsIsInteger(seatid.getText().toString().trim()))
+			{
+				Toast.makeText(this, "Seats should be  a number", Toast.LENGTH_LONG).show();
 			}
 			else
 			{

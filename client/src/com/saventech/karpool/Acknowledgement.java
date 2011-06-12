@@ -131,7 +131,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 					popupmessage2=getString(R.string.d2);
 					setAlertbox(popupmessage1,popupmessage2,ridername,getString(R.string.r1),message,message1);
 				}
-				else if(messagepopups[0].toString().trim().equals(getString(R.string.r3))||messagepopups[0].toString().trim().equals(getString(R.string.r2))||messagepopups[0].toString().trim().equals(getString(R.string.r8)))
+				else if(messagepopups[0].toString().trim().equals(getString(R.string.r3))||messagepopups[0].toString().trim().equals(getString(R.string.r2)))
 				{
 					System.out.println("i am in message popups: if condition ");
 					popupmessage3="OK";
@@ -151,6 +151,13 @@ public class Acknowledgement extends Activity implements OnClickListener
 						else
 							System.out.println("greater than 30 mins");
 					}
+				}
+				else if(messagepopups[0].toString().trim().equals(getString(R.string.r8)))
+				{
+					System.out.println("i am in message popups: if condition (Ride fixed with another users)");
+					popupmessage3=getString(R.string.r8);
+					setAlertbox2(popupmessage3,ridername,messagepopups[0].toString().trim(),message,message1);
+					
 				}
 				
 				/*else if(messagepopups[0].toString().trim().equals(getString(R.string.d5)))
@@ -289,6 +296,29 @@ public class Acknowledgement extends Activity implements OnClickListener
     	String drivername[]=dname.toString().trim().split("-");
     	return drivername[0].toString().trim();
     }
+    public void setAlertbox2(final String msg3, final String ridername,String displaymessage,final String message, final String message1)
+    {
+		        AlertDialog.Builder adb=new AlertDialog.Builder(Acknowledgement.this.getParent());
+		    	
+		    	adb.setTitle(displaymessage.toString().trim());
+		    	adb.setMessage("Ridername  : "+getEntireRiderName(ridername)+"\nTime      : "+parseTimeFromMessage(message1));
+		    	adb.setPositiveButton(msg3.toString().trim(), new DialogInterface.OnClickListener() {
+		  			public void onClick(DialogInterface dialog, int whichButton) {
+		  				//value = input.getText().toString().trim();
+		  				removeMessage(message);
+		  				System.out.println("hhhhhhhhhhhhhyyyyyyyyyyyyyyyyyyyyyyydddddddddddddddddddddddddddddd");
+		  				sendResponseMessage(message,ridername,msg3.toString().trim(),message1.toString().trim());
+		  				if(DriverJourneyDetails.driverrideid.size()!=0)
+		  				{
+		  					DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
+		  				}
+		  				
+		  				Toast.makeText(getApplicationContext(),msg3.toString().trim(),Toast.LENGTH_SHORT).show();
+		
+		  			}
+		  		});
+		    	adb.show();
+    }
     public void setAlertbox1(final String msg3,String ridername,String displaymessage,final String message,final String message1)
     {
     	/*if(displaymessage.toString().trim().equals(getString(R.string.r8)))
@@ -377,6 +407,8 @@ public class Acknowledgement extends Activity implements OnClickListener
     			return "d5";
     		else if(res.toString().trim().equals(getString(R.string.d6)))
     			return "d6";
+    		else if(res.toString().trim().equals(getString(R.string.r8)))
+    			return "r8";
     		else
     			return "empty";
     					
@@ -404,50 +436,85 @@ public class Acknowledgement extends Activity implements OnClickListener
     	String split[]=msg.toString().trim().split("::");
     	return split[1].toString().trim();
     }
+   
     public void sendResponseMessage(String message,String drivername,String respon,String message1)
     {
     	System.out.println("message: "+message);
     	String rideidmessage=getRideId(message1.toString().trim());
     	String rideid=parseRideIdfromMessage(rideidmessage.toString().trim());
     	String time=parseTimeFromMessage(message1.toString().trim());
-    	System.out.println(rideidmessage+" *************888 "+rideid);
+    	System.out.println(rideidmessage+"  *************888 "+rideid);
     	String res=getResponseId(respon);
 		 //String rid=getRid(message);
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
+		 
 		 String updateseatsmessage="";
-		 if(res.toString().trim().equals("d1"))
+		 if(res.toString().trim().equals("r8"))
 		 {
-			 updateseatsmessage=controller.checkToUpdateSeats(rideid.toString().trim());
-			 
-		 }
-		 if(updateseatsmessage.toString().trim().equals("UPDATE"))
-		 {
-			 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(-1));
-			 ArrayList<String>even=new ArrayList<String>();
-	         
-			 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"::"+time+"EVENT");
-			 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+rideid+"::"+time.toString().trim()+"EVENT TNEVE");
-			 if(res.toString().trim().equals("d4"))
+			 if(DriverJourneyDetails.driverridernames.contains(channelname.toString().trim()+rideid.toString().trim()))
 			 {
+				 System.out.println("channel name: "+channelname+ "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 				 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(+1));
+				 
+				 
+				 DriverJourneyDetails.driverridernames.remove(channelname.toString().trim()+rideid.toString().trim());
 			 }
-			 if(DriverJourneyDetails.driverrideid.size()!=0)
+			/* int checkvalue=0;
+			 for( int namevalue=0;namevalue<DriverJourneyDetails.driverridernames.size();namevalue++)
 			 {
-				 DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
-			 }
-			 String val=controller.injectAcknowledgeEvents(even);
-			 if(val.trim().equals("successfully injected"))
+				 if(DriverJourneyDetails.driverridernames.get(namevalue).toString().trim().equals(channelname.toString().trim()))
+				 {
+					 checkvalue=1;
+					 System.out.println("channel name: "+channelname+ "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+					 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(+1));
+					 break;
+				 }
+			 }*/
+			 
+			 /*if((DriverJourneyDetails.driverridernames.size()!=0) )
 			 {
-				 System.out.println(val.toString().trim());
-			 }
-			 else
-			 {
-				 System.out.println("No message injected");
-			 }
+				 DriverJourneyDetails.driverridernames.remove(channelname.toString().trim());
+			 }*/
 		 }
 		 else
 		 {
-			 Toast.makeText(getApplicationContext(),"Seats are filled! no more accepatances please",Toast.LENGTH_SHORT).show();
+			 
+		 
+			 if(res.toString().trim().equals("d1"))
+			 {
+				 DriverJourneyDetails.driverridernames.add(channelname.toString().trim()+rideid.toString().trim());
+				 updateseatsmessage=controller.checkToUpdateSeats(rideid.toString().trim());
+				 
+			 }
+			 if(updateseatsmessage.toString().trim().equals("UPDATE"))
+			 {
+				 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(-1));
+				 ArrayList<String>even=new ArrayList<String>();
+		         
+				 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"::"+time+"EVENT");
+				 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+rideid+"::"+time.toString().trim()+"EVENT TNEVE");
+				 if(res.toString().trim().equals("d4"))
+				 {
+					 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(+1));
+				 }
+				 if(DriverJourneyDetails.driverrideid.size()!=0)
+				 {
+					 DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
+				 }
+				 String val=controller.injectAcknowledgeEvents(even);
+				 if(val.trim().equals("successfully injected"))
+				 {
+					 System.out.println(val.toString().trim());
+				 }
+				 else
+				 {
+					 System.out.println("No message injected");
+				 }
+			 }
+			 else
+			 {
+				 Toast.makeText(getApplicationContext(),"Seats are filled! no more accepatances please",Toast.LENGTH_SHORT).show();
+			 }
 		 }
 		 //System.out.println("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
     }

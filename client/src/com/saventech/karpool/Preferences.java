@@ -90,11 +90,11 @@ public class Preferences extends Activity implements OnItemClickListener {
     	            Intent register = new Intent(Preferences.this, TravelPref.class);
     				startActivity(register);
     				break;
-    			case 2:
+    			/*case 2:
     	            Intent register1 = new Intent(Preferences.this, Timebasedefault.class);
     				startActivity(register1);
-    				break;
-    			case 3:
+    				break;*/
+    			case 2:
     				 
     	             session.removeSession(mPreferences);
     	             DriverJourneyDetails.drivermeteormsg = new ArrayList<String>();
@@ -104,6 +104,7 @@ public class Preferences extends Activity implements OnItemClickListener {
     	             DriverJourneyDetails.driverrideid=new ArrayList<String>();
     	             JourneyDetails.ridelist1=new ArrayList<String>();
     	             RiderJourneyDetails.justriderequests=new ArrayList<String>();
+    	             DriverJourneyDetails.driverridernames=new ArrayList<String>();
     	             More.ridehistory=new ArrayList<String>();
     	             More.ridehistory1=new ArrayList<String>();
     	             JourneyDetails.dflag=0;

@@ -215,7 +215,7 @@ android:layout_width="wrap_content"
 android:layout_height="40px"
 android:text="  Save  "
 android:textStyle="bold"
-android:background="@drawable/greenbutton"
+android:background="@drawable/yellowbutton1"
 android:layout_margin="5px"
 >
 </Button>
@@ -225,7 +225,7 @@ android:layout_width="wrap_content"
 android:layout_height="40px"
 android:text="  Back  "
 android:textStyle="bold"
-android:background="@drawable/yellowbutton"
+android:background="@drawable/yellowbutton1"
 android:layout_margin="5px"
 >
 </Button>

@@ -9,7 +9,6 @@
     <string-array name="pref_array">
         <item>Profile Preferences</item>
         <item>Travel Preferences</item>
-        <item>Time Based Default Preferences</item>
         <item>Sign out</item>
     </string-array>
     <string name="more">MORE</string> 

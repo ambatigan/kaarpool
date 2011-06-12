@@ -88,7 +88,7 @@ android:text=""
 	   <Button
 		android:id="@+id/change"
 		android:layout_width="80px"
-		android:layout_height="50px"
+		android:layout_height="40px"
 		android:text="Change"
 		android:textStyle="bold"
 		>
@@ -169,8 +169,8 @@ android:textStyle="bold"
     	 
 	    <ImageView android:src="@drawable/car" 
 	    android:id="@+id/image" 
-	    android:layout_height="50px" 
-	    android:layout_width="70px" 
+	    android:layout_height="42px" 
+	    android:layout_width="50px" 
 	    >
 	    </ImageView>
 	   <Button
@@ -187,7 +187,7 @@ android:textStyle="bold"
 
 
 </TableRow>
-<TableRow
+<!--<TableRow
 android:id="@+id/widget198"
 android:layout_width="147px"
 android:layout_height="wrap_content"
@@ -209,7 +209,7 @@ android:layout_height="40px"
 android:text="Save"
 android:textStyle="bold"
 android:layout_margin="5px"
-android:background="@drawable/greenbutton"
+android:background="@drawable/yellowbutton1"
 >
 </Button>
 
@@ -220,11 +220,46 @@ android:layout_height="40px"
 android:text="Back"
 android:layout_margin="5px"
 android:textStyle="bold"
-android:background="@drawable/yellowbutton"
+android:background="@drawable/yellowbutton1"
 >
 </Button>
 </LinearLayout>
 
 </TableRow>
-</TableLayout>
+--></TableLayout>
+<TextView
+android:id="@+id/widget214"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="              "
+/>
+<LinearLayout
+android:id="@+id/widget70"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="horizontal">
+<Button
+android:id="@+id/savepropref"
+android:layout_width="wrap_content"
+android:layout_height="40px"
+android:text="  Save  "
+android:textStyle="bold"
+android:layout_marginLeft="95px"
+android:layout_gravity="center_horizontal"
+android:background="@drawable/yellowbutton1"
+>
+</Button>
+
+<Button
+android:id="@+id/backpref"
+android:layout_width="wrap_content"
+android:layout_height="40px"
+android:text="  Back  "
+android:layout_margin="15px"
+android:textStyle="bold"
+android:layout_gravity="center_horizontal"
+android:background="@drawable/yellowbutton1"
+>
+</Button>
+</LinearLayout>
 </LinearLayout>
