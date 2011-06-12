@@ -348,7 +348,7 @@ public class Acknowledgement extends Activity implements OnClickListener
   	  	adb.setPositiveButton(msg1.toString().trim(), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				//value = input.getText().toString().trim();
-				Toast.makeText(getApplicationContext(),msg1.toString().trim(),Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getApplicationContext(),msg1.toString().trim(),Toast.LENGTH_SHORT).show();
 				removeMessage(message);
 				sendResponseMessage(message,ridername,msg1.toString().trim(),message1.toString().trim());
 			}
@@ -357,7 +357,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 					public void onClick(DialogInterface dialog, int whichButton) {
 						removeMessage(message);
 						sendResponseMessage(message,ridername,msg2.toString().trim(),message1.toString().trim());
-						Toast.makeText(getApplicationContext(),msg2.toString().trim(),Toast.LENGTH_SHORT).show();
+						//Toast.makeText(getApplicationContext(),msg2.toString().trim(),Toast.LENGTH_SHORT).show();
 					}
 				});
 		adb.show();
@@ -414,22 +414,40 @@ public class Acknowledgement extends Activity implements OnClickListener
     	String res=getResponseId(respon);
 		 //String rid=getRid(message);
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
-		 ArrayList<String>even=new ArrayList<String>();
-   
-		 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"::"+time+"EVENT");
-		 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+rideid+"::"+time.toString().trim()+"EVENT TNEVE");
-		 if(DriverJourneyDetails.driverrideid.size()!=0)
+		 String updateseatsmessage="";
+		 if(res.toString().trim().equals("d1"))
 		 {
-			 DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
+			 updateseatsmessage=controller.checkToUpdateSeats(rideid.toString().trim());
+			 
 		 }
-		 String val=controller.injectAcknowledgeEvents(even);
-		 if(val.trim().equals("successfully injected"))
+		 if(updateseatsmessage.toString().trim().equals("UPDATE"))
 		 {
-			 System.out.println(val.toString().trim());
+			 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(-1));
+			 ArrayList<String>even=new ArrayList<String>();
+	         
+			 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"::"+time+"EVENT");
+			 even.add("ADDMESSAGE EVENT"+"r"+drivername+" EVENT"+"d"+channelname+"::"+res+"::"+rideid+"::"+time.toString().trim()+"EVENT TNEVE");
+			 if(res.toString().trim().equals("d4"))
+			 {
+				 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(+1));
+			 }
+			 if(DriverJourneyDetails.driverrideid.size()!=0)
+			 {
+				 DriverJourneyDetails.driverrideid.remove(message1.toString().trim());
+			 }
+			 String val=controller.injectAcknowledgeEvents(even);
+			 if(val.trim().equals("successfully injected"))
+			 {
+				 System.out.println(val.toString().trim());
+			 }
+			 else
+			 {
+				 System.out.println("No message injected");
+			 }
 		 }
 		 else
 		 {
-			 System.out.println("No message injected");
+			 Toast.makeText(getApplicationContext(),"Seats are filled! no more accepatances please",Toast.LENGTH_SHORT).show();
 		 }
 		 //System.out.println("ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rid.toString()+"EVENT");
     }

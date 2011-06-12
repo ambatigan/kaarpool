@@ -223,7 +223,7 @@ public class CancelRoute extends TabGroupActivity implements OnClickListener
 		// Update demo TextViews when the "OK" button is clicked 
 		((Button) mDateTimeDialogView.findViewById(R.id.SetDateTime)).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				datetime = mDateTimePicker.get(Calendar.YEAR) + " + (mDateTimePicker.get(Calendar.MONTH)+1) + "
+				datetime = mDateTimePicker.get(Calendar.YEAR) + "/" + (mDateTimePicker.get(Calendar.MONTH)+1) + "/"
 				+ mDateTimePicker.get(Calendar.DAY_OF_MONTH);
 				if (mDateTimePicker.is24HourView()) {
 					datetime += " "+mDateTimePicker.get(Calendar.HOUR_OF_DAY) + ":" + mDateTimePicker.get(Calendar.MINUTE);

@@ -234,10 +234,15 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		 
 		 ArrayList<String>even=new ArrayList<String>();
 		 System.out.println("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rideid.toString()+"::"+time.toString().trim()+"EVENT");
+	    
 		 even.add("ADDMESSAGE EVENT"+"d"+drivername+" EVENT"+"r"+channelname+"::"+res+"::"+rideid.toString()+"::"+time.toString().trim()+"EVENT TNEVE");
 		 if(RiderJourneyDetails.riderrideid.size()!=0)
 		 {
 			 RiderJourneyDetails.riderrideid.remove(message1.toString().trim());
+		 }
+		 if(res.toString().trim().equals("r5")||res.toString().trim().equals("r3"))
+		 {
+			 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(+1));
 		 }
 		
 		 if(res.toString().trim().equals("r2"))

@@ -398,7 +398,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		
 		if (view == findViewById(R.id.change1)) 
 		{
-            //List items
+           /* //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
             AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
@@ -410,20 +410,20 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
                 public void onClick(DialogInterface dialog, int item) {
                     //Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
                     if(items[item]=="New Location")
-                    {
+                    {*/
                     	changeSource(view);                 	                    	
-                    }
+                    /*}
                 }
             });
             AlertDialog alert = builder.create();
             //display dialog box
-            alert.show();
+            alert.show();*/
         }
         /** check whether the change2 button has been clicked */
         if (view == findViewById(R.id.change2)) 
         {
         	
-        	 //List items
+        	/* //List items
             final CharSequence[] items = {"Current Location", "New Location", "Home", "Work"};
             //Prepare the list dialog box
             AlertDialog.Builder builder = new AlertDialog.Builder(this.getParent());
@@ -435,14 +435,14 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
                 public void onClick(DialogInterface dialog, int item) {
                     //Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
                     if(items[item]=="New Location")
-                    {
+                    {*/
                     	changeDestination(view);                 	                    	
-                    }
+                   /* }
                 }
             });
             AlertDialog alert = builder.create();
             //display dialog box
-            alert.show();
+            alert.show();*/
         }
         if (view == findViewById(R.id.driverjourneysettime))
         {

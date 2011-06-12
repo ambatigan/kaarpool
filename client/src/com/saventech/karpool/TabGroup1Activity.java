@@ -7,7 +7,9 @@ public class TabGroup1Activity extends TabGroupActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startChildActivity("RideDetailsDriver", new Intent(this,RideDetailsDriver.class));
+        System.out.println("Oooooooooooooooooooooooooooooooooooooooooooooooooo");
+        startChildActivity("RideDeatailsDriver", new Intent(this.getParent(),RideDetailsDriver.class));
+        
         //startChildActivity("OptionsActivity", new Intent(this,CancelRoute.class));
     }
 }

@@ -26,7 +26,7 @@ public class Controller
 
 
 
-	//String url="http://198.162.18.171:8080/kaarpool/";
+	//String url="http://198.162.18.174:8080/kaarpool/";
 
 	String url="http://122.183.102.229/kaarpool/";
 
@@ -678,6 +678,41 @@ public class Controller
     	}catch(Exception e) {
     		e.printStackTrace();
     		Log.i("Controller","Got exception");
+    	}
+	}
+	public void UpdateSeats(String rideid, String seats)
+	{
+		System.out.println("Update Seats Number");
+		ArrayList<NameValuePair> updateseats = new ArrayList<NameValuePair>();
+		updateseats.add(new BasicNameValuePair("rideid", rideid.toString().trim()));
+		updateseats.add(new BasicNameValuePair("seats", seats.toString().trim()));
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost(url+"UpdateSeats", updateseats);
+    	    String res=response.toString();
+    	    System.out.println("res from server in update seats: "+res);
+    	    Log.i("Updateseats_Controller", "Seats has been updated");
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		Log.i("Controller_update seats","Got exception");
+    	}
+	}
+	public String checkToUpdateSeats(String rideid)
+	{
+		System.out.println("Update Seats Number");
+		ArrayList<NameValuePair> updateseats = new ArrayList<NameValuePair>();
+		updateseats.add(new BasicNameValuePair("rideid", rideid.toString().trim()));
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost(url+"CheckUpdateSeats", updateseats);
+    	    String res=response.toString();
+    	    System.out.println("res from server in check to update seats: "+res);
+    	    Log.i("checkToUpdateSeats_Controller", "check seats to update");
+    	    return res.toString().trim();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		Log.i("Controller_checkToUpdateSeats","Got exception");
+    		return "Exception in checktoupdateseats_controller";
     	}
 	}
 }

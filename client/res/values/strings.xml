@@ -52,6 +52,7 @@
 	<string-array name="time_based">
 		<item>Home</item>
 		<item>Work</item>
+		
 	</string-array>
 	<string name="MeteorIP">122.183.102.230</string>
 	<string name="SubscriberPort">80</string>

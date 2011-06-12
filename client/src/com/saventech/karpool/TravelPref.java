@@ -51,12 +51,12 @@ public class TravelPref extends Activity implements OnClickListener
 	/** The children. */
 	CheckBox  children;
 	
-	Spinner spinner;
+//	Spinner spinner;
 	
 	/** The handicap. */
 	CheckBox  handicap;
 	
-	TextView txtseats;
+//	TextView txtseats;
 	TextView txtcarimage;
 
 	Controller controller=null; 
@@ -107,13 +107,13 @@ public class TravelPref extends Activity implements OnClickListener
 	music = (CheckBox ) findViewById(R.id.music);
 	smoke = (CheckBox ) findViewById(R.id.smoke);
 	children = (CheckBox ) findViewById(R.id.child);
-	spinner = (Spinner) findViewById(R.id.travelprefspinner);
-	txtseats=(TextView)findViewById(R.id.travelpreftxtviewseats);
+	/*spinner = (Spinner) findViewById(R.id.travelprefspinner);
+	txtseats=(TextView)findViewById(R.id.travelpreftxtviewseats);*/
 	txtcarimage=(TextView)findViewById(R.id.travelpreftxtviewcarimage);
 	 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 	            this, R.array.seats, android.R.layout.simple_spinner_item);
 	 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    spinner.setAdapter(adapter);
+	    //spinner.setAdapter(adapter);
 	 
 	 
 	travelprefimage=(ImageView)findViewById(R.id.travelpref_image);
@@ -154,7 +154,7 @@ public class TravelPref extends Activity implements OnClickListener
     	
     	int i = adapter.getPosition(fields[6]);
     	//System.out.println(i+"selectPos");
-    	spinner.setSelection(i);
+    	//spinner.setSelection(i);
     	
     	imagedata = fields[7];
         byte[] decodedString = Base64.decode(imagedata, Base64.DEFAULT);
@@ -171,8 +171,8 @@ public class TravelPref extends Activity implements OnClickListener
     {
     	travelprefimageupload.setVisibility(View.GONE);
     	travelprefimage.setVisibility(View.GONE);
-    	spinner.setVisibility(View.GONE);
-    	txtseats.setVisibility(View.GONE);
+    	//spinner.setVisibility(View.GONE);
+    	//txtseats.setVisibility(View.GONE);
     	txtcarimage.setVisibility(View.GONE);
     	
     }
@@ -185,7 +185,7 @@ public class TravelPref extends Activity implements OnClickListener
     
    
     
-    spinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
+   // spinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
     
     
   }

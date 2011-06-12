@@ -216,11 +216,11 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		        sendrequest.setOnClickListener(new View.OnClickListener() {
 		            public void onClick(View v) 
 		            {
-		            	int color;
+		            	/*int color;
 						   // Random rnd = new Random(); 
 						    //color = Color.argb(255, rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255)); 
 						 color = Color.argb(255,242,222,15); 
-						 sendrequest.setBackgroundColor(color);
+						 sendrequest.setBackgroundColor(color);*/
 		            	Log.i("RiderGetRidelist_sendrequestbutton", "Pressed send request button");
 		            	
 		            	sendrequest(getcheckboxesclicked.toString().trim());
