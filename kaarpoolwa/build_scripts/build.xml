@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="${project.name}" basedir=".." default="run">
+
+	<!--#####################################################################
+			@ author Hidayath
+			@ mailid hidayath.basha@saventech.com
+			
+			Expects the directory structure as follows...
+					${root}
+						|_______backend
+						|		|_______ src
+						|		|		|_______ *.properties, *.xml
+						|		|_______ WebContent
+						|		|		|_______ META-INF
+						|		|				|______ context.xml
+						|		|_______ *
+						|
+						|_______build_scripts
+						|		|_______ build.xml (this file)
+						|		|_______ build.properties
+						|_______ui
+						|		|_______ index.mxml
+						|		|_______ config
+						|		|		|_______ services.xml
+						|		|_______ *
+						|_______ui_static_content		
+			
+			1. cd to the root
+			2. run 'ant -f build_scripts/build.xml
+			
+		#####################################################################	-->
+	<property file="${basedir}/build_scripts/build.properties" />
+	<property name="flex.tasks.jar.file" value="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+	<property name="tomcat.tasks.jar.file" value="${CATALINA_HOME}/lib/catalina-ant.jar" />
+	<property name="tomcat.lib" value="${CATALINA_HOME}/lib" />
+	<property name="dist.dir" value="${basedir}/build"/>
+	<property name="project.lib.dir" value="${dist.dir}/WEB-INF/lib" />
+	<property name="java.src.dir" value="${basedir}/backend/src" />
+	<property name="webserver.manager.app.url" value="http://${webserver.ip}:${webserver.port}/manager" />
+	<property name="context.root" value="${project.name}" /> 
+	<property name="mxml.index.file" value="${basedir}/ui/index.mxml"/>
+	<property name="main.mxml.swf" value="${dist.dir}/index.swf" />
+
+    <tstamp>
+		<format property="timeStamp" pattern="MMMM d, yyyy hh:mm:ss.S"/>
+	</tstamp>
+	
+	<echo>Generating Build for Project : ${project.name}</echo>
+	<echo>Start time: ${timeStamp}</echo>
+	
+	<!-- ****************** task definitions ****************** -->
+	<taskdef resource="flexTasks.tasks" classpath="${flex.tasks.jar.file}" />
+	<taskdef resource="org/apache/catalina/ant/antlib.xml" classpath="${tomcat.tasks.jar.file}" />
+	
+	<!--***************   setting the  CLASSPATHs       ******* -->
+	<path id="project.class.path">
+		<fileset dir="${project.lib.dir}"  includes="*.jar"/>
+		<fileset dir="${tomcat.lib}"  includes="*servlet*.jar"/>
+	</path>
+	
+	 
+	
+	<!-- ****************** targets ****************** -->
+	 
+	<target name="cleanup">
+		<echo>Workspace cleanup</echo>
+		<delete dir="${dist.dir}"/>
+		<delete dir="${basedir}/war"/>
+	</target>
+	
+	 
+	<target name="copy-flex-resources" depends="cleanup">
+		<echo>Copying Flex assets to compile UI</echo>
+		<mkdir dir="${dist.dir}/assets"/>
+		<mkdir dir="${dist.dir}/config"/>
+		<mkdir dir="${dist.dir}/libs"/>
+		<mkdir dir="${dist.dir}/css"/>
+		
+		<copy todir="${dist.dir}/assets" overwrite="true" verbose="false">
+			 <fileset dir="${basedir}/ui/assets"/>
+		</copy>
+		
+		<copy todir="${dist.dir}/config" overwrite="true" verbose="false">
+			 <fileset dir="${basedir}/ui/config"/>
+		</copy>
+
+		<copy todir="${dist.dir}/libs" overwrite="true" verbose="false">
+			 <fileset dir="${basedir}/ui/libs"/>
+		</copy>
+		
+		<copy todir="${dist.dir}/css" overwrite="true" verbose="false">
+			 <fileset dir="${basedir}/ui/css"/>
+		</copy>
+		
+		
+		<echo>Copied flex assets files </echo>
+	</target>
+	
+	 
+	
+	<target name="mxml-compilation" depends="copy-flex-resources"> 
+
+		<echo>Compiling mxml files</echo>
+		<mxmlc file="${mxml.index.file}" 
+				output="${main.mxml.swf}"
+				actionscript-file-encoding="UTF-8"
+				keep-generated-actionscript="false"
+				incremental="true" 
+				show-actionscript-warnings="true"
+				show-deprecation-warnings="true"
+				warnings="false">
+			
+			<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml" />
+
+			<compiler.source-path path-element="${basedir}/ui"/> 
+			 
+			<!-- List of SWC files or directories that contain SWC files.-->
+			<compiler.library-path dir="${basedir}/ui/libs" append="true">
+				<include name="**.*" />
+			</compiler.library-path> 
+			<compiler.include-libraries dir="${FLEX_HOME}/frameworks/libs/player" append="true">
+				<include name="playerglobal.swc" />
+			</compiler.include-libraries> 
+			
+			<source-path path-element="${FLEX_HOME}/frameworks" />
+		</mxmlc>
+		<echo>MXML compilation is done Successfully</echo>
+
+		<html-wrapper title="${project.name}" 
+						file="index.html"
+						application="app" 
+						swf="index" 
+						width="100%"
+						height="100%" 
+						version-major="1"
+						version-minor="0" 
+						version-revision="0"
+						template="express-installation"
+						output="${dist.dir}" />
+
+		<echo>HTML Wrapper creation is done Successfully</echo>
+	</target> 
+	
+	
+	<target name="copy-java-resources" depends="mxml-compilation">
+	
+
+		<echo>Creating the WEB-INF, classes and lib folders and copying the library files.....</echo>
+		<mkdir dir="${dist.dir}/WEB-INF" />
+		<mkdir dir="${dist.dir}/WEB-INF/classes"/>
+		
+		<mkdir dir="${dist.dir}/META-INF"/>
+
+
+		<copy todir="${dist.dir}/META-INF" overwrite="true" verbose="false">
+			 <fileset dir="${basedir}/backend/WebContent/META-INF"/>
+		</copy>
+		
+		<copy todir="${dist.dir}/WEB-INF" overwrite="true" verbose="false">
+			 <fileset dir="${basedir}/backend/WebContent/WEB-INF"/>
+		</copy>
+		
+		<delete dir="${dist.dir}/WEB-INF/classes"/>
+		<mkdir dir="${dist.dir}/WEB-INF/classes"/>
+		
+		<copy todir="${dist.dir}/WEB-INF/classes" overwrite="true" verbose="false">
+			 <fileset dir="${basedir}/backend/src" includes="**.xml, **.properties"/>
+		</copy>
+		
+		<!-- copy static UI content -->
+		<copy todir="${dist.dir}" overwrite="false" verbose="false">
+			 <fileset dir="${basedir}/ui_static_content"/>
+		</copy>
+		
+	</target>
+	<target name="compile" depends="copy-java-resources">
+		<echo>Compiling Action classes...</echo>
+		<javac 
+		    srcdir="${java.src.dir}"
+ 		    destdir="${dist.dir}/WEB-INF/classes" 
+			nowarn="true">
+			<classpath refid="project.class.path"/>
+		</javac>
+
+		<echo>Servlets Compilation Completed</echo>
+	</target>
+	
+	<target name="replace" depends="compile">
+		<replace 
+			file="${path.file.1}" 
+			token="${file.1.previous.value}" 
+			value="${file.1.real.value}"/>
+		<replace 
+			file="${path.file.2}" 
+			token="${file.2.previous.value}" 
+			value="${file.2.real.value}"/>
+		<replace 
+			file="${path.file.3}" 
+			token="${file.3.previous.value}" 
+			value="${file.3.real.value}"/>		
+		 
+		<replace 
+			file="${path.file.4}" 
+			token="${file.4.previous.value}" 
+			value="${file.4.real.value}"/>			
+		<replace 
+			file="${path.file.5}" 
+			token="${file.5.previous.value}" 
+			value="${file.5.real.value}"/>
+	 
+	</target>
+	
+	<target name="war" depends="replace">
+		<echo>Creating war file.........</echo>
+		<delete dir="${basedir}/war"/>
+		<mkdir dir="${basedir}/war" />
+		<war destfile="${basedir}/war/${project.name}.war" webxml="${dist.dir}/WEB-INF/web.xml">
+			<fileset dir="${dist.dir}" excludes="**cache" /> 
+		</war>
+		<echo>${project.name}.war file is created</echo>
+	</target>
+	
+	
+	<!--*****************       Tomcat tasks          *****************-->
+	<target name="deploy" description="Deploy web application from existing war file">
+		<echo message="Deploying the web application to Tomcat...."/>
+		<deploy url="${webserver.manager.app.url}" 
+				username="${webserver.user.name}" 
+				password="${webserver.user.password}" 
+				path="/${context.root}" 
+				war="${basedir}/war/${project.name}.war" 
+				update="true" />
+	</target>
+	
+	<target name="reload">
+		<echo message="Reloading the web application in Tomcat..." />
+		<reload url="${webserver.manager.app.url}" 
+				path="/${context.root}" 
+				username="${webserver.user.name}" 
+				password="${webserver.user.password}"/>
+	</target>
+	<target name="start" description="Starts a Web application">
+	<echo message="Reloading The Application............."/>
+		 <echo message="${webserver.user.name}"/>
+		 <start url="${webserver.manager.app.url}" 
+				username="${webserver.user.name}" 
+				password="${webserver.user.password}" 
+				path="/${context.root}"/>
+	</target>
+
+	<target name="stop" description="Stops a Web application">
+		<echo message="Stopping the application...."/>
+		<stop url="${webserver.manager.app.url}" 
+				username="${webserver.user.name}" 
+				password="${webserver.user.password}" 
+				path="/${context.root}"/>
+	</target>
+
+	<target name="undeploy"   depends="stop" description="Undeploys a Web application">
+		<undeploy url="${webserver.manager.app.url}" 
+					username="${webserver.user.name}" 
+					password="${webserver.user.password}" 
+					path="/${context.root}"/>
+	</target>
+	
+	<target name="move">
+		<move todir="${CATALINA_HOME}/webapps" 
+				file="${basedir}/war/${project.name}.war" 
+				overwrite="true" />
+	</target>
+	<!--*****************       the default target          *****************-->
+	<target name="run" depends="war, deploy">
+	
+	<!--
+	<target name="run" depends="war, move">
+	-->
+		<tstamp>
+			<format property="eTimeStamp" pattern="MMMM d, yyyy hh:mm:ss.S"/>
+		</tstamp>
+		<echo>End Time: ${eTimeStamp}</echo>
+	</target>
+</project>

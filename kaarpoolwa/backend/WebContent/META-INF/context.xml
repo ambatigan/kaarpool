@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="false" path="">
+
+	<Resource name="jdbc/kaarpool"
+			auth="Container"
+			type="javax.sql.DataSource"
+			username="root"
+			password="mysqlpwd"
+			driverClassName="com.mysql.jdbc.Driver"
+			maxWait="5000"
+			url="jdbc:mysql://localhost:3306/kaarpooldb"
+			maxActive="20"
+			maxIdle="2"
+			testOnBorrow="true"
+			testOnReturn="true"
+			validationQuery="SELECT COUNT(*)"
+			removeAbandoned="true"
+			removeAbandonedTimeout="300"
+			logAbandoned="true"/>
+
+</Context>
