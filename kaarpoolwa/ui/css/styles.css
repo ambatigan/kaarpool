@@ -1,0 +1,159 @@
+/* lavanya 03/02/2010 */
+
+Application {
+	background-size: "100%";  
+}
+/*WINDOW*/
+.Window {
+	background-color: #C7C7C7;	
+}
+
+/* LOGIN BACKGROUND  */
+.styleLoginPageBackground{
+	background-color: #7F8278;
+}
+
+/* LOGIN CONATINER  */
+.styleLoginConatiner{
+   border-skin: ClassReference("com.saven.components.border.SimpleGradientBorder");
+   background-color :#7F8278;
+   border-style: solid;
+   border-color: #b6e295;
+   corner-radius:20;
+   border-thickness: 3;
+
+}
+
+/* LOGIN BACKGROUND  */
+.styleLoginPageUserBackgound{
+	border-skin: ClassReference("com.saven.components.border.SimpleGradientBorder");
+	background-color: #a1a499;
+	corner-radius: 15;
+	border-color: #666666;
+	border-style: solid;
+	border-thickness: 3;
+	padding-top: 15;
+	padding-left: 10;
+	padding-right: 10;
+	padding-bottom: 10;
+	vertical-gap: -3;
+	drop-shadow-enabled: true;
+	shadow-distance: 1;
+}
+
+/* LOGIN BUTTON  */
+.styleLoginPageBlackButton{
+	border-color: #333333;
+	padding-top: 1;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 1;
+	color: #ffffff;	
+	font-size: 9;
+	corner-radius: 0;
+	font-weight: bold;
+	text-roll-over-color: #ffffff;
+	fill-colors: #333333, #333333;
+	fill-alphas: 0.8,0.8;
+	focus-alpha: 1,1;
+	highlight-alphas: 0.4,0.0;
+	theme-color: #b6e295;
+}
+/* White button */
+.styleLoginPageWhiteButton{
+	border-color: #333333;
+	padding-top: 1;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 1;
+	color: #000000;	
+	font-size: 9;
+	corner-radius: 5;
+	font-weight: bold;
+	text-roll-over-color: #000000;
+	fill-colors: #ffffff, #ffffff;
+	fill-alphas: 0.8,0.8;
+	focus-alpha: 1,1;
+	highlight-alphas: 0.4,0.0;
+	theme-color: #b6e295;
+}
+
+/* LOGIN TEXT  */
+.styleLoginPageTex1 {
+	font-family: EmbeddedVerdana;
+	font-size: 12;
+	color: #ffffff;			
+}
+/* LOGIN TEXTINPUT  */
+.styleLoginPageInputText1 {
+	font-size: 11;
+	color: #000000;
+	padding-top: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	border-style: solid;
+	border-color: #666666;
+	corner-radius: 5;
+	theme-color: #B6E295;
+}
+/* LOGIN LABELS  */
+.styleLoginPageTex2 {
+	font-family: EmbeddedVerdana;
+	font-size: 12;
+	color: #000000;
+}
+/* LOGIN ERROR  */
+.styleLoginPageTex5 {
+	font-family: EmbeddedVerdana;
+	font-size: 12;
+	color: #b6e295;
+}
+
+/* MAINCONTENTSTYLE*/
+.mainContentStyle{
+   background-color: #C7C7C7;	
+}  
+.homebutton {
+  	up-skin: Embed("assets/images/homebutton.gif");
+    down-skin: Embed("assets/images/homeover.gif");
+    over-skin: Embed("assets/images/homeover.gif");
+    disabled-skin: Embed("assets/images/homebutton.gif");
+    selectedUpSkin: Embed("assets/images/homeover.gif");  
+   	selectedDownSkin: Embed("assets/images/homeover.gif");  
+   	selectedOverSkin: Embed("assets/images/homeover.gif");  
+   	selectedDisabledSkin: Embed("assets/images/homeover.gif");  
+   
+}
+
+.aboutbutton {
+  	up-skin: Embed("assets/images/aboutbutton.gif");
+    down-skin: Embed("assets/images/aboutbutton.gif");
+    over-skin: Embed("assets/images/aboutover.gif");
+    disabled-skin: Embed("assets/images/aboutbutton.gif");
+}
+
+.servicesbutton {
+  	up-skin: Embed("assets/images/servicesbutton.gif");
+    down-skin: Embed("assets/images/servicesbutton.gif");
+    over-skin: Embed("assets/images/servicesover.gif");
+    disabled-skin: Embed("assets/images/servicesbutton.gif");
+}
+
+.contactbutton {
+  	up-skin: Embed("assets/images/contactbutton.gif");
+    down-skin: Embed("assets/images/contactbutton.gif");
+    over-skin: Embed("assets/images/contactover.gif");
+    disabled-skin: Embed("assets/images/contactbutton.gif");
+}
+.homebutton1 {
+  	up-skin: Embed("assets/images/homeover.gif");
+    down-skin: Embed("assets/images/homeover.gif");
+    over-skin: Embed("assets/images/homeover.gif");
+    disabled-skin: Embed("assets/images/homebutton.gif");
+    selectedUpSkin: Embed("assets/images/homeover.gif");  
+   	selectedDownSkin: Embed("assets/images/homeover.gif");  
+   	selectedOverSkin: Embed("assets/images/homeover.gif");  
+   	selectedDisabledSkin: Embed("assets/images/homeover.gif");  
+   
+}

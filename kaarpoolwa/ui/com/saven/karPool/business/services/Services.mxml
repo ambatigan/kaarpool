@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceLocator xmlns="com.adobe.cairngorm.business.*" 
+		xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:net="flash.net.*">
+    
+<mx:Script> 
+	<![CDATA[
+		
+		import mx.controls.Alert;
+		import mx.core.Application;
+				
+		public static var USERNAME:String = "";
+		
+		public static var PASSWD:String = "";
+		
+		/* public static var HOSTCONFIG:String = "hostDataService";  */
+		
+		
+		public static var LOGINSERVICE : String = "loginService";
+		
+		public static var HISTORYDATASERVICE : String = "historyDataService";
+		
+		public static var REGISTERSERVICE : String = "registerService";
+		
+		public function updateValues( xml:XML ) : void {
+			var childs:XMLList = xml.children();
+			for( var i:int = 0; i < childs.length(); i++ ) {
+				var child:XML = childs[ i ];
+				if( child.name() == "urls" ) {
+					var urls:XMLList = child.children();
+					for( var j:int = 0; j < urls.length(); j ++ ) {
+						var node:XML = urls[ j ];
+						var name:String = node.attribute( "name" );
+						var url:String = node.attribute( "url" );
+						var method:String = node.attribute( "method" );
+						var format:String = node.attribute( "format" );
+						var service:Object = getHTTPService( name );
+						if( service ) {
+							service.url = url;
+							service.method = method;
+							service.resultFormat = format;
+						}
+					}	
+				}
+		}
+		}
+	
+	]]> 
+</mx:Script>    
+    
+    <mx:HTTPService id="loginService" />
+    <mx:HTTPService id="historyDataService" />
+	<mx:HTTPService id="registerService" />
+			
+
+</ServiceLocator>

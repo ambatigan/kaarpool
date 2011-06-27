@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app>
+	<urls>
+		<url name="loginService" url="http://122.183.102.229/kaarpoolwa/login.action?" format="e4x" method="post" />
+		<url name="historyDataService" url="http://122.183.102.229/kaarpoolwa/history.action?" format="e4x" method="post" />   
+		<url name="registerService" url="http://122.183.102.229/kaarpoolwa/register.action?" format="e4x" method="post" />   
+		
+		
+   </urls>
+  
+	
+</app>
+ 

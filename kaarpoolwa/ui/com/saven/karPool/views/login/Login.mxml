@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  width="100%" height="100%"
+	xmlns:content="com.saven.configurationTool.views.content.*" 
+	backgroundImage="assets/images/body.jpg" backgroundSize="100%"
+	styleName="styleLoginPageBackground" creationComplete="{onInit(event)}" verticalScrollPolicy="off" 
+			horizontalScrollPolicy="off">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.saven.karPool.controls.ApplicationController;
+			import com.saven.karPool.controls.events.CommonEvent;
+			import com.saven.karPool.model.DataModel;
+			import mx.managers.PopUpManager;
+			import com.saven.karPool.business.services.Services;
+			import com.saven.karPool.model.vo.Constants;
+			import com.adobe.cairngorm.business.ServiceLocator;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.controls.Alert;
+			import mx.core.Application;
+			import mx.rpc.events.ResultEvent;
+			
+			public var regWindow : Registration =  new Registration();
+			
+			[Bindable]
+			private var uName : String = 'raj@kaarpool.com';
+			
+			[Bindable]
+			private var password : String = 'saven';
+			
+			[Bindable]
+			private var model : DataModel = DataModel.getInstance();
+			
+			[Bindable]
+			public var welcomeText : String = 'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
+					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
+					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
+					'dsf sdf sdf sdf ewrwer wer werwer wer werwe rwer wr werwe we ' + 
+					'dflkjsdfsdfljsdflsdjfl;s e[protert ertolerte rterp dfgdf sdfsdf' +
+					'dfgdfg dfg dfg dfgdfg dfg dfgdf dfg dfg dfgdfg dfg dfgdf dfdfg' +
+					'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
+					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
+					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
+					'dsf sdf sdf sdf ewrwer wer werwer wer werwe rwer wr werwe we ' + 
+					'dflkjsdfsdfljsdflsdjfl;s e[protert ertolerte rterp dfgdf sdfsdf' +
+					'dfgdfg dfg dfg dfgdfg dfg dfgdf dfg dfg dfgdfg dfg dfgdf dfdfg' +
+					'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
+					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
+					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
+					'dsf sdf sdf sdf ewrwer wer werwer wer werwe rwer wr werwe we ' + 
+					'dflkjsdfsdfljsdflsdjfl;s e[protert ertolerte rterp dfgdf sdfsdf' +
+					'dfgdfg dfg dfg dfgdfg dfg dfgdf dfg dfg dfgdfg dfg dfgdf dfdfg' +
+					'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
+					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
+					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
+					'dsf sdf sdf sdf ewrwer wer werwer wer werwe rwer wr werwe we ' + 
+					'dflkjsdfsdfljsdflsdjfl;s e[protert ertolerte rterp dfgdf sdfsdf' +
+					'dfgdfg dfg dfg dfgdfg dfg dfgdf dfg dfg dfgdfg dfg dfgdf dfdfg' +
+					'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
+					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
+					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
+					'dsf sdf sdf sdf ewrwer wer werwer wer werwe rwer wr werwe we ' + 
+					'dflkjsdfsdfljsdflsdjfl;s e[protert ertolerte rterp dfgdf sdfsdf' +
+					'dfgdfg dfg dfg dfgdfg dfg dfgdf dfg dfg dfgdfg dfg dfgdf dfdfg' +
+					'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
+					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
+					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
+					'dsf sdf sdf sdf ewrwer wer werwer wer werwe rwer wr werwe we ' + 
+					'dflkjsdfsdfljsdflsdjfl;s e[protert ertolerte rterp dfgdf sdfsdf' +
+					'dfgdfg dfg dfg dfgdfg dfg dfgdf dfg dfg dfgdfg dfg dfgdf dfdfg' +
+					'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
+					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
+					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
+					'dsf sdf sdf sdf ewrwer wer werwer wer werwe rwer wr werwe we ' + 
+					'dflkjsdfsdfljsdflsdjfl;s e[protert ertolerte rterp dfgdf sdfsdf' +
+					'dfgdfg dfg dfg dfgdfg dfg dfgdf dfg dfg dfgdfg dfg dfgdf dfdfg' +
+					'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
+					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
+					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
+					'dsf sdf sdf sdf ewrwer wer werwer wer werwe rwer wr werwe we ' + 
+					'dflkjsdfsdfljsdflsdjfl;s e[protert ertolerte rterp dfgdf sdfsdf' +
+					'dfgdfg dfg dfg dfgdfg dfg dfgdf dfg dfg dfgdfg dfg dfgdf dfdfg' ;
+					
+					
+					
+
+				
+			
+			
+			/**
+			 * On login Function
+			 */
+			
+			private function loginClick():void {
+				if(gUsername.text == '' || gPassword.text == ''){
+					gMsg.text = 'Enter all  Mandatory fields';
+					return;
+				}
+					
+			 	var params:Object = new Object();
+				var usrid : String = gUsername.text;
+				var psw : String = gPassword.text;
+				
+				params.username = usrid;
+				params.password = psw; 
+				
+				model.username = usrid;
+				model.password = psw;
+				
+				if(usrid != null && usrid != "" && psw != null && psw != "") {
+					var loginServices :HTTPService = ServiceLocator.getInstance().getHTTPService(Services.LOGINSERVICE);
+					loginServices.addEventListener(ResultEvent.RESULT,onResultHandler);
+					loginServices.addEventListener(FaultEvent.FAULT,onFaultHandler);
+					loginServices.send(params);
+					
+				} else {
+					 Alert.show(Constants.MANDATORYMSG);
+				}    
+			}
+			
+			
+			private function onResultHandler(event : ResultEvent):void {
+							
+				var xml : XML = XML( event.result);
+				if( (xml.attribute( "status" ) == "fail") ){
+					gMsg.text = xml.child("error");
+					
+					return;
+				}
+			
+				if( xml.attribute( "request" ) == "login" ) {
+					var xmllist : XMLList = xml.children();
+					if(xmllist[0].status == 'fail') {
+						gMsg.text = xml.child("error");
+					
+					return;
+					}
+						
+					/* Application.application.gLogin.visible = false;
+					Application.application.gMainApps.visible = true; */
+					getHistoryData();
+					showHistory();	
+					signin.label = 'Sign out';
+					signup.visible=false;
+				} 
+			}
+			
+			private function onFaultHandler(event : FaultEvent):void {
+				
+				//Alert.show(Constants.MANDATORYMSG);
+			}
+		
+		  /**
+		 * On CreationComplete LoginCoponent 
+		 */
+		private function onInit(event:Event):void {
+			
+			//gLoginMsg.text = Constants.LOGIN_MSG;
+		}
+		
+		public function getHistoryData():void {
+	        	var param : Object = new Object();
+	        	param.username = model.username;
+	        	param.password = model.password;
+	        	param.perpage = 10;
+	        	param.page = 1;
+	        	
+	        	var event : CommonEvent = new CommonEvent(param, ApplicationController.GET_HISTORY_DATA);
+	        	event.dispatch();	        	
+	    }
+		
+		private function registerClick():void {
+			PopUpManager.addPopUp(regWindow, this, true);
+			PopUpManager.centerPopUp(regWindow);
+		}
+		
+		public function showLogin():void {
+			imgWelcome.visible = false;
+			loginBox.visible = true;
+			regBox.visible = false;
+			historyBox.visible = false;
+			
+		}
+		
+		private function homeClick():void {
+			imgWelcome.visible = true;
+			loginBox.visible = false;
+			regBox.visible = false;
+			historyBox.visible = false;
+		}
+		
+		private function showRegister():void {
+			imgWelcome.visible = false;
+			loginBox.visible = false;
+			regBox.visible = true;
+			historyBox.visible = false;
+		}
+		
+		private function showHistory():void {
+			imgWelcome.visible = false;
+			loginBox.visible = false;
+			regBox.visible = false;
+			historyBox.visible = true;
+		}
+		
+		private function linkClick(str:String):void {
+			switch (str){
+				case 'Sign in' :
+					showLogin()
+					
+					break;
+				
+				case 'Sign up' :
+					showRegister();
+					break;
+				case 'Sign out' :
+					showLogin();
+					signin.label = 'Sign in';
+					signup.visible = true;
+					break;
+			}
+		}
+		
+		private function registerSave():void {
+		
+			var params : Object = new Object();
+			params.username = txtUsername.text;
+			params.password = txtpwd.text;
+			params.password = txtcpwd.text;
+			params.dob = txtDOB.text;
+			params.mobile = txtMobNo.text;
+			params.address = txtaddr.text;
+			params.gender =  nocRBG.selectedValue; //txtgender.text;
+			
+			var e : CommonEvent = new CommonEvent(params, ApplicationController.REGISTER_DATA);
+			e.dispatch();
+			
+		}
+		
+		private function rbChange(evt : Event=null):void{
+			
+		}
+		
+		]]>
+	</mx:Script>
+	
+<!-- ================ 
+ =====   GUI   ======= 
+ ================= -->  
+	<mx:VBox id="mainVBox" horizontalAlign="center" verticalAlign="top"  verticalGap="0" 
+		backgroundImage="{Constants.LAYOUTPAGE}"  width="100%"  height="100%"  verticalScrollPolicy="off" 
+			horizontalScrollPolicy="off">
+		<mx:HBox width="100%"  height="90" paddingLeft="550" paddingTop="45" horizontalGap="1" verticalScrollPolicy="off" 
+			horizontalScrollPolicy="off">
+			
+				<mx:Button id="butHome" styleName="homebutton" click="homeClick()"  />
+				<mx:Button id="butAbout" styleName="aboutbutton" />
+				<mx:Button id="butServices" styleName="servicesbutton" enabled="{!signup.visible}"/>
+				<mx:Button id="butContact" styleName="contactbutton" />
+			
+			<!---->
+			
+		</mx:HBox>
+		<mx:HBox height="120" paddingLeft="830" textAlign="right"  width="100%" verticalScrollPolicy="off" 
+			horizontalScrollPolicy="off"  paddingTop="0">
+			<!--<mx:LinkBar fontSize="15" rollOverColor="#FF9C01" itemClick="linkClick(event.label)"	
+				 shadowDirection="right" fontFamily="Monotype Corsiva" >
+			    <mx:dataProvider>
+		            <mx:String>Sign in</mx:String>
+		            <mx:String>Sign up</mx:String>
+		            
+			 	</mx:dataProvider>
+    		</mx:LinkBar>-->
+    		<mx:LinkButton id="signin" label="Sign in" rollOverColor="green"  selectionColor="red"
+    			 click="{linkClick(signin.label)}" fontFamily="Monotype Corsiva" fontSize="15"/>
+    		<mx:LinkButton id="signup" label="Sign up" rollOverColor="green" selectionColor="red" click="{linkClick('Sign up')}" 
+    			fontFamily="Monotype Corsiva" fontSize="15"/>
+		</mx:HBox>
+		<mx:Canvas  width="838" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+		
+		<!---->
+			<mx:VBox backgroundImage="{Constants.CONTENT}"  visible="false" verticalScrollPolicy="off" 
+						id="imgWelcome" height="90%" width="61%"  backgroundSize="100%" >
+						<mx:TextArea text="{welcomeText}" color="#ffffff"  borderStyle="none" paddingTop="30" paddingLeft="15"
+							alpha=".1" width="100%" height="100%" verticalScrollPolicy="on" cornerRadius="10"/>
+			</mx:VBox>
+			
+			
+		<!--</mx:HBox>	-->
+				<!--<mx:Image id="imgWelcome" source="{Constants.WELCOME}" alpha=".7" visible="false" />-->
+				
+				<!--<mx:HBox id="imgWelcome" visible="false" backgroundImage="{Constants.CONTENT}" alpha=".7" height="100%" width="63%">
+					<mx:TextArea />
+				</mx:HBox>
+				<mx:Spacer width="10" />-->
+		
+		<mx:VBox id="loginBox"   verticalGap="10" visible="true" backgroundSize="100%"
+					verticalScrollPolicy="off" horizontalScrollPolicy="off" 
+					backgroundImage="{Constants.CONTENT}"
+					height="90%"  width="61%">
+				<mx:Label paddingLeft="40" id="gLoginMsg" styleName="styleLoginPageTex5" text="Sign in" />
+				<mx:Label paddingLeft="40" id="gMsg" color="red"  fontSize="12"/>
+				<mx:HBox paddingLeft="100" paddingTop="130">
+					<mx:Label text="{Constants.USERNAME_TITLE}" fontSize="15" styleName="styleLoginPageTex2" textAlign="right" width="110" color="#ffffff"/>
+					<mx:TextInput id="gUsername" restrict="0-9a-zA-Z@_." text="{uName}" maxChars="20" width="190" change="{gMsg.text=''}"
+						styleName="styleLoginPageInputText1" height="25"/>
+				</mx:HBox>
+				<mx:HBox horizontalAlign="center" paddingLeft="100">
+					<mx:Label text="{Constants.PASSWORD_TITLE}"  styleName="styleLoginPageTex2" 
+						fontSize="15" textAlign="right" width="110" color="#ffffff"/>
+				<mx:TextInput id="gPassword" restrict="0-9a-zA-Z@_." width="190" maxChars="20" text="{password}" change="{gMsg.text=''}"
+					styleName="styleLoginPageInputText1" displayAsPassword="true" height="25" />
+				</mx:HBox>
+				
+				<mx:HBox textAlign="right" horizontalAlign="center" paddingLeft="100">
+					<mx:Spacer width="240" />
+					<mx:Button id="gSubmit" label="LOGIN"  height="23" styleName="styleLoginPageWhiteButton"  
+						   width="58" buttonMode="true" click="loginClick()" /> 
+					<!--<mx:Button id="gRgister" label="Register"  height="19" styleName="styleLoginPageBlackButton"  
+						   width="56" buttonMode="true" click="registerClick()" /> 	  --> 
+				</mx:HBox>
+				
+		</mx:VBox>
+	 	
+		<!--</mx:HBox>	-->
+		<mx:VBox id="regBox"  width="61%" visible="false"   verticalGap="10" backgroundSize="100%"
+			height="90%" backgroundImage="{Constants.CONTENT}" paddingLeft="40"  verticalScrollPolicy="off" 
+			horizontalScrollPolicy="off"> 
+		 	<mx:Label id="gsignupnMsg" styleName="styleLoginPageTex5" text="Sign up" />
+		 	<mx:Spacer height="95" />
+		 	<mx:HBox >
+			 	<mx:Label text="Username"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
+			 	<mx:TextInput id="txtUsername"  width="190" height="25"
+								styleName="styleLoginPageInputText1" />
+		 	</mx:HBox>
+		 
+		  	<mx:HBox >
+		 		<mx:Label text="Password"  styleName="styleLoginPageTex2"  color="#ffffff" width="160" textAlign="right" fontSize="15"/>
+		 		<mx:TextInput id="txtpwd"  width="190" height="25"
+							styleName="styleLoginPageInputText1" />
+		 	</mx:HBox>
+		 
+		 	<mx:HBox >
+		 		<mx:Label text="Confirm Password"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
+		 		<mx:TextInput id="txtcpwd"  width="190" height="25"
+							styleName="styleLoginPageInputText1" />
+		 	</mx:HBox>
+		 
+		 	<mx:HBox >
+		 		<mx:Label text="Date of birth"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
+		 		<mx:TextInput id="txtDOB"  width="190" height="25"
+							styleName="styleLoginPageInputText1" />
+			</mx:HBox>
+		 
+		 	<mx:HBox >
+		 		<mx:Label text="Mobile No"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
+		 		<mx:TextInput id="txtMobNo"  width="190" height="25"
+							styleName="styleLoginPageInputText1" />
+		 	</mx:HBox>
+		 	<mx:HBox >
+		 		<mx:Label text="Address"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
+		 		<mx:TextInput id="txtaddr"  width="190" height="25" 
+							styleName="styleLoginPageInputText1" />
+		 	</mx:HBox>
+		 	<mx:HBox >
+		 		<mx:Label text="Gender"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
+		 		<!--<mx:TextInput id="txtgender"  width="190" height="25"
+							styleName="styleLoginPageInputText1" />-->
+				<mx:RadioButtonGroup id="nocRBG" itemClick="rbChange(event);"  />
+					<mx:RadioButton id="rbA" groupName="nocRBG" value="Male" label="Male" color="#ffffff"
+						 selected="true"  />
+        			<mx:RadioButton id="rbB" groupName="nocRBG" value="Female" color="#ffffff"
+        				 label="Female"  />
+		 	</mx:HBox>
+ 			<mx:HBox >
+	 			<mx:Spacer width="295" />
+	 			<mx:Button id="gRgister" label="Register"  height="23" styleName="styleLoginPageWhiteButton"  
+							   width="58" buttonMode="true" click="registerSave()" /> 
+ 			</mx:HBox>	   
+ 		</mx:VBox>
+ 		
+ 		<mx:VBox id="historyBox" width="61%" visible="false"   verticalGap="10" backgroundSize="100%"
+			height="90%" backgroundImage="{Constants.CONTENT}"   verticalScrollPolicy="off" paddingLeft="20"  paddingRight="20"
+			paddingBottom="20"
+			horizontalScrollPolicy="off"> 
+			<mx:Label paddingLeft="40" id="ghistoryMsg" styleName="styleLoginPageTex5" text="Ride History" />
+ 			<mx:DataGrid  width="100%" height="100%" dataProvider="{model.dataprovider.history.row}" headerHeight="22" paddingTop="20"
+ 				color="#ffffff" alpha=".1" verticalGridLineColor="#ffffff" verticalGridLines="true" rollOverColor="#ffffff"
+ 				textRollOverColor="#FF9C01">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Id" dataField="@id" dataTipField="@id"/>
+				<mx:DataGridColumn headerText="Destination" dataField="@destination" dataTipField="@destination"/>
+				<mx:DataGridColumn headerText="Location" dataField="@location" dataTipField="@location"/>
+				<mx:DataGridColumn headerText="Source" dataField="@source" dataTipField="@source"/>
+				<mx:DataGridColumn headerText="Start Time" dataField="@start_time" dataTipField="@start_time"/>
+				<mx:DataGridColumn headerText="End Time" dataField="@end_time" dataTipField="@end_time"/>
+			</mx:columns>
+	</mx:DataGrid>
+ 		</mx:VBox>
+ 		
+	</mx:Canvas>
+		
+	
+ 	
+	</mx:VBox>
+	
+</mx:Canvas>
+

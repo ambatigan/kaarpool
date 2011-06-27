@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	creationComplete="servicesCompleted()" xmlns:services="com.saven.karPool.business.services.*" xmlns:controls="com.saven.karPool.controls.*">
+	
+	
+	
+
+	<!-- The ServiceLocator where we specify  services -->
+	
+	<services:Services id="gServices"  />
+	
+	<controls:ApplicationController id="gLoginController"/>
+	
+	
+	<mx:Script>
+		<![CDATA[
+			import com.saven.karPool.controls.events.CommonEvent;
+			import com.saven.karPool.model.vo.Constants;
+			import com.saven.karPool.model.DataModel;
+			
+			import mx.controls.Alert;
+					
+			[Bindable]
+			private var model : DataModel = DataModel.getInstance();
+			
+			private function servicesCompleted() {
+				var loader:URLLoader = new URLLoader();
+	            configureListeners(loader);
+	
+	           	var request:URLRequest = new URLRequest(Constants.SERVICE_PATH);
+	           	
+	            try {
+	                loader.load(request);
+	            } 
+	            catch(error:Error) {
+	                Alert.show("Unable to load requested document.");
+	            } 
+			}
+			private function configureListeners(dispatcher:IEventDispatcher):void {
+	            dispatcher.addEventListener(Event.COMPLETE, onSucess, false, 0, true);
+	  		}
+	  		
+	  		private function onSucess(event:Event) : void {
+	        	var loader:URLLoader = URLLoader(event.target);
+	        	var xml:XML = new XML(loader.data);
+	        	gServices.updateValues(xml);
+	        	
+	        }
+	        
+	        public function getHistoryData():void {
+	        	var param : Object = new Object();
+	        	param.username = model.username;
+	        	param.password = model.password;
+	        	param.perpage = 10;
+	        	param.page = 1;
+	        	
+	        	var event : CommonEvent = new CommonEvent(param, ApplicationController.GET_HISTORY_DATA);
+	        	event.dispatch();	        	
+	        }
+			
+		]]>
+	</mx:Script>
+
+	
+	
+	<!-- ================ 
+ =====   GUI   ======= 
+ ================= -->	
+	
+	<mx:DataGrid  width="100%" height="100%" dataProvider="{model.dataprovider.history.row}" >
+		<mx:columns>
+			<mx:DataGridColumn headerText="Id" dataField="@id" />
+			<mx:DataGridColumn headerText="Destination" dataField="@destination" />
+			<mx:DataGridColumn headerText="Location" dataField="@location" />
+			<mx:DataGridColumn headerText="Source" dataField="@source" />
+			<mx:DataGridColumn headerText="Start Time" dataField="@start_time" />
+			<mx:DataGridColumn headerText="End Time" dataField="@end_time" />
+		</mx:columns>
+	</mx:DataGrid>
+</mx:Canvas>
