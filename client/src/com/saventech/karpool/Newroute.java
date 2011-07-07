@@ -64,7 +64,7 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 	Validations validate;
 	private String ip = "";
 	private int port;
-	private static String driverusername="";
+	public static String driverusername="";
 	
 	private static Deacon deacon;
 	PrintWriter outToServer;
@@ -82,7 +82,8 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     }
     
     
-    public void drawUI()
+    @SuppressWarnings("static-access")
+	public void drawUI()
     {
     	 session=new Session();
          validate=new Validations();
@@ -207,7 +208,8 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
     {
     
        try {
-    	       int x = Integer.parseInt(seatnumber);
+    	       @SuppressWarnings("unused")
+			int x = Integer.parseInt(seatnumber);
     	       return false;
     	   }
     	   catch(NumberFormatException nFE) {
@@ -339,7 +341,6 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		 String channame=str1[0]+"-"+str2[0];
 		 return channame.toString().trim();
 	 }
-	@SuppressWarnings("static-access")
 	public void onClick(final View view)
 	{		
 		if(view==findViewById(R.id.drivernewrouteregsubmit))
@@ -476,13 +477,8 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void onPush(DeaconResponse response) {
-		// TODO Auto-generated method stub
-		System.out.println("Driver payload from meteor: "+ response.getPayload());
-		String payload;
-		System.out.println("payload from meteor: "+ response.getPayload());
-		payload = response.getPayload().trim();
+	public void parseMeteormsgdata(String payload)
+	{
 		String str1[]=payload.toString().trim().split("::");
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nrideid: "+str1[2]);
 		String msg = msgParse(str1[1]);
@@ -490,6 +486,22 @@ public class Newroute extends Activity implements OnClickListener, DeaconObserve
 		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
 		DriverJourneyDetails.driverrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim()+"::"+str1[3].toString().trim());
 		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);
+	}
+
+	public void onPush(DeaconResponse response) {
+		// TODO Auto-generated method stub
+		System.out.println("Driver payload from meteor: "+ response.getPayload());
+		String payload;
+		System.out.println("payload from meteor: "+ response.getPayload());
+		payload = response.getPayload().trim();
+		parseMeteormsgdata(payload);
+		/*String str1[]=payload.toString().trim().split("::");
+		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nrideid: "+str1[2]);
+		String msg = msgParse(str1[1]);
+		System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		DriverJourneyDetails.driverrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim()+"::"+str1[3].toString().trim());
+		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);*/
 		//notificationAlarm();
 	}
 	private void notificationAlarm(String name, String msg) {

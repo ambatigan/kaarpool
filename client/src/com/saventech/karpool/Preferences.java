@@ -107,6 +107,8 @@ public class Preferences extends Activity implements OnItemClickListener {
     	             DriverJourneyDetails.driverridernames=new ArrayList<String>();
     	             More.ridehistory=new ArrayList<String>();
     	             More.ridehistory1=new ArrayList<String>();
+    	             RiderRoute.riderusername="";
+    	             Newroute.driverusername="";
     	             JourneyDetails.dflag=0;
     	             JourneyDetails.rflag=0;
     	             JourneyDetails.DRIVER_NOTIFICATION=0;

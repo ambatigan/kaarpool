@@ -26,7 +26,7 @@ public class Controller
 
 
 
-	//String url="http://198.162.18.171:8080/kaarpool/";
+	//String url="http://192.168.192.15:8080/kaarpool/";
 
 	String url="http://122.183.102.229/kaarpool/";
 
@@ -734,6 +734,24 @@ public class Controller
     		e.printStackTrace();
     		Log.i("Controller_getGPSCoordinates","Got exception");
     		return "Exception in getGPSCoordinates_controller";
+    	}
+	}
+	public String getrideDestination(String rideid)
+	{
+		System.out.println("getrideDestination");
+		ArrayList<NameValuePair> dest = new ArrayList<NameValuePair>();
+		dest.add(new BasicNameValuePair("rideid", rideid.toString().trim()));
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost(url+"RideDestination", dest);
+    	    String res=response.toString();
+    	    System.out.println("res from server for getride destination: "+res);
+    	    Log.i("getrideDestination_Controller", "getrideDestination");
+    	    return res.toString().trim();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		Log.i("Controller_getrideDestination","Got exception");
+    		return "Exception in getrideDestination_controller";
     	}
 	}
 }

@@ -278,6 +278,8 @@ public class JourneyDetails extends TabActivity {
          JourneyDetails.RIDER_NOTIFICATION=0;
          System.out.println("DATA REMOVED");
          RiderRoute.stopdeacon();
+         RiderRoute.riderusername="";
+         Newroute.driverusername="";
          Newroute.stopdeacon();
          finish();
          Intent intent = new Intent(getApplicationContext(), Login.class);             

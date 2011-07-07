@@ -139,6 +139,8 @@ public class More extends Activity {
 	   	             JourneyDetails.DRIVER_NOTIFICATION=0;
 	   	             JourneyDetails.RIDER_NOTIFICATION=0;
 	   	             System.out.println("DATA REMOVED");
+	   	          RiderRoute.riderusername="";
+	   	         Newroute.driverusername="";
 	   	             RiderRoute.stopdeacon();
 	   	             Newroute.stopdeacon();
 	   	             finish();

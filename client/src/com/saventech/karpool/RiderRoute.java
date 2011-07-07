@@ -65,7 +65,7 @@ public class RiderRoute extends Activity implements OnClickListener,DeaconObserv
 	// deacon data
 	private String ip = "";
 	private int port;
-	private static String riderusername="";
+	public static String riderusername="";
 	private static  Deacon deacon;
 
 	

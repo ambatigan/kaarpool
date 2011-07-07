@@ -6,19 +6,15 @@
  */
 
 package com.saventech.karpool;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,13 +27,15 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -80,6 +78,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 	String popupmessage3="";
 	Controller controller;
 	private String gpsridername;
+	private String gpsridetime;
 	//private String globalrideidmessage="";
 	/**
 	 * This screen show the riders list for driver and driver can get notifications(accept/reject)
@@ -145,13 +144,14 @@ public class Acknowledgement extends Activity implements OnClickListener
 				String messagepopups[]=message.split("FROM");		
 				String ridername=messagepopups[messagepopups.length-1].toString().trim();
 				gpsridername = ridername;
+				gpsridetime = parseTimeFromMessage(message1.toString().trim());
 				if(messagepopups[0].toString().trim().equals(getString(R.string.r1)))
 				{
 					popupmessage1=getString(R.string.d1);
 					popupmessage2=getString(R.string.d2);
 					setAlertbox(popupmessage1,popupmessage2,ridername,getString(R.string.r1),message,message1);
 				}
-				else if(messagepopups[0].toString().trim().equals(getString(R.string.r3))||messagepopups[0].toString().trim().equals(getString(R.string.r2)))
+				else if(messagepopups[0].toString().trim().equals(getString(R.string.r3))||messagepopups[0].toString().trim().equals(getString(R.string.r2))||messagepopups[0].toString().trim().equals(getString(R.string.r4))||messagepopups[0].toString().trim().equals(getString(R.string.r5)))
 				{
 					System.out.println("i am in message popups: if condition ");
 					popupmessage3="OK";
@@ -171,6 +171,12 @@ public class Acknowledgement extends Activity implements OnClickListener
 						else
 							System.out.println("greater than 30 mins");
 					}
+					if(messagepopups[0].toString().trim().equals(getString(R.string.r4)))
+					{
+						System.out.println("completed pickup handshake and ready to send drop request");
+						rideid = getRideid(message1).trim();
+						gpsTrackingDrop(rideid);
+					}
 				}
 				else if(messagepopups[0].toString().trim().equals(getString(R.string.r8)))
 				{
@@ -180,12 +186,12 @@ public class Acknowledgement extends Activity implements OnClickListener
 					
 				}
 				
-				/*else if(messagepopups[0].toString().trim().equals(getString(R.string.d5)))
+				else if(messagepopups[0].toString().trim().equals(getString(R.string.d5)))
 				{
-					popupmessage1=getString(R.string.r4);
-					popupmessage2=getString(R.string.r5);
-					setAlertbox(popupmessage1,popupmessage2,ridername,messagepopups[0].toString().trim(),message);
-				}
+					popupmessage1=getString(R.string.d5);
+					popupmessage2=getString(R.string.d2);
+					setAlertbox(popupmessage1,popupmessage2,ridername,messagepopups[0].toString().trim(),message,message1);
+				}/*
 				else if(messagepopups[0].toString().trim().equals(getString(R.string.d6)))
 				{
 					popupmessage3=getString(R.string.r6);
@@ -206,6 +212,12 @@ public class Acknowledgement extends Activity implements OnClickListener
     	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
     	        0, new GeoUpdateHandler());
     }*/
+    public void gpsTrackingDrop(String id_ride)
+    {
+    	System.out.println("rideid:"+id_ride);
+    	String ride_dest = controller.getrideDestination(id_ride);
+    	System.out.println("ride destination: "+ride_dest);
+    }
     public boolean checkTime_GPS(String ridername, String ridetime) 
     {
     	System.out.println("I am in checkTime_GPS");
@@ -506,9 +518,12 @@ public class Acknowledgement extends Activity implements OnClickListener
 				 updateseatsmessage=controller.checkToUpdateSeats(rideid.toString().trim());
 				 
 			 }
-			 if(updateseatsmessage.toString().trim().equals("UPDATE"))
+			 if(updateseatsmessage.toString().trim().equals("UPDATE")||res.toString().trim().equals("d5")||res.toString().trim().equals("d2"))
 			 {
-				 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(-1));
+				 if(!(res.toString().trim().equals("d5")))
+				 {
+					 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(-1));
+				 }
 				 ArrayList<String>even=new ArrayList<String>();
 		         
 				 System.out.println("Injecting events: "+" ADDMESSAGE "+drivername+" "+channelname+"::"+res+"::"+rideid+"::"+time+"EVENT");
@@ -574,7 +589,7 @@ public class Acknowledgement extends Activity implements OnClickListener
 			
 			controller.storeCoordinates(session.getUsername(mPreferences), rideid, lat, lng);
 			System.out.println("Geo coordinates: latitude: "+lat+" longitude: "+lng);
-			
+			String rname1=gpsridername.toString().trim();
 			String rname = getEntireRiderName(gpsridername);
 			String coordinates = controller.getGPSCoordinates(rideid, rname);
 			String[] result = coordinates.split("::");
@@ -584,11 +599,19 @@ public class Acknowledgement extends Activity implements OnClickListener
 			String add2 = result[0].trim()+","+result[1].trim();
 			int distance = Integer.parseInt(getDistancenTime(getUrl(add1,add2)));
 			System.out.println("Distance: "+distance);
-			if(distance <= 10000)
+			if(distance <= 5000)
 			{
 				Toast.makeText(getApplicationContext(),"you are near to "+rname+" place! send pickup request ",Toast.LENGTH_SHORT).show();
+				String makepayload="r"+rname1.toString().trim()+"::d5::"+rideid.toString().trim()+"::"+gpsridetime.toString().trim();
+				System.out.println(makepayload+"       acknowledgement ridepickup request");
+				parseMeteormsgdata(makepayload);
+			    //Newroute obj=new Newroute();
+			    //obj.parseMeteormsgdata(makepayload);
+				//driverPickupNotification();
 			}
 		}
+		
+		
 
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
@@ -603,6 +626,47 @@ public class Acknowledgement extends Activity implements OnClickListener
 			// TODO Auto-generated method stub
 			
 		}
+	}
+	public void parseMeteormsgdata(String payload)
+	{
+		String str1[]=payload.toString().trim().split("::");
+		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nrideid: "+str1[2]);
+		String msg = getString(R.string.d5);
+		System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		DriverJourneyDetails.driverrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim()+"::"+str1[3].toString().trim());
+		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);
+	}
+	private void notificationAlarm(String name, String msg) {
+		
+		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		JourneyDetails.DRIVER_NOTIFICATION++;
+    	int icon = R.drawable.icon;
+    	CharSequence text = msg;
+    	CharSequence contentTitle = "Pickup Notification";
+    	CharSequence contentText = JourneyDetails.DRIVER_NOTIFICATION+" unread(Kaarpool)" ;//msg+" from "+name;
+    	long when = System.currentTimeMillis();
+
+    	Intent intent = new Intent(Acknowledgement.this, JourneyDetails.class);
+    	intent.putExtra("receiver", "drivernotification");
+    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+    	Notification notification = new Notification(icon,text,when);
+    	
+    	notification.flags = Notification.DEFAULT_SOUND | Notification.FLAG_AUTO_CANCEL;
+    	
+    	long[] vibrate = {0,100,200,300};
+    	notification.vibrate = vibrate;
+    	
+    	notification.ledARGB = Color.RED;
+    	notification.ledOffMS = 300;
+    	notification.ledOnMS = 300;
+    	
+    	notification.defaults |= Notification.DEFAULT_LIGHTS;
+    	//notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+    	
+    	notification.setLatestEventInfo(this, contentTitle, contentText, contentIntent);
+    	
+    	notificationManager.notify(1001, notification);
 	}
 	public String getDistancenTime(String url) {
 		String result = "";
