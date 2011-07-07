@@ -421,7 +421,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 			 {
 				 System.out.println("below 30 mins");
 				 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+			    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
 			    	        0, new GeoUpdateHandler());
 			 }
 			 else
