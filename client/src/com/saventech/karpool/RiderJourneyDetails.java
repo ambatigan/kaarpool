@@ -28,6 +28,7 @@ public class RiderJourneyDetails extends TabActivity implements android.view.Vie
 	static ArrayList<String> ridermeteormsg = new ArrayList<String>();
 	static ArrayList<String> riderrideid= new ArrayList<String>();
 	static ArrayList<String> justriderequests=new ArrayList<String>();
+	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent1 = getIntent();

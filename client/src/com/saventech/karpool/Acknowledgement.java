@@ -61,8 +61,8 @@ public class Acknowledgement extends Activity implements OnClickListener
 	private double toLon;
 	private String timeToDestination;
 	private int distanceToDestination;
-	public double lat;
-	public double lng;
+	public static double lat;
+	public static double lng;
 	public String rideid;
 	private SharedPreferences mPreferences; 
 	Session session;
@@ -165,18 +165,18 @@ public class Acknowledgement extends Activity implements OnClickListener
 							System.out.println("below 30 mins");
 							//storeCoordinates(rideid);
 							locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-					    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+					    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 					    	        0, new GeoUpdateHandler());
 						}
 						else
 							System.out.println("greater than 30 mins");
 					}
-					if(messagepopups[0].toString().trim().equals(getString(R.string.r4)))
+					/*if(messagepopups[0].toString().trim().equals(getString(R.string.r4)))
 					{
 						System.out.println("completed pickup handshake and ready to send drop request");
 						rideid = getRideid(message1).trim();
 						gpsTrackingDrop(rideid);
-					}
+					}*/
 				}
 				else if(messagepopups[0].toString().trim().equals(getString(R.string.r8)))
 				{
@@ -191,12 +191,19 @@ public class Acknowledgement extends Activity implements OnClickListener
 					popupmessage1=getString(R.string.d5);
 					popupmessage2=getString(R.string.d2);
 					setAlertbox(popupmessage1,popupmessage2,ridername,messagepopups[0].toString().trim(),message,message1);
-				}/*
+				}
 				else if(messagepopups[0].toString().trim().equals(getString(R.string.d6)))
 				{
-					popupmessage3=getString(R.string.r6);
-					setAlertbox1(popupmessage3,ridername,messagepopups[0].toString().trim(),message);
-				}*/
+					popupmessage3=getString(R.string.d6);
+					setAlertbox4(popupmessage3,ridername,messagepopups[0].toString().trim(),message,message1);
+					
+				}
+				else if(messagepopups[0].toString().trim().equals(getString(R.string.r6)))
+				{
+					popupmessage3="OK";
+					setAlertbox1(popupmessage3,ridername,messagepopups[0].toString().trim(),message,message1);
+					
+				}
 				else
 				{
 					Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
@@ -212,11 +219,94 @@ public class Acknowledgement extends Activity implements OnClickListener
     	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
     	        0, new GeoUpdateHandler());
     }*/
-    public void gpsTrackingDrop(String id_ride)
+    public void gpsTrackingDrop(String id_ride,String rname)
     {
     	System.out.println("rideid:"+id_ride);
     	String ride_dest = controller.getrideDestination(id_ride);
     	System.out.println("ride destination: "+ride_dest);
+    	String drop_coordinates = getAddress(getAddressUrl(ride_dest.trim()));
+    	System.out.println("drop coordinates: "+drop_coordinates);
+    	String param1 = lat+","+lng;
+     	int drop_distance = Integer.parseInt(getDistancenTime(getUrl(param1,drop_coordinates)));
+     	System.out.println("zzzzdrop_distance: "+drop_distance);
+     	String rname1 = gpsridername.toString().trim();
+     	System.out.println("yyyyyyydrop_distance: "+drop_distance);
+     	if(drop_distance<=4000)
+     	{
+     		System.out.println("drop rqeqekrjqlejklkjfalkdfjalklllllllllllllllllll");
+     		//Toast.makeText(getApplicationContext(),"you are near to "+rname+" place! send drop request ",Toast.LENGTH_SHORT).show();
+			String makepayload="r"+rname1.toString().trim()+"::d6::"+rideid.toString().trim()+"::"+gpsridetime.toString().trim();
+			System.out.println(makepayload+"       acknowledgement ride drop request");
+			parseMeteormsgdata(makepayload, getString(R.string.d6), "drop notification");
+     	}
+    	    	
+    }
+    public static String getAddress(String url) {
+		String result = "";
+		InputStream is = null;
+    	try
+    	{
+    		HttpClient httpclient = new DefaultHttpClient();
+    		HttpPost httppost = new HttpPost(url);
+    		HttpResponse response = httpclient.execute(httppost);
+    		HttpEntity entity = response.getEntity();
+    		is = entity.getContent();
+    	} 
+    	catch(Exception e) 
+    	{
+    		Log.e("log_tag", "Error in http conection"+e.toString());
+    	}
+    	try 
+    	{
+    		BufferedReader reader = new BufferedReader(
+    		new InputStreamReader(is,"iso-8859-1"),8);
+    		StringBuilder sb = new StringBuilder();
+    		String line = null;
+    		while ( (line = reader.readLine() ) != null) {
+    		sb.append(line + "\n"); }
+    		is.close();
+    		result=sb.toString();
+
+    	}
+    	catch(Exception e)
+    	{
+    		Log.e("log_tag", "Error converting result "+e.toString());
+    	}
+		try 
+		{
+			JSONObject rootObj = new JSONObject(result); //rootObj ist jetzt ein dict
+			JSONArray results = (JSONArray) rootObj.get("results");
+			if(results.length()<1)
+				return "ERROR no route there";
+			JSONObject firstRoute = results.getJSONObject(0);
+			
+			JSONObject geometry = (JSONObject) firstRoute.get("geometry");
+
+			JSONObject locationobject = (JSONObject) geometry.get("location");
+
+			double fromLat = (Double) locationobject.getDouble("lat");
+			double fromLon = (Double) locationobject.getDouble("lng");
+			
+			System.out.println(fromLat+":::"+fromLon);
+			
+			return fromLat+","+fromLon;
+			
+		} 
+		catch (JSONException e) 
+		{
+			e.printStackTrace();
+			return "Error while getting distance";
+		}
+		
+	}
+	public static String getAddressUrl(String address) // connect to map web service
+    {
+	    StringBuffer urlString = new StringBuffer();
+	    urlString.append("http://maps.google.com/maps/api/geocode/json?address=");
+	    urlString.append(address.toString());
+	    urlString.append("&sensor=false");
+	    System.out.println("url: "+urlString.toString());
+	    return urlString.toString();
     }
     public boolean checkTime_GPS(String ridername, String ridetime) 
     {
@@ -351,6 +441,22 @@ public class Acknowledgement extends Activity implements OnClickListener
 		  		});
 		    	adb.show();
     }
+    public void setAlertbox4(final String msg1,final String ridername,String displaymessage,final String message,final String message1)
+    {
+        AlertDialog.Builder adb=new AlertDialog.Builder(Acknowledgement.this.getParent());
+    	
+    	adb.setTitle(displaymessage.toString().trim());
+    	adb.setMessage("Ridername  : "+getEntireRiderName(ridername)+"\nTime      : "+parseTimeFromMessage(message1));
+  	  	adb.setPositiveButton(msg1.toString().trim(), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				//value = input.getText().toString().trim();
+				//Toast.makeText(getApplicationContext(),msg1.toString().trim(),Toast.LENGTH_SHORT).show();
+				removeMessage(message);
+				sendResponseMessage(message,ridername,msg1.toString().trim(),message1.toString().trim());
+			}
+		});
+  	  	adb.show();
+    }
     public void setAlertbox1(final String msg3,String ridername,String displaymessage,final String message,final String message1)
     {
     	/*if(displaymessage.toString().trim().equals(getString(R.string.r8)))
@@ -479,7 +585,7 @@ public class Acknowledgement extends Activity implements OnClickListener
     	String res=getResponseId(respon);
 		 //String rid=getRid(message);
 		 String channelname=parseChannelName(session.getUsername(mPreferences));
-		 
+		 System.out.println(res+" ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
 		 String updateseatsmessage="";
 		 if(res.toString().trim().equals("r8"))
 		 {
@@ -518,9 +624,9 @@ public class Acknowledgement extends Activity implements OnClickListener
 				 updateseatsmessage=controller.checkToUpdateSeats(rideid.toString().trim());
 				 
 			 }
-			 if(updateseatsmessage.toString().trim().equals("UPDATE")||res.toString().trim().equals("d5")||res.toString().trim().equals("d2"))
+			 if(updateseatsmessage.toString().trim().equals("UPDATE")||res.toString().trim().equals("d5")||res.toString().trim().equals("d6")||res.toString().trim().equals("d2"))
 			 {
-				 if(!(res.toString().trim().equals("d5")))
+				 if(!(res.toString().trim().equals("d5")||res.toString().trim().equals("d6")))
 				 {
 					 controller.UpdateSeats(rideid.toString().trim(), Integer.toString(-1));
 				 }
@@ -586,14 +692,14 @@ public class Acknowledgement extends Activity implements OnClickListener
 		public void onLocationChanged(Location location) {
 			lat = location.getLatitude();
 			lng = location.getLongitude();
-			
+			try {
 			controller.storeCoordinates(session.getUsername(mPreferences), rideid, lat, lng);
 			System.out.println("Geo coordinates: latitude: "+lat+" longitude: "+lng);
 			String rname1=gpsridername.toString().trim();
 			String rname = getEntireRiderName(gpsridername);
 			String coordinates = controller.getGPSCoordinates(rideid, rname);
 			String[] result = coordinates.split("::");
-			System.out.println(rname + "  coordinates : "+ coordinates);
+			System.out.println(rname + " coordinates : "+ coordinates);
 			
 			String add1 = lat+","+lng;
 			String add2 = result[0].trim()+","+result[1].trim();
@@ -601,13 +707,46 @@ public class Acknowledgement extends Activity implements OnClickListener
 			System.out.println("Distance: "+distance);
 			if(distance <= 5000)
 			{
-				Toast.makeText(getApplicationContext(),"you are near to "+rname+" place! send pickup request ",Toast.LENGTH_SHORT).show();
-				String makepayload="r"+rname1.toString().trim()+"::d5::"+rideid.toString().trim()+"::"+gpsridetime.toString().trim();
-				System.out.println(makepayload+"       acknowledgement ridepickup request");
-				parseMeteormsgdata(makepayload);
+				String pickup_check = controller.pickupRequestCheck(rideid, rname, "p");
+				System.out.println("pickup check: "+pickup_check);
+				if(pickup_check.toString().trim().equals("r4")||pickup_check.toString().trim().equals("d5")||pickup_check.toString().trim().equals("r5")||pickup_check.toString().trim().equals("d6")||pickup_check.toString().trim().equals("r6"))
+				{
+					System.out.println("already sent pickup request");
+					if(pickup_check.toString().trim().equals("r4"))
+					{
+						if((DriverJourneyDetails.ridedropprequests.size()!=0) && DriverJourneyDetails.ridedropprequests.contains(rideid+rname))
+						{
+							
+						}
+						else
+						{
+							DriverJourneyDetails.ridedropprequests.add(rideid+rname);
+							gpsTrackingDrop(rideid,rname);
+						}
+					}
+				}
+				else
+				{
+					if(DriverJourneyDetails.ridepickuprequests.contains(rideid+rname))
+					{
+						
+					}
+					else
+					{
+						DriverJourneyDetails.ridepickuprequests.add(rideid+rname);
+						Toast.makeText(getApplicationContext(),"you are near to "+rname+" place! send pickup request ",Toast.LENGTH_SHORT).show();
+						String makepayload="r"+rname1.toString().trim()+"::d5::"+rideid.toString().trim()+"::"+gpsridetime.toString().trim();
+						System.out.println(makepayload+"       acknowledgement ridepickup request");
+						parseMeteormsgdata(makepayload, getString(R.string.d5), "pickup notification");
+					}
+				}
+				
 			    //Newroute obj=new Newroute();
 			    //obj.parseMeteormsgdata(makepayload);
 				//driverPickupNotification();
+			}
+			}catch(Exception e) {
+				Toast.makeText(getApplicationContext(), "gps is not enables at rider side", Toast.LENGTH_SHORT).show();
 			}
 		}
 		
@@ -627,23 +766,23 @@ public class Acknowledgement extends Activity implements OnClickListener
 			
 		}
 	}
-	public void parseMeteormsgdata(String payload)
+	public void parseMeteormsgdata(String payload, String request_msg, String title)
 	{
 		String str1[]=payload.toString().trim().split("::");
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nrideid: "+str1[2]);
-		String msg = getString(R.string.d5);
+		String msg = request_msg.toString().trim();
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
 		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
 		DriverJourneyDetails.driverrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim()+"::"+str1[3].toString().trim());
-		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);
+		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg, title);
 	}
-	private void notificationAlarm(String name, String msg) {
+	private void notificationAlarm(String name, String msg, String title) {
 		
 		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 		JourneyDetails.DRIVER_NOTIFICATION++;
     	int icon = R.drawable.icon;
     	CharSequence text = msg;
-    	CharSequence contentTitle = "Pickup Notification";
+    	CharSequence contentTitle = title;
     	CharSequence contentText = JourneyDetails.DRIVER_NOTIFICATION+" unread(Kaarpool)" ;//msg+" from "+name;
     	long when = System.currentTimeMillis();
 

@@ -132,6 +132,8 @@ public class More extends Activity {
 	   	             JourneyDetails.ridelist1=new ArrayList<String>();
 	   	             RiderJourneyDetails.justriderequests=new ArrayList<String>();
 	   	          DriverJourneyDetails.driverridernames=new ArrayList<String>();
+	   	       DriverJourneyDetails.ridedropprequests=new ArrayList<String>();
+	           DriverJourneyDetails.ridepickuprequests=new ArrayList<String>();
 	   	             More.ridehistory=new ArrayList<String>();
 	   	             More.ridehistory1=new ArrayList<String>();
 	   	             JourneyDetails.dflag=0;

@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -93,20 +94,25 @@ public class TrackRoute extends MapActivity {
     	mapView.setStreetView(true);
     	mapController = mapView.getController();
     	mapController.setZoom(14); // Zoom 1 is world view
-    	if(usermode.trim().equals("rider"))
-    	{
-    		System.out.println("track route if condition: rider");
-    		coordinates = controller.trackrouteDrivername(username, rack.rrideid);
-    		System.out.println("driver coordinates: "+coordinates);
-    		result = coordinates.split("::");
-        	int lat = (int) (Float.parseFloat(result[0]) * 1E6);
-        	int lng = (int) (Float.parseFloat(result[1])* 1E6);
-        	point = new GeoPoint(lat, lng);
-        	mapController.animateTo(point);
+    	try {
+	    	if(usermode.trim().equals("rider"))
+	    	{
+	    		System.out.println("track route if condition: rider");
+	    		coordinates = controller.trackrouteDrivername(username, rack.rrideid);
+	    		System.out.println("driver coordinates: "+coordinates);
+	    		result = coordinates.split("::");
+	        	int lat = (int) (Float.parseFloat(result[0]) * 1E6);
+	        	int lng = (int) (Float.parseFloat(result[1])* 1E6);
+	        	point = new GeoPoint(lat, lng);
+	        	mapController.animateTo(point);
+	    	}
+	    	locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+	    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+	    	        0, new GeoUpdateHandler());
     	}
-    	locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
-    	        0, new GeoUpdateHandler());
+    	catch (Exception e) {
+    		Toast.makeText(getApplicationContext(), "GPS is  not enabled at driver side", Toast.LENGTH_SHORT).show();
+    	}
     	
     }
 	@Override

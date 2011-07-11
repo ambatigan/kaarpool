@@ -421,7 +421,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 			 {
 				 System.out.println("below 30 mins");
 				 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+			    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 			    	        0, new GeoUpdateHandler());
 			 }
 			 else
@@ -698,8 +698,15 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 			lat = location.getLatitude();
 			lng = location.getLongitude();
 			
+			try {
+			
 			controller.storeCoordinates(session.getUsername(mPreferences), rrideid, lat, lng);
 			System.out.println("Geo coordinates: latitude: "+lat+" longitude: "+lng);
+			}
+			catch(Exception e)
+			{
+				Toast.makeText(getApplicationContext(),"Gps is not enabled at driver side",Toast.LENGTH_SHORT).show();
+			}
 
 		}
 

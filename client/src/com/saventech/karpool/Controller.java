@@ -27,9 +27,9 @@ public class Controller
 
 
 	
-	//String url="http://192.168.192.15:8080/kaarpool/";
+	String url="http://192.168.192.15:8080/kaarpool/";
 
-	String url="http://122.183.102.229/kaarpool/";
+	//String url="http://122.183.102.229/kaarpool/";
 
 
 	/*  Deafault  constructor for Controller
@@ -622,12 +622,13 @@ public class Controller
 		// TODO Auto-generated method stub
 		System.out.println("trackrouteDrivername");
 		ArrayList<NameValuePair> trackdetails=new ArrayList<NameValuePair>();
-		trackdetails.add(new BasicNameValuePair("rideid",rideid.toString().trim()));
-		trackdetails.add(new BasicNameValuePair("username", username.toString()));
+		
 		
 		String drivername="";
 		try
 		{
+			trackdetails.add(new BasicNameValuePair("rideid",rideid.toString().trim()));
+			trackdetails.add(new BasicNameValuePair("username", username.toString()));
 			drivername=CustomHttpClient.executeHttpPost(url+"TrackDrivername", trackdetails);
 			String res=drivername.toString();
 		    Log.i("Getting_Drivername for tracking route: ", res.toString().trim());
@@ -753,6 +754,25 @@ public class Controller
     		e.printStackTrace();
     		Log.i("Controller_getrideDestination","Got exception");
     		return "Exception in getrideDestination_controller";
+    	}
+	}
+	public String pickupRequestCheck(String rideid, String rname, String flag) {
+		System.out.println("pickupRequestCheck");
+		ArrayList<NameValuePair> pickup = new ArrayList<NameValuePair>();
+		pickup.add(new BasicNameValuePair("rideid", rideid.toString().trim()));
+		pickup.add(new BasicNameValuePair("rname", rname.toString().trim()));
+		pickup.add(new BasicNameValuePair("flag", flag.toString().trim()));
+		String response = null;
+    	try {
+    	    response = CustomHttpClient.executeHttpPost(url+"AcknowledgeRequest", pickup);
+    	    String res=response.toString();
+    	    System.out.println("res from server for pickupRequestCheck: "+res);
+    	    Log.i("pickupRequestCheck_Controller", "pickupRequestCheck");
+    	    return res.toString().trim();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		Log.i("Controller_pickupRequestCheck","Got exception");
+    		return "Exception in pickupRequestCheck_controller";
     	}
 	}
 }

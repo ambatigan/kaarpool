@@ -30,6 +30,8 @@ public class DriverJourneyDetails extends TabActivity {
 	static ArrayList<String> drivermeteormsg = new ArrayList<String>();
 	static ArrayList<String> driverrideid=new ArrayList<String>();
 	static ArrayList<String> driverridernames= new ArrayList<String>();
+	static ArrayList<String> ridepickuprequests=new ArrayList<String>();
+	static ArrayList<String> ridedropprequests=new ArrayList<String>();
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
