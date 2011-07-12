@@ -53,8 +53,8 @@
 		<item>Work</item>
 		
 	</string-array>
-	<string name="MeteorIP">192.168.192.17</string>
-	<string name="SubscriberPort">4670</string>
+	<string name="MeteorIP">122.183.102.230</string>
+	<string name="SubscriberPort">80</string>
 	<string name="r1">Ride request</string>
 	<string name="r2">Ride confirmation</string>
 	<string name="r3">Ride confirmation reject</string>
