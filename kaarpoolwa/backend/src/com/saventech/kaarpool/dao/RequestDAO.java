@@ -110,15 +110,16 @@ public class RequestDAO {
 						+ "r.rid = mu.rdid AND "
 						+ "mu.messageid = 'r6' AND "
 						+ "mu.status='stop' AND "
-						+ "mu.ridername=? LIMIT ?, ?";
+						+ "(mu.ridername=? OR mu.drivername=?) LIMIT ?, ?";
 		
 		try {
 			con = DBUtils.getConnection();
 			stmt = con.prepareStatement(sql);
 			
 			stmt.setString(1, ridername);
-			stmt.setInt(2, ((page - 1 ) *  per_page));
-			stmt.setInt(3, per_page);
+			stmt.setString(2, ridername);
+			stmt.setInt(3, ((page - 1 ) *  per_page));
+			stmt.setInt(4, per_page);
 			
 			rs = stmt.executeQuery();
 			
