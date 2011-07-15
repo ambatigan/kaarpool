@@ -9,8 +9,7 @@ package com.saven.components.border
     import mx.utils.ColorUtil;
     import mx.utils.GraphicsUtil;
     
-    public class SimpleGradientBorder extends HaloBorder 
-    {
+    public class SimpleGradientBorder extends HaloBorder    {
         
         private var topCornerRadius:Number;        // top corner radius
         private var bottomCornerRadius:Number;    // bottom corner radius
