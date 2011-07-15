@@ -238,6 +238,7 @@
 			
 			if(regEmailValidator.validate().type == 'invalid') {
 				rMsg.text = 'Enter valid mailid';
+				txtUsername.setFocus();
 				return;
 			}
 			
@@ -248,13 +249,13 @@
 			}
 			
 			if(txtcpwd.text.length < 6 ){
-				rMsg.text = 'Confirm password should be 6 characters';
+				rMsg.text = 'Conform password should be 6 characters';
 				txtcpwd.setFocus();
 				return;
 			}
 			
 			if(txtpwd.text != txtcpwd.text) {
-				rMsg.text = 'Password and confiem password should be same'
+				rMsg.text = 'Password and conform password should be same'
 				txtpwd.text = '';
 				txtcpwd.text = '';
 				txtpwd.setFocus();
