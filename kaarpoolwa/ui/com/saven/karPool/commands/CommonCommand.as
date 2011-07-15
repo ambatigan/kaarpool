@@ -4,7 +4,6 @@ package com.saven.karPool.commands {
 	import com.adobe.cairngorm.commands.Command;
 	import com.adobe.cairngorm.control.CairngormEvent;
 	import com.saven.karPool.business.deligates.CommonDeligate;
-	import com.saven.karPool.business.deligates.RegisterDeligate;
 	import com.saven.karPool.controls.events.CommonEvent;
 	import com.saven.karPool.model.DataModel;
 	
