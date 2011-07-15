@@ -12,16 +12,13 @@ package com.saven.karPool.commands {
 	import mx.rpc.AsyncToken;
 	import mx.rpc.IResponder;
 
-	public class CommonCommand implements Command, IResponder
-	{
-		public function CommonCommand()
-		{
+	public class CommonCommand implements Command, IResponder	{
+		public function CommonCommand()		{
 			super();
 		}
 		
-				
-			[Bindable]
-			private var model : DataModel = DataModel.getInstance();
+		[Bindable]
+		private var model : DataModel = DataModel.getInstance();
 
 		public function execute(event:CairngormEvent):void 		{
 			var e : CommonEvent = event as CommonEvent ;

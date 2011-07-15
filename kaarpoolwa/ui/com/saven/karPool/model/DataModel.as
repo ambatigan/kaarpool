@@ -10,7 +10,7 @@ package com.saven.karPool.model {
 		
 		public var dataprovider : XML;
 		
-		public var username : String = '';
+		public var username : String = ''; // Username
 		
 		public var password : String = '';
 				
