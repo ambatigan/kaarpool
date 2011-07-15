@@ -1,3 +1,4 @@
+//Lavanya
 package com.saven.karPool.business.deligates
 {
 	import com.adobe.cairngorm.business.ServiceLocator;
@@ -11,7 +12,7 @@ package com.saven.karPool.business.deligates
 	{
 		private var _responder:IResponder;
 	
-		private var _service:HTTPService;
+		private var _service:HTTPService;  // Service
 		
 		public function CommonDeligate(responder:IResponder)	{
 			this._service = ServiceLocator.getInstance().getHTTPService(Services.HISTORYDATASERVICE);  
