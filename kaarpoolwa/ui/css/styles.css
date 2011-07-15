@@ -115,45 +115,45 @@ Application {
    background-color: #C7C7C7;	
 }  
 .homebutton {
-  	up-skin: Embed("/assets/images/homebutton.gif");
-    down-skin: Embed("/assets/images/homeover.gif");
-    over-skin: Embed("/assets/images/homeover.gif");
-    disabled-skin: Embed("/assets/images/homebutton.gif");
-    selectedUpSkin: Embed("/assets/images/homeover.gif");  
-   	selectedDownSkin: Embed("/assets/images/homeover.gif");  
-   	selectedOverSkin: Embed("/assets/images/homeover.gif");  
-   	selectedDisabledSkin: Embed("/assets/images/homeover.gif");  
+  	up-skin: Embed("assets/images/homebutton.gif");
+    down-skin: Embed("assets/images/homeover.gif");
+    over-skin: Embed("assets/images/homeover.gif");
+    disabled-skin: Embed("assets/images/homebutton.gif");
+    selectedUpSkin: Embed("assets/images/homeover.gif");  
+   	selectedDownSkin: Embed("assets/images/homeover.gif");  
+   	selectedOverSkin: Embed("assets/images/homeover.gif");  
+   	selectedDisabledSkin: Embed("assets/images/homeover.gif");  
    
 }
 
 .aboutbutton {
-  	up-skin: Embed("/assets/images/aboutbutton.gif");
-    down-skin: Embed("/assets/images/aboutbutton.gif");
-    over-skin: Embed("/assets/images/aboutover.gif");
-    disabled-skin: Embed("/assets/images/aboutbutton.gif");
+  	up-skin: Embed("assets/images/aboutbutton.gif");
+    down-skin: Embed("assets/images/aboutbutton.gif");
+    over-skin: Embed("assets/images/aboutover.gif");
+    disabled-skin: Embed("assets/images/aboutbutton.gif");
 }
 
 .servicesbutton {
-  	up-skin: Embed("/assets/images/servicesbutton.gif");
-    down-skin: Embed("/assets/images/servicesbutton.gif");
-    over-skin: Embed("/assets/images/servicesover.gif");
-    disabled-skin: Embed("/assets/images/servicesbutton.gif");
+  	up-skin: Embed("assets/images/servicesbutton.gif");
+    down-skin: Embed("assets/images/servicesbutton.gif");
+    over-skin: Embed("assets/images/servicesover.gif");
+    disabled-skin: Embed("assets/images/servicesbutton.gif");
 }
 
 .contactbutton {
-  	up-skin: Embed("/assets/images/contactbutton.gif");
-    down-skin: Embed("/assets/images/contactbutton.gif");
-    over-skin: Embed("/assets/images/contactover.gif");
-    disabled-skin: Embed("/assets/images/contactbutton.gif");
+  	up-skin: Embed("assets/images/contactbutton.gif");
+    down-skin: Embed("assets/images/contactbutton.gif");
+    over-skin: Embed("assets/images/contactover.gif");
+    disabled-skin: Embed("assets/images/contactbutton.gif");
 }
 .homebutton1 {
-  	up-skin: Embed("/assets/images/homeover.gif");
-    down-skin: Embed("/assets/images/homeover.gif");
-    over-skin: Embed("/assets/images/homeover.gif");
-    disabled-skin: Embed("/assets/images/homebutton.gif");
-    selectedUpSkin: Embed("/assets/images/homeover.gif");  
-   	selectedDownSkin: Embed("/assets/images/homeover.gif");  
-   	selectedOverSkin: Embed("/assets/images/homeover.gif");  
-   	selectedDisabledSkin: Embed("/assets/images/homeover.gif");  
+  	up-skin: Embed("assets/images/homeover.gif");
+    down-skin: Embed("assets/images/homeover.gif");
+    over-skin: Embed("assets/images/homeover.gif");
+    disabled-skin: Embed("assets/images/homebutton.gif");
+    selectedUpSkin: Embed("assets/images/homeover.gif");  
+   	selectedDownSkin: Embed("assets/images/homeover.gif");  
+   	selectedOverSkin: Embed("assets/images/homeover.gif");  
+   	selectedDisabledSkin: Embed("assets/images/homeover.gif");  
    
 }

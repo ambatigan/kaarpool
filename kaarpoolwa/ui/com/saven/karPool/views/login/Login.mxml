@@ -20,10 +20,10 @@
 			import mx.core.Application;
 			import mx.rpc.events.ResultEvent;
 			
-			public var regWindow : Registration =  new Registration();
+/* 			public var regWindow : Registration =  new Registration(); */
 			
 			[Bindable]
-			private var uName : String = 'raj@kaarpool.com';
+			private var uName : String = 'ram@kaarpool.com';
 			
 			[Bindable]
 			private var password : String = 'saven';
@@ -93,9 +93,15 @@
 			
 			private function loginClick():void {
 				if(gUsername.text == '' || gPassword.text == ''){
-					gMsg.text = 'Enter all  Mandatory fields';
+					gMsg.text = Constants.LOGIN_MSG;
 					return;
 				}
+				
+				if(emailValidat.validate().type == 'invalid') {
+					gMsg.text = 'Enter valid mailid';
+					return;
+				}
+				
 					
 			 	var params:Object = new Object();
 				var usrid : String = gUsername.text;
@@ -170,8 +176,8 @@
 	    }
 		
 		private function registerClick():void {
-			PopUpManager.addPopUp(regWindow, this, true);
-			PopUpManager.centerPopUp(regWindow);
+		/* 	PopUpManager.addPopUp(regWindow, this, true);
+			PopUpManager.centerPopUp(regWindow); */
 		}
 		
 		public function showLogin():void {
@@ -217,11 +223,53 @@
 					showLogin();
 					signin.label = 'Sign in';
 					signup.visible = true;
+					model.username='';
+					model.password='';
 					break;
 			}
 		}
 		
 		private function registerSave():void {
+			
+			if(txtUsername.text == '' || txtpwd.text == '' || txtcpwd.text == '' || txtDOB.text == '' || txtMobNo.text == '') {
+				rMsg.text = Constants.MANDATORYMSG;
+				return;
+			}
+			
+			if(regEmailValidator.validate().type == 'invalid') {
+				rMsg.text = 'Enter valid mailid';
+				return;
+			}
+			
+			if(txtpwd.text.length < 6 ){
+				rMsg.text = 'Password minimum should be 6 characters';
+				txtpwd.setFocus();
+				return;
+			}
+			
+			if(txtcpwd.text.length < 6 ){
+				rMsg.text = 'Confirm password should be 6 characters';
+				txtcpwd.setFocus();
+				return;
+			}
+			
+			if(txtpwd.text != txtcpwd.text) {
+				rMsg.text = 'Password and confiem password should be same'
+				txtpwd.text = '';
+				txtcpwd.text = '';
+				txtpwd.setFocus();
+				return;
+			}
+			
+			if(dobValidator.validate().type == 'invalid') {
+				rMsg.text = 'Enter valid Date of birth';
+				return;
+			}
+			
+			/* if(dobValidator.validate().type == 'invalid') {
+				rMsg.text = 'Enter valid Date of birth';
+				return;
+			} */
 		
 			var params : Object = new Object();
 			params.username = txtUsername.text;
@@ -240,6 +288,8 @@
 		private function rbChange(evt : Event=null):void{
 			
 		}
+		
+		
 		
 		]]>
 	</mx:Script>
@@ -261,16 +311,10 @@
 			<!---->
 			
 		</mx:HBox>
-		<mx:HBox height="120" paddingLeft="830" textAlign="right"  width="100%" verticalScrollPolicy="off" 
+		<mx:HBox height="120" paddingLeft="{model.username==''?830:660}" textAlign="right"  width="100%" verticalScrollPolicy="off" 
 			horizontalScrollPolicy="off"  paddingTop="0">
-			<!--<mx:LinkBar fontSize="15" rollOverColor="#FF9C01" itemClick="linkClick(event.label)"	
-				 shadowDirection="right" fontFamily="Monotype Corsiva" >
-			    <mx:dataProvider>
-		            <mx:String>Sign in</mx:String>
-		            <mx:String>Sign up</mx:String>
-		            
-			 	</mx:dataProvider>
-    		</mx:LinkBar>-->
+			
+    		<mx:Label text="{model.username}" width="{model.username==''? 0 :170}" height="70" fontSize="15" textAlign="right" color="red"/>
     		<mx:LinkButton id="signin" label="Sign in" rollOverColor="green"  selectionColor="red"
     			 click="{linkClick(signin.label)}" fontFamily="Monotype Corsiva" fontSize="15"/>
     		<mx:LinkButton id="signup" label="Sign up" rollOverColor="green" selectionColor="red" click="{linkClick('Sign up')}" 
@@ -327,7 +371,9 @@
 			height="90%" backgroundImage="{Constants.CONTENT}" paddingLeft="40"  verticalScrollPolicy="off" 
 			horizontalScrollPolicy="off"> 
 		 	<mx:Label id="gsignupnMsg" styleName="styleLoginPageTex5" text="Sign up" />
-		 	<mx:Spacer height="95" />
+		 	<mx:Label id="rMsg" styleName="styleLoginPageTex5" color="red" />
+		 	<mx:Spacer height="80" />
+		 	
 		 	<mx:HBox >
 			 	<mx:Label text="Username"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
 			 	<mx:TextInput id="txtUsername"  width="190" height="25"
@@ -336,14 +382,14 @@
 		 
 		  	<mx:HBox >
 		 		<mx:Label text="Password"  styleName="styleLoginPageTex2"  color="#ffffff" width="160" textAlign="right" fontSize="15"/>
-		 		<mx:TextInput id="txtpwd"  width="190" height="25"
+		 		<mx:TextInput id="txtpwd"  width="190" height="25" maxChars="25"  
 							styleName="styleLoginPageInputText1" />
 		 	</mx:HBox>
 		 
 		 	<mx:HBox >
 		 		<mx:Label text="Confirm Password"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
-		 		<mx:TextInput id="txtcpwd"  width="190" height="25"
-							styleName="styleLoginPageInputText1" />
+		 		<mx:TextInput id="txtcpwd"  width="190" height="25" 
+							styleName="styleLoginPageInputText1" maxChars="25"/>
 		 	</mx:HBox>
 		 
 		 	<mx:HBox >
@@ -354,7 +400,7 @@
 		 
 		 	<mx:HBox >
 		 		<mx:Label text="Mobile No"  styleName="styleLoginPageTex2" color="#ffffff" width="160" textAlign="right" fontSize="15"/>
-		 		<mx:TextInput id="txtMobNo"  width="190" height="25"
+		 		<mx:TextInput id="txtMobNo"  width="190" height="25" restrict="0-9" maxChars="10"
 							styleName="styleLoginPageInputText1" />
 		 	</mx:HBox>
 		 	<mx:HBox >
@@ -384,25 +430,30 @@
 			paddingBottom="20"
 			horizontalScrollPolicy="off"> 
 			<mx:Label paddingLeft="40" id="ghistoryMsg" styleName="styleLoginPageTex5" text="Ride History" />
- 			<mx:DataGrid  width="100%" height="100%" dataProvider="{model.dataprovider.history.row}" headerHeight="22" paddingTop="20"
+ 			<mx:DataGrid  width="100%" height="100%" dataProvider="{model.dataprovider.history.row}" headerHeight="22" 
  				color="#ffffff" alpha=".1" verticalGridLineColor="#ffffff" verticalGridLines="true" rollOverColor="#ffffff"
  				textRollOverColor="#FF9C01">
 			<mx:columns>
-				<mx:DataGridColumn headerText="Id" dataField="@id" dataTipField="@id"/>
-				<mx:DataGridColumn headerText="Destination" dataField="@destination" dataTipField="@destination"/>
-				<mx:DataGridColumn headerText="Location" dataField="@location" dataTipField="@location"/>
-				<mx:DataGridColumn headerText="Source" dataField="@source" dataTipField="@source"/>
-				<mx:DataGridColumn headerText="Start Time" dataField="@start_time" dataTipField="@start_time"/>
-				<mx:DataGridColumn headerText="End Time" dataField="@end_time" dataTipField="@end_time"/>
+				<mx:DataGridColumn headerText="Id" dataField="@id" dataTipField="@id" showDataTips="true"/>
+				<mx:DataGridColumn headerText="Destination" dataField="@destination" dataTipField="@destination" showDataTips="true"/>
+				<mx:DataGridColumn headerText="Location" dataField="@location" dataTipField="@location" showDataTips="true"/>
+				<mx:DataGridColumn headerText="Source" dataField="@source" dataTipField="@source" showDataTips="true"/>
+				<mx:DataGridColumn headerText="Start Time" dataField="@start_time" dataTipField="@start_time" showDataTips="true"/>
+				<mx:DataGridColumn headerText="End Time" dataField="@end_time" dataTipField="@end_time" showDataTips="true"/>
 			</mx:columns>
 	</mx:DataGrid>
  		</mx:VBox>
  		
 	</mx:Canvas>
-		
 	
- 	
 	</mx:VBox>
-	
+	<mx:EmailValidator id="emailValidat" source="{gUsername}" property="text"   />
+    <mx:EmailValidator id="regEmailValidator" source="{txtUsername}" property="text"  />
+     <mx:DateValidator id="dobValidator" 
+        source="{txtDOB}" property="text" 
+        inputFormat="dd/mm/yyyy"
+        allowedFormatChars="*#~/"/>
+	<!--trigger="{gSubmit}" triggerEvent="click" invalid="Alert.show('Validation not Succeeded!');"
+                valid="Alert.show('Validation Succeeded!');"-->
 </mx:Canvas>
 

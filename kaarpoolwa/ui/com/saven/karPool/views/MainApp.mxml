@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
-	creationComplete="servicesCompleted()" xmlns:services="com.saven.karPool.business.services.*" xmlns:controls="com.saven.karPool.controls.*">
+	creationComplete="servicesCompleted()" xmlns:services="com.saven.karPool.business.services.*" 
+	xmlns:controls="com.saven.karPool.controls.*">
 	
 	
 	
@@ -67,14 +68,15 @@
  =====   GUI   ======= 
  ================= -->	
 	
-	<mx:DataGrid  width="100%" height="100%" dataProvider="{model.dataprovider.history.row}" >
+	<!--<mx:DataGrid  width="100%" height="100%" dataProvider="{model.dataprovider.history.row}" >
 		<mx:columns>
-			<mx:DataGridColumn headerText="Id" dataField="@id" />
+			<mx:DataGridColumn headerText="Id" dataField="@id"  />
 			<mx:DataGridColumn headerText="Destination" dataField="@destination" />
 			<mx:DataGridColumn headerText="Location" dataField="@location" />
 			<mx:DataGridColumn headerText="Source" dataField="@source" />
 			<mx:DataGridColumn headerText="Start Time" dataField="@start_time" />
 			<mx:DataGridColumn headerText="End Time" dataField="@end_time" />
 		</mx:columns>
-	</mx:DataGrid>
+	</mx:DataGrid>-->
+	
 </mx:Canvas>
