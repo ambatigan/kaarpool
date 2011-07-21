@@ -30,6 +30,8 @@
 			private var model : DataModel = DataModel.getInstance();
 			
 			[Bindable]
+			private var content : String = '';
+			
 			public var welcomeText : String = 'sfs sdfsd fsdfs dfsdf sdf sf sfs fsf sf sfs f' + 
 					'sfdsdfsdfsfsdf  sdfs fs fsf sf sdf sdfs sd fsdf sdf sdf sdfsd f' + 
 					'sdfsdfnsdlkfnsds sdlfjsd sdfjk sdflj sdfkj werwe pwe rx;fjksdfdf sdf' + 
@@ -93,6 +95,9 @@
 			/**
 			 * On login Function
 			 */
+			private var aboutStr : String = 'About Us';
+			
+			private var ContactStr : String = 'Contact Us';
 			
 			private function loginClick():void {
 				if(gUsername.text == '' || gPassword.text == ''){
@@ -150,6 +155,9 @@
 					getHistoryData();
 					showHistory();	
 					signin.label = 'Sign out';
+					gUsername.text = '';
+					gPassword.text = '';
+					gMsg.text = '';
 					signup.visible=false;
 				} 
 			}
@@ -191,26 +199,31 @@
 			
 		}
 		
-		private function homeClick():void {
+		private function homeClick(str:String):void {
+			allInvisible();
 			imgWelcome.visible = true;
-			loginBox.visible = false;
-			regBox.visible = false;
-			historyBox.visible = false;
+			content = str;
 		}
 		
 		private function showRegister():void {
-			imgWelcome.visible = false;
-			loginBox.visible = false;
+			allInvisible();
 			regBox.visible = true;
-			historyBox.visible = false;
+			
 		}
 		
 		private function showHistory():void {
+			allInvisible();
+			historyBox.visible = true;
+		}
+		
+				
+		private function allInvisible():void {
 			imgWelcome.visible = false;
 			loginBox.visible = false;
 			regBox.visible = false;
-			historyBox.visible = true;
+			historyBox.visible = false;
 		}
+		
 		
 		private function linkClick(str:String):void {
 			switch (str){
@@ -230,6 +243,17 @@
 					model.password='';
 					break;
 			}
+		}
+		
+		
+		public function clearRegistrationPage():void {
+			rMsg.text = '';
+			txtUsername.text = '';
+			txtpwd.text = '';
+			txtcpwd.text ='';
+			txtDOB.text = '';
+			txtMobNo.text = '';
+			txtaddr.text = '';
 		}
 		
 		private function registerSave():void {
@@ -315,10 +339,10 @@
 		<mx:HBox width="100%"  height="90" paddingLeft="550" paddingTop="45" horizontalGap="1" verticalScrollPolicy="off" 
 			horizontalScrollPolicy="off">
 			
-				<mx:Button id="butHome" styleName="homebutton" click="homeClick()"  />
-				<mx:Button id="butAbout" styleName="aboutbutton" />
-				<mx:Button id="butServices" styleName="servicesbutton" enabled="{!signup.visible}"/>
-				<mx:Button id="butContact" styleName="contactbutton" />
+				<mx:Button id="butHome" styleName="homebutton" click="homeClick(welcomeText)"  />
+				<mx:Button id="butAbout" styleName="aboutbutton" click="homeClick(aboutStr)"/>
+				<mx:Button id="butServices" styleName="servicesbutton" click="showHistory()" enabled="{!signup.visible}"/>
+				<mx:Button id="butContact" styleName="contactbutton" click="homeClick(ContactStr)"/>
 		</mx:HBox>
 		<mx:HBox height="120" paddingLeft="{model.username==''?830:660}" textAlign="right"  width="100%" verticalScrollPolicy="off" 
 			horizontalScrollPolicy="off"  paddingTop="0">
@@ -333,7 +357,7 @@
 		
 			<mx:VBox backgroundImage="{Constants.CONTENT}"  visible="false" verticalScrollPolicy="off" 
 						id="imgWelcome" height="90%" width="61%"  backgroundSize="100%" >
-						<mx:TextArea text="{welcomeText}" color="#ffffff"  borderStyle="none" paddingTop="30" paddingLeft="15"
+						<mx:TextArea text="{content}" color="#ffffff"  borderStyle="none" paddingTop="30" paddingLeft="15"
 							alpha=".1" width="100%" height="100%" verticalScrollPolicy="on" cornerRadius="10"/>
 			</mx:VBox>
 			
@@ -350,7 +374,7 @@
 					verticalScrollPolicy="off" horizontalScrollPolicy="off" 
 					backgroundImage="{Constants.CONTENT}"
 					height="90%"  width="61%">
-			<mx:Label paddingLeft="40" id="gLoginMsg" styleName="styleLoginPageTex5" text="Sign in" fontSize="15"/>
+			<mx:Label paddingLeft="40" id="gLoginMsg" styleName="styleLoginPageTex5" text="Sign in" fontSize="20"/>
 			<mx:Label paddingLeft="40" id="gMsg" color="red"  fontSize="12"/>
 			<mx:HBox paddingLeft="100" paddingTop="130">
 				<mx:Label text="{Constants.USERNAME_TITLE}" fontSize="15" styleName="styleLoginPageTex2" textAlign="right" width="110" color="#ffffff"/>
@@ -378,7 +402,7 @@
 		<mx:VBox id="regBox"  width="61%" visible="false"   verticalGap="10" backgroundSize="100%"
 			height="90%" backgroundImage="{Constants.CONTENT}" paddingLeft="40"  verticalScrollPolicy="off" 
 			horizontalScrollPolicy="off"> 
-		 	<mx:Label id="gsignupnMsg" styleName="styleLoginPageTex5" text="Sign up" fontSize="15" />
+		 	<mx:Label id="gsignupnMsg" styleName="styleLoginPageTex5" text="Sign up" fontSize="20" />
 		 	<mx:Label id="rMsg" styleName="styleLoginPageTex5" color="red" />
 		 	<mx:Spacer height="70" />
 		 	
@@ -437,10 +461,10 @@
 			height="90%" backgroundImage="{Constants.CONTENT}"   verticalScrollPolicy="off" paddingLeft="20"  paddingRight="20"
 			paddingBottom="20"
 			horizontalScrollPolicy="off"> 
-			<mx:Label paddingLeft="40" id="ghistoryMsg" styleName="styleLoginPageTex5" text="Ride History" fontSize="15" />
+			<mx:Label paddingLeft="40" id="ghistoryMsg" styleName="styleLoginPageTex5" text="Ride History" fontSize="20" />
  			<mx:DataGrid  width="100%" height="100%" dataProvider="{model.dataprovider.history.row}" headerHeight="22" 
  				color="#ffffff" alpha=".1" verticalGridLineColor="#ffffff" verticalGridLines="true" rollOverColor="#ffffff"
- 				textRollOverColor="#FF9C01">
+ 				textRollOverColor="#FF9C01" verticalScrollPolicy="on">
 			<mx:columns>
 				<mx:DataGridColumn headerText="Id" dataField="@id" dataTipField="@id" showDataTips="true"/>
 				<mx:DataGridColumn headerText="Destination" dataField="@destination" dataTipField="@destination" showDataTips="true"/>
