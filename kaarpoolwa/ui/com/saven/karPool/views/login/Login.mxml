@@ -155,9 +155,7 @@
 					getHistoryData();
 					showHistory();	
 					signin.label = 'Sign out';
-					gUsername.text = '';
-					gPassword.text = '';
-					gMsg.text = '';
+					clearLoginPage();
 					signup.visible=false;
 				} 
 			}
@@ -254,6 +252,7 @@
 			txtDOB.text = '';
 			txtMobNo.text = '';
 			txtaddr.text = '';
+			rbA.selected = true;
 		}
 		
 		private function registerSave():void {
@@ -325,6 +324,11 @@
 			
 		}
 		
+		private function clearLoginPage():void {
+			gUsername.text = '';
+			gPassword.text = '';
+			gMsg.text = '';
+		}
 		
 		
 		]]>
@@ -349,8 +353,8 @@
 			
     		<mx:Label text="{model.username}" width="{model.username==''? 0 :250}" height="70" fontSize="15" textAlign="right" color="red"/>
     		<mx:LinkButton id="signin" label="Sign in" rollOverColor="green"  selectionColor="red"
-    			 click="{linkClick(signin.label)}" fontFamily="Monotype Corsiva" fontSize="15"/>
-    		<mx:LinkButton id="signup" label="Sign up" rollOverColor="green" selectionColor="red" click="{linkClick('Sign up')}" 
+    			 click="{clearLoginPage();linkClick(signin.label)}" fontFamily="Monotype Corsiva" fontSize="15"/>
+    		<mx:LinkButton id="signup" label="Sign up" rollOverColor="green" selectionColor="red" click="{clearRegistrationPage();linkClick('Sign up')}" 
     			fontFamily="Monotype Corsiva" fontSize="15"/>
 		</mx:HBox>
 		<mx:Canvas  width="838" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" >
