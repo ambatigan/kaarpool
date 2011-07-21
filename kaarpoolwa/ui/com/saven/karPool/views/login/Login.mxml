@@ -347,7 +347,7 @@
 		<mx:HBox height="120" paddingLeft="{model.username==''?830:660}" textAlign="right"  width="100%" verticalScrollPolicy="off" 
 			horizontalScrollPolicy="off"  paddingTop="0">
 			
-    		<mx:Label text="{model.username}" width="{model.username==''? 0 :170}" height="70" fontSize="15" textAlign="right" color="red"/>
+    		<mx:Label text="{model.username}" width="{model.username==''? 0 :250}" height="70" fontSize="15" textAlign="right" color="red"/>
     		<mx:LinkButton id="signin" label="Sign in" rollOverColor="green"  selectionColor="red"
     			 click="{linkClick(signin.label)}" fontFamily="Monotype Corsiva" fontSize="15"/>
     		<mx:LinkButton id="signup" label="Sign up" rollOverColor="green" selectionColor="red" click="{linkClick('Sign up')}" 
@@ -385,7 +385,7 @@
 				<mx:Label text="{Constants.PASSWORD_TITLE}"  styleName="styleLoginPageTex2" 
 					fontSize="15" textAlign="right" width="110" color="#ffffff"/>
 			<mx:TextInput id="gPassword" restrict="0-9a-zA-Z@_." width="190" maxChars="20" text="{password}" change="{gMsg.text=''}"
-				styleName="styleLoginPageInputText1" displayAsPassword="true" height="25" />
+				styleName="styleLoginPageInputText1" displayAsPassword="true" height="25"  enter="loginClick()"/>
 			</mx:HBox>
 			
 			<mx:HBox textAlign="right" horizontalAlign="center" paddingLeft="100">
