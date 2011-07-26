@@ -383,19 +383,19 @@
 			<mx:HBox paddingLeft="100" paddingTop="130">
 				<mx:Label text="{Constants.USERNAME_TITLE}" fontSize="15" styleName="styleLoginPageTex2" textAlign="right" width="110" color="#ffffff"/>
 				<mx:TextInput id="gUsername" restrict="0-9a-zA-Z@_." text="{uName}" maxChars="20" width="190" change="{gMsg.text=''; gUsername.text = gUsername.text.toLowerCase()}"
-					styleName="styleLoginPageInputText1" height="25" />
+					styleName="styleLoginPageInputText1" height="25" tabIndex="1"/>
 			</mx:HBox>
 			<mx:HBox horizontalAlign="center" paddingLeft="100">
 				<mx:Label text="{Constants.PASSWORD_TITLE}"  styleName="styleLoginPageTex2" 
 					fontSize="15" textAlign="right" width="110" color="#ffffff"/>
 			<mx:TextInput id="gPassword" restrict="0-9a-zA-Z@_." width="190" maxChars="20" text="{password}" change="{gMsg.text=''}"
-				styleName="styleLoginPageInputText1" displayAsPassword="true" height="25"  enter="loginClick()"/>
+				styleName="styleLoginPageInputText1" displayAsPassword="true" height="25" tabIndex="2"  enter="loginClick()" />
 			</mx:HBox>
 			
 			<mx:HBox textAlign="right" horizontalAlign="center" paddingLeft="100">
 				<mx:Spacer width="240" />
-				<mx:Button id="gSubmit" label="LOGIN"  height="23" styleName="styleLoginPageWhiteButton"  
-					   width="58" buttonMode="true" click="loginClick()" /> 
+				<mx:Button id="gSubmit" label="LOGIN"  height="23" styleName="styleLoginPageWhiteButton"  tabIndex="3"
+					   width="58" buttonMode="true" click="loginClick()"  /> 
 				<!--<mx:Button id="gRgister" label="Register"  height="19" styleName="styleLoginPageBlackButton"  
 					   width="56" buttonMode="true" click="registerClick()" /> 	  --> 
 			</mx:HBox>
@@ -471,9 +471,9 @@
  				textRollOverColor="#FF9C01" verticalScrollPolicy="on">
 			<mx:columns>
 				<mx:DataGridColumn headerText="Id" dataField="@id" dataTipField="@id" showDataTips="true"/>
+				<mx:DataGridColumn headerText="Source" dataField="@source" dataTipField="@source" showDataTips="true"/>
 				<mx:DataGridColumn headerText="Destination" dataField="@destination" dataTipField="@destination" showDataTips="true"/>
 				<mx:DataGridColumn headerText="Location" dataField="@location" dataTipField="@location" showDataTips="true"/>
-				<mx:DataGridColumn headerText="Source" dataField="@source" dataTipField="@source" showDataTips="true"/>
 				<mx:DataGridColumn headerText="Start Time" dataField="@start_time" dataTipField="@start_time" showDataTips="true"/>
 				<mx:DataGridColumn headerText="End Time" dataField="@end_time" dataTipField="@end_time" showDataTips="true"/>
 			</mx:columns>
