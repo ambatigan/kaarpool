@@ -68,7 +68,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 		System.out.println(session.getUsername(mPreferences)+"---"+session.getPassword(mPreferences));
         setContentView(R.layout.rider_acknowledgements);
         System.out.println("ddddddddddddddddddddddddd");
-        //Button bb =(Button)findViewById(R.id.OkButton);
+         //Button bb =(Button)findViewById(R.id.OkButton);
         //bb.setOnClickListener(this);
         //Button bb1 = (Button)findViewById(R.id.notificationbutton);
         //bb1.setOnClickListener(this);
@@ -421,7 +421,7 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 			 {
 				 System.out.println("below 30 mins");
 				 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+			    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
 			    	        0, new GeoUpdateHandler());
 			 }
 			 else

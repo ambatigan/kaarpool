@@ -107,7 +107,7 @@ public class TrackRoute extends MapActivity {
 	        	mapController.animateTo(point);
 	    	}
 	    	locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+	    	locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
 	    	        0, new GeoUpdateHandler());
     	}
     	catch (Exception e) {
