@@ -431,7 +431,7 @@ public class RiderGetRidelist extends Activity implements android.view.View.OnCl
 		    else
 		    {
 		    	//HAVE TO DO MODIFICATIONS
-		    	if(channelnames[0].toString().trim().equals("Already you sent requests to this users"))
+		    	if(channelnames[0].toString().trim().equals("Already you sent requests to this user"))
 		    	{
 		    		Toast.makeText(RiderGetRidelist.this, "Already you sent requests to this users", Toast.LENGTH_LONG).show();	
 		    	}

@@ -66,7 +66,7 @@
 	<string name="d2">Ride reject</string>
 	<string name="d3">Ride confirmation</string>
 	<string name="d4">Ride confirmation reject</string>
-	<string name="d5">Ride pickup request</string>
-	<string name="d6">Ride drop request</string>
+	<string name="d5">Send Ride pickup request</string>
+	<string name="d6">Send Ride drop request</string>
 	<string name="r7">Ride re-request</string>
 </resources>

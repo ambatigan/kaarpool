@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -35,12 +36,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -49,8 +53,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Acknowledgement extends Activity implements OnClickListener 
@@ -133,10 +140,30 @@ public class Acknowledgement extends Activity implements OnClickListener
 			public void onItemClick(AdapterView<?> a, View v, int position,	long id) {
 
 				String message=(String) listview.getItemAtPosition(position);
+				if(message.toString().trim().contains("Send Ride pickup request")||message.toString().trim().contains("Send Ride drop request"))
+				{
+				  String mmsplit[]= message.split("TO");
+				  String tempmsg="";
+				  for( int i=0;i<mmsplit.length;i++)
+				  {
+					  if(i==0)
+					  {
+						  tempmsg+=mmsplit[i].toString().trim()+" FROM ";
+					  }
+					  else
+					  {
+						  tempmsg+=mmsplit[i].toString().trim();
+					  }
+					  
+				  }
+				  message=tempmsg;//mmsplit[0].toString().trim()+" FROM "+mmsplit[1].toString().trim();
+				  System.out.println(message+" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^3456789^^^^");
+				}
 				System.out.println("driver acknowldgement message: "+ message);
 				String message1="";
 				if(DriverJourneyDetails.driverrideid.size()!=0)
 				{
+					
 				    message1=DriverJourneyDetails.driverrideid.get(position).toString().trim();
 				}
 				System.out.println("message1 in Driver acknowledgement: "+message1);
@@ -219,10 +246,25 @@ public class Acknowledgement extends Activity implements OnClickListener
     	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
     	        0, new GeoUpdateHandler());
     }*/
+    
+    
+    public String removeDestSpaces(String desturl)
+    {
+    	String destination_url="";
+    	for(int i=0;i<desturl.toString().trim().length();i++)
+    	{
+    		if(desturl.charAt(i)!=32)
+    		{
+    			destination_url+=desturl.charAt(i);
+    		}
+    	}
+    	return destination_url;
+    }
     public void gpsTrackingDrop(String id_ride,String rname)
     {
     	System.out.println("rideid:"+id_ride);
     	String ride_dest = controller.getrideDestination(id_ride);
+    	ride_dest=removeDestSpaces(ride_dest);
     	System.out.println("ride destination: "+ride_dest);
     	String drop_coordinates = getAddress(getAddressUrl(ride_dest.trim()));
     	System.out.println("drop coordinates: "+drop_coordinates);
@@ -408,6 +450,25 @@ public class Acknowledgement extends Activity implements OnClickListener
     	if(DriverJourneyDetails.drivermeteormsg.size()!=0)
     	{
     		JourneyDetails.DRIVER_NOTIFICATION--;
+    		if(message.toString().trim().contains("Send Ride pickup request")||message.toString().trim().contains("Send Ride drop request"))
+			{
+			  String mmsplit[]= message.split("FROM");
+			  String tempmsg="";
+			  for( int i=0;i<mmsplit.length;i++)
+			  {
+				  if(i==0)
+				  {
+					  tempmsg+=mmsplit[i].toString().trim()+" TO ";
+				  }
+				  else
+				  {
+					  tempmsg+=mmsplit[i].toString().trim();
+				  }
+				  
+			  }
+			  message=tempmsg;//mmsplit[0].toString().trim()+" FROM "+mmsplit[1].toString().trim();
+			  System.out.println(message+"   romoveMessage%########################******************(((((((((((((((((________________________");
+			}
     		DriverJourneyDetails.drivermeteormsg.remove(message);
    		    ((BaseAdapter) adapter).notifyDataSetChanged();
     	}
@@ -507,12 +568,65 @@ public class Acknowledgement extends Activity implements OnClickListener
 	    }
     	return "No String Found";
     }
-    public void setAlertbox(final String msg1,final String msg2,final String ridername,String displaymessage,final String message,final String message1)
+    public void getRiderProfile(String riderName)
+    {
+    	AlertDialog.Builder alert_box=new AlertDialog.Builder(Acknowledgement.this.getParent());
+    	String userprofiledata=controller.getUserProfile(riderName.toString().trim());
+    	System.out.println(userprofiledata.toString().trim()+"++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    	String profiledata[]=userprofiledata.toString().trim().split("KPL::");
+    	System.out.println(profiledata.length+" -----------------------------------------------");
+    	System.out.println(profiledata[4].toString().trim());
+    	String imagebyte = profiledata[4];
+        byte[] decodedString = Base64.decode(imagebyte, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        //img.setImageBitmap(decodedByte);
+        alert_box.setTitle("User Profile");
+        final ImageView imgview1= new ImageView(this);
+  	    imgview1.setImageBitmap(decodedByte);
+        alert_box.setMessage("DOB\t\t\t:"+profiledata[0]+"\nPhone\t\t:"+profiledata[1]+"\nGender\t:"+profiledata[3]+"\nImage\t\t:");
+        alert_box.setView(imgview1);
+        //alert_box.setView(imgview1);
+    //alert_box.setIcon(imgview1);
+   	 
+   	 alert_box.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+   	 public void onClick(DialogInterface dialog, int which) {
+   	 // Do whatever you wish, i am show Toast
+   	// Toast.makeText(getApplicationContext(), "No Button Clicked", Toast.LENGTH_LONG).show();
+   	 }
+   	 });
+
+   	 alert_box.show();
+
+    }
+    public void setAlertbox(final String msg1,final String msg2,final String ridername,final String displaymessage,final String message,final String message1)
     {
     	AlertDialog.Builder adb=new AlertDialog.Builder(Acknowledgement.this.getParent());
     	
     	adb.setTitle(displaymessage.toString().trim());
-    	adb.setMessage("Ridername  : "+getEntireRiderName(ridername)+"\nTime      : "+parseTimeFromMessage(message1));
+    	if(displaymessage.toString().trim().equals(getString(R.string.r1)))
+    	{
+    		String getprofileridername="Ridername  : "+getEntireRiderName(ridername);
+    		final CharSequence[] items = {"Ridername  : "+getEntireRiderName(ridername)};
+        	adb.setItems(items, new DialogInterface.OnClickListener() {
+                 // Click listener
+                 public void onClick(DialogInterface dialog, int item) {
+                	 System.out.println("bagiiiiiiiiiiiiiiiiiiiiiiii-========================="+items[item].toString().trim()+"Ridername  : "+getEntireRiderName(ridername));
+                     //Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                     if(items[item].toString().trim().equals("Ridername  : "+getEntireRiderName(ridername)))
+                     {
+                    	 System.out.println("dddddddddd========================dddddddddddd=======================");
+                    	 setAlertbox(msg1.toString().trim(),msg2.toString().trim(),ridername.toString().trim(),displaymessage.toString().trim(),message.toString().trim(),message1.toString().trim());
+                     	 getRiderProfile((String) items[item]);                 	                    	
+                     }
+                     
+                 }
+             });
+       	}
+    	else
+    	{
+    	   adb.setMessage("Ridername  : "+getEntireRiderName(ridername)+"\nTime      : "+parseTimeFromMessage(message1));
+    	}
+    	
   	  	adb.setPositiveButton(msg1.toString().trim(), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				//value = input.getText().toString().trim();
@@ -528,7 +642,8 @@ public class Acknowledgement extends Activity implements OnClickListener
 						//Toast.makeText(getApplicationContext(),msg2.toString().trim(),Toast.LENGTH_SHORT).show();
 					}
 				});
-		adb.show();
+		 AlertDialog alert = adb.create();
+		alert.show();
     }
     public String getResponseId(String res)
     {
@@ -769,10 +884,27 @@ public class Acknowledgement extends Activity implements OnClickListener
 	public void parseMeteormsgdata(String payload, String request_msg, String title)
 	{
 		String str1[]=payload.toString().trim().split("::");
+		System.out.println("HHHHHHHHHHHHHHHHHHHHUUUUUUUUUUUUUUUUUUUUUHHHHHHHHHHHHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nrideid: "+str1[2]);
 		String msg = request_msg.toString().trim();
-		System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
-		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		if(msg.toString().trim().equals("Send Ride pickup request"))
+		{
+			System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+			DriverJourneyDetails.drivermeteormsg.add(msg+" TO "+str1[0].toString().trim().substring(1,str1[0].length()));
+		}
+		else if (msg.toString().trim().equals("Send Ride drop request"))
+		{
+			System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+			DriverJourneyDetails.drivermeteormsg.add(msg+" TO "+str1[0].toString().trim().substring(1,str1[0].length()));
+			
+		}
+		else
+		{
+			System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+			DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		}
+		/*System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+		DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));*/
 		DriverJourneyDetails.driverrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim()+"::"+str1[3].toString().trim());
 		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg, title);
 	}

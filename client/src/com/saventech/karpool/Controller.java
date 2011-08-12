@@ -685,6 +685,26 @@ public class Controller
     		Log.i("Controller","Got exception");
     	}
 	}
+	public String getUserProfile(String username)
+	{
+		ArrayList<NameValuePair> Username = new ArrayList<NameValuePair>();
+		Username.add(new BasicNameValuePair("username", username.toString().trim()));
+		String response = null;
+		try
+		{
+			System.out.println("controller called");
+			response=CustomHttpClient.executeHttpPost(url+"GetUserProfile", Username);
+			String res=response.toString();
+			System.out.println("Response from server"+res.toString().trim());
+			return res;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+    		Log.i("Controller_Getting_profile","Got exception");
+    		return "EXCEPTION";
+		}
+	}
 	public void UpdateSeats(String rideid, String seats)
 	{
 		System.out.println("Update Seats Number");
@@ -693,7 +713,7 @@ public class Controller
 		updateseats.add(new BasicNameValuePair("seats", seats.toString().trim()));
 		String response = null;
     	try {
-    	    response = CustomHttpClient.executeHttpPost(url+"UpdateSeats", updateseats);
+    	     response = CustomHttpClient.executeHttpPost(url+"UpdateSeats", updateseats);
     	    String res=response.toString();
     	    System.out.println("res from server in update seats: "+res);
     	    Log.i("Updateseats_Controller", "Seats has been updated");

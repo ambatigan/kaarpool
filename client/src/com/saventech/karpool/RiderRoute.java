@@ -584,7 +584,25 @@ Log.i("Riderroute_changesource", "Changing the Destination of a ride");
 		String str1[]=payload.toString().trim().split("::");
 		System.out.println("ridername: "+str1[0]+"\nmessage: "+str1[1]+"\nrideid: "+str1[2]);
 		String msg = msgParse(str1[1]);
-		RiderJourneyDetails.ridermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		if(msg.toString().trim().equals("Send Ride pickup request"))
+		{
+			System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+			//DriverJourneyDetails.drivermeteormsg.add("Ride pickup reques"+" TO "+str1[0].toString().trim().substring(1,str1[0].length()));
+			RiderJourneyDetails.ridermeteormsg.add("Ride pickup request"+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		}
+		else if(msg.toString().trim().equals("Send Ride drop request"))
+		{
+			System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+			//DriverJourneyDetails.drivermeteormsg.add("Ride pickup reques"+" TO "+str1[0].toString().trim().substring(1,str1[0].length()));
+			RiderJourneyDetails.ridermeteormsg.add("Ride drop request"+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		}
+		else
+		{
+			System.out.println("ridername: "+str1[0]+"\nmessage: "+msg+"\nrideid: "+str1[2]);
+			//DriverJourneyDetails.drivermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+			RiderJourneyDetails.ridermeteormsg.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length()));
+		}
+		
 		RiderJourneyDetails.riderrideid.add(msg+" FROM "+str1[0].toString().trim().substring(1,str1[0].length())+"::"+str1[2].toString().trim()+"::"+str1[3].toString().trim());
 		notificationAlarm(str1[0].toString().trim().substring(1,str1[0].length()), msg);
 		

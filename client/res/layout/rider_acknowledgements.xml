@@ -4,7 +4,7 @@ android:orientation="vertical" android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:background="@drawable/theme">
 
-<TextView android:id="@+id/rideracknowledgetextview" android:layout_height="wrap_content" android:text="" android:textStyle="normal|bold" android:gravity="center_vertical|center_horizontal" android:layout_width="fill_parent" 
+<TextView android:id="@+id/rideracknowledgetextview" android:layout_height="wrap_content" android:text="Click Following Requests" android:textStyle="normal|bold" android:gravity="center_vertical|center_horizontal" android:layout_width="fill_parent" 
     	android:textColor="@color/textcolor"></TextView>
 <ListView android:id="@android:id/list" android:layout_height="wrap_content"
  android:textColor="@color/textcolor" 

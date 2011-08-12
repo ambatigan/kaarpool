@@ -94,7 +94,17 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
 					long id) {
 				
 				String message=(String) listview.getItemAtPosition(position);
-				String message1="";
+				if(message.toString().trim().contains("Ride pickup request"))
+				{
+				   message="Send "+message.toString().trim();
+				  System.out.println(message+" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^3456789^^^^");
+				}
+				if(message.toString().trim().contains("Ride drop request"))
+				{
+					message="Send "+message.toString().trim();
+					  System.out.println(message+" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^3456789^^^^");
+				}
+				  String message1="";
 				if(RiderJourneyDetails.riderrideid.size()!=0)
 				{
 					message1=RiderJourneyDetails.riderrideid.get(position).toString().trim();
@@ -528,7 +538,46 @@ public class RiderAcknowledgements extends Activity implements OnClickListener {
     	if(RiderJourneyDetails.ridermeteormsg.size()!=0)
     	{
     		 JourneyDetails.RIDER_NOTIFICATION--;
+    		 if(message.toString().trim().contains("Send Ride pickup request"))
+ 			{
+ 			  String mmsplit[]= message.split("FROM");
+ 			  String tempmsg="";
+ 			  for( int i=0;i<mmsplit.length;i++)
+ 			  {
+ 				  if(i==0)
+ 				  {
+ 					   tempmsg+="Ride pickup request"+" FROM ";
+ 				  }
+ 				  else
+ 				  {
+ 					  tempmsg+=mmsplit[i].toString().trim();
+ 				  }
+ 				  
+ 			  }
+ 			  message=tempmsg;//mmsplit[0].toString().trim()+" FROM "+mmsplit[1].toString().trim();
+ 			  System.out.println(message+"   romoveMessage%########################******************(((((((((((((((((________________________");
+ 			}
+    		 if(message.toString().trim().contains("Send Ride drop request"))
+  			{
+  			  String mmsplit[]= message.split("FROM");
+  			  String tempmsg="";
+  			  for( int i=0;i<mmsplit.length;i++)
+  			  {
+  				  if(i==0)
+  				  {
+  					  tempmsg+="Ride drop request"+" FROM ";
+  				  }
+  				  else
+  				  {
+  					  tempmsg+=mmsplit[i].toString().trim();
+  				  }
+  				  
+  			  }
+  			  message=tempmsg;//mmsplit[0].toString().trim()+" FROM "+mmsplit[1].toString().trim();
+  			  System.out.println(message+"   romoveMessage%########################******************(((((((((((((((((________________________");
+  			}
 	    	RiderJourneyDetails.ridermeteormsg.remove(message);
+	    	
 			 ((BaseAdapter) adapter).notifyDataSetChanged();
     	}
 		 
