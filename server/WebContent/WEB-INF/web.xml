@@ -37,6 +37,7 @@
 		<servlet-name>SendRideRequest</servlet-name>
 		<url-pattern>/SendRideRequest</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<description>
 		</description>
@@ -97,6 +98,19 @@
 	<servlet-mapping>
 		<servlet-name>ProfilePreferences</servlet-name>
 		<url-pattern>/ProfilePreferences</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>GetUserProfile</display-name>
+		<servlet-name>GetUserProfile</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.GetUserProfile</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetUserProfile</servlet-name>
+		<url-pattern>/GetUserProfile</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -381,6 +395,30 @@
 	<servlet-mapping>
 		<servlet-name>GPSDistance</servlet-name>
 		<url-pattern>/GPSDistance</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>RideDestination</display-name>
+		<servlet-name>RideDestination</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.RideDestination</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RideDestination</servlet-name>
+		<url-pattern>/RideDestination</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>AcknowledgeRequest</display-name>
+		<servlet-name>AcknowledgeRequest</servlet-name>
+		<servlet-class>
+		com.saventech.kaarpool.AcknowledgeRequest</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AcknowledgeRequest</servlet-name>
+		<url-pattern>/AcknowledgeRequest</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

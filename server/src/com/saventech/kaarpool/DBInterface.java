@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
  
 import org.apache.log4j.Logger;
@@ -789,7 +790,7 @@ public class DBInterface
 				{
 					System.out.println(rid.toString()+"-----------------"+resultSet.getString("username"));
 					
-					if(resultSet.getString("jsource").toString().trim().equals(rsource) && resultSet.getString("jdestination").toString().trim().equals(rdestination))
+					if(resultSet.getString("jsource").toString().trim().equalsIgnoreCase(rsource) && resultSet.getString("jdestination").toString().trim().equalsIgnoreCase(rdestination))
 					{
 						DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm a");
 						String ridertime[];
@@ -1332,7 +1333,7 @@ public class DBInterface
 				    String rname="";
 					if(chanelname1.toString().trim().charAt(0)=='d')
 					{
-						System.out.println(messagesplit.length+"dddddddddddddddddddddddddddddddddddddddddddddd");
+						System.out.println(messagesplit.length+"dddddddddddddddddddddddddddddddddddddddddddddd"+messagesplit[3]);
 						dname=parseChannelname(chanelname1.toString().trim());;
 						rname=parseChannelname(messagesplit[0].toString().trim());
 						
@@ -1341,13 +1342,60 @@ public class DBInterface
 						{
 							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
 							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\", status=\"stop\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
+							System.out.println(statement.executeQuery(resourceBundle.getString("etime_update")+"\""+messagesplit[2].toString().trim()+"\" and messageid=\"r6\" and status=\"stop\") and kaarpoolnetwork_details.kid=user_details.netid)")+" hehehehehehheheeeeeeeeeeeeeeee");
+							if(messagesplit[1].toString().trim().equals("r6"))
+							{
+								 Calendar calendar = new GregorianCalendar();
+								  String am_pm;
+								  int hour = calendar.get(Calendar.HOUR);
+								  int minute = calendar.get(Calendar.MINUTE);
+								  int year=calendar.get(Calendar.YEAR);
+								  int day=calendar.get(Calendar.DATE);
+								  int month=calendar.get(Calendar.MONTH);
+								  if(calendar.get(Calendar.AM_PM) == 0)
+								  am_pm = "AM";
+								  else
+								  am_pm = "PM";
+
+								String currentformatdate=year+"/"+month+"/"+day+" "+hour+":"+minute+" "+am_pm;
+								System.out.println(currentformatdate+" Date format is ---------------------------------------------------------------------------");
+								System.out.println("update journey_details set etime="+"\""+currentformatdate+"\""+" where jid IN (select jdid from ride where rid=\""+messagesplit[2].toString().trim()+"\")");
+								statement.executeUpdate("update journey_details set etime="+"\""+currentformatdate+"\""+" where jid IN (select jdid from ride where rid=\""+messagesplit[2].toString().trim()+"\")");
+								resultSet1=statement.executeQuery(resourceBundle.getString("etime_update")+"\""+messagesplit[2].toString().trim()+"\" and messageid=\"r6\" and status=\"stop\") and kaarpoolnetwork_details.kid=user_details.netid)");
+								while(resultSet1.next())
+								{
+									DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm a");
+									java.util.Date d;
+									java.util.Date d1;
+									try {
+											d=dateFormat.parse(resultSet1.getString("stime"));
+											d1=dateFormat.parse(messagesplit[3].toString().trim());
+											
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+											log.fatal("Date Format Exception"+e.getStackTrace());
+											return null;
+										}
+										long dmil=d.getTime()-d1.getTime();	
+										System.out.println(dmil+" Minutes");
+										if(Math.abs(dmil/(60*1000))>=0 && Math.abs(dmil/(60*1000))<=5)
+										{
+											  
+											System.out.println("update journey_details set etime=\""+currentformatdate+"\" where jid=\""+resultSet1.getString("jid")+"\"");
+											statement.executeUpdate("update journey_details set etime=\""+currentformatdate+"\" where jid=\""+resultSet1.getString("jid")+"\"");
+											System.out.println(resultSet1.getString("jid")+" Got the JID------------------------------");
+										}
+								 }
+							}
 						}
 						else
 						{
 							System.out.println(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
 							statement.executeUpdate(resourceBundle.getString("update_msgs")+messagesplit[1].toString().trim()+"\" where drivername=\""+dname+"\" and ridername=\""+rname+"\" and status !=\"stop\" and rdid=\""+messagesplit[2].toString().trim()+"\"");
+							
 						}
-						if(messagesplit[1].toString().trim().equals("r4"))
+						if(messagesplit[1].toString().trim().equals("r4"));
 						{
 							System.out.println(resourceBundle.getString("select_userid")+rname+"\"");
 							resultSet=statement.executeQuery(resourceBundle.getString("select_userid")+rname+"\"");
@@ -1694,6 +1742,71 @@ public class DBInterface
 		catch(Exception e)
 		{
 			return "Exception in getting geo coordinates";
+		}
+	}
+	public String getUserProfile(String username)
+	{
+		String profiledata="";
+		try
+		{
+			System.out.println(resourceBundle.getString("getuser_profile")+username.toString().trim()+"\"");
+			resultSet=stmt.executeQuery(resourceBundle.getString("getuser_profile")+username.toString().trim()+"\"");
+			while(resultSet.next())
+			{
+			   profiledata+=resultSet.getString("dob")+"KPL::";
+			   profiledata+=resultSet.getString("mobile")+"KPL::";
+			   profiledata+=resultSet.getString("address")+"KPL::";
+			   profiledata+=resultSet.getString("gender")+"KPL::";
+			   profiledata+=resultSet.getString("image")+"KPL::";
+			   
+			}
+		}
+		catch (Exception e)
+		{
+			return "Exception in getting user profile";
+		}
+		return profiledata;
+	}
+
+	public String rideDestination(String rideid) {
+		try
+		{
+			System.out.println(resourceBundle.getString("ridedestination")+rideid.trim()+")");
+			System.out.println("kaaarppooooollllll");
+			resultSet=stmt.executeQuery(resourceBundle.getString("ridedestination")+rideid.trim()+")");
+			if(resultSet.next())
+			{
+				System.out.println("if condition after kaaarppooooollllll");
+				String destination = resultSet.getString(1);
+				System.out.println("ride destination: "+destination);
+				return destination;
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			return "Exception in getting ride destination";
+		}
+	}
+
+	public String pickupRequestCheck(String rideid, String rname) {
+		// TODO Auto-generated method stub
+		try
+		{
+			System.out.println(resourceBundle.getString("checkpickup")+rideid.trim()+" and ridername="+"\""+rname+"\"");
+			resultSet=stmt.executeQuery(resourceBundle.getString("checkpickup")+rideid.trim()+" and ridername="+"\""+rname+"\"");
+			if(resultSet.next())
+			{
+				System.out.println("if condition after pickup check kaaarppooooollllll");
+				String msgid = resultSet.getString(1);
+				System.out.println("rider message id : "+msgid);
+				return msgid;
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			return "Exception in getting ride destination";
 		}
 	}
 
